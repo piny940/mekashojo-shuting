@@ -4,5 +4,41 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: 11b8ce0c684694e1eb7131894d24932d
+  - enabled: 1
+    path: Assets/Scenes/EquipmentScene.unity
+    guid: 2946a6de21b9e4f7494fc72718fe3ccf
+  - enabled: 1
+    path: Assets/Scenes/LastStage.unity
+    guid: 9723d56d4ecce40e4922ec751a2e16f4
+  - enabled: 1
+    path: Assets/Scenes/MenuScene.unity
+    guid: 9cc374fda712a434cb8ee16ff10ff8f8
+  - enabled: 1
+    path: Assets/Scenes/Stage1.unity
+    guid: 912958ee15f1947948993fec694732a4
+  - enabled: 1
+    path: Assets/Scenes/Stage2.unity
+    guid: 01c5d03fe316f406bb9feb5f09026ebc
+  - enabled: 1
+    path: Assets/Scenes/Stage3.unity
+    guid: 3c04ad1a1fd7c484ea9f97ddc0236cac
+  - enabled: 1
+    path: Assets/Scenes/Stage4.unity
+    guid: ce78ea45d27f344ac880980361a83fed
+  - enabled: 1
+    path: Assets/Scenes/StageClearScene.unity
+    guid: 31b86930969414648a6e58d2977cd673
+  - enabled: 1
+    path: Assets/Scenes/StageFailedScene.unity
+    guid: 57849e9fcbca549228ef1bc1eadf899b
+  - enabled: 1
+    path: Assets/Scenes/StageSelectScene.unity
+    guid: 3d5783b8c2c674003a6f074ce07acceb
+  - enabled: 1
+    path: Assets/Scenes/StoryScene.unity
+    guid: ba07b77726ba942259e81c4f99c96ac8
   m_configObjects: {}
