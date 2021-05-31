@@ -9,7 +9,7 @@ public class Common_scr : MonoBehaviour
     //シングルトン
     private void Awake()
     {
-        if(common == null)
+        if (common == null)
         {
             common = this;
             DontDestroyOnLoad(this.gameObject);

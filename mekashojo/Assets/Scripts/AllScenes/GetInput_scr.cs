@@ -7,8 +7,8 @@ public class GetInput_scr : MonoBehaviour
     [HideInInspector] public float horizontalKey;
     [HideInInspector] public float verticalKey;
     [HideInInspector] public float bombKey;
-    [HideInInspector] public bool mouseLeftDown;
-    [HideInInspector] public bool mouseRight;
+    [HideInInspector] public bool isMouseLeft;
+    [HideInInspector] public bool isMouseRight;
     [HideInInspector] public bool escapeKey;
     [HideInInspector] public Vector3 mousePosition;
 
@@ -27,10 +27,10 @@ public class GetInput_scr : MonoBehaviour
         verticalKey = Input.GetAxis("Vertical");
         //ボムキーの取得
         bombKey = Input.GetAxis("Jump");
-        //左クリックの取得（押された瞬間のみtrue)
-        mouseLeftDown = Input.GetMouseButtonDown(0);
+        //左クリックの取得（押されている間ずっとtrue)
+        isMouseLeft = Input.GetMouseButton(0);
         //右クリックの取得（押されている間ずっとtrue)
-        mouseRight = Input.GetMouseButton(1);
+        isMouseRight = Input.GetMouseButton(1);
         //マウスカーソルの座標の取得
         mousePosition = Input.mousePosition;    //ワールド座標に座標変換する必要がある！！
         //エスケープキーの取得(押された瞬間のみtrue)
