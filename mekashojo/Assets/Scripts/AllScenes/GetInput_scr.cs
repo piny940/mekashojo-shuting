@@ -9,7 +9,7 @@ public class GetInput_scr : MonoBehaviour
     [HideInInspector] public float bombKey;
     [HideInInspector] public bool isMouseLeft;
     [HideInInspector] public bool isMouseRight;
-    [HideInInspector] public bool escapeKey;
+    [HideInInspector] public bool isEscapeKey;
     [HideInInspector] public Vector3 mousePosition;
 
     // Start is called before the first frame update
@@ -34,7 +34,7 @@ public class GetInput_scr : MonoBehaviour
         //マウスカーソルの座標の取得
         mousePosition = Input.mousePosition;    //ワールド座標に座標変換する必要がある！！
         //エスケープキーの取得(押された瞬間のみtrue)
-        escapeKey = Input.GetKeyDown(KeyCode.Escape);
+        isEscapeKey = Input.GetKeyDown(KeyCode.Escape);
         
     }
 }
