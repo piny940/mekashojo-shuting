@@ -10,8 +10,9 @@ public class GetInput_scr : MonoBehaviour
     [HideInInspector] public bool isMouseLeft;
     [HideInInspector] public bool isMouseRight;
     [HideInInspector] public bool isEscapeKey;
-    [HideInInspector] public Vector3 mousePositionFromPlayer;   //プレイヤーからマウスへのベクトル
-    [SerializeField, Header("プレイヤーを入れる")] GameObject _player;
+    [HideInInspector] public Vector3 mousePosition;
+    [HideInInspector] public float mouseWheel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,24 +34,23 @@ public class GetInput_scr : MonoBehaviour
         //右クリックの取得（押されている間ずっとtrue)
         isMouseRight = Input.GetMouseButton(1);
         //マウスカーソルの座標の取得
-        mousePositionFromPlayer = GetMousePositionFromPlayer(_player.transform.position);
+        mousePosition = GetMousePosition();
         //エスケープキーの取得(押された瞬間のみtrue)
         isEscapeKey = Input.GetKeyDown(KeyCode.Escape);
+        //マウスホイールの取得
+        mouseWheel = Input.GetAxis("Mouse ScrollWheel");
     }
 
-
     /// <summary>
-    /// プレイヤーからマウスへのベクトルの取得
+    /// マウス座標の取得
     /// </summary>
-    /// <param name="_playerPosition"></param>
     /// <returns></returns>
-    Vector3 GetMousePositionFromPlayer(Vector3 _playerPosition)
+    Vector3 GetMousePosition()
     {
         Vector3 _mousePositionOnScreen = Input.mousePosition;
         Vector3 _mousePositionOnWorld = Camera.main.ScreenToWorldPoint(_mousePositionOnScreen);
-        Vector3 _mousePositionFromPlayer = _mousePositionOnWorld - _playerPosition;
-        _mousePositionFromPlayer.z = 0;
-        return _mousePositionFromPlayer;
+        _mousePositionOnWorld.z = 0;
+        return _mousePositionOnWorld;
     }
 
 
