@@ -6,9 +6,9 @@ public class Setting_scr : MonoBehaviour
 {
     public static Setting_scr setting = null;
 
-    public int bgmVolume { get; set; }
-    public int seVolume { get; set; }
-    public int mouseSensitivity { get; set; }
+    public float bgmVolume { get; set; }
+    public float seVolume { get; set; }
+    public float mouseSensitivity { get; set; }
     public char forwardKey { get; set; }
     public char backKey { get; set; }
     public char leftKey { get; set; }
