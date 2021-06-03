@@ -20,7 +20,5 @@ public class ProgressData_scr : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
     
 }
