@@ -11,6 +11,8 @@ public class GetInput_scr : MonoBehaviour
     [HideInInspector] public bool isMouseRight;
     [HideInInspector] public bool isEscapeKey;
     [HideInInspector] public Vector3 mousePosition;
+    [HideInInspector] public float mouseWheel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +34,24 @@ public class GetInput_scr : MonoBehaviour
         //右クリックの取得（押されている間ずっとtrue)
         isMouseRight = Input.GetMouseButton(1);
         //マウスカーソルの座標の取得
-        mousePosition = Input.mousePosition;    //ワールド座標に座標変換する必要がある！！
+        mousePosition = GetMousePosition();
         //エスケープキーの取得(押された瞬間のみtrue)
         isEscapeKey = Input.GetKeyDown(KeyCode.Escape);
-        
+        //マウスホイールの取得
+        mouseWheel = Input.GetAxis("Mouse ScrollWheel");
     }
+
+    /// <summary>
+    /// マウス座標の取得
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetMousePosition()
+    {
+        Vector3 _mousePositionOnScreen = Input.mousePosition;
+        Vector3 _mousePositionOnWorld = Camera.main.ScreenToWorldPoint(_mousePositionOnScreen);
+        _mousePositionOnWorld.z = 0;
+        return _mousePositionOnWorld;
+    }
+
+
 }
