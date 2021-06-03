@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProgressData_scr : MonoBehaviour
 {
     public static ProgressData_scr progressData;
+    public int latestStageNumber;   //ラストステージはステージ5として管理
 
     //シングルトン
     private void Awake()
@@ -19,5 +20,7 @@ public class ProgressData_scr : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+
     
 }

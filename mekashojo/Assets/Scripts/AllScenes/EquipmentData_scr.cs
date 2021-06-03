@@ -5,20 +5,23 @@ using UnityEngine;
 
 public class EquipmentData_scr : MonoBehaviour
 {
+    #region
+    //変数の宣言
+
     public static EquipmentData_scr equipmentData = null;
 
     // メイン装備の名前
-    public string selectedMainWeaponName { get; set; }
+    public equipmentType selectedMainWeaponName { get; set; }
     // サブ装備の名前
-    public string selectedSubWeaponName { get; set; }
+    public equipmentType selectedSubWeaponName { get; set; }
     // 盾の名前
-    public string selectedShieldName { get; set; }
+    public equipmentType selectedShieldName { get; set; }
 
     // 所持している強化用素材の数
     public Dictionary<equipmentType, int> enhancementMaterialsCount { get; set; }
 
     // 現在の装備ごとのレベル
-    public Dictionary<equipmentType, int> equipmentLevel { get; set; }
+    public Dictionary<equipmentType, level> equipmentLevel { get; set; }
 
     // 装備/装甲のパラメーター一覧(存在しないパラメーターには-1を設定)
     public IReadOnlyDictionary<equipmentType, Dictionary<level, Dictionary<equipmentParameter, int>>> equipmentStatus { get; private set; }
@@ -61,6 +64,8 @@ public class EquipmentData_scr : MonoBehaviour
         DamageReductionRate,
     }
 
+    #endregion
+
     //シングルトン
     private void Awake()
     {
@@ -77,8 +82,33 @@ public class EquipmentData_scr : MonoBehaviour
 
     private void Start()
     {
-        enhancementMaterialsCount = new Dictionary<equipmentType, int>();
-        equipmentLevel = new Dictionary<equipmentType, int>();
+        selectedMainWeaponName = equipmentType.MainWeapon__Cannon;
+
+        selectedSubWeaponName = equipmentType.SubWeapon__Balkan;
+
+        selectedShieldName = equipmentType.Shield__Heavy;
+
+        enhancementMaterialsCount = new Dictionary<equipmentType, int>()
+        {
+            { equipmentType.MainWeapon__Cannon, 0 },
+            { equipmentType.MainWeapon__Laser, 0 },
+            { equipmentType.MainWeapon__BeamMachineGun, 0 },
+            { equipmentType.SubWeapon__Balkan, 0 },
+            { equipmentType.SubWeapon__Missile, 0 },
+            { equipmentType.Shield__Heavy, 0 },
+            { equipmentType.Shield__Light, 0 }
+        };
+
+        equipmentLevel = new Dictionary<equipmentType, level>()
+        {
+            { equipmentType.MainWeapon__Cannon, level.Level1 },
+            { equipmentType.MainWeapon__Laser, level.Level1 },
+            { equipmentType.MainWeapon__BeamMachineGun, level.Level1 },
+            { equipmentType.SubWeapon__Balkan, level.Level1 },
+            { equipmentType.SubWeapon__Missile, level.Level1 },
+            { equipmentType.Shield__Heavy, level.Level1 },
+            { equipmentType.Shield__Light, level.Level1 }
+        };
 
         _equipmentStatus__Data = new Dictionary<equipmentType, Dictionary<level, Dictionary<equipmentParameter, int>>>()
         {
@@ -458,5 +488,12 @@ public class EquipmentData_scr : MonoBehaviour
         };
 
         equipmentDescriptions = new ReadOnlyDictionary<equipmentType, string>(_equipmentDescriptions__Data);
+
+
+        
     }
+
+
+
+
 }
