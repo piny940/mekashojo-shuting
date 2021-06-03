@@ -6,7 +6,6 @@ using UnityEngine;
 public class ProgressData_scr : MonoBehaviour
 {
     public static ProgressData_scr progressData;
-    public int latestStageNumber;   //ラストステージはステージ5として管理
 
     // 到達済みのステージ
     public stageName stageClearAchievement { get; set; }

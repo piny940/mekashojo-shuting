@@ -16,6 +16,7 @@ public class SaveData
     public EquipmentData_scr.level beamMachineGunLevel;
     public EquipmentData_scr.level balkanLevel;
     public EquipmentData_scr.level missileLevel;
+    public EquipmentData_scr.level bombLevel;
     public EquipmentData_scr.level heavyShieldLevel;
     public EquipmentData_scr.level lightShieldLevel;
 
@@ -25,11 +26,12 @@ public class SaveData
     public int enhancementMaterialsCount__BeamMachineGun;
     public int enhancementMaterialsCount__Balkan;
     public int enhancementMaterialsCount__Missile;
+    public int enhancementMaterialsCount__Bomb;
     public int enhancementMaterialsCount__HeavyShield;
     public int enhancementMaterialsCount__LightShield;
 
     //ステージの進捗のデータ
-    public int latestStageNumber;
+    public ProgressData_scr.stageName stageClearAchievement;
 
     //設定のデータ
     public float bgmVolume;
@@ -69,7 +71,6 @@ public class SaveDataManager_scr : MonoBehaviour
     {
         _saveData = new SaveData();
         noSaveData = false;
-        
     }
 
     /// <summary>
@@ -96,6 +97,8 @@ public class SaveDataManager_scr : MonoBehaviour
 
         _saveData.missileLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Missile];
 
+        _saveData.bombLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Bomb];
+
         _saveData.heavyShieldLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Heavy];
 
         _saveData.lightShieldLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Light];
@@ -110,13 +113,15 @@ public class SaveDataManager_scr : MonoBehaviour
 
         _saveData.enhancementMaterialsCount__Balkan = EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Balkan];
 
+        _saveData.enhancementMaterialsCount__Bomb = EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Bomb];
+
         _saveData.enhancementMaterialsCount__HeavyShield = EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Heavy];
 
         _saveData.enhancementMaterialsCount__LightShield = EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light];
 
 
         //ステージの進捗の保存
-        _saveData.latestStageNumber = ProgressData_scr.progressData.latestStageNumber;
+        _saveData.stageClearAchievement = ProgressData_scr.progressData.stageClearAchievement;
 
 
         //設定のデータの保存
@@ -143,6 +148,10 @@ public class SaveDataManager_scr : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// セーブデータをロードする
+    /// </summary>
     public void LoadData()
     {
         _saveData__JsonString = PlayerPrefs.GetString("SaveData");
@@ -176,6 +185,8 @@ public class SaveDataManager_scr : MonoBehaviour
 
         EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Missile] = _saveData.missileLevel;
 
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Bomb] = _saveData.bombLevel;
+
         EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Heavy] = _saveData.heavyShieldLevel;
 
         EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Light] = _saveData.lightShieldLevel;
@@ -190,13 +201,15 @@ public class SaveDataManager_scr : MonoBehaviour
 
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Balkan] = _saveData.enhancementMaterialsCount__Balkan;
 
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Bomb] = _saveData.enhancementMaterialsCount__Bomb;
+
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Heavy] = _saveData.enhancementMaterialsCount__HeavyShield;
 
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light] = _saveData.enhancementMaterialsCount__LightShield;
 
 
         //ステージの進捗の保存
-        ProgressData_scr.progressData.latestStageNumber = _saveData.latestStageNumber;
+        ProgressData_scr.progressData.stageClearAchievement = _saveData.stageClearAchievement;
 
 
         //設定のデータの保存

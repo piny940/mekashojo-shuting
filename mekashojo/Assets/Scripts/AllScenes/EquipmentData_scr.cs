@@ -95,6 +95,7 @@ public class EquipmentData_scr : MonoBehaviour
             { equipmentType.MainWeapon__BeamMachineGun, 0 },
             { equipmentType.SubWeapon__Balkan, 0 },
             { equipmentType.SubWeapon__Missile, 0 },
+            { equipmentType.Bomb, 0 },
             { equipmentType.Shield__Heavy, 0 },
             { equipmentType.Shield__Light, 0 }
         };
@@ -106,6 +107,7 @@ public class EquipmentData_scr : MonoBehaviour
             { equipmentType.MainWeapon__BeamMachineGun, level.Level1 },
             { equipmentType.SubWeapon__Balkan, level.Level1 },
             { equipmentType.SubWeapon__Missile, level.Level1 },
+            { equipmentType.Bomb, level.Level1 },
             { equipmentType.Shield__Heavy, level.Level1 },
             { equipmentType.Shield__Light, level.Level1 }
         };

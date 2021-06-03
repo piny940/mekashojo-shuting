@@ -19,6 +19,8 @@ public class NewGameButton_scr : MonoBehaviour
 
     public void OnPush()
     {
+        PlayerPrefs.DeleteAll();
+        SaveDataManager_scr.saveDataManager.SaveData();
         SceneManager.LoadScene("MenuScene");
     }
 }
