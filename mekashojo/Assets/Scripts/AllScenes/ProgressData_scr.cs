@@ -15,6 +15,15 @@ public class ProgressData_scr : MonoBehaviour
 
     private Dictionary<stageName, string> _stageDescriptions__Data { get; set; }
 
+    public enum stageName
+    {
+        stage1,
+        stage2,
+        stage3,
+        stage4,
+        lastStage,
+    }
+
     //シングルトン
     private void Awake()
     {
@@ -27,15 +36,6 @@ public class ProgressData_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
-
-    public enum stageName
-    {
-        stage1,
-        stage2,
-        stage3,
-        stage4,
-        lastStage,
     }
 
     private void Start()
