@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class EquipmentData_scr : MonoBehaviour
     public string selectedMainWeaponName { get; set; }
     // サブ装備の名前
     public string selectedSubWeaponName { get; set; }
-    // 装甲の名前
+    // 盾の名前
     public string selectedShieldName { get; set; }
 
     // 所持している強化用素材の数
@@ -28,30 +29,6 @@ public class EquipmentData_scr : MonoBehaviour
     public IReadOnlyDictionary<equipmentType, string> equipmentDescriptions { get; private set; }
 
     private Dictionary<equipmentType, string> _equipmentDescriptions__Data { get; set; }
-
-    //シングルトン
-    private void Awake()
-    {
-        if (equipmentData == null)
-        {
-            equipmentData = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
-    // 装備パラメーター(火力/重量など)
-    public enum equipmentParameter
-    {
-        Power,
-        Weight,
-        Cost,
-        RequiredEnhancementMaterialsCount,
-        DamageReductionRate,
-    }
 
     public enum equipmentType
     {
@@ -72,6 +49,30 @@ public class EquipmentData_scr : MonoBehaviour
         Level3,
         Level4,
         Level5,
+    }
+
+    // 装備パラメーター(火力/重量など)
+    public enum equipmentParameter
+    {
+        Power,
+        Weight,
+        Cost,
+        RequiredEnhancementMaterialsCount,
+        DamageReductionRate,
+    }
+
+    //シングルトン
+    private void Awake()
+    {
+        if (equipmentData == null)
+        {
+            equipmentData = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void Start()
