@@ -6,6 +6,13 @@ public class Common_scr : MonoBehaviour
 {
     public static Common_scr common = null;
 
+    public enum Tags
+    {
+        Enemy,
+        Enemy__Fire,
+        Player__Fire
+    }
+
     //シングルトン
     private void Awake()
     {
