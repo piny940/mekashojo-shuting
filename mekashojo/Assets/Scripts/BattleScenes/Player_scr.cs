@@ -9,6 +9,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HPの最大値")] int _maxHP;
     [SerializeField, Header("メインエネルギーの最大値")] int _maxMainEnergy;
     [SerializeField, Header("サブエネルギーの最大値")] int _maxSubEnergy;
+    [SerializeField, Header("敵と接触したときに受けるダメージ量")] int _contactDamageAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
     [SerializeField, Header("SubTextを入れる")] GameObject _subText;
@@ -53,6 +54,7 @@ public class Player_scr : MonoBehaviour
 
         _subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
+
         
     }
 
@@ -61,6 +63,15 @@ public class Player_scr : MonoBehaviour
     {
         MovePlayer();
         SwitchWeapon();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //接触ダメージ
+        if (collision.tag == Common_scr.Tags.Enemy.ToString())
+        {
+            GetDamage(_contactDamageAmount);
+        }
     }
 
 
@@ -126,6 +137,26 @@ public class Player_scr : MonoBehaviour
     void Attack()
     {
 
+    }
+
+    /// <summary>
+    /// ダメージを受ける
+    /// </summary>
+    /// <param name="_power"></param>
+    void GetDamage(int _power)
+    {
+        //死ぬ場合
+        if (_hpAmount <= _power)
+        {
+            _hpAmount = 0;
+            _hpBarContentImage.fillAmount = 0;
+
+            return;
+        }
+
+        //生きてる場合
+        _hpAmount -= _power;
+        _hpBarContentImage.fillAmount -= (float)_power / (float)_maxHP;
     }
 
 

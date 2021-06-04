@@ -407,11 +407,11 @@ GameObject:
   - component: {fileID: 263116597}
   m_Layer: 0
   m_Name: Enemy__SelfDestruct
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &263116593
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -471,7 +471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263116592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.45, y: 2.62, z: 0}
+  m_LocalPosition: {x: 2.32, y: 0.64, z: 0}
   m_LocalScale: {x: 0.121017806, y: 0.12644818, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -500,7 +500,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.067133516, y: -0.7940829}
@@ -625,9 +625,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _maxHP: 2000
+  _maxHP: 300
   _maxMainEnergy: 100
   _maxSubEnergy: 100
+  _contactDamageAmount: 20
   _getInput: {fileID: 1967126173}
   _mainText: {fileID: 685453906}
   _subText: {fileID: 795095596}
