@@ -27,6 +27,10 @@ public class EnemyController_scr : MonoBehaviour
         CreateNewEnemy();
     }
 
+
+    /// <summary>
+    /// 敵を生成する
+    /// </summary>
     void CreateNewEnemy()
     {
         //敵を生成するかどうかを確率で決める
