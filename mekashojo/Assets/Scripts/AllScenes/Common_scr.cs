@@ -8,9 +8,11 @@ public class Common_scr : MonoBehaviour
 
     public enum Tags
     {
-        Enemy,
-        Enemy__Fire,
-        Player__Fire
+        Enemy_BattleScene,
+        Enemy__Fire_BattleScene,
+        Player__Fire_BattleScene,
+        PauseController_BattleScene,
+        StartCount_BattleScene
     }
 
     //シングルトン

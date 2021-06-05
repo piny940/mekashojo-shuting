@@ -11,6 +11,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("サブエネルギーの最大値")] int _maxSubEnergy;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] int _contactDamageAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
+    [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
     [SerializeField, Header("SubTextを入れる")] GameObject _subText;
     [SerializeField, Header("HPBarContentを入れる")] GameObject _hpBarContent;
@@ -26,6 +27,7 @@ public class Player_scr : MonoBehaviour
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
     bool _isMainSelected;
+    bool _isPausing;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,24 @@ public class Player_scr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //始まってなかったら抜ける
+        if (!_startCount.hasStarted)
+        {
+            if (!_isPausing)
+            {
+                _rigidbody2D.velocity = new Vector3(0, 0, 0);
+                _isPausing = true;
+            }
+            return;
+        }
+
+        if (_startCount.hasStarted && _isPausing)
+        {
+            _isPausing = false;
+        }
+
+
+
         MovePlayer();
         SwitchWeapon();
     }
@@ -68,7 +88,7 @@ public class Player_scr : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //接触ダメージ
-        if (collision.tag == Common_scr.Tags.Enemy.ToString())
+        if (collision.tag == Common_scr.Tags.Enemy_BattleScene.ToString())
         {
             GetDamage(_contactDamageAmount);
         }
