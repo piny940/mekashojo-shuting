@@ -35,14 +35,13 @@ public class EnemyController_scr : MonoBehaviour
             return;
         }
 
-        
         if (_enemyNames.Count != _produceProbabilityRatios.Count)
         {
             Debug.Log("_enemyNamesと_enemyProduceProbabilityRatiosの要素数が異なります");
             return;
         }
 
-        
+        //どの敵を生成するかを決める
         float _randomValueForEnemyChoosing;
         _randomValueForEnemyChoosing = Random.value;
 
@@ -50,6 +49,7 @@ public class EnemyController_scr : MonoBehaviour
         {
             if (_randomValueForEnemyChoosing <= (float)_produceProbabilityRatios[i] / (float)_produceProbabilityRatiosSum)
             {
+                //敵を生成する
                 Instantiate((GameObject)Resources.Load(_enemyNames[i]), new Vector3(Random.Range(_mainCamera.transform.position.x, _mainCamera.transform.position.x + 8), Random.Range(-3, 4), 0), Quaternion.identity);
                 _EnemyAmount++;
                 break;
