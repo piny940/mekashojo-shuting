@@ -15,4 +15,9 @@ public class Balkan__Player_scr : MonoBehaviour
     {
         
     }
+
+    public void Attack()
+    {
+
+    }
 }

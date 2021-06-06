@@ -336,6 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 94466854}
   - component: {fileID: 94466855}
+  - component: {fileID: 94466856}
   m_Layer: 0
   m_Name: HeavyShield__Player
   m_TagString: Untagged
@@ -408,6 +409,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &94466856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94466853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1c200f5d2814414bfbf6a32e3666d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &131589013
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224663513}
   - component: {fileID: 224663514}
+  - component: {fileID: 224663515}
   m_Layer: 0
   m_Name: Cannon__Player
   m_TagString: Untagged
@@ -556,6 +570,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &224663515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224663512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5768231af7748eda80f52909d66580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &239476529
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 239476530}
   - component: {fileID: 239476531}
+  - component: {fileID: 239476532}
   m_Layer: 0
   m_Name: Missile__Player
   m_TagString: Untagged
@@ -638,6 +665,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &239476532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239476529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc7d881e18754028853fe90dcef337d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &245329239
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,6 +687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 245329240}
   - component: {fileID: 245329241}
+  - component: {fileID: 245329242}
   m_Layer: 0
   m_Name: BeamMachineGun__Player
   m_TagString: Untagged
@@ -720,6 +760,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &245329242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245329239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5965c1f9241489e90ed5fdb5b6a2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &280778227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1110,6 @@ Transform:
   - {fileID: 570890498}
   - {fileID: 94466854}
   - {fileID: 626395841}
-  - {fileID: 1939345165}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1086,7 +1137,15 @@ MonoBehaviour:
   _hpBarContent: {fileID: 1464037890}
   _mainEnergyBarContent: {fileID: 502041437}
   _subEnergyBarContent: {fileID: 941453488}
-  _damageSE: {fileID: 8300000, guid: 78a36d177f5d6450ab4a98265c5725b5, type: 3}
+  _weapons:
+  - {fileID: 224663512}
+  - {fileID: 984087843}
+  - {fileID: 245329239}
+  - {fileID: 865022774}
+  - {fileID: 239476529}
+  - {fileID: 570890497}
+  - {fileID: 94466853}
+  - {fileID: 626395840}
 --- !u!70 &409409997
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1370,6 +1429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 570890498}
   - component: {fileID: 570890499}
+  - component: {fileID: 570890500}
   m_Layer: 0
   m_Name: Bomb__Player
   m_TagString: Untagged
@@ -1442,6 +1502,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &570890500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570890497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4a36a05f59834506a07d299f1853f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &626395840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,6 +1524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 626395841}
   - component: {fileID: 626395842}
+  - component: {fileID: 626395843}
   m_Layer: 0
   m_Name: LightShield__Player
   m_TagString: Untagged
@@ -1524,6 +1597,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &626395843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626395840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: addfe2c7a79154db88a1699ecbc8102f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &666417831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,6 +2055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 865022775}
   - component: {fileID: 865022776}
+  - component: {fileID: 865022777}
   m_Layer: 0
   m_Name: Balkan__Player
   m_TagString: Untagged
@@ -2042,6 +2128,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &865022777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865022774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870188f44a8ca491fad6509742a65d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &903538046
 GameObject:
   m_ObjectHideFlags: 0
@@ -2278,6 +2376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 984087844}
   - component: {fileID: 984087845}
+  - component: {fileID: 984087846}
   m_Layer: 0
   m_Name: Laser__Player
   m_TagString: Untagged
@@ -2350,6 +2449,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &984087846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984087843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc13b1828fb745a49f2e9eb70176d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1142169394
 GameObject:
   m_ObjectHideFlags: 0
@@ -3780,49 +3891,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912057245}
   m_CullTransparentMesh: 1
---- !u!1 &1939345164
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1939345165}
-  - component: {fileID: 1939345166}
-  m_Layer: 0
-  m_Name: EquipmentActivate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1939345165
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939345164}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 409409995}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1939345166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939345164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6605bdd7e2ebb4e63a63456a544fe3b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1944958232
 GameObject:
   m_ObjectHideFlags: 0

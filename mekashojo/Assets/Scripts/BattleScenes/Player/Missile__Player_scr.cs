@@ -15,4 +15,9 @@ public class Missile__Player_scr : MonoBehaviour
     {
         
     }
+
+    public void Attack()
+    {
+
+    }
 }

@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Player_scr : MonoBehaviour
 {
+    #region
+    //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] int _maxHP;
     [SerializeField, Header("メインエネルギーの最大値")] int _maxMainEnergy;
@@ -17,7 +20,15 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HPBarContentを入れる")] GameObject _hpBarContent;
     [SerializeField, Header("MainEnergyBarContentを入れる")] GameObject _mainEnergyBarContent;
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
-    [SerializeField, Header("ダメージを受けたときになる音")] AudioClip _damageSE;
+    [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
+    Cannon__Player_scr _cannon__Player;
+    Laser__Player_scr _laser__Player;
+    BeamMachineGun__Player_scr _beamMachineGun__Player;
+    Balkan__Player_scr _balkan__Player;
+    Missile__Player_scr _missile__Player;
+    Bomb__Player_scr _bomb__Player;
+    HeavyShield__Player_scr _heavyShield__Player;
+    LightShield__Player_scr _lightShield__Player;
     int _hpAmount;
     int _mainEnergyAmount;
     int _subEnergyAmount;
@@ -27,21 +38,33 @@ public class Player_scr : MonoBehaviour
     Image _mainEnergyBarContentImage;
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
-    AudioSource _audioSource;
+    Action Attack;
+    Action MainAttack;
+    Action SubAttack;
+    
+
     bool _isMainSelected;
     bool _isPausing;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //コンポーネントの取得
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _audioSource = GetComponent<AudioSource>();
         _mainTextImage = _mainText.GetComponent<Image>();
         _subTextImage = _subText.GetComponent<Image>();
         _hpBarContentImage = _hpBarContent.GetComponent<Image>();
         _mainEnergyBarContentImage = _mainEnergyBarContent.GetComponent<Image>();
         _subEnergyBarContentImage = _subEnergyBarContent.GetComponent<Image>();
+        _cannon__Player = _weapons[0].GetComponent<Cannon__Player_scr>();
+        _laser__Player = _weapons[1].GetComponent<Laser__Player_scr>();
+        _beamMachineGun__Player = _weapons[2].GetComponent<BeamMachineGun__Player_scr>();
+        _balkan__Player = _weapons[3].GetComponent<Balkan__Player_scr>();
+        _missile__Player = _weapons[4].GetComponent<Missile__Player_scr>();
+        _bomb__Player = _weapons[5].GetComponent<Bomb__Player_scr>();
+        _heavyShield__Player = _weapons[6].GetComponent<HeavyShield__Player_scr>();
+        _lightShield__Player = _weapons[7].GetComponent<LightShield__Player_scr>();
 
 
         //初期化
@@ -60,6 +83,9 @@ public class Player_scr : MonoBehaviour
         _subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
 
+
+        //武器を設定
+        SetWeapon();
         
     }
 
@@ -157,11 +183,7 @@ public class Player_scr : MonoBehaviour
 
     }
 
-    void Attack()
-    {
-
-    }
-
+    
     /// <summary>
     /// ダメージを受ける
     /// </summary>
@@ -180,8 +202,56 @@ public class Player_scr : MonoBehaviour
         //生きてる場合
         _hpAmount -= power;
         _hpBarContentImage.fillAmount -= (float)power / (float)_maxHP;
-        Common_scr.common.PlaySE(_damageSE);
     }
 
 
+    /// <summary>
+    /// 武器を設定する
+    /// </summary>
+    void SetWeapon()
+    {
+        //一旦全て非アクティブ
+        for (int i = 0; i < _weapons.Count; i++)
+        {
+            _weapons[i].SetActive(false);
+        }
+
+        //選択中の武器をアクティブにする
+        _weapons[(int)EquipmentData_scr.equipmentData.selectedMainWeaponName].SetActive(true);
+        _weapons[(int)EquipmentData_scr.equipmentData.selectedSubWeaponName].SetActive(true);
+        _weapons[(int)EquipmentData_scr.equipmentType.Bomb].SetActive(true);
+        _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
+
+
+        //メイン武器の設定
+        switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
+        {
+            case 0:
+                MainAttack = _cannon__Player.Attack;
+                break;
+            case 1:
+                MainAttack = _laser__Player.Attack;
+                break;
+            case 2:
+                MainAttack = _beamMachineGun__Player.Attack;
+                break;
+            default:
+                Debug.Log("メイン武器に対応していない武器が設定されています");
+                break;
+
+        }
+
+        switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
+        {
+            case 3:
+                SubAttack = _balkan__Player.Attack;
+                break;
+            case 4:
+                SubAttack = _missile__Player.Attack;
+                break;
+            default:
+                Debug.Log("サブ武器に対応していない武器が設定されています");
+                break;
+        }
+    }
 }

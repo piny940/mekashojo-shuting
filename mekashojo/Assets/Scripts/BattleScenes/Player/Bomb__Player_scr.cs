@@ -15,4 +15,9 @@ public class Bomb__Player_scr : MonoBehaviour
     {
         
     }
+
+    public void Attack()
+    {
+
+    }
 }

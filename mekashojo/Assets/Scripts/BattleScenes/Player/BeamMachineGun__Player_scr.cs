@@ -15,4 +15,9 @@ public class BeamMachineGun__Player_scr : MonoBehaviour
     {
         
     }
+
+    public void Attack()
+    {
+
+    }
 }
