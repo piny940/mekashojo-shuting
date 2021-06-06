@@ -23,20 +23,20 @@ public class EnemyBaseImp : MonoBehaviour
     /// <summary>
     /// ポーズ時の処理をする (アニメーションなしの時)
     /// </summary>
-    public void Pause(StartCount_scr _startCount, float _speed, ref Rigidbody2D _rigidbody2D)
+    public void Pause(StartCount_scr startCount, float speed, Rigidbody2D rigidbody2D)
     {
         //ポーズし始めた時
-        if (!_startCount.hasStarted && !_isPausing)
+        if (!startCount.hasStarted && !_isPausing)
         {
-            _rigidbody2D.velocity = new Vector3(0, 0, 0);
+            rigidbody2D.velocity = new Vector3(0, 0, 0);
             _isPausing = true;
             return;
         }
 
         //ポーズし終わった時
-        if (_startCount.hasStarted && _isPausing)
+        if (startCount.hasStarted && _isPausing)
         {
-            _rigidbody2D.velocity = new Vector3(-_speed, 0, 0);
+            rigidbody2D.velocity = new Vector3(-speed, 0, 0);
             _isPausing = false;
         }
 
@@ -47,33 +47,33 @@ public class EnemyBaseImp : MonoBehaviour
     /// <summary>
     /// ポーズ時の処理をする (アニメーションありの時)
     /// </summary>
-    public void Pause(StartCount_scr _startCount, float _speed, ref Rigidbody2D _rigidbody2D, Animator _animator)
+    public void Pause(StartCount_scr startCount, float speed, Rigidbody2D rigidbody2D, Animator animator)
     {
         //ポーズし始めた時
-        if (!_startCount.hasStarted && !_isPausing)
+        if (!startCount.hasStarted && !_isPausing)
         {
-            _rigidbody2D.velocity = new Vector3(0, 0, 0);
+            rigidbody2D.velocity = new Vector3(0, 0, 0);
             _isPausing = true;
-            _animator.SetBool("hasStarted", false);
+            animator.SetBool("hasStarted", false);
             return;
         }
 
         //ポーズし終わった時
-        if (_startCount.hasStarted && _isPausing)
+        if (startCount.hasStarted && _isPausing)
         {
-            _rigidbody2D.velocity = new Vector3(-_speed, 0, 0);
+            rigidbody2D.velocity = new Vector3(-speed, 0, 0);
             _isPausing = false;
-            _animator.SetBool("hasStarted", true);
+            animator.SetBool("hasStarted", true);
         }
 
 
     }
 
-    public void StartAnimation(Animator _animator)
+    public void StartAnimation(Animator animator)
     {
         if (!_hasAnimationStarted)
         {
-            _animator.SetBool("hasStarted", true);
+            animator.SetBool("hasStarted", true);
             _hasAnimationStarted = true;
         }
     }

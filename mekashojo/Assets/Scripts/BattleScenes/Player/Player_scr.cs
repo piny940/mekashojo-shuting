@@ -165,11 +165,11 @@ public class Player_scr : MonoBehaviour
     /// <summary>
     /// ダメージを受ける
     /// </summary>
-    /// <param name="_power"></param>
-    void GetDamage(int _power)
+    /// <param name="power"></param>
+    void GetDamage(int power)
     {
         //死ぬ場合
-        if (_hpAmount <= _power)
+        if (_hpAmount <= power)
         {
             _hpAmount = 0;
             _hpBarContentImage.fillAmount = 0;
@@ -178,8 +178,8 @@ public class Player_scr : MonoBehaviour
         }
 
         //生きてる場合
-        _hpAmount -= _power;
-        _hpBarContentImage.fillAmount -= (float)_power / (float)_maxHP;
+        _hpAmount -= power;
+        _hpBarContentImage.fillAmount -= (float)power / (float)_maxHP;
         Common_scr.common.PlaySE(_damageSE);
     }
 

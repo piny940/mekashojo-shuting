@@ -21,7 +21,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
     void Update()
     {
         //ポーズの処理
-        Pause(_startCount, _speed, ref _rigidbody2D);
+        Pause(_startCount, _speed, _rigidbody2D);
 
         //まだ始まってなかったら抜ける
         if (!_startCount.hasStarted)

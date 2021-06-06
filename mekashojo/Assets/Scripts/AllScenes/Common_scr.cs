@@ -35,9 +35,9 @@ public class Common_scr : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySE(AudioClip _audioClip)
+    public void PlaySE(AudioClip audioClip)
     {
-        _audioSource.PlayOneShot(_audioClip);
+        _audioSource.PlayOneShot(audioClip);
     }
 
 }

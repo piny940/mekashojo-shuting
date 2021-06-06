@@ -17,15 +17,13 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
         _animator = GetComponent<Animator>();
         _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
 
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
         //ポーズの処理
-        Pause(_startCount, _speed, ref _rigidbody2D, _animator);
+        Pause(_startCount, _speed, _rigidbody2D, _animator);
 
         //まだ始まってなかったら抜ける
         if (!_startCount.hasStarted)
