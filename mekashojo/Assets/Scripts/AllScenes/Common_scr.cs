@@ -5,6 +5,7 @@ using UnityEngine;
 public class Common_scr : MonoBehaviour
 {
     public static Common_scr common = null;
+    AudioSource _audioSource;
 
     public enum Tags
     {
@@ -28,5 +29,15 @@ public class Common_scr : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlaySE(AudioClip _audioClip)
+    {
+        _audioSource.PlayOneShot(_audioClip);
+    }
+
 }

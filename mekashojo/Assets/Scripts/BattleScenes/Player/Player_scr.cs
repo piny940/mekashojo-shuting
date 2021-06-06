@@ -17,6 +17,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HPBarContentを入れる")] GameObject _hpBarContent;
     [SerializeField, Header("MainEnergyBarContentを入れる")] GameObject _mainEnergyBarContent;
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
+    [SerializeField, Header("ダメージを受けたときになる音")] AudioClip _damageSE;
     int _hpAmount;
     int _mainEnergyAmount;
     int _subEnergyAmount;
@@ -26,6 +27,7 @@ public class Player_scr : MonoBehaviour
     Image _mainEnergyBarContentImage;
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
+    AudioSource _audioSource;
     bool _isMainSelected;
     bool _isPausing;
 
@@ -34,6 +36,7 @@ public class Player_scr : MonoBehaviour
     {
         //コンポーネントの取得
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
         _mainTextImage = _mainText.GetComponent<Image>();
         _subTextImage = _subText.GetComponent<Image>();
         _hpBarContentImage = _hpBarContent.GetComponent<Image>();
@@ -177,6 +180,7 @@ public class Player_scr : MonoBehaviour
         //生きてる場合
         _hpAmount -= _power;
         _hpBarContentImage.fillAmount -= (float)_power / (float)_maxHP;
+        Common_scr.common.PlaySE(_damageSE);
     }
 
 

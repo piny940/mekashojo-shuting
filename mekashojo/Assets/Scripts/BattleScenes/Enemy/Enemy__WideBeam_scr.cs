@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy__SelfDestruct_scr : EnemyBaseImp
+public class Enemy__WideBeam_scr : EnemyBaseImp
 {
     [SerializeField, Header("移動速度")] float _speed;
     StartCount_scr _startCount;
@@ -14,9 +14,6 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
         //コンポーネントの取得
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
-
-
-
 
     }
 
@@ -35,11 +32,5 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
         //移動速度の設定
         SetVelocity(_rigidbody2D, _speed);
 
-        
     }
-
-
-
-
-
 }
