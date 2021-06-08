@@ -32,17 +32,19 @@ public class Player_scr : MonoBehaviour
     int _hpAmount;
     int _mainEnergyAmount;
     int _subEnergyAmount;
+    int _balkanCount;
     Image _mainTextImage;
     Image _subTextImage;
     Image _hpBarContentImage;
     Image _mainEnergyBarContentImage;
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
-    Action Attack;
     Action MainAttack;
     Action SubAttack;
-    
+    EquipmentData_scr.equipmentType _mainWeaponName;
+    EquipmentData_scr.equipmentType _subWeaponName;
 
+    bool _hasAttacked;
     bool _isMainSelected;
     bool _isPausing;
     #endregion
@@ -83,6 +85,9 @@ public class Player_scr : MonoBehaviour
         _subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
 
+        //その他
+        _hasAttacked = false;
+        _balkanCount = 0;
 
         //武器を設定
         SetWeapon();
@@ -111,7 +116,10 @@ public class Player_scr : MonoBehaviour
 
 
         MovePlayer();
+
         SwitchWeapon();
+
+        Attack();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -224,6 +232,8 @@ public class Player_scr : MonoBehaviour
 
 
         //メイン武器の設定
+        _mainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
+
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
             case 0:
@@ -241,6 +251,9 @@ public class Player_scr : MonoBehaviour
 
         }
 
+        //サブ武器の設定
+        _subWeaponName = EquipmentData_scr.equipmentData.selectedSubWeaponName;
+
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
             case 3:
@@ -253,5 +266,89 @@ public class Player_scr : MonoBehaviour
                 Debug.Log("サブ武器に対応していない武器が設定されています");
                 break;
         }
+    }
+
+
+    void Attack()
+    {
+        if (_isMainSelected)
+        {
+            //メインが選択されていた時の処理
+            //メインは1クリック分の処理しかしない
+
+            //左クリックを離した瞬間の処理
+            if (_hasAttacked && !_getInput.isMouseLeft)
+            {
+                _hasAttacked = false;
+                return;
+            }
+
+            //左クリックを押した状態でも2フレーム目以降は何もしない
+            if (_hasAttacked)
+            {
+                return;
+            }
+
+            if (_getInput.isMouseLeft)
+            {
+                _hasAttacked = true;
+                MainAttack();
+                _mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_mainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_mainWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+                _mainEnergyBarContentImage.fillAmount = (float)_mainEnergyAmount / (float)_maxMainEnergy;
+                return;
+            }
+
+            
+        }
+
+        //サブが選択されていた時の処理
+
+        if (_subWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
+        {
+
+            //ミサイルは1クリック分の処理しかしない
+
+            //左クリックを離した瞬間の処理
+            if (_hasAttacked && !_getInput.isMouseLeft)
+            {
+                _hasAttacked = false;
+                return;
+            }
+
+            //左クリックを押した状態でも2フレーム目以降は何もしない
+            if (_hasAttacked)
+            {
+                return;
+            }
+
+            if (_getInput.isMouseLeft)
+            {
+                _hasAttacked = true;
+
+                SubAttack();
+                _subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+                _subEnergyBarContentImage.fillAmount = (float)_subEnergyAmount / (float)_maxSubEnergy;
+                return;
+            }
+
+        }
+
+        //バルカンが選択されていた時の処理
+        //一定間隔でsubAttackを呼んでエネルギーを減らす
+
+        if (_getInput.isMouseLeft)
+        {
+            if (_balkanCount < 6)//この数字は後で調整
+            {
+                _balkanCount++;
+                return;
+            }
+
+            _balkanCount = 0;
+            SubAttack();
+            _subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+            _subEnergyBarContentImage.fillAmount = (float)_subEnergyAmount / (float)_maxSubEnergy;
+        }
+
     }
 }
