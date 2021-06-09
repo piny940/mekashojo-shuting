@@ -10,8 +10,8 @@ public class Player_scr : MonoBehaviour
     //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] int _maxHP;
-    [SerializeField, Header("メインエネルギーの最大値")] int _maxMainEnergy;
-    [SerializeField, Header("サブエネルギーの最大値")] int _maxSubEnergy;
+    [SerializeField, Header("メインエネルギーの最大値")] float _maxMainEnergy;
+    [SerializeField, Header("サブエネルギーの最大値")] float _maxSubEnergy;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] int _contactDamageAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
@@ -21,6 +21,10 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("MainEnergyBarContentを入れる")] GameObject _mainEnergyBarContent;
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
+    [HideInInspector] public float mainEnergyAmount;
+    [HideInInspector] public float subEnergyAmount;
+    [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName;
+    [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -30,8 +34,6 @@ public class Player_scr : MonoBehaviour
     HeavyShield__Player_scr _heavyShield__Player;
     LightShield__Player_scr _lightShield__Player;
     int _hpAmount;
-    int _mainEnergyAmount;
-    int _subEnergyAmount;
     int _balkanCount;
     Image _mainTextImage;
     Image _subTextImage;
@@ -41,8 +43,7 @@ public class Player_scr : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     Action MainAttack;
     Action SubAttack;
-    EquipmentData_scr.equipmentType _mainWeaponName;
-    EquipmentData_scr.equipmentType _subWeaponName;
+    
 
     bool _hasAttacked;
     bool _isMainSelected;
@@ -79,10 +80,10 @@ public class Player_scr : MonoBehaviour
         _hpAmount = _maxHP;
         _hpBarContentImage.fillAmount = 1;
 
-        _mainEnergyAmount = _maxMainEnergy;
+        mainEnergyAmount = _maxMainEnergy;
         _mainEnergyBarContentImage.fillAmount = 1;
 
-        _subEnergyAmount = _maxSubEnergy;
+        subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
 
         //その他
@@ -232,7 +233,7 @@ public class Player_scr : MonoBehaviour
 
 
         //メイン武器の設定
-        _mainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
+        mainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
 
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
@@ -252,7 +253,7 @@ public class Player_scr : MonoBehaviour
         }
 
         //サブ武器の設定
-        _subWeaponName = EquipmentData_scr.equipmentData.selectedSubWeaponName;
+        subWeaponName = EquipmentData_scr.equipmentData.selectedSubWeaponName;
 
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
@@ -273,37 +274,19 @@ public class Player_scr : MonoBehaviour
     {
         if (_isMainSelected)
         {
-            //メインが選択されていた時の処理
-            //メインは1クリック分の処理しかしない
-
-            //左クリックを離した瞬間の処理
-            if (_hasAttacked && !_getInput.isMouseLeft)
-            {
-                _hasAttacked = false;
-                return;
-            }
-
-            //左クリックを押した状態でも2フレーム目以降は何もしない
-            if (_hasAttacked)
-            {
-                return;
-            }
-
-            if (_getInput.isMouseLeft)
-            {
-                _hasAttacked = true;
-                MainAttack();
-                _mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_mainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_mainWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-                _mainEnergyBarContentImage.fillAmount = (float)_mainEnergyAmount / (float)_maxMainEnergy;
-                return;
-            }
-
-            
+            MainAttack();
+            _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / _maxMainEnergy;
+            return;
         }
 
-        //サブが選択されていた時の処理
 
-        if (_subWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
+        //サブが選択されていた時の処理
+        if (subEnergyAmount <= 0)
+        {
+            return;
+        }
+
+        if (subWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
         {
 
             //ミサイルは1クリック分の処理しかしない
@@ -326,29 +309,16 @@ public class Player_scr : MonoBehaviour
                 _hasAttacked = true;
 
                 SubAttack();
-                _subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-                _subEnergyBarContentImage.fillAmount = (float)_subEnergyAmount / (float)_maxSubEnergy;
+                subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+                _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
                 return;
             }
 
         }
 
-        //バルカンが選択されていた時の処理
-        //一定間隔でsubAttackを呼んでエネルギーを減らす
+        SubAttack();
+        _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
 
-        if (_getInput.isMouseLeft)
-        {
-            if (_balkanCount < 6)//この数字は後で調整
-            {
-                _balkanCount++;
-                return;
-            }
-
-            _balkanCount = 0;
-            SubAttack();
-            _subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-            _subEnergyBarContentImage.fillAmount = (float)_subEnergyAmount / (float)_maxSubEnergy;
-        }
 
     }
 }

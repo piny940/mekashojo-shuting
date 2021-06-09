@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Balkan__Player_scr : MonoBehaviour
 {
+    [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
+    [SerializeField, Header("Playerを入れる")] Player_scr _player;
+    [SerializeField, Header("1秒あたりに発射する球の数")] int _firePerSecound;
+    int _count;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _count = 0;
     }
 
     // Update is called once per frame
@@ -18,6 +23,18 @@ public class Balkan__Player_scr : MonoBehaviour
 
     public void Attack()
     {
+        if (_getInput.isMouseLeft)
+        {
+            if (_count < 60 / _firePerSecound)
+            {
+                _count++;
+                return;
+            }
 
+            _count = 0;
+            Instantiate((GameObject)Resources.Load("BalkanFire__Player"), transform.position, Quaternion.identity);
+
+            _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+        }
     }
 }
