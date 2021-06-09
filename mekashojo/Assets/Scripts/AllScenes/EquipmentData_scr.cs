@@ -33,6 +33,16 @@ public class EquipmentData_scr : MonoBehaviour
 
     private Dictionary<equipmentType, string> _equipmentDescriptions__Data { get; set; }
 
+    // 装備の表示名
+    public IReadOnlyDictionary<equipmentType, string> equipmentDisplayName { get; private set; }
+
+    private Dictionary<equipmentType, string> _equipmentDisplayName__Data { get; set; }
+
+    // レベルの表示名
+    public IReadOnlyDictionary<level, string> levelDisplayName { get; private set; }
+
+    private Dictionary<level, string> _levelDisplayName__Data { get; set; }
+
     public enum equipmentType
     {
         MainWeapon__Cannon,
@@ -400,7 +410,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 35 },
                             { equipmentParameter.DamageReductionRate, 80 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
                         }
                     },
                     {
@@ -409,7 +419,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 32 },
                             { equipmentParameter.DamageReductionRate, 85 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
                         }
                     },
                     {
@@ -418,7 +428,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 30 },
                             { equipmentParameter.DamageReductionRate, 90 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, -1 },
                         }
                     }
                 }
@@ -433,7 +443,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 30 },
                             { equipmentParameter.DamageReductionRate, 65 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
                         }
                     },
                     {
@@ -442,7 +452,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 28 },
                             { equipmentParameter.DamageReductionRate, 70 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
                         }
                     },
                     {
@@ -451,7 +461,7 @@ public class EquipmentData_scr : MonoBehaviour
                         {
                             { equipmentParameter.Weight, 25 },
                             { equipmentParameter.DamageReductionRate, 75 },
-                            { equipmentParameter.RequiredEnhancementMaterialsCount, 0 },
+                            { equipmentParameter.RequiredEnhancementMaterialsCount, -1 },
                         }
                     }
                 }
@@ -487,15 +497,41 @@ public class EquipmentData_scr : MonoBehaviour
                 equipmentType.Bomb,
                 "ボムの説明"
             },
+            {
+                equipmentType.Shield__Heavy,
+                "重シールドの説明"
+            },
+            {
+                equipmentType.Shield__Light,
+                "軽シールドの説明"
+            },
         };
 
         equipmentDescriptions = new ReadOnlyDictionary<equipmentType, string>(_equipmentDescriptions__Data);
 
+        _equipmentDisplayName__Data = new Dictionary<equipmentType, string>()
+        {
+            { equipmentType.MainWeapon__Cannon, "キャノン" },
+            { equipmentType.MainWeapon__Laser, "レーザー" },
+            { equipmentType.MainWeapon__BeamMachineGun, "ビームガン" },
+            { equipmentType.SubWeapon__Balkan, "バルカン" },
+            { equipmentType.SubWeapon__Missile, "ミサイル" },
+            { equipmentType.Bomb, "ボム" },
+            { equipmentType.Shield__Heavy, "重シールド" },
+            { equipmentType.Shield__Light, "軽シールド" },
+        };
 
-        
+        equipmentDisplayName = new ReadOnlyDictionary<equipmentType, string>(_equipmentDisplayName__Data);
+
+        _levelDisplayName__Data = new Dictionary<level, string>()
+        {
+            { level.Level1, "Lv.1" },
+            { level.Level2, "Lv.2" },
+            { level.Level3, "Lv.3" },
+            { level.Level4, "Lv.4" },
+            { level.Level5, "Lv.5" },
+        };
+
+        levelDisplayName = new ReadOnlyDictionary<level, string>(_levelDisplayName__Data);
     }
-
-
-
-
 }
