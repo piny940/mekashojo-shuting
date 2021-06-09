@@ -4,53 +4,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 武器選択ボタン用の基底クラス
+/// </summary>
 public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 {
-    [SerializeField] private Canvas_scr _canvas;
-    [SerializeField] private PreviewImage_scr _previewImage;
-    [SerializeField] private WeaponDescriptions_scr _weaponDescriptions;
-    [SerializeField] private MotionPreview_scr _motionPreview;
-    [SerializeField] private Level_scr _level;
-    [SerializeField] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
-    [SerializeField] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
-    [SerializeField] private EnhancementButton_scr _enhancementButton;
-    [SerializeField] private Weight__Status_scr _weight__Status;
-    [SerializeField] private DamageReductionRate__Status_scr _damageReductionRate__Status;
+    [SerializeField, Header("Canvasを入れる")] private Canvas_scr _canvas;
+    [SerializeField, Header("PreviewImageを入れる")] private PreviewImage_scr _previewImage;
+    [SerializeField, Header("WeaponDescriptionsを入れる")] private WeaponDescriptions_scr _weaponDescriptions;
+    [SerializeField, Header("MotionPreviewを入れる")] private MotionPreview_scr _motionPreview;
+    [SerializeField, Header("Levelを入れる")] private Level_scr _level;
+    [SerializeField, Header("EnhancementMaterialsCount_Titleを入れる")] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
+    [SerializeField, Header("EnhancementMaterialsCountを入れる")] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
+    [SerializeField, Header("EnhancementButtonを入れる")] private EnhancementButton_scr _enhancementButton;
+    [SerializeField, Header("Weight__Statusを入れる")] private Weight__Status_scr _weight__Status;
+    [SerializeField, Header("DamageReductionRate__Statusを入れる")] private DamageReductionRate__Status_scr _damageReductionRate__Status;
 
+    /// <summary>
+    /// 武器の種類
+    /// </summary>
     protected EquipmentData_scr.equipmentType type { get; set; }
 
     protected void Initialize()
     {
+        // 各武器選択ボタンのテキストを更新
         GetComponentInChildren<Text>().text = EquipmentData_scr.equipmentData.equipmentDisplayName[type];
+
+        // ボタンの4隅の座標を取得
         Vector3[] corners = new Vector3[4];
         GetComponent<RectTransform>().GetWorldCorners(corners);
+
+        // ボタンの座標と関連するイベントの情報を登録
         _canvas.equipmentSelectButtonCorners.Add(corners, new KeyValuePair<EquipmentData_scr.equipmentType, Action>(type, SelectedWeaponChanged));
     }
 
+    /// <summary>
+    /// 表示する対象の武器が変更された際に実行
+    /// </summary>
     protected void SelectedWeaponChanged()
     {
         UpdateEquipmentDescriptions();
     }
 
+    /// <summary>
+    /// 武器強化を行う。<br></br>
+    /// 武器強化が出来ない場合(武器が最大レベル/強化用素材の不足)の判定処理は入っていない。呼び出し側で判定する必要がある。
+    /// </summary>
     public void Enhance()
     {
+        // 強化用素材の所持数を必要数分減らす
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[type]
             -= EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount];
+        // 武器のレベルを1上げる
         EquipmentData_scr.equipmentData.equipmentLevel[type]++;
+        // 表示情報の更新
         UpdateEquipmentDescriptions();
     }
 
+    /// <summary>
+    /// 表示情報の更新
+    /// </summary>
     private void UpdateEquipmentDescriptions()
     {
+        // 強化用ボタンの押下イベントに、この武器の強化ロジックを登録する。
         _enhancementButton.EnhanceAction = Enhance;
 
+        // プレイヤーのプレビュー表示画面と武器モーション表示画面は、今後実装する。
+        #region
         var _random = UnityEngine.Random.insideUnitSphere;
         _previewImage.color = new Color(_random.x, _random.y, _random.z);
 
-        _weaponDescriptions.text = EquipmentData_scr.equipmentData.equipmentDescriptions[type];
-
         _random = UnityEngine.Random.insideUnitSphere;
         _motionPreview.color = new Color(_random.x, _random.y, _random.z);
+        #endregion
+
+        _weaponDescriptions.text = EquipmentData_scr.equipmentData.equipmentDescriptions[type];
 
         _level.text = EquipmentData_scr.equipmentData.levelDisplayName[EquipmentData_scr.equipmentData.equipmentLevel[type]];
 
@@ -58,6 +86,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 
         if (IsMaxLevel())
         {
+            // 武器が最大レベルなので、その通知と強化用ボタンの非アクティブ化を行う
             _enhancementMaterialsCount.text = "これ以上強化できません";
             _enhancementButton.isActive = false;
         }
@@ -65,6 +94,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
         {
             _enhancementMaterialsCount.text = $"{EquipmentData_scr.equipmentData.enhancementMaterialsCount[type]} / {EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount]}";
 
+            // 強化用素材が不足している場合は、強化ボタンを非アクティブ化
             if (EquipmentData_scr.equipmentData.enhancementMaterialsCount[type] >= EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount])
             {
                 _enhancementButton.isActive = true;
@@ -75,6 +105,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
             }
         }
 
+        // 選択中の武器の情報を更新
         switch (type)
         {
             case EquipmentData_scr.equipmentType.MainWeapon__Cannon:
