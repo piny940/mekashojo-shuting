@@ -21,7 +21,6 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 
     protected void Initialize()
     {
-        Debug.Log(type);
         GetComponentInChildren<Text>().text = EquipmentData_scr.equipmentData.equipmentDisplayName[type];
         Vector3[] corners = new Vector3[4];
         GetComponent<RectTransform>().GetWorldCorners(corners);
