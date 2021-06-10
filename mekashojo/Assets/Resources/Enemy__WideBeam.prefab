@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2545899605682441017}
   - component: {fileID: 2545899605682441016}
   - component: {fileID: 2545899605682441019}
+  - component: {fileID: 4602792525637480488}
   m_Layer: 0
   m_Name: Enemy__WideBeam
   m_TagString: Enemy_BattleScene
@@ -94,7 +95,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3428844475538962038}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -132,15 +133,15 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2.5967803, y: 2.7495134}
+    - - {x: 3.7910361, y: 3.1111882}
       - {x: -0.3030113, y: 3.9961684}
-      - {x: -3.3340888, y: 2.6699305}
-      - {x: -5.0181417, y: -0.51205254}
-      - {x: -3.153568, y: -2.1784673}
+      - {x: -4.6321764, y: 2.9987266}
+      - {x: -6.9393163, y: -0.57781315}
+      - {x: -3.9843402, y: -2.4086225}
       - {x: -0.9423711, y: -1.5232441}
       - {x: 0.43788365, y: -1.5206432}
-      - {x: 2.4345224, y: -2.31594}
-      - {x: 4.3367677, y: -0.4776826}
+      - {x: 3.2652988, y: -2.31594}
+      - {x: 5.946403, y: -0.5763201}
 --- !u!114 &2545899605682441019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,3 +155,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+--- !u!114 &4602792525637480488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3428844475538962038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d4a2126c13e4920b6c9776b57ffa5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 20

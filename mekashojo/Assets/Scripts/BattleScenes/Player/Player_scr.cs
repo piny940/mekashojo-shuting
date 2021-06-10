@@ -12,6 +12,8 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HPの最大値")] int _maxHP;
     [SerializeField, Header("メインエネルギーの最大値")] float _maxMainEnergy;
     [SerializeField, Header("サブエネルギーの最大値")] float _maxSubEnergy;
+    [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
+    [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] int _contactDamageAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
@@ -33,8 +35,6 @@ public class Player_scr : MonoBehaviour
     Bomb__Player_scr _bomb__Player;
     HeavyShield__Player_scr _heavyShield__Player;
     LightShield__Player_scr _lightShield__Player;
-    int _hpAmount;
-    int _balkanCount;
     Image _mainTextImage;
     Image _subTextImage;
     Image _hpBarContentImage;
@@ -43,9 +43,7 @@ public class Player_scr : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     Action MainAttack;
     Action SubAttack;
-    
-
-    bool _hasAttacked;
+    int _hpAmount;
     bool _isMainSelected;
     bool _isPausing;
     #endregion
@@ -86,13 +84,9 @@ public class Player_scr : MonoBehaviour
         subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
 
-        //その他
-        _hasAttacked = false;
-        _balkanCount = 0;
-
         //武器を設定
         SetWeapon();
-        
+
     }
 
     // Update is called once per frame
@@ -121,6 +115,8 @@ public class Player_scr : MonoBehaviour
         SwitchWeapon();
 
         Attack();
+
+        AutoEnergyCharge();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -269,9 +265,12 @@ public class Player_scr : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// 左クリック攻撃をする
+    /// </summary>
     void Attack()
     {
+        //メインが選択されていた時の処理
         if (_isMainSelected)
         {
             MainAttack();
@@ -281,44 +280,24 @@ public class Player_scr : MonoBehaviour
 
 
         //サブが選択されていた時の処理
-        if (subEnergyAmount <= 0)
-        {
-            return;
-        }
-
-        if (subWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
-        {
-
-            //ミサイルは1クリック分の処理しかしない
-
-            //左クリックを離した瞬間の処理
-            if (_hasAttacked && !_getInput.isMouseLeft)
-            {
-                _hasAttacked = false;
-                return;
-            }
-
-            //左クリックを押した状態でも2フレーム目以降は何もしない
-            if (_hasAttacked)
-            {
-                return;
-            }
-
-            if (_getInput.isMouseLeft)
-            {
-                _hasAttacked = true;
-
-                SubAttack();
-                subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-                _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
-                return;
-            }
-
-        }
-
         SubAttack();
         _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
 
+    }
 
+    /// <summary>
+    /// エネルギーの自動回復
+    /// </summary>
+    void AutoEnergyCharge()
+    {
+        if (mainEnergyAmount < _maxMainEnergy)
+        {
+            mainEnergyAmount += _mainEnergyChargePerSecond * Time.deltaTime;
+        }
+
+        if (subEnergyAmount < _maxSubEnergy)
+        {
+            subEnergyAmount += _subEnergyChargePerSecond * Time.deltaTime;
+        }
     }
 }

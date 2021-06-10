@@ -15,7 +15,8 @@ public class Common_scr : MonoBehaviour
         PauseController_BattleScene,
         StartCount_BattleScene,
         GetInput_BattleScene,
-        Player_BattleScene
+        Player_BattleScene,
+        EnemyController_BattleScene
     }
 
     //シングルトン

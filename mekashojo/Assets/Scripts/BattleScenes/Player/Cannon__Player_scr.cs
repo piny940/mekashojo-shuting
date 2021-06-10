@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cannon__Player_scr : BeamAndLaser__PlayerBaseIMP
+public class Cannon__Player_scr : CannonAndLaser__PlayerBaseIMP
 {
 
     

@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 5102733998751877833}
   - component: {fileID: 5102733998751877836}
   - component: {fileID: 5102733998751877838}
+  - component: {fileID: 2398054227588481630}
   m_Layer: 0
   m_Name: Enemy__SelfDestruct
   m_TagString: Enemy_BattleScene
@@ -288,7 +289,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5337298102521771107}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -314,9 +315,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000060055055, y: 0}
+  m_Offset: {x: 0.022080442, y: 0}
   serializedVersion: 2
-  m_Radius: 3.2431958
+  m_Radius: 3.980804
 --- !u!95 &5102733998751877836
 Animator:
   serializedVersion: 3
@@ -349,6 +350,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+--- !u!114 &2398054227588481630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337298102521771107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d4a2126c13e4920b6c9776b57ffa5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 20
 --- !u!1 &6981443437088188405
 GameObject:
   m_ObjectHideFlags: 0

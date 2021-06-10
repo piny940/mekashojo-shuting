@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BalkanFire__Player_scr : MonoBehaviour
+public class MissileFire__Player_scr : MonoBehaviour
 {
     [SerializeField, Header("弾丸の速度")] float _speed;
     [SerializeField, Header("消える時間")] float _disappearTime;
@@ -27,8 +27,7 @@ public class BalkanFire__Player_scr : MonoBehaviour
 
         //初期設定
         _time = 0;
-        _power = EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentType.SubWeapon__Balkan][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Balkan]][EquipmentData_scr.equipmentParameter.Power];
-
+        _power = EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentType.SubWeapon__Missile][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Missile]][EquipmentData_scr.equipmentParameter.Power];
     }
 
     // Update is called once per frame
@@ -36,7 +35,7 @@ public class BalkanFire__Player_scr : MonoBehaviour
     {
         //一定時間経過したら消滅する
         _time += Time.deltaTime;
-        if(_time> _disappearTime)
+        if (_time > _disappearTime)
         {
             Destroy(this.gameObject);
         }
@@ -44,21 +43,12 @@ public class BalkanFire__Player_scr : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag==Common_scr.Tags.Enemy_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Enemy_BattleScene.ToString())
         {
             EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
 
-            //弾が消滅する場合
-            if (enemyGetDamage.hp >= _power)
-            {
-                enemyGetDamage.GetDamage(_power);
-                Destroy(this.gameObject);
-            }
-
-            //弾が消滅しない場合
-            float comtemporaryPower = _power;
-            _power -= enemyGetDamage.hp;
-            enemyGetDamage.GetDamage(comtemporaryPower);
+            enemyGetDamage.GetDamage(_power);
+            Destroy(this.gameObject);
         }
     }
 }

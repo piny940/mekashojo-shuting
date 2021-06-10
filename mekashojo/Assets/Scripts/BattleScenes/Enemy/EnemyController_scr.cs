@@ -12,7 +12,7 @@ public class EnemyController_scr : MonoBehaviour
     [SerializeField, Header("敵の生成確率曲線")] AnimationCurve _enemyProduceProbabilityCurve;
     [SerializeField, Header("MainCameraを入れる")] GameObject _mainCamera;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
-    int _EnemyAmount;   //今いる敵の数
+    public int EnemyAmount { get; set; }   //今いる敵の数
     int _produceProbabilityRatiosSum;
 
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class EnemyController_scr : MonoBehaviour
         _produceProbabilityRatiosSum = _produceProbabilityRatios.Sum();
 
         //はじめにいる敵の数
-        _EnemyAmount = _firstEnemyAmount;
+        EnemyAmount = _firstEnemyAmount;
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class EnemyController_scr : MonoBehaviour
         }
 
         //敵を生成するかどうかを確率で決める
-        if (Random.value > _enemyProduceProbabilityCurve.Evaluate((float)_EnemyAmount / (float)_maxEnemyAmount) * Time.deltaTime)
+        if (Random.value > _enemyProduceProbabilityCurve.Evaluate((float)EnemyAmount / (float)_maxEnemyAmount) * Time.deltaTime)
         {
             return;
         }
@@ -66,7 +66,7 @@ public class EnemyController_scr : MonoBehaviour
             {
                 //敵を生成する
                 Instantiate((GameObject)Resources.Load(_enemyNames[i]), new Vector3(Random.Range(_mainCamera.transform.position.x, _mainCamera.transform.position.x + 8), Random.Range(-3, 4), 10), Quaternion.identity);
-                _EnemyAmount++;
+                EnemyAmount++;
                 break;
             }
             _randomValueForEnemyChoosing -= (float)_produceProbabilityRatios[i] / (float)_produceProbabilityRatiosSum;

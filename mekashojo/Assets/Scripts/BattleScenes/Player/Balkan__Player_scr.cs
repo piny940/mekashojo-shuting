@@ -23,8 +23,9 @@ public class Balkan__Player_scr : MonoBehaviour
 
     public void Attack()
     {
-        if (_getInput.isMouseLeft)
+        if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
         {
+            //一定フレームごとに呼び出す
             if (_count < 60 / _firePerSecound)
             {
                 _count++;
@@ -34,6 +35,7 @@ public class Balkan__Player_scr : MonoBehaviour
             _count = 0;
             Instantiate((GameObject)Resources.Load("BalkanFire__Player"), transform.position, Quaternion.identity);
 
+            //エネルギーを減らす
             _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
         }
     }
