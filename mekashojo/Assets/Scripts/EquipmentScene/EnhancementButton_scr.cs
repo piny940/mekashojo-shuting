@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EnhancementButton_scr : ButtonBaseImp
 {
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚ª‰Ÿ‰º‰Â”\‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·
+    /// ãƒœã‚¿ãƒ³ãŒæŠ¼ä¸‹å¯èƒ½ã§ã‚ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™
     /// </summary>
     public bool isActive
     {
@@ -16,7 +16,7 @@ public class EnhancementButton_scr : ButtonBaseImp
     }
 
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚ª•\¦‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·
+    /// ãƒœã‚¿ãƒ³ãŒè¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™
     /// </summary>
     public bool isVisible
     {
@@ -25,7 +25,7 @@ public class EnhancementButton_scr : ButtonBaseImp
     }
 
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚ª‰Ÿ‰º‚³‚ê‚½‚ÌƒAƒNƒVƒ‡ƒ“
+    /// ãƒœã‚¿ãƒ³ãŒæŠ¼ä¸‹ã•ã‚ŒãŸæ™‚ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
     /// </summary>
     public Action EnhanceAction;
 

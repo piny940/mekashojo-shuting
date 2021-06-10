@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class Canvas_scr : MonoBehaviour
 {
-    [SerializeField, Header("PopupBackgroundImage‚ğ“ü‚ê‚é")] private PopupBackgroundImage_scr _popupBackgroundImage;
-    [SerializeField, Header("WeaponDescription‚ğ“ü‚ê‚é")] private WeaponDescriptions_scr _weaponDescriptions;
-    [SerializeField, Header("MotionPreview‚ğ“ü‚ê‚é")] private MotionPreview_scr _motionPreview;
-    [SerializeField, Header("Level__Title‚ğ“ü‚ê‚é")] private Level__Title_scr _level__Title;
-    [SerializeField, Header("Level‚ğ“ü‚ê‚é")] private Level_scr _level;
-    [SerializeField, Header("EnhancementMaterialsCount_Title‚ğ“ü‚ê‚é")] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
-    [SerializeField, Header("EnhancementMaterialsCount‚ğ“ü‚ê‚é")] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
-    [SerializeField, Header("EnhancementButton‚ğ“ü‚ê‚é")] private EnhancementButton_scr _enhancementButton;
+    [SerializeField, Header("PopupBackgroundImageã‚’å…¥ã‚Œã‚‹")] private PopupBackgroundImage_scr _popupBackgroundImage;
+    [SerializeField, Header("WeaponDescriptionã‚’å…¥ã‚Œã‚‹")] private WeaponDescriptions_scr _weaponDescriptions;
+    [SerializeField, Header("MotionPreviewã‚’å…¥ã‚Œã‚‹")] private MotionPreview_scr _motionPreview;
+    [SerializeField, Header("Level__Titleã‚’å…¥ã‚Œã‚‹")] private Level__Title_scr _level__Title;
+    [SerializeField, Header("Levelã‚’å…¥ã‚Œã‚‹")] private Level_scr _level;
+    [SerializeField, Header("EnhancementMaterialsCount_Titleã‚’å…¥ã‚Œã‚‹")] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
+    [SerializeField, Header("EnhancementMaterialsCountã‚’å…¥ã‚Œã‚‹")] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
+    [SerializeField, Header("EnhancementButtonã‚’å…¥ã‚Œã‚‹")] private EnhancementButton_scr _enhancementButton;
 
-    // ‚·‚×‚Ä‚Ì•Ší‘I‘ğƒ{ƒ^ƒ“‚Ì4‹÷‚ÌÀ•W
+    // ã™ã¹ã¦ã®æ­¦å™¨é¸æŠãƒœã‚¿ãƒ³ã®4éš…ã®åº§æ¨™
     public Dictionary<Vector3[], KeyValuePair<EquipmentData_scr.equipmentType, Action>> equipmentSelectButtonCorners
         = new Dictionary<Vector3[], KeyValuePair<EquipmentData_scr.equipmentType, Action>>();
 
-    private EquipmentData_scr.equipmentType _lastDisplayedEquipmentType;    // ÅŒã‚É•\¦‚³‚ê‚½•Ší‚Ì–¼‘O
-    private bool _isFirst = true;   // ƒ[ƒhŒãÅ‰‚Ì•Ší•\¦‚©‚Ç‚¤‚©‚ğ”»’è
+    private EquipmentData_scr.equipmentType _lastDisplayedEquipmentType;    // æœ€å¾Œã«è¡¨ç¤ºã•ã‚ŒãŸæ­¦å™¨ã®åå‰
+    private bool _isFirst = true;   // ãƒ­ãƒ¼ãƒ‰å¾Œæœ€åˆã®æ­¦å™¨è¡¨ç¤ºã‹ã©ã†ã‹ã‚’åˆ¤å®š
 
     /// <summary>
-    /// ƒ[ƒ‹ƒh‹óŠÔ‚Å‚Ìƒ}ƒEƒXÀ•W
+    /// ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã§ã®ãƒã‚¦ã‚¹åº§æ¨™
     /// </summary>
     private Vector3 _mousePosition
     {
@@ -35,10 +35,10 @@ public class Canvas_scr : MonoBehaviour
     
     void Start()
     {
-        // _lastDisplayedEquipmentType‚ğ‰Šú‰»B“K“–‚ÉA‘I‘ğ’†‚ÌƒƒCƒ“‘•”õ‚Å‰Šú‰»‚µ‚Ä‚¢‚éB
+        // _lastDisplayedEquipmentTypeã‚’åˆæœŸåŒ–ã€‚é©å½“ã«ã€é¸æŠä¸­ã®ãƒ¡ã‚¤ãƒ³è£…å‚™ã§åˆæœŸåŒ–ã—ã¦ã„ã‚‹ã€‚
         _lastDisplayedEquipmentType = EquipmentData_scr.equipmentData.selectedMainWeaponName;
 
-        // ƒp[ƒcà–¾—“‚Ì‘S‚Ä‚ÌUI—v‘f‚ğ”ñ•\¦
+        // ãƒ‘ãƒ¼ãƒ„èª¬æ˜æ¬„ã®å…¨ã¦ã®UIè¦ç´ ã‚’éè¡¨ç¤º
         _popupBackgroundImage.isVisible = false;
         _weaponDescriptions.isVisible = false;
         _motionPreview.isVisible = false;
@@ -51,19 +51,19 @@ public class Canvas_scr : MonoBehaviour
 
     void Update()
     {
-        // ‘S‚Ä‚Ì•Ší‘I‘ğƒ{ƒ^ƒ“‚Ì4‹÷‚ÌÀ•W‚É‚Â‚¢‚ÄAƒ}ƒEƒXÀ•W‚Æ”äŠr‚µ‚Äƒ}ƒEƒX‚ª‚Ç‚Ìƒ{ƒ^ƒ“ã‚É‚ ‚é‚©”»’è‚·‚éB
-        // equipmentSelectButtonCorners‚É‘S‚Ä‚Ì•Ší‘I‘ğƒ{ƒ^ƒ“‚ÌÀ•W‚ª“ü‚è‚«‚é‘O‚©‚çˆÈ‰º‚ÌƒR[ƒh‚ªÀs‚³‚ê‚é‚±‚Æ‚É—¯ˆÓ
+        // å…¨ã¦ã®æ­¦å™¨é¸æŠãƒœã‚¿ãƒ³ã®4éš…ã®åº§æ¨™ã«ã¤ã„ã¦ã€ãƒã‚¦ã‚¹åº§æ¨™ã¨æ¯”è¼ƒã—ã¦ãƒã‚¦ã‚¹ãŒã©ã®ãƒœã‚¿ãƒ³ä¸Šã«ã‚ã‚‹ã‹åˆ¤å®šã™ã‚‹ã€‚
+        // equipmentSelectButtonCornersã«å…¨ã¦ã®æ­¦å™¨é¸æŠãƒœã‚¿ãƒ³ã®åº§æ¨™ãŒå…¥ã‚Šãã‚‹å‰ã‹ã‚‰ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã“ã¨ã«ç•™æ„
         foreach (KeyValuePair<Vector3[], KeyValuePair<EquipmentData_scr.equipmentType, Action>> corners in equipmentSelectButtonCorners)
         {
-            // ƒ}ƒEƒX‚ªƒ{ƒ^ƒ“ã‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è
+            // ãƒã‚¦ã‚¹ãŒãƒœã‚¿ãƒ³ä¸Šã«ã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®š
             if (_mousePosition.x > corners.Key[0].x && _mousePosition.x < corners.Key[2].x && _mousePosition.y > corners.Key[0].y && _mousePosition.y < corners.Key[2].y)
             {
-                // ƒp[ƒcà–¾—“‚ªXV‚³‚ê‚é‚Ì‚ÍˆÈ‰º‚Ìê‡‚Ì‚İ
-                // ƒ[ƒhŒãˆê“x‚àƒp[ƒcà–¾—“‚ª•\¦‚³‚ê‚Ä‚¢‚È‚¢ê‡
-                // ÅŒã‚É•\¦‚³‚ê‚½•Ší‚ÆŒ»İ•\¦‚·‚é‘ÎÛ‚É‚È‚Á‚Ä‚¢‚é•Ší‚ªˆÙ‚È‚Á‚Ä‚¢‚éê‡
+                // ãƒ‘ãƒ¼ãƒ„èª¬æ˜æ¬„ãŒæ›´æ–°ã•ã‚Œã‚‹ã®ã¯ä»¥ä¸‹ã®å ´åˆã®ã¿
+                // ãƒ­ãƒ¼ãƒ‰å¾Œä¸€åº¦ã‚‚ãƒ‘ãƒ¼ãƒ„èª¬æ˜æ¬„ãŒè¡¨ç¤ºã•ã‚Œã¦ã„ãªã„å ´åˆ
+                // æœ€å¾Œã«è¡¨ç¤ºã•ã‚ŒãŸæ­¦å™¨ã¨ç¾åœ¨è¡¨ç¤ºã™ã‚‹å¯¾è±¡ã«ãªã£ã¦ã„ã‚‹æ­¦å™¨ãŒç•°ãªã£ã¦ã„ã‚‹å ´åˆ
                 if (_isFirst || _lastDisplayedEquipmentType != corners.Value.Key)
                 {
-                    // ƒ[ƒhŒãÅ‰‚Ì•\¦‚Å‚ ‚éê‡‚ÍAƒp[ƒcà–¾—“‚Ì‘S‚Ä‚ÌUI—v‘f‚ğ•\¦‚·‚é
+                    // ãƒ­ãƒ¼ãƒ‰å¾Œæœ€åˆã®è¡¨ç¤ºã§ã‚ã‚‹å ´åˆã¯ã€ãƒ‘ãƒ¼ãƒ„èª¬æ˜æ¬„ã®å…¨ã¦ã®UIè¦ç´ ã‚’è¡¨ç¤ºã™ã‚‹
                     if (_isFirst)
                     {
                         _isFirst = false;

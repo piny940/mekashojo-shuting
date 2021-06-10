@@ -5,41 +5,41 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// •Ší‘I‘ğƒ{ƒ^ƒ“—p‚ÌŠî’êƒNƒ‰ƒX
+/// æ­¦å™¨é¸æŠãƒœã‚¿ãƒ³ç”¨ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 {
-    [SerializeField, Header("Canvas‚ğ“ü‚ê‚é")] private Canvas_scr _canvas;
-    [SerializeField, Header("PreviewImage‚ğ“ü‚ê‚é")] private PreviewImage_scr _previewImage;
-    [SerializeField, Header("WeaponDescriptions‚ğ“ü‚ê‚é")] private WeaponDescriptions_scr _weaponDescriptions;
-    [SerializeField, Header("MotionPreview‚ğ“ü‚ê‚é")] private MotionPreview_scr _motionPreview;
-    [SerializeField, Header("Level‚ğ“ü‚ê‚é")] private Level_scr _level;
-    [SerializeField, Header("EnhancementMaterialsCount_Title‚ğ“ü‚ê‚é")] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
-    [SerializeField, Header("EnhancementMaterialsCount‚ğ“ü‚ê‚é")] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
-    [SerializeField, Header("EnhancementButton‚ğ“ü‚ê‚é")] private EnhancementButton_scr _enhancementButton;
-    [SerializeField, Header("Weight__Status‚ğ“ü‚ê‚é")] private Weight__Status_scr _weight__Status;
-    [SerializeField, Header("DamageReductionRate__Status‚ğ“ü‚ê‚é")] private DamageReductionRate__Status_scr _damageReductionRate__Status;
+    [SerializeField, Header("Canvasã‚’å…¥ã‚Œã‚‹")] private Canvas_scr _canvas;
+    [SerializeField, Header("PreviewImageã‚’å…¥ã‚Œã‚‹")] private PreviewImage_scr _previewImage;
+    [SerializeField, Header("WeaponDescriptionsã‚’å…¥ã‚Œã‚‹")] private WeaponDescriptions_scr _weaponDescriptions;
+    [SerializeField, Header("MotionPreviewã‚’å…¥ã‚Œã‚‹")] private MotionPreview_scr _motionPreview;
+    [SerializeField, Header("Levelã‚’å…¥ã‚Œã‚‹")] private Level_scr _level;
+    [SerializeField, Header("EnhancementMaterialsCount_Titleã‚’å…¥ã‚Œã‚‹")] private EnhancementMaterialsCount_Title_scr _enhancementMaterialsCount_Title;
+    [SerializeField, Header("EnhancementMaterialsCountã‚’å…¥ã‚Œã‚‹")] private EnhancementMaterialsCount_scr _enhancementMaterialsCount;
+    [SerializeField, Header("EnhancementButtonã‚’å…¥ã‚Œã‚‹")] private EnhancementButton_scr _enhancementButton;
+    [SerializeField, Header("Weight__Statusã‚’å…¥ã‚Œã‚‹")] private Weight__Status_scr _weight__Status;
+    [SerializeField, Header("DamageReductionRate__Statusã‚’å…¥ã‚Œã‚‹")] private DamageReductionRate__Status_scr _damageReductionRate__Status;
 
     /// <summary>
-    /// •Ší‚Ìí—Ş
+    /// æ­¦å™¨ã®ç¨®é¡
     /// </summary>
     protected EquipmentData_scr.equipmentType type { get; set; }
 
     protected void Initialize()
     {
-        // Še•Ší‘I‘ğƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg‚ğXV
+        // å„æ­¦å™¨é¸æŠãƒœã‚¿ãƒ³ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’æ›´æ–°
         GetComponentInChildren<Text>().text = EquipmentData_scr.equipmentData.equipmentDisplayName[type];
 
-        // ƒ{ƒ^ƒ“‚Ì4‹÷‚ÌÀ•W‚ğæ“¾
+        // ãƒœã‚¿ãƒ³ã®4éš…ã®åº§æ¨™ã‚’å–å¾—
         Vector3[] corners = new Vector3[4];
         GetComponent<RectTransform>().GetWorldCorners(corners);
 
-        // ƒ{ƒ^ƒ“‚ÌÀ•W‚ÆŠÖ˜A‚·‚éƒCƒxƒ“ƒg‚Ìî•ñ‚ğ“o˜^
+        // ãƒœã‚¿ãƒ³ã®åº§æ¨™ã¨é–¢é€£ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®æƒ…å ±ã‚’ç™»éŒ²
         _canvas.equipmentSelectButtonCorners.Add(corners, new KeyValuePair<EquipmentData_scr.equipmentType, Action>(type, SelectedWeaponChanged));
     }
 
     /// <summary>
-    /// •\¦‚·‚é‘ÎÛ‚Ì•Ší‚ª•ÏX‚³‚ê‚½Û‚ÉÀs
+    /// è¡¨ç¤ºã™ã‚‹å¯¾è±¡ã®æ­¦å™¨ãŒå¤‰æ›´ã•ã‚ŒãŸéš›ã«å®Ÿè¡Œ
     /// </summary>
     protected void SelectedWeaponChanged()
     {
@@ -47,29 +47,29 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
     }
 
     /// <summary>
-    /// •Ší‹­‰»‚ğs‚¤B<br></br>
-    /// •Ší‹­‰»‚ªo—ˆ‚È‚¢ê‡(•Ší‚ªÅ‘åƒŒƒxƒ‹/‹­‰»—p‘fŞ‚Ì•s‘«)‚Ì”»’èˆ—‚Í“ü‚Á‚Ä‚¢‚È‚¢BŒÄ‚Ño‚µ‘¤‚Å”»’è‚·‚é•K—v‚ª‚ ‚éB
+    /// æ­¦å™¨å¼·åŒ–ã‚’è¡Œã†ã€‚<br></br>
+    /// æ­¦å™¨å¼·åŒ–ãŒå‡ºæ¥ãªã„å ´åˆ(æ­¦å™¨ãŒæœ€å¤§ãƒ¬ãƒ™ãƒ«/å¼·åŒ–ç”¨ç´ æã®ä¸è¶³)ã®åˆ¤å®šå‡¦ç†ã¯å…¥ã£ã¦ã„ãªã„ã€‚å‘¼ã³å‡ºã—å´ã§åˆ¤å®šã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
     /// </summary>
     public void Enhance()
     {
-        // ‹­‰»—p‘fŞ‚ÌŠ”‚ğ•K—v”•ªŒ¸‚ç‚·
+        // å¼·åŒ–ç”¨ç´ æã®æ‰€æŒæ•°ã‚’å¿…è¦æ•°åˆ†æ¸›ã‚‰ã™
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[type]
             -= EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount];
-        // •Ší‚ÌƒŒƒxƒ‹‚ğ1ã‚°‚é
+        // æ­¦å™¨ã®ãƒ¬ãƒ™ãƒ«ã‚’1ä¸Šã’ã‚‹
         EquipmentData_scr.equipmentData.equipmentLevel[type]++;
-        // •\¦î•ñ‚ÌXV
+        // è¡¨ç¤ºæƒ…å ±ã®æ›´æ–°
         UpdateEquipmentDescriptions();
     }
 
     /// <summary>
-    /// •\¦î•ñ‚ÌXV
+    /// è¡¨ç¤ºæƒ…å ±ã®æ›´æ–°
     /// </summary>
     private void UpdateEquipmentDescriptions()
     {
-        // ‹­‰»—pƒ{ƒ^ƒ“‚Ì‰Ÿ‰ºƒCƒxƒ“ƒg‚ÉA‚±‚Ì•Ší‚Ì‹­‰»ƒƒWƒbƒN‚ğ“o˜^‚·‚éB
+        // å¼·åŒ–ç”¨ãƒœã‚¿ãƒ³ã®æŠ¼ä¸‹ã‚¤ãƒ™ãƒ³ãƒˆã«ã€ã“ã®æ­¦å™¨ã®å¼·åŒ–ãƒ­ã‚¸ãƒƒã‚¯ã‚’ç™»éŒ²ã™ã‚‹ã€‚
         _enhancementButton.EnhanceAction = Enhance;
 
-        // ƒvƒŒƒCƒ„[‚ÌƒvƒŒƒrƒ…[•\¦‰æ–Ê‚Æ•Šíƒ‚[ƒVƒ‡ƒ“•\¦‰æ–Ê‚ÍA¡ŒãÀ‘•‚·‚éB
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºç”»é¢ã¨æ­¦å™¨ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³è¡¨ç¤ºç”»é¢ã¯ã€ä»Šå¾Œå®Ÿè£…ã™ã‚‹ã€‚
         #region
         var _random = UnityEngine.Random.insideUnitSphere;
         _previewImage.color = new Color(_random.x, _random.y, _random.z);
@@ -82,19 +82,19 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 
         _level.text = EquipmentData_scr.equipmentData.levelDisplayName[EquipmentData_scr.equipmentData.equipmentLevel[type]];
 
-        _enhancementMaterialsCount_Title.text = $"{EquipmentData_scr.equipmentData.equipmentDisplayName[type]}‹­‰»‘fŞ";
+        _enhancementMaterialsCount_Title.text = $"{EquipmentData_scr.equipmentData.equipmentDisplayName[type]}å¼·åŒ–ç´ æ";
 
         if (IsMaxLevel())
         {
-            // •Ší‚ªÅ‘åƒŒƒxƒ‹‚È‚Ì‚ÅA‚»‚Ì’Ê’m‚Æ‹­‰»—pƒ{ƒ^ƒ“‚Ì”ñƒAƒNƒeƒBƒu‰»‚ğs‚¤
-            _enhancementMaterialsCount.text = "‚±‚êˆÈã‹­‰»‚Å‚«‚Ü‚¹‚ñ";
+            // æ­¦å™¨ãŒæœ€å¤§ãƒ¬ãƒ™ãƒ«ãªã®ã§ã€ãã®é€šçŸ¥ã¨å¼·åŒ–ç”¨ãƒœã‚¿ãƒ³ã®éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã‚’è¡Œã†
+            _enhancementMaterialsCount.text = "ã“ã‚Œä»¥ä¸Šå¼·åŒ–ã§ãã¾ã›ã‚“";
             _enhancementButton.isActive = false;
         }
         else
         {
             _enhancementMaterialsCount.text = $"{EquipmentData_scr.equipmentData.enhancementMaterialsCount[type]} / {EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount]}";
 
-            // ‹­‰»—p‘fŞ‚ª•s‘«‚µ‚Ä‚¢‚éê‡‚ÍA‹­‰»ƒ{ƒ^ƒ“‚ğ”ñƒAƒNƒeƒBƒu‰»
+            // å¼·åŒ–ç”¨ç´ æãŒä¸è¶³ã—ã¦ã„ã‚‹å ´åˆã¯ã€å¼·åŒ–ãƒœã‚¿ãƒ³ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
             if (EquipmentData_scr.equipmentData.enhancementMaterialsCount[type] >= EquipmentData_scr.equipmentData.equipmentStatus[type][EquipmentData_scr.equipmentData.equipmentLevel[type]][EquipmentData_scr.equipmentParameter.RequiredEnhancementMaterialsCount])
             {
                 _enhancementButton.isActive = true;
@@ -105,7 +105,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
             }
         }
 
-        // ‘I‘ğ’†‚Ì•Ší‚Ìî•ñ‚ğXV
+        // é¸æŠä¸­ã®æ­¦å™¨ã®æƒ…å ±ã‚’æ›´æ–°
         switch (type)
         {
             case EquipmentData_scr.equipmentType.MainWeapon__Cannon:
@@ -151,7 +151,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
     }
 
     /// <summary>
-    /// •ŠíEƒ{ƒ€EƒV[ƒ‹ƒh‚ÌƒŒƒxƒ‹‚ªÅ‘å’l‚©‚Ç‚¤‚©‚ğ•Ô‚·
+    /// æ­¦å™¨ãƒ»ãƒœãƒ ãƒ»ã‚·ãƒ¼ãƒ«ãƒ‰ã®ãƒ¬ãƒ™ãƒ«ãŒæœ€å¤§å€¤ã‹ã©ã†ã‹ã‚’è¿”ã™
     /// </summary>
     /// <returns></returns>
     private bool IsMaxLevel()
