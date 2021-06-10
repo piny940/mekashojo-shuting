@@ -82,7 +82,7 @@ public class EquipmentData_scr : MonoBehaviour
 
     private void Start()
     {
-        selectedMainWeaponName = equipmentType.MainWeapon__Cannon;
+        selectedMainWeaponName = equipmentType.MainWeapon__Laser;
 
         selectedSubWeaponName = equipmentType.SubWeapon__Balkan;
 
