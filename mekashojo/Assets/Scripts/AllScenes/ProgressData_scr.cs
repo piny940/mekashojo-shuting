@@ -15,6 +15,11 @@ public class ProgressData_scr : MonoBehaviour
 
     private Dictionary<stageName, string> _stageDescriptions__Data { get; set; }
 
+    // ステージの表示名
+    public IReadOnlyDictionary<stageName, string> stageDisplayName { get; private set; }
+
+    private Dictionary<stageName, string> _stageDisplayName__Data { get; set; }
+
     public enum stageName
     {
         stage1,
@@ -50,5 +55,16 @@ public class ProgressData_scr : MonoBehaviour
         };
 
         stageDescriptions = new ReadOnlyDictionary<stageName, string>(_stageDescriptions__Data);
+
+        _stageDisplayName__Data = new Dictionary<stageName, string>()
+        {
+            { stageName.stage1, "Stage1" },
+            { stageName.stage2, "Stage2" },
+            { stageName.stage3, "Stage3" },
+            { stageName.stage4, "Stage4" },
+            { stageName.lastStage, "Boss" },
+        };
+
+        stageDisplayName = new ReadOnlyDictionary<stageName, string>(_stageDisplayName__Data);
     }
 }
