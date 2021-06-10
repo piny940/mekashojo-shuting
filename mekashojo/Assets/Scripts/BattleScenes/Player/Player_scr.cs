@@ -265,6 +265,7 @@ public class Player_scr : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// 左クリック攻撃をする
     /// </summary>
@@ -274,15 +275,11 @@ public class Player_scr : MonoBehaviour
         if (_isMainSelected)
         {
             MainAttack();
-            _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / _maxMainEnergy;
             return;
         }
 
-
         //サブが選択されていた時の処理
         SubAttack();
-        _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
-
     }
 
     /// <summary>
@@ -290,14 +287,18 @@ public class Player_scr : MonoBehaviour
     /// </summary>
     void AutoEnergyCharge()
     {
+        //メインエネルギーの回復とUIの更新
         if (mainEnergyAmount < _maxMainEnergy)
         {
             mainEnergyAmount += _mainEnergyChargePerSecond * Time.deltaTime;
+            _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / _maxMainEnergy;
         }
 
+        //サブエネルギーの回復とUIの更新
         if (subEnergyAmount < _maxSubEnergy)
         {
             subEnergyAmount += _subEnergyChargePerSecond * Time.deltaTime;
+            _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
         }
     }
 }
