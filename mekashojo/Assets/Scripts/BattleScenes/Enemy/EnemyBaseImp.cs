@@ -10,17 +10,7 @@ public class EnemyBaseImp : MonoBehaviour
     [SerializeField, Header("移動速度")] float _speed;
     StartCount_scr _startCount;
     Rigidbody2D _rigidbody2D;
-    Animator _animator;
-
-    // Start is called before the first frame update
-    protected void Start()
-    {
-        //コンポーネントの取得
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();   //nullが返ってくる場合があるが参照しなければ問題ない(はず)
-        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
-
-    }
+    
 
     /// <summary>
     /// 移動速度の設定（移動速度は一定)
@@ -45,7 +35,7 @@ public class EnemyBaseImp : MonoBehaviour
     /// <summary>
     /// ポーズ時の処理をする (アニメーションなしの時)
     /// </summary>
-    protected void PauseWithoutAnimation()
+    protected void Pause()
     {
         //ポーズし始めた時
         if (!_startCount.hasStarted && !_isPausing)
@@ -69,14 +59,14 @@ public class EnemyBaseImp : MonoBehaviour
     /// <summary>
     /// ポーズ時の処理をする (アニメーションありの時)
     /// </summary>
-    protected void PauseWithAnimation()
+    protected void Pause(Animator animator)
     {
         //ポーズし始めた時
         if (!_startCount.hasStarted && !_isPausing)
         {
             _rigidbody2D.velocity = new Vector3(0, 0, 0);
             _isPausing = true;
-            _animator.SetBool("hasStarted", false);
+            animator.SetBool("hasStarted", false);
             return;
         }
 
@@ -85,7 +75,7 @@ public class EnemyBaseImp : MonoBehaviour
         {
             _rigidbody2D.velocity = new Vector3(-_speed, 0, 0);
             _isPausing = false;
-            _animator.SetBool("hasStarted", true);
+            animator.SetBool("hasStarted", true);
         }
 
 
@@ -94,7 +84,7 @@ public class EnemyBaseImp : MonoBehaviour
     /// <summary>
     /// アニメーションをスタートする
     /// </summary>
-    protected void StartAnimation()
+    protected void StartAnimation(Animator animator)
     {
         //まだ始まってなかったら抜ける
         if (!_startCount.hasStarted)
@@ -104,10 +94,19 @@ public class EnemyBaseImp : MonoBehaviour
 
         if (!_hasAnimationStarted)
         {
-            _animator.SetBool("hasStarted", true);
+            animator.SetBool("hasStarted", true);
             _hasAnimationStarted = true;
         }
     }
 
+    /// <summary>
+    /// Startメソッドで呼ぶ
+    /// </summary>
+    protected void Initialize()
+    {
+        //コンポーネントの取得
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
+    }
 }
 

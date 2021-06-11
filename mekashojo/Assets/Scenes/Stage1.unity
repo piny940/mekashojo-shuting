@@ -1007,10 +1007,6 @@ MonoBehaviour:
   - {fileID: 570890497}
   - {fileID: 94466853}
   - {fileID: 626395840}
-  mainEnergyAmount: 0
-  subEnergyAmount: 0
-  mainWeaponName: 0
-  subWeaponName: 0
 --- !u!70 &409409997
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1937,8 +1933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757b9e7c249d4439a92aa5dcd15f418c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasStarted: 0
-  isStarting: 0
   _startCount__1: {fileID: 403221104}
   _startCount__2: {fileID: 2093373598}
   _startCount__3: {fileID: 903538046}
@@ -4775,18 +4769,6 @@ PrefabInstance:
     - target: {fileID: 1939566103905739820, guid: ced71af7d3db6460e8867e6335c6caba, type: 3}
       propertyPath: m_Name
       value: GetInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 1939566103905739820, guid: ced71af7d3db6460e8867e6335c6caba, type: 3}
-      propertyPath: m_TagString
-      value: GetInput_BattleScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 1939566103905739821, guid: ced71af7d3db6460e8867e6335c6caba, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 409409993}
-    - target: {fileID: 1939566103905739821, guid: ced71af7d3db6460e8867e6335c6caba, type: 3}
-      propertyPath: testCube
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ced71af7d3db6460e8867e6335c6caba, type: 3}

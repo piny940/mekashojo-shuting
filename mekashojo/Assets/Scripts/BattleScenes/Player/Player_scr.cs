@@ -23,10 +23,11 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("MainEnergyBarContentを入れる")] GameObject _mainEnergyBarContent;
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
-    [HideInInspector] public float mainEnergyAmount;
-    [HideInInspector] public float subEnergyAmount;
-    [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName;
-    [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName;
+    [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
+    [HideInInspector] public float mainEnergyAmount { get; set; }
+    [HideInInspector] public float subEnergyAmount { get; set; }
+    [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
+    [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName { get { return EquipmentData_scr.equipmentData.selectedSubWeaponName; } }
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -35,6 +36,8 @@ public class Player_scr : MonoBehaviour
     Bomb__Player_scr _bomb__Player;
     HeavyShield__Player_scr _heavyShield__Player;
     LightShield__Player_scr _lightShield__Player;
+    GameObject _playerModel__Main;
+    GameObject _playerModel__Sub;
     Image _mainTextImage;
     Image _subTextImage;
     Image _hpBarContentImage;
@@ -69,10 +72,14 @@ public class Player_scr : MonoBehaviour
 
 
         //初期化
+        //武器を設定
+        SetWeapon();
+
         //初めはmain選択状態にしておく
         _isMainSelected = true;
         _mainTextImage.color = new Color(1, 1, 1, 1);
         _subTextImage.color = new Color(1, 1, 1, 0.2f);
+        _playerModel__Main.SetActive(true);     //注意！_playerModel__Mainの設定はSetWeaponでやっているためこれをSetWeaponより先に走らせるとバグる
 
         //HPとエネルギー値はmaxにしておく
         _hpAmount = _maxHP;
@@ -84,8 +91,7 @@ public class Player_scr : MonoBehaviour
         subEnergyAmount = _maxSubEnergy;
         _subEnergyBarContentImage.fillAmount = 1;
 
-        //武器を設定
-        SetWeapon();
+        
 
     }
 
@@ -166,6 +172,8 @@ public class Player_scr : MonoBehaviour
         if (_getInput.mouseWheel > 0)
         {
             _isMainSelected = true;
+            _playerModel__Main.SetActive(true);
+            _playerModel__Sub.SetActive(false);
 
             //画面にメインが選択中だと表示する
             _mainTextImage.color = new Color(1, 1, 1, 1);
@@ -178,6 +186,8 @@ public class Player_scr : MonoBehaviour
         if (_getInput.mouseWheel < 0)
         {
             _isMainSelected = false;
+            _playerModel__Main.SetActive(false);
+            _playerModel__Sub.SetActive(true);
 
             //画面にサブが選択中だと表示する
             _mainTextImage.color = new Color(1, 1, 1, 0.2f);
@@ -221,6 +231,11 @@ public class Player_scr : MonoBehaviour
             _weapons[i].SetActive(false);
         }
 
+        for(int i = 0; i < _playerModels.Count; i++)
+        {
+            _playerModels[i].SetActive(false);
+        }
+
         //選択中の武器をアクティブにする
         _weapons[(int)EquipmentData_scr.equipmentData.selectedMainWeaponName].SetActive(true);
         _weapons[(int)EquipmentData_scr.equipmentData.selectedSubWeaponName].SetActive(true);
@@ -229,18 +244,19 @@ public class Player_scr : MonoBehaviour
 
 
         //メイン武器の設定
-        mainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
-
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
             case 0:
                 MainAttack = _cannon__Player.Attack;
+                _playerModel__Main = _playerModels[0];
                 break;
             case 1:
                 MainAttack = _laser__Player.Attack;
+                _playerModel__Main = _playerModels[1];
                 break;
             case 2:
                 MainAttack = _beamMachineGun__Player.Attack;
+                _playerModel__Main = _playerModels[2];
                 break;
             default:
                 Debug.Log("メイン武器に対応していない武器が設定されています");
@@ -249,15 +265,15 @@ public class Player_scr : MonoBehaviour
         }
 
         //サブ武器の設定
-        subWeaponName = EquipmentData_scr.equipmentData.selectedSubWeaponName;
-
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
             case 3:
                 SubAttack = _balkan__Player.Attack;
+                _playerModel__Sub = _playerModels[3];
                 break;
             case 4:
                 SubAttack = _missile__Player.Attack;
+                _playerModel__Sub = _playerModels[4];
                 break;
             default:
                 Debug.Log("サブ武器に対応していない武器が設定されています");
