@@ -25,6 +25,12 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
     /// </summary>
     protected EquipmentData_scr.equipmentType type { get; set; }
 
+    public bool isVisible
+    {
+        get { return this.gameObject.activeSelf; }
+        set { this.gameObject.SetActive(value); }
+    }
+
     protected void Initialize()
     {
         // 各武器選択ボタンのテキストを更新
@@ -34,14 +40,30 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
         Vector3[] corners = new Vector3[4];
         GetComponent<RectTransform>().GetWorldCorners(corners);
 
-        // ボタンの座標と関連するイベントの情報を登録
-        _canvas.equipmentSelectButtonCorners.Add(corners, new KeyValuePair<EquipmentData_scr.equipmentType, Action>(type, SelectedWeaponChanged));
+        // ボタンの座標と関連するイベントの情報を、それが未登録であった場合は登録する
+        if (!_canvas.equipmentSelectButtonCorners.ContainsKey(corners)) _canvas.equipmentSelectButtonCorners.Add(corners, new KeyValuePair<EquipmentData_scr.equipmentType, Action>(type, DisplayWeaponChanged));
+
+        if (type == EquipmentData_scr.equipmentData.selectedMainWeaponName
+            || type == EquipmentData_scr.equipmentData.selectedSubWeaponName
+            || type == EquipmentData_scr.equipmentData.selectedShieldName)
+        {
+            SelectedWeaponManager_scr.selectedWeaponManager.NotifySelectedWeaponChanged(type);
+        }
     }
 
     /// <summary>
-    /// 表示する対象の武器が変更された際に実行
+    /// 選択中の武器が変更された際に実行
     /// </summary>
     protected void SelectedWeaponChanged()
+    {
+        UpdateEquipmentDescriptions();
+        UpdateSelectedEquipmentStatus();
+    }
+
+    /// <summary>
+    /// 表示中の武器が変更された際に実行
+    /// </summary>
+    protected void DisplayWeaponChanged()
     {
         UpdateEquipmentDescriptions();
     }
@@ -104,29 +126,15 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
                 _enhancementButton.isActive = false;
             }
         }
+    }
 
+    /// <summary>
+    /// 選択中の武器の更新と、ステータスの更新を行う
+    /// </summary>
+    private void UpdateSelectedEquipmentStatus()
+    {
         // 選択中の武器の情報を更新
-        switch (type)
-        {
-            case EquipmentData_scr.equipmentType.MainWeapon__Cannon:
-            case EquipmentData_scr.equipmentType.MainWeapon__Laser:
-            case EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
-                EquipmentData_scr.equipmentData.selectedMainWeaponName = type;
-                break;
-
-            case EquipmentData_scr.equipmentType.SubWeapon__Balkan:
-            case EquipmentData_scr.equipmentType.SubWeapon__Missile:
-                EquipmentData_scr.equipmentData.selectedSubWeaponName = type;
-                break;
-
-            case EquipmentData_scr.equipmentType.Shield__Heavy:
-            case EquipmentData_scr.equipmentType.Shield__Light:
-                EquipmentData_scr.equipmentData.selectedShieldName = type;
-                break;
-
-            default:
-                break;
-        }
+        SelectedWeaponManager_scr.selectedWeaponManager.NotifySelectedWeaponChanged(type);
 
         int _sumWeight
             = EquipmentData_scr.equipmentData.equipmentStatus
