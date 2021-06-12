@@ -315,9 +315,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.022080442, y: 0}
+  m_Offset: {x: 0.0025379267, y: 0}
   serializedVersion: 2
-  m_Radius: 3.980804
+  m_Radius: 3.6095047
 --- !u!95 &5102733998751877836
 Animator:
   serializedVersion: 3
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d4a2126c13e4920b6c9776b57ffa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
+  _enemyType: 10
 --- !u!1 &6981443437088188405
 GameObject:
   m_ObjectHideFlags: 0

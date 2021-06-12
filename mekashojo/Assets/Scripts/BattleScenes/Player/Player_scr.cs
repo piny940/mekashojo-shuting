@@ -9,12 +9,12 @@ public class Player_scr : MonoBehaviour
     #region
     //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
-    [SerializeField, Header("HPの最大値")] int _maxHP;
+    [SerializeField, Header("HPの最大値")] float _maxHP;
     [SerializeField, Header("メインエネルギーの最大値")] float _maxMainEnergy;
     [SerializeField, Header("サブエネルギーの最大値")] float _maxSubEnergy;
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
-    [SerializeField, Header("敵と接触したときに受けるダメージ量")] int _contactDamageAmount;
+    [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
@@ -46,7 +46,7 @@ public class Player_scr : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     Action MainAttack;
     Action SubAttack;
-    int _hpAmount;
+    float _hpAmount;
     bool _isMainSelected;
     bool _isPausing;
     #endregion
@@ -203,20 +203,20 @@ public class Player_scr : MonoBehaviour
     /// ダメージを受ける
     /// </summary>
     /// <param name="power"></param>
-    void GetDamage(int power)
+    public void GetDamage(float power)
     {
         //死ぬ場合
         if (_hpAmount <= power)
         {
             _hpAmount = 0;
             _hpBarContentImage.fillAmount = 0;
-
+            //死んだときの処理
             return;
         }
 
         //生きてる場合
         _hpAmount -= power;
-        _hpBarContentImage.fillAmount -= (float)power / (float)_maxHP;
+        _hpBarContentImage.fillAmount -= power / _maxHP;
     }
 
 

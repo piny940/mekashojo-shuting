@@ -28,7 +28,7 @@ public class Missile__Player_scr : MonoBehaviour
         if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
         {
             _hasAttacked = true;
-            GameObject missileFire__Player = Instantiate((GameObject)Resources.Load("MissileFire__Player"), transform.position, Quaternion.identity);
+            GameObject missileFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/MissileFire__Player"), transform.position, Quaternion.identity);
 
             float a = transform.position.x;
             float b = transform.position.y;

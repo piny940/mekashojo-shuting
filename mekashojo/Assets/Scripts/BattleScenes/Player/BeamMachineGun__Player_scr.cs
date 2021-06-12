@@ -33,7 +33,7 @@ public class BeamMachineGun__Player_scr : MonoBehaviour
             }
 
             _count = 0;
-            GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
+            GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
 
             float a = transform.position.x;
             float b = transform.position.y;

@@ -10,7 +10,19 @@ public class EnemyBaseImp : MonoBehaviour
     [SerializeField, Header("移動速度")] float _speed;
     StartCount_scr _startCount;
     Rigidbody2D _rigidbody2D;
-    
+    protected EnemyController_scr _enemyController;
+
+    /// <summary>
+    /// Startメソッドで呼ぶ
+    /// </summary>
+    protected void Initialize()
+    {
+        //コンポーネントの取得
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController_BattleScene.ToString()).GetComponent<EnemyController_scr>();
+
+    }
 
     /// <summary>
     /// 移動速度の設定（移動速度は一定)
@@ -31,6 +43,7 @@ public class EnemyBaseImp : MonoBehaviour
         }
     }
 
+    
 
     /// <summary>
     /// ポーズ時の処理をする (アニメーションなしの時)
@@ -81,6 +94,8 @@ public class EnemyBaseImp : MonoBehaviour
 
     }
 
+    
+
     /// <summary>
     /// アニメーションをスタートする
     /// </summary>
@@ -100,13 +115,12 @@ public class EnemyBaseImp : MonoBehaviour
     }
 
     /// <summary>
-    /// Startメソッドで呼ぶ
+    /// 消滅するときに呼ぶ
     /// </summary>
-    protected void Initialize()
+    protected void DestroyMyself()
     {
-        //コンポーネントの取得
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
+        _enemyController.EnemyAmount--;
+        Destroy(this.gameObject);
     }
 }
 

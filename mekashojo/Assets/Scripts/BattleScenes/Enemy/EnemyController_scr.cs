@@ -65,7 +65,7 @@ public class EnemyController_scr : MonoBehaviour
             if (_randomValueForEnemyChoosing <= (float)_produceProbabilityRatios[i] / (float)_produceProbabilityRatiosSum)
             {
                 //敵を生成する
-                Instantiate((GameObject)Resources.Load(_enemyNames[i]), new Vector3(Random.Range(_mainCamera.transform.position.x, _mainCamera.transform.position.x + 8), Random.Range(-3, 4), 10), Quaternion.identity);
+                Instantiate((GameObject)Resources.Load("BattleScenes/" + _enemyNames[i]), new Vector3(Random.Range(_mainCamera.transform.position.x, _mainCamera.transform.position.x + 8), Random.Range(-3, 4), 10), Quaternion.identity);
                 EnemyAmount++;
                 break;
             }

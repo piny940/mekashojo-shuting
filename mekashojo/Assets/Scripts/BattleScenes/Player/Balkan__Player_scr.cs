@@ -33,7 +33,7 @@ public class Balkan__Player_scr : MonoBehaviour
             }
 
             _count = 0;
-            Instantiate((GameObject)Resources.Load("BalkanFire__Player"), transform.position, Quaternion.identity);
+            Instantiate((GameObject)Resources.Load("BattleScenes/BalkanFire__Player"), transform.position, Quaternion.identity);
 
             //エネルギーを減らす
             _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
