@@ -78,10 +78,7 @@ public class EquipmentData_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
 
-    private void Start()
-    {
         selectedMainWeaponName = equipmentType.MainWeapon__Cannon;
 
         selectedSubWeaponName = equipmentType.SubWeapon__Balkan;
