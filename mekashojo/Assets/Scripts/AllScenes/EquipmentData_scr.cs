@@ -483,7 +483,7 @@ public class EquipmentData_scr : MonoBehaviour
             },
             {
                 equipmentType.MainWeapon__BeamMachineGun,
-                "ビームガンの説明"
+                "ビームマシンガンの説明"
             },
             {
                 equipmentType.SubWeapon__Balkan,
@@ -513,7 +513,7 @@ public class EquipmentData_scr : MonoBehaviour
         {
             { equipmentType.MainWeapon__Cannon, "キャノン" },
             { equipmentType.MainWeapon__Laser, "レーザー" },
-            { equipmentType.MainWeapon__BeamMachineGun, "ビームガン" },
+            { equipmentType.MainWeapon__BeamMachineGun, "ビームマシンガン" },
             { equipmentType.SubWeapon__Balkan, "バルカン" },
             { equipmentType.SubWeapon__Missile, "ミサイル" },
             { equipmentType.Bomb, "ボム" },
