@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ButtonBaseImp : MonoBehaviour
 {
-    // 1“xƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚©‚çAŸ‚É‰Ÿ‰º‰Â”\‚É‚È‚é‚Ü‚Å‚ÌŠÔ(s)
-    private const int BLOCK_TIME = 1;
+    // 1åº¦ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã‹ã‚‰ã€æ¬¡ã«æŠ¼ä¸‹å¯èƒ½ã«ãªã‚‹ã¾ã§ã®æ™‚é–“(s)
+    private const float BLOCK_TIME = 0.1f;
     private float _elapsedTime = BLOCK_TIME;
 
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚ª‰Ÿ‰º‰Â”\‚©‚Ç‚¤‚©‚ğ•Ô‚·
+    /// ãƒœã‚¿ãƒ³ãŒæŠ¼ä¸‹å¯èƒ½ã‹ã©ã†ã‹ã‚’è¿”ã™
     /// </summary>
     /// <returns></returns>
     protected bool CanPush()
@@ -24,7 +24,7 @@ public class ButtonBaseImp : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒ{ƒ^ƒ“‚Ìƒ^ƒCƒ€ƒAƒEƒgî•ñ‚ğXV‚·‚éBUpdate()ƒƒ\ƒbƒh‚ÅÀs‚³‚ê‚é•K—v‚ª‚ ‚éB
+    /// ãƒœã‚¿ãƒ³ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæƒ…å ±ã‚’æ›´æ–°ã™ã‚‹ã€‚Update()ãƒ¡ã‚½ãƒƒãƒ‰ã§å®Ÿè¡Œã•ã‚Œã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
     /// </summary>
     protected void ButtonUpdate()
     {
