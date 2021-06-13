@@ -4,9 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
-  - Enemy__Fire
-  - Player__Fire
+  - Enemy_BattleScene
+  - Enemy__Fire_BattleScene
+  - Player__Fire_BattleScene
+  - PauseController_BattleScene
+  - StartCount_BattleScene
+  - GetInput_BattleScene
+  - Player_BattleScene
+  - EnemyController_BattleScene
+  - CommonForBattleScenes_BattleScene
   layers:
   - Default
   - TransparentFX
@@ -41,9 +47,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Back
+    uniqueID: 1834232349
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: FadeScreen
     uniqueID: 1327476937
+    locked: 0
+  - name: Front
+    uniqueID: 2905954023
     locked: 0

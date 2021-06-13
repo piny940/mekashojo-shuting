@@ -5,12 +5,19 @@ using UnityEngine;
 public class Common_scr : MonoBehaviour
 {
     public static Common_scr common = null;
+    AudioSource _audioSource;
 
     public enum Tags
     {
-        Enemy,
-        Enemy__Fire,
-        Player__Fire
+        Enemy_BattleScene,
+        Enemy__Fire_BattleScene,
+        Player__Fire_BattleScene,
+        PauseController_BattleScene,
+        StartCount_BattleScene,
+        GetInput_BattleScene,
+        Player_BattleScene,
+        EnemyController_BattleScene,
+        CommonForBattleScenes_BattleScene
     }
 
     //シングルトン
@@ -26,5 +33,15 @@ public class Common_scr : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlaySE(AudioClip audioClip)
+    {
+        _audioSource.PlayOneShot(audioClip);
+    }
+
 }
