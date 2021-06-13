@@ -64,11 +64,7 @@ public class SaveDataManager_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
 
-
-    private void Start()
-    {
         _saveData = new SaveData();
         noSaveData = false;
     }
