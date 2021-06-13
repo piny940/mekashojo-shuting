@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonAndLaser__PlayerBaseIMP : MonoBehaviour
+public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 {
     [SerializeField, Header("◯◯Fire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;

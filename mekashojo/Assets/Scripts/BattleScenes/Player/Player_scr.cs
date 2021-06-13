@@ -10,8 +10,8 @@ public class Player_scr : MonoBehaviour
     //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] float _maxHP;
-    [SerializeField, Header("メインエネルギーの最大値")] float _maxMainEnergy;
-    [SerializeField, Header("サブエネルギーの最大値")] float _maxSubEnergy;
+    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
+    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
@@ -24,6 +24,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
     [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
+    [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
     [HideInInspector] public float mainEnergyAmount { get; set; }
     [HideInInspector] public float subEnergyAmount { get; set; }
     [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
@@ -49,6 +50,8 @@ public class Player_scr : MonoBehaviour
     float _hpAmount;
     bool _isMainSelected;
     bool _isPausing;
+    int _havingBombAmount;
+    const int MAX_BOMB_AMOUNT = 3;
     #endregion
 
     // Start is called before the first frame update
@@ -85,13 +88,18 @@ public class Player_scr : MonoBehaviour
         _hpAmount = _maxHP;
         _hpBarContentImage.fillAmount = 1;
 
-        mainEnergyAmount = _maxMainEnergy;
+        mainEnergyAmount = maxMainEnergyAmount;
         _mainEnergyBarContentImage.fillAmount = 1;
 
-        subEnergyAmount = _maxSubEnergy;
+        subEnergyAmount = maxSubEnergyAmount;
         _subEnergyBarContentImage.fillAmount = 1;
 
-        
+        //ボムの所持数は0にしておく
+        _havingBombAmount = 0;
+        for(int i = 0; i < MAX_BOMB_AMOUNT; i++)
+        {
+            _havingBombs[i].SetActive(false);
+        }
 
     }
 
@@ -304,17 +312,31 @@ public class Player_scr : MonoBehaviour
     void AutoEnergyCharge()
     {
         //メインエネルギーの回復とUIの更新
-        if (mainEnergyAmount < _maxMainEnergy)
+        if (mainEnergyAmount < maxMainEnergyAmount)
         {
             mainEnergyAmount += _mainEnergyChargePerSecond * Time.deltaTime;
-            _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / _maxMainEnergy;
         }
 
         //サブエネルギーの回復とUIの更新
-        if (subEnergyAmount < _maxSubEnergy)
+        if (subEnergyAmount < maxSubEnergyAmount)
         {
             subEnergyAmount += _subEnergyChargePerSecond * Time.deltaTime;
-            _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
+        }
+
+        //エネルギー表示の更新
+        _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / maxMainEnergyAmount;
+        _subEnergyBarContentImage.fillAmount = subEnergyAmount / maxSubEnergyAmount;
+    }
+
+    /// <summary>
+    /// ボムを１つ加える
+    /// </summary>
+    public void AddBomb()
+    {
+        if (_havingBombAmount < 3)
+        {
+            _havingBombAmount++;
+            _havingBombs[_havingBombAmount - 1].SetActive(true);
         }
     }
 }

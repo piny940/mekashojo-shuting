@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodeEffectBaseIMP : MonoBehaviour
+public class ExplodeEffectBaseImp : MonoBehaviour
 {
     float _time;
     [SerializeField, Header("消滅するまでの時間")] float _disappearTime;

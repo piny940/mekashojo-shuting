@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class EnemyFireBaseImp : MonoBehaviour
 {
-    [SerializeField, Header("敵の種類を選ぶ")] NormalEnemyData_scr.normalEnemyType _normalEnemyType;
+    protected NormalEnemyData_scr.normalEnemyType normalEnemyType;
 
     float _power;
 
+    /// <summary>
+    /// Startメソッドで呼ぶ<br></br>
+    /// これを呼ぶ前にnormalEnemyTypeを設定する必要がある
+    /// </summary>
     protected void Initialize()
     {
         //攻撃力の取得
-        _power = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[_normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount];
+        _power = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount];
     }
+
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,7 +26,7 @@ public class EnemyFireBaseImp : MonoBehaviour
             //ダメージを与える
             collision.GetComponent<Player_scr>().GetDamage(_power);
 
-            switch ((int)_normalEnemyType)
+            switch ((int)normalEnemyType)
             {
                 case 2: //スタン型
                     Debug.Log("このclassはスタン型には対応していません");

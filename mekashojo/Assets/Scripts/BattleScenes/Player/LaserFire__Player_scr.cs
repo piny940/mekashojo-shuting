@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserFire__Player_scr : CannonAndLaserFire__PlayerBaseIMP
+public class LaserFire__Player_scr : CannonAndLaserFire__PlayerBaseImp
 {
     // Start is called before the first frame update
     void Start()

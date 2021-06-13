@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonAndLaserFire__PlayerBaseIMP : MonoBehaviour
+public class CannonAndLaserFire__PlayerBaseImp : MonoBehaviour
 {
     protected float power;
 
