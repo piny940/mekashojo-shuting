@@ -49,10 +49,7 @@ public class NormalEnemyData_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
 
-    private void Start()
-    {
         _normalEnemyStatus__Data = new Dictionary<normalEnemyType, Dictionary<normalEnemyParameter, float>>()
         {
             {
