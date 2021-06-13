@@ -41,10 +41,7 @@ public class ProgressData_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
 
-    private void Start()
-    {
         _stageDescriptions__Data = new Dictionary<stageName, string>()
         {
             { stageName.stage1, "ステージ1の説明" },
