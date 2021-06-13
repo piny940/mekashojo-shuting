@@ -6,19 +6,25 @@ public class BeamMachineGunFire__Player_scr : MonoBehaviour
 {
     [SerializeField, Header("弾丸の速度")] float _speed;
     [SerializeField, Header("消える時間")] float _disappearTime;
-    float _power;
     GameObject _player;
     GameObject _getInput;
     GetInput_scr _getInput_scr;
-    float _time;
     Rigidbody2D _rigidbody2D;
+    CommonForBattleScenes_scr _commonForBattleScenes;
+    Vector3 _savedVelocity;
+    float _power;
+    float _time;
+    bool _isPausing;
 
     // Start is called before the first frame update
     void Start()
     {
-        //コンポーネントを取得
+        //ゲームオブジェクトの取得
         _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player_BattleScene.ToString());
         _getInput = GameObject.FindGameObjectWithTag(Common_scr.Tags.GetInput_BattleScene.ToString());
+
+        //コンポーネントを取得
+        _commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes_BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _getInput_scr = _getInput.GetComponent<GetInput_scr>();
 
@@ -39,6 +45,9 @@ public class BeamMachineGunFire__Player_scr : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        //ポーズの処理
+        _commonForBattleScenes.Pause(_rigidbody2D, ref _isPausing, ref _savedVelocity);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
