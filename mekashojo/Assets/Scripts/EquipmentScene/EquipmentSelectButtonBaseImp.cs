@@ -9,6 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class EquipmentSelectButtonBaseImp : ButtonBaseImp
 {
+    [SerializeField, Header("SelectedWeaponManagerを入れる")] private SelectedWeaponManager_scr _selectedWeaponManager;
     [SerializeField, Header("Canvasを入れる")] private Canvas_scr _canvas;
     [SerializeField, Header("PreviewImageを入れる")] private PreviewImage_scr _previewImage;
     [SerializeField, Header("WeaponDescriptionsを入れる")] private WeaponDescriptions_scr _weaponDescriptions;
@@ -47,7 +48,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
             || type == EquipmentData_scr.equipmentData.selectedSubWeaponName
             || type == EquipmentData_scr.equipmentData.selectedShieldName)
         {
-            SelectedWeaponManager_scr.selectedWeaponManager.NotifySelectedWeaponChanged(type);
+            _selectedWeaponManager.NotifySelectedWeaponChanged(type);
         }
     }
 
@@ -134,7 +135,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
     private void UpdateSelectedEquipmentStatus()
     {
         // 選択中の武器の情報を更新
-        SelectedWeaponManager_scr.selectedWeaponManager.NotifySelectedWeaponChanged(type);
+        _selectedWeaponManager.NotifySelectedWeaponChanged(type);
 
         int _sumWeight
             = EquipmentData_scr.equipmentData.equipmentStatus

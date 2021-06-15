@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SelectedWeaponManager_scr : MonoBehaviour
 {
-    public static SelectedWeaponManager_scr selectedWeaponManager;
     [SerializeField, Header("EquipmentSelectButton__Cannon__Selected")] private EquipmentSelectButton__Cannon_scr _equipmentSelectButton__Cannon__Selected;
     [SerializeField, Header("EquipmentSelectButton__Cannon__UnSelected")] private EquipmentSelectButton__Cannon_scr _equipmentSelectButton__Cannon__UnSelected;
     [SerializeField, Header("EquipmentSelectButton__Laser__Selected")] private EquipmentSelectButton__Laser_scr _equipmentSelectButton__Laser__Selected;
@@ -23,16 +22,6 @@ public class SelectedWeaponManager_scr : MonoBehaviour
 
     private void Awake()
     {
-        if (selectedWeaponManager == null)
-        {
-            selectedWeaponManager = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-
         _equipmentSelectButton__Cannon__Selected.isVisible = false;
         _equipmentSelectButton__Laser__Selected.isVisible = false;
         _equipmentSelectButton__BeamMachineGun__Selected.isVisible = false;

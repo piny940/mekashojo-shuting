@@ -886,6 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c0ce67a39d43a43a4636d33fcc08d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -1121,6 +1122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360970530aa522744b707c38a56c2c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -1536,6 +1538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317819dd08f74284e96d69d9b31ba7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -1771,6 +1774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57dddbaf55410ec4393b2fe5150c1a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -2658,6 +2662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f6d6006cafa0444b5389078bf7d07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -3403,6 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449dcd051b3e9804a972f2cf2da9248a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -3616,6 +3622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a54a083bd547b543a95fcd55e649ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -3997,6 +4004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990f6ab9958a9ba418cfac1a0fe2af84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -4457,6 +4465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a54a083bd547b543a95fcd55e649ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -4581,6 +4590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c0ce67a39d43a43a4636d33fcc08d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -4714,6 +4724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990f6ab9958a9ba418cfac1a0fe2af84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -4898,6 +4909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f6d6006cafa0444b5389078bf7d07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -5204,6 +5216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449dcd051b3e9804a972f2cf2da9248a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -6139,6 +6152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317819dd08f74284e96d69d9b31ba7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
@@ -6237,6 +6251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57dddbaf55410ec4393b2fe5150c1a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedWeaponManager: {fileID: 1130554137}
   _canvas: {fileID: 2984681623449001957}
   _previewImage: {fileID: 768691983}
   _weaponDescriptions: {fileID: 1790293699}
