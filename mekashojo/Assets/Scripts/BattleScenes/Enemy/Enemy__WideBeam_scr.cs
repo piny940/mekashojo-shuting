@@ -46,9 +46,14 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
         //攻撃
         Attack();
     }
-
+    
     void Attack()
     {
+        if (!_startCount.hasStarted)
+        {
+            return;
+        }
+
         _time += Time.deltaTime;
 
         //平常時

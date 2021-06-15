@@ -10,8 +10,6 @@ public class Player_scr : MonoBehaviour
     //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] float _maxHP;
-    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
-    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
@@ -25,8 +23,11 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
     [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
+    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
+    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [HideInInspector] public float mainEnergyAmount { get; set; }
     [HideInInspector] public float subEnergyAmount { get; set; }
+    [HideInInspector] public bool isMainSelected { get; private set; }
     [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
     [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName { get { return EquipmentData_scr.equipmentData.selectedSubWeaponName; } }
     Cannon__Player_scr _cannon__Player;
@@ -48,8 +49,8 @@ public class Player_scr : MonoBehaviour
     Action MainAttack;
     Action SubAttack;
     float _hpAmount;
-    bool _isMainSelected;
     bool _isPausing;
+    bool _isSwitchingWeapon;
     int _havingBombAmount;
     const int MAX_BOMB_AMOUNT = 3;
     #endregion
@@ -79,7 +80,7 @@ public class Player_scr : MonoBehaviour
         SetWeapon();
 
         //初めはmain選択状態にしておく
-        _isMainSelected = true;
+        isMainSelected = true;
         _mainTextImage.color = new Color(1, 1, 1, 1);
         _subTextImage.color = new Color(1, 1, 1, 0.2f);
         _playerModel__Main.SetActive(true);     //注意！_playerModel__Mainの設定はSetWeaponでやっているためこれをSetWeaponより先に走らせるとバグる
@@ -177,9 +178,9 @@ public class Player_scr : MonoBehaviour
     void SwitchWeapon()
     {
         //マウスホイールが奥に回された場合
-        if (_getInput.mouseWheel > 0)
+        if (_getInput.mouseWheel > 0 && !isMainSelected)
         {
-            _isMainSelected = true;
+            isMainSelected = true;
             _playerModel__Main.SetActive(true);
             _playerModel__Sub.SetActive(false);
 
@@ -187,13 +188,17 @@ public class Player_scr : MonoBehaviour
             _mainTextImage.color = new Color(1, 1, 1, 1);
             _subTextImage.color = new Color(1, 1, 1, 0.2f);
 
+            //武器切り替え中フラグを立てる
+            _isSwitchingWeapon = true;
+
+            
             return;
         }
 
         //マウスホイールが手前に回された場合
-        if (_getInput.mouseWheel < 0)
+        if (_getInput.mouseWheel < 0 && isMainSelected)
         {
-            _isMainSelected = false;
+            isMainSelected = false;
             _playerModel__Main.SetActive(false);
             _playerModel__Sub.SetActive(true);
 
@@ -201,8 +206,26 @@ public class Player_scr : MonoBehaviour
             _mainTextImage.color = new Color(1, 1, 1, 0.2f);
             _subTextImage.color = new Color(1, 1, 1, 1);
 
+            //メイン武器の使用をやめる
+            if (mainWeaponName == EquipmentData_scr.equipmentType.MainWeapon__Cannon)
+            {
+                _cannon__Player.StopUsing();
+            }
+            else if(mainWeaponName==EquipmentData_scr.equipmentType.MainWeapon__Laser)
+            {
+                _laser__Player.StopUsing();
+            }
+
+            //武器切り替え中フラグを立てる
+            _isSwitchingWeapon = true;
         }
 
+        //キャノンやレーザーを使用したまま武器を切り替えると、切り替えた瞬間に弾が飛び出すため、「サブ武器にミサイルがセットされている場合は」左クリックを離すまでは「切り替え中」状態にし、サブ武器を使えないようにする
+        //使用できないようにするコードはAttackメソッドに書いた
+        if (_isSwitchingWeapon && !_getInput.isMouseLeft)
+        {
+            _isSwitchingWeapon = false;
+        }
 
     }
 
@@ -296,9 +319,15 @@ public class Player_scr : MonoBehaviour
     void Attack()
     {
         //メインが選択されていた時の処理
-        if (_isMainSelected)
+        if (isMainSelected)
         {
             MainAttack();
+            return;
+        }
+
+        //武器切り替え中はミサイルは使えないようにする
+        if (_isSwitchingWeapon && EquipmentData_scr.equipmentData.selectedSubWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
+        {
             return;
         }
 
@@ -306,18 +335,19 @@ public class Player_scr : MonoBehaviour
         SubAttack();
     }
 
+
     /// <summary>
     /// エネルギーの自動回復
     /// </summary>
     void AutoEnergyCharge()
     {
-        //メインエネルギーの回復とUIの更新
+        //メインエネルギーの回復
         if (mainEnergyAmount < maxMainEnergyAmount)
         {
             mainEnergyAmount += _mainEnergyChargePerSecond * Time.deltaTime;
         }
 
-        //サブエネルギーの回復とUIの更新
+        //サブエネルギーの回復
         if (subEnergyAmount < maxSubEnergyAmount)
         {
             subEnergyAmount += _subEnergyChargePerSecond * Time.deltaTime;

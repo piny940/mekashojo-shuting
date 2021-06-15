@@ -16,22 +16,23 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 
     public void Attack()
     {
-        //マウスを離した瞬間orエネルギーがなくなった瞬間の処理
-        if (_hasActived && (!_getInput.isMouseLeft || _player.mainEnergyAmount <= 0))
+        //マウスを離した瞬間orエネルギーがなくなった瞬間orサブ武器に切り替えた瞬間の処理
+        if (_hasActived && (!_getInput.isMouseLeft || _player.mainEnergyAmount <= 0) || !_player.isMainSelected)
         {
             _fire__Player.SetActive(false);
             _hasActived = false;
         }
 
-        if (_getInput.isMouseLeft && _player.mainEnergyAmount > 0)
+        //左クリックした瞬間の処理
+        if (_getInput.isMouseLeft && _player.mainEnergyAmount > 10 && !_hasActived)
         {
-            //左クリックした瞬間の処理
-            if (!_hasActived)
-            {
-                _fire__Player.SetActive(true);
-                _hasActived = true;
-            }
+            _fire__Player.SetActive(true);
+            _hasActived = true;
+        }
 
+        //左クリックしている間の処理
+        if (_hasActived)
+        {
             //エネルギーを減らす
             _player.mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.mainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.mainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime;
 
@@ -42,11 +43,15 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
             float v = _getInput.mousePosition.y;
             float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
             transform.localEulerAngles = new Vector3(0, 0, theta);
-            
         }
-        
-
-        
     }
 
+    public void StopUsing()
+    {
+        if (_hasActived)
+        {
+            _fire__Player.SetActive(false);
+            _hasActived = false;
+        }
+    }
 }

@@ -8,6 +8,9 @@ public class EnemyGetDamage_scr : MonoBehaviour
     [SerializeField,Header("敵のタイプを選ぶ")] NormalEnemyData_scr.normalEnemyType _enemyType;
     EnemyController_scr _enemyController;
     public float hp { get; set; }
+    const float ENHANCEMENT_MATERIAL_DROP_RATE = 0.05f;
+    const float ENERGY_CHARGE_MATERIAL_DROP_RATE = 0.03f;
+    const float BOMB_CHARGE_MATERIAL_DROP_RATE = 0.01f;
 
     private void Start()
     {
@@ -31,65 +34,61 @@ public class EnemyGetDamage_scr : MonoBehaviour
     {
         //ドロップアイテムを落とす
 
-        if (Random.value <= 0.45f)
+        float randomValueA = Random.value;
+
+        if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE)
         {
-            float randomValueA = Random.value;
-            if (randomValueA <= 0.2f)
+            //強化素材を落とす
+            float randomValueB = Random.value * 8;
+            switch (randomValueB - randomValueB % 1)    //0から8までのランダムな整数値を取得するもっといい方法があったら教えてください
             {
-                //強化素材を落とす
-                float randomValueB = Random.value * 8;
-                switch (randomValueB - randomValueB % 1)    //0から8までのランダムな整数値を取得するもっといい方法があったら教えてください
-                {
-                    case 0:
-                        //Cannonの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/CannonEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 1:
-                        //Laserの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/LaserEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 2:
-                        //BeamMachineGunの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 3:
-                        //Balkanの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/BalkanEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 4:
-                        //Missileの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/MissileEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 5:
-                        //Bombの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/BombEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 6:
-                        //HeavyShieldの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/HeavyShieldEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
-                    case 7:
-                    case 8:
-                        //LightShieldの強化素材
-                        Instantiate((GameObject)Resources.Load("BattleScenes/LightShieldEnhancementMaterial"), transform.position, Quaternion.identity);
-                        break;
+                case 0:
+                    //Cannonの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/CannonEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 1:
+                    //Laserの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/LaserEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 2:
+                    //BeamMachineGunの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 3:
+                    //Balkanの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/BalkanEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 4:
+                    //Missileの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/MissileEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 5:
+                    //Bombの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/BombEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 6:
+                    //HeavyShieldの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/HeavyShieldEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+                case 7:
+                case 8:
+                    //LightShieldの強化素材を落とす
+                    Instantiate((GameObject)Resources.Load("BattleScenes/LightShieldEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
 
-                }
-
-            }
-            else if (randomValueA <= 0.35f)
-            {
-                //エネルギー回復パックを落とす
-                Instantiate((GameObject)Resources.Load("BattleScenes/EnergyChargeMaterial"), transform.position, Quaternion.identity);
-            }
-            else if (randomValueA <= 0.45f)
-            {
-                //ボム補充アイテムを落とす
-                Instantiate((GameObject)Resources.Load("BattleScenes/BombChargeMaterial"), transform.position, Quaternion.identity);
             }
 
         }
-
+        else if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE)
+        {
+            //エネルギー回復パックを落とす
+            Instantiate((GameObject)Resources.Load("BattleScenes/EnergyChargeMaterial"), transform.position, Quaternion.identity);
+        }
+        else if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE + BOMB_CHARGE_MATERIAL_DROP_RATE)
+        {
+            //ボム補充アイテムを落とす
+            Instantiate((GameObject)Resources.Load("BattleScenes/BombChargeMaterial"), transform.position, Quaternion.identity);
+        }
 
         //消滅する
         _enemyController.EnemyAmount--;

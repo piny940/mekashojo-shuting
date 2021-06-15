@@ -9,9 +9,9 @@ public class EnemyBaseImp : MonoBehaviour
     protected new Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
+    protected StartCount_scr _startCount;
     bool _hasVelocitySet = false;
     bool _hasAnimationStarted = false;
-    StartCount_scr _startCount;
     EnemyController_scr _enemyController;
 
 
