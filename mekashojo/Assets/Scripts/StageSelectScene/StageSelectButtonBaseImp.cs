@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class StageSelectButtonBaseImp : ButtonBaseImp
 {
-    [SerializeField, Header("StageDescriptions‚ğ“ü‚ê‚é")] private StageDescriptions_scr _stageDescriptions;
-    [SerializeField, Header("StartButton‚ğ“ü‚ê‚é")]  private StartButton_scr _startButton;
+    [SerializeField, Header("StageDescriptionsã‚’å…¥ã‚Œã‚‹")] private StageDescriptions_scr _stageDescriptions;
+    [SerializeField, Header("StartButtonã‚’å…¥ã‚Œã‚‹")]  private StartButton_scr _startButton;
 
     protected ProgressData_scr.stageName _stageName;
-    // ƒXƒe[ƒW‚ÌƒV[ƒ“–¼
+    // ã‚¹ãƒ†ãƒ¼ã‚¸ã®ã‚·ãƒ¼ãƒ³å
     protected string _stageSceneName;
 
     protected void Initialize()
