@@ -14,7 +14,7 @@ public class EnemyGetDamage_scr : MonoBehaviour
 
     private void Start()
     {
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController_BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
         hp = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[_enemyType][NormalEnemyData_scr.normalEnemyParameter.HP];
 

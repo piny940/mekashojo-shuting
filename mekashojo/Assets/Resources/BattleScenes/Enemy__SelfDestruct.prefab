@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 2398054227588481630}
   m_Layer: 0
   m_Name: Enemy__SelfDestruct
-  m_TagString: Enemy_BattleScene
+  m_TagString: Enemy__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

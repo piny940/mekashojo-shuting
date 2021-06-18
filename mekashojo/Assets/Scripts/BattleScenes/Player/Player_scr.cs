@@ -137,7 +137,7 @@ public class Player_scr : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //接触ダメージ
-        if (collision.tag == Common_scr.Tags.Enemy_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
         {
             GetDamage(_contactDamageAmount);
         }

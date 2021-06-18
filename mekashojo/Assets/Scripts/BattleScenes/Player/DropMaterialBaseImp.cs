@@ -38,7 +38,7 @@ public class DropMaterialBaseImp : MonoBehaviour
         _time = 0;
         _hasAppeared = false;
         _isRising = false;
-        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player_BattleScene.ToString()).GetComponent<Player_scr>();
+        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString()).GetComponent<Player_scr>();
     }
 
 
@@ -81,7 +81,7 @@ public class DropMaterialBaseImp : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Player_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
         {
             switch ((int)materialType)
             {

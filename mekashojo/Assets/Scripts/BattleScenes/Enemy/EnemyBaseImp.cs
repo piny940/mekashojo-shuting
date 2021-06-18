@@ -24,11 +24,11 @@ public class EnemyBaseImp : MonoBehaviour
 
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
+        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount__BattleScene.ToString()).GetComponent<StartCount_scr>();
 
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController_BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
-        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes_BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
     }
 
     /// <summary>

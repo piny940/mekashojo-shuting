@@ -8,7 +8,7 @@ public class CannonAndLaserFire__PlayerBaseImp : MonoBehaviour
 
     protected void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Enemy_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
             enemyGetDamage.GetDamage(power * Time.deltaTime);

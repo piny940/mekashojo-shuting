@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4602792525637480488}
   m_Layer: 0
   m_Name: Enemy__WideBeam
-  m_TagString: Enemy_BattleScene
+  m_TagString: Enemy__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 1947710496963561226}
   m_Layer: 0
   m_Name: WideBeam
-  m_TagString: Untagged
+  m_TagString: EnemyFire__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -513,4 +513,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4abc5c1657c4f3f9cb03d2eb57703b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _normalEnemyType: 7
