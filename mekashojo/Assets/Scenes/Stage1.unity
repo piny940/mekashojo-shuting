@@ -911,7 +911,7 @@ GameObject:
   - component: {fileID: 409409997}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player_BattleScene
+  m_TagString: Player__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 521364338}
   m_Layer: 5
   m_Name: PauseController
-  m_TagString: PauseController_BattleScene
+  m_TagString: PauseController__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1563,7 +1563,7 @@ GameObject:
   - component: {fileID: 706064852}
   m_Layer: 0
   m_Name: EnemyController
-  m_TagString: EnemyController_BattleScene
+  m_TagString: EnemyController__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2011,7 +2011,7 @@ GameObject:
   - component: {fileID: 834243744}
   m_Layer: 5
   m_Name: StartCount
-  m_TagString: StartCount_BattleScene
+  m_TagString: StartCount__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2111,7 +2111,7 @@ GameObject:
   - component: {fileID: 880204060}
   m_Layer: 0
   m_Name: CommonForBattleScenes
-  m_TagString: CommonForBattleScenes_BattleScene
+  m_TagString: CommonForBattleScenes__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3263,7 +3263,7 @@ GameObject:
   - component: {fileID: 1504368643}
   m_Layer: 0
   m_Name: LaserFire__Player
-  m_TagString: Untagged
+  m_TagString: PlayerFire__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5104,7 +5104,7 @@ GameObject:
   - component: {fileID: 2141373538}
   m_Layer: 0
   m_Name: CannonFire__Player
-  m_TagString: Player__Fire_BattleScene
+  m_TagString: PlayerFire__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
