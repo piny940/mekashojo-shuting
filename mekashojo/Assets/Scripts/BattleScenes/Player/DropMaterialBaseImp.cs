@@ -39,6 +39,12 @@ public class DropMaterialBaseImp : MonoBehaviour
         _hasAppeared = false;
         _isRising = false;
         _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString()).GetComponent<Player_scr>();
+
+        //nullの場合
+        if (_player == null)
+        {
+            throw new System.Exception();
+        }
     }
 
 
@@ -85,64 +91,61 @@ public class DropMaterialBaseImp : MonoBehaviour
         {
             switch ((int)materialType)
             {
-                case 0:
+                case (int)MaterialType.CannonEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Cannon]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 1:
+
+                case (int)MaterialType.LaserEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Laser]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 2:
+
+                case (int)MaterialType.BeamMachineGunEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 3:
+
+                case (int)MaterialType.BalkanEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Balkan]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 4:
+
+                case (int)MaterialType.MissileEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Missile]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 5:
+
+                case (int)MaterialType.BombEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Bomb]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 6:
+
+                case (int)MaterialType.HeavyShieldEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Heavy]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 7:
+
+                case (int)MaterialType.LightShieldEnhancementMaterial:
                     EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
-                case 8:
-                    //エネルギーをチャージする
-                    //メインエネルギーのチャージ(エネルギーが満タンになる場合の処理は分けた)
-                    if (_player.mainEnergyAmount < _player.maxMainEnergyAmount - ENERGY_CHARGE_AMOUNT)
-                    {
-                        _player.mainEnergyAmount += ENERGY_CHARGE_AMOUNT;
-                    }
-                    else
-                    {
-                        _player.mainEnergyAmount = _player.maxMainEnergyAmount;
-                    }
 
-                    //サブエネルギーのチャージ(エネルギーが満タンになる場合の処理は分けた)
-                    if (_player.subEnergyAmount < _player.maxSubEnergyAmount - ENERGY_CHARGE_AMOUNT)
-                    {
-                        _player.subEnergyAmount += ENERGY_CHARGE_AMOUNT;
-                    }
-                    else
-                    {
-                        _player.subEnergyAmount = _player.maxSubEnergyAmount;
-                    }
+                case (int)MaterialType.EnergyChargeMaterial:
+                    //エネルギーをチャージする
+                    _player.mainEnergyAmount += Mathf.Min(ENERGY_CHARGE_AMOUNT, _player.maxMainEnergyAmount - _player.mainEnergyAmount);
+
+                    //サブエネルギーのチャージ
+                    _player.subEnergyAmount += Mathf.Min(ENERGY_CHARGE_AMOUNT, _player.maxSubEnergyAmount - _player.subEnergyAmount);
 
                     break;
-                case 9:
+
+                case (int)MaterialType.BombChargeMaterial:
                     //ボムをチャージする
                     _player.AddBomb();
+                    break;
+
+                default:
                     break;
             }
             

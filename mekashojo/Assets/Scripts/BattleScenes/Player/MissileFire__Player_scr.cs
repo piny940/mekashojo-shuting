@@ -28,6 +28,12 @@ public class MissileFire__Player_scr : MonoBehaviour
         //初期設定
         _time = 0;
         _power = EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentType.SubWeapon__Missile][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Missile]][EquipmentData_scr.equipmentParameter.Power];
+
+        //nullの場合
+        if (_player == null || _getInput == null)
+        {
+            throw new System.Exception();
+        }
     }
 
     // Update is called once per frame
@@ -46,6 +52,11 @@ public class MissileFire__Player_scr : MonoBehaviour
         if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
+
+            if (enemyGetDamage == null)
+            {
+                throw new System.Exception();
+            }
 
             enemyGetDamage.GetDamage(_power);
             Destroy(this.gameObject);

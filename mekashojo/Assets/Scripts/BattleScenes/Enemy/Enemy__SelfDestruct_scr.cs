@@ -41,7 +41,7 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
         {
             collision.GetComponent<Player_scr>().GetDamage(_power);
 
-            Instantiate((GameObject)Resources.Load("BattleScenes/ExplodeEffect__SelfDestruct__Enemy"),transform.position,Quaternion.identity);
+            Instantiate((GameObject)Resources.Load("BattleScenes/ExplodeEffect__SelfDestruct__Enemy"), transform.position, Quaternion.identity);
 
             DestroyMyself();
         }

@@ -21,7 +21,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
 
         _firingInterval = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone][NormalEnemyData_scr.normalEnemyParameter.FiringInterval];
 
-        _time = _firingInterval / 2;
+        _time = Random.value * _firingInterval;
 
         _isBeamsActive = false;
 

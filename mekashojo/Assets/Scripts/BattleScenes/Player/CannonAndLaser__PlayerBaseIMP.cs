@@ -7,7 +7,8 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
     [SerializeField, Header("◯◯Fire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
-    bool _hasActived;
+    bool _isActive;
+    const float UNABLE_TO_START_USING_RATE = 0.01f; //武器を使い始めることができなくなるエネルギー量(全体に対する割合)
 
     public void Start()
     {
@@ -16,22 +17,22 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 
     public void Attack()
     {
-        //マウスを離した瞬間orエネルギーがなくなった瞬間orサブ武器に切り替えた瞬間の処理
-        if (_hasActived && (!_getInput.isMouseLeft || _player.mainEnergyAmount <= 0) || !_player.isMainSelected)
+        //マウスを離した瞬間orエネルギーがなくなった瞬間の処理
+        if (_isActive && (!_getInput.isMouseLeft || _player.mainEnergyAmount <= 0))
         {
             _fire__Player.SetActive(false);
-            _hasActived = false;
+            _isActive = false;
         }
 
         //左クリックした瞬間の処理
-        if (_getInput.isMouseLeft && _player.mainEnergyAmount > 10 && !_hasActived)
+        if (_getInput.isMouseLeft && _player.mainEnergyAmount > _player.maxMainEnergyAmount * UNABLE_TO_START_USING_RATE && !_isActive)
         {
             _fire__Player.SetActive(true);
-            _hasActived = true;
+            _isActive = true;
         }
 
         //左クリックしている間の処理
-        if (_hasActived)
+        if (_isActive)
         {
             //エネルギーを減らす
             _player.mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.mainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.mainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime;
@@ -48,10 +49,10 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 
     public void StopUsing()
     {
-        if (_hasActived)
+        if (_isActive)
         {
             _fire__Player.SetActive(false);
-            _hasActived = false;
+            _isActive = false;
         }
     }
 }

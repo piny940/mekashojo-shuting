@@ -31,7 +31,7 @@ public class EnemyFireBaseImp : MonoBehaviour
                 case (int)NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone: //スタン型
                 case (int)NormalEnemyData_scr.normalEnemyType.SelfDestruct__MiddleDrone: //自爆型
                     throw new System.Exception();
-                case 7: //全方位ビーム
+                case (int)NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone: //全方位ビーム
                     break;
                 default:    //それ以外ならプレイヤーに当たったら消滅する
                     Destroy(this.gameObject);

@@ -25,10 +25,10 @@ public class ContinueButton_scr : MonoBehaviour
         SaveDataManager_scr.saveDataManager.LoadData();
 
         //セーブデータがなかった場合
-        if (SaveDataManager_scr.saveDataManager.noSaveData)
+        if (SaveDataManager_scr.saveDataManager.haveNoSaveData)
         {
             _noSaveDataScreen.SetActive(true);
-            SaveDataManager_scr.saveDataManager.noSaveData = false;
+            SaveDataManager_scr.saveDataManager.haveNoSaveData = false;
             return;
         }
 

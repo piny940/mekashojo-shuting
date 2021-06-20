@@ -29,6 +29,12 @@ public class EnemyBaseImp : MonoBehaviour
         _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
         commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+
+        //nullの場合
+        if (_startCount == null || _enemyController == null || commonForBattleScenes == null)
+        {
+            throw new System.Exception();
+        }
     }
 
     /// <summary>

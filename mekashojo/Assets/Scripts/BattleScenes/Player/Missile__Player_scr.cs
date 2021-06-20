@@ -6,7 +6,7 @@ public class Missile__Player_scr : MonoBehaviour
 {
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
-    bool _hasAttacked;
+    bool _hasAttacked = false;
 
     public void Attack()
     {

@@ -35,6 +35,11 @@ public class BalkanFire__Player_scr : MonoBehaviour
         _time = 0;
         _power = EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentType.SubWeapon__Balkan][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Balkan]][EquipmentData_scr.equipmentParameter.Power];
 
+        //nullの場合
+        if (_player == null || _getInput == null || _commonForBattleScenes == null)
+        {
+            throw new System.Exception();
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +61,12 @@ public class BalkanFire__Player_scr : MonoBehaviour
         if (collision.tag==Common_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
+
+            //nullの場合
+            if (enemyGetDamage == null)
+            {
+                throw new System.Exception();
+            }
 
             //弾が消滅する場合
             if (enemyGetDamage.hp >= _power)

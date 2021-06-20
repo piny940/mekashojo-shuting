@@ -16,6 +16,12 @@ public class EnemyGetDamage_scr : MonoBehaviour
     {
         _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
+        //nullの場合
+        if (_enemyController == null)
+        {
+            throw new System.Exception();
+        }
+
         hp = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[_enemyType][NormalEnemyData_scr.normalEnemyParameter.HP];
 
     }
@@ -39,41 +45,50 @@ public class EnemyGetDamage_scr : MonoBehaviour
         if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE)
         {
             //強化素材を落とす
-            float randomValueB = Random.value * 8;
-            switch (randomValueB - randomValueB % 1)    //0から8までのランダムな整数値を取得するもっといい方法があったら教えてください
+            float randomValueB = Mathf.Floor(Random.value * 8);
+            switch (randomValueB)
             {
-                case 0:
+                case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
                     //Cannonの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/CannonEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 1:
+
+                case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
                     //Laserの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/LaserEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 2:
+
+                case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
                     //BeamMachineGunの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 3:
+
+                case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
                     //Balkanの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/BalkanEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 4:
+
+                case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
                     //Missileの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/MissileEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 5:
+
+                case (int)EquipmentData_scr.equipmentType.Bomb:
                     //Bombの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/BombEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 6:
+
+                case (int)EquipmentData_scr.equipmentType.Shield__Heavy:
                     //HeavyShieldの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/HeavyShieldEnhancementMaterial"), transform.position, Quaternion.identity);
                     break;
-                case 7:
-                case 8:
+
+                case (int)EquipmentData_scr.equipmentType.Shield__Light:
                     //LightShieldの強化素材を落とす
                     Instantiate((GameObject)Resources.Load("BattleScenes/LightShieldEnhancementMaterial"), transform.position, Quaternion.identity);
+                    break;
+
+                default:
                     break;
 
             }

@@ -13,6 +13,8 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
+    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
+    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
@@ -23,8 +25,6 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
     [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
-    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
-    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [HideInInspector] public float mainEnergyAmount { get; set; }
     [HideInInspector] public float subEnergyAmount { get; set; }
     [HideInInspector] public bool isMainSelected { get; private set; }
