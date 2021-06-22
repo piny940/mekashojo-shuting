@@ -102,6 +102,9 @@ public class Player_scr : MonoBehaviour
             _havingBombs[i].SetActive(false);
         }
 
+        //z座標を0にする
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
     }
 
     // Update is called once per frame

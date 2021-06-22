@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 {
-    [SerializeField, Header("◯◯Fire__Playerを入れる")] GameObject _fire__Player;
+    [SerializeField, Header("Cannon/LaserFire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
     bool _isActive;

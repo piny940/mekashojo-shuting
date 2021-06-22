@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 5102733998751877833}
   - component: {fileID: 5102733998751877836}
   - component: {fileID: 5102733998751877838}
-  - component: {fileID: 2398054227588481630}
+  - component: {fileID: 4186051759855258681}
   m_Layer: 0
   m_Name: Enemy__SelfDestruct
   m_TagString: Enemy__BattleScene
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
---- !u!114 &2398054227588481630
+--- !u!114 &4186051759855258681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5337298102521771107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d4a2126c13e4920b6c9776b57ffa5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1143845e91f624757895724185afe146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyType: 10

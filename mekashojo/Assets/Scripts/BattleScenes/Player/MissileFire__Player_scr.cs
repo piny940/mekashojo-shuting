@@ -51,14 +51,14 @@ public class MissileFire__Player_scr : MonoBehaviour
     {
         if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
         {
-            EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
+            EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
 
-            if (enemyGetDamage == null)
+            if (enemyDamageManager == null)
             {
                 throw new System.Exception();
             }
 
-            enemyGetDamage.GetDamage(_power);
+            enemyDamageManager.GetDamage(_power);
             Destroy(this.gameObject);
         }
     }

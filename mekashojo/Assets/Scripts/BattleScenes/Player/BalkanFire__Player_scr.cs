@@ -60,25 +60,25 @@ public class BalkanFire__Player_scr : MonoBehaviour
     {
         if (collision.tag==Common_scr.Tags.Enemy__BattleScene.ToString())
         {
-            EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
+            EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
 
             //nullの場合
-            if (enemyGetDamage == null)
+            if (enemyDamageManager == null)
             {
                 throw new System.Exception();
             }
 
             //弾が消滅する場合
-            if (enemyGetDamage.hp >= _power)
+            if (enemyDamageManager.hp >= _power)
             {
-                enemyGetDamage.GetDamage(_power);
+                enemyDamageManager.GetDamage(_power);
                 Destroy(this.gameObject);
             }
 
             //弾が消滅しない場合
             float comtemporaryPower = _power;
-            _power -= enemyGetDamage.hp;
-            enemyGetDamage.GetDamage(comtemporaryPower);
+            _power -= enemyDamageManager.hp;
+            enemyDamageManager.GetDamage(comtemporaryPower);
         }
     }
 }

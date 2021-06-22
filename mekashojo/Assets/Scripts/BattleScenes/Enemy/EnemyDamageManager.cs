@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGetDamage_scr : MonoBehaviour
+public class EnemyDamageManager : MonoBehaviour
 {
-
-    [SerializeField,Header("敵のタイプを選ぶ")] NormalEnemyData_scr.normalEnemyType _enemyType;
+    [SerializeField, Header("敵のタイプを選ぶ")] NormalEnemyData_scr.normalEnemyType _enemyType;
     EnemyController_scr _enemyController;
     public float hp { get; set; }
     const float ENHANCEMENT_MATERIAL_DROP_RATE = 0.05f;
