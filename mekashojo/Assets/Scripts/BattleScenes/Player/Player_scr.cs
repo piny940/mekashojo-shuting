@@ -211,7 +211,7 @@ public class Player_scr : MonoBehaviour
             {
                 _cannon__Player.StopUsing();
             }
-            else if(mainWeaponName==EquipmentData_scr.equipmentType.MainWeapon__Laser)
+            else if (mainWeaponName == EquipmentData_scr.equipmentType.MainWeapon__Laser)
             {
                 _laser__Player.StopUsing();
             }
@@ -277,38 +277,36 @@ public class Player_scr : MonoBehaviour
         //メイン武器の設定
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
-            case 0:
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
                 MainAttack = _cannon__Player.Attack;
                 _playerModel__Main = _playerModels[0];
                 break;
-            case 1:
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
                 MainAttack = _laser__Player.Attack;
                 _playerModel__Main = _playerModels[1];
                 break;
-            case 2:
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
                 MainAttack = _beamMachineGun__Player.Attack;
                 _playerModel__Main = _playerModels[2];
                 break;
             default:
-                Debug.Log("メイン武器に対応していない武器が設定されています");
-                break;
+                throw new System.Exception();
 
         }
 
         //サブ武器の設定
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
-            case 3:
+            case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
                 SubAttack = _balkan__Player.Attack;
                 _playerModel__Sub = _playerModels[3];
                 break;
-            case 4:
+            case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
                 SubAttack = _missile__Player.Attack;
                 _playerModel__Sub = _playerModels[4];
                 break;
             default:
-                Debug.Log("サブ武器に対応していない武器が設定されています");
-                break;
+                throw new System.Exception();
         }
     }
 

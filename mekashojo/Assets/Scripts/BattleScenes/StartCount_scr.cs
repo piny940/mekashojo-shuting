@@ -11,9 +11,7 @@ public class StartCount_scr : MonoBehaviour
     [SerializeField, Header("StartCount__2を入れる")] GameObject _startCount__2;
     [SerializeField, Header("StartCount__3を入れる")] GameObject _startCount__3;
     float _countTime;
-    bool _isStartCount1Active;
-    bool _isStartCount2Active;
-    bool _isStartCount3Active;
+    int _displayingNumber;  //数字を表示していないときは0を入れる
 
 
     // Start is called before the first frame update
@@ -23,9 +21,7 @@ public class StartCount_scr : MonoBehaviour
         _startCount__1.SetActive(false);
         _startCount__2.SetActive(false);
         _startCount__3.SetActive(false);
-        _isStartCount1Active = false;
-        _isStartCount2Active = false;
-        _isStartCount3Active = false;
+        _displayingNumber = 0;
         hasStarted = false;
         isStarting = true;
 
@@ -49,46 +45,47 @@ public class StartCount_scr : MonoBehaviour
 
         _countTime += Time.deltaTime;
 
-        if (_countTime <= 1 && !_isStartCount3Active)
+        if (_countTime <= 1 && _displayingNumber != 3)
         {
             //３番をアクティブにする
             _startCount__3.SetActive(true);
-            _isStartCount3Active = true;
+
+            _displayingNumber = 3;
 
             return;
         }
 
-        if (_countTime > 1 && _countTime <= 2 && !_isStartCount2Active)
+        if (_countTime > 1 && _countTime <= 2 && _displayingNumber != 2)
         {
             //３番を非アクティブにする
             _startCount__3.SetActive(false);
-            _isStartCount3Active = false;
 
             //２番をアクティブにする
             _startCount__2.SetActive(true);
-            _isStartCount2Active = true;
+
+            _displayingNumber = 2;
 
             return;
         }
 
-        if (_countTime > 2 && _countTime <= 3 && !_isStartCount1Active)
+        if (_countTime > 2 && _countTime <= 3 && _displayingNumber != 1)
         {
             //2番を非アクティブにする
             _startCount__2.SetActive(false);
-            _isStartCount2Active = false;
 
             //1番をアクティブにする
             _startCount__1.SetActive(true);
-            _isStartCount1Active = true;
+            _displayingNumber = 1;
 
             return;
         }
 
         if (_countTime > 3)
         {
+            //1番を非アクティブにする
             _startCount__1.SetActive(false);
-            _isStartCount1Active = false;
 
+            _displayingNumber = 0;
             _countTime = 0;
             isStarting = false;
             hasStarted = true;
