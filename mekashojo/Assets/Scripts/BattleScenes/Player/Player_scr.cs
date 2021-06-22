@@ -27,7 +27,6 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
     [HideInInspector] public float mainEnergyAmount { get; set; }
     [HideInInspector] public float subEnergyAmount { get; set; }
-    bool _isMainSelected;
     [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
     [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName { get { return EquipmentData_scr.equipmentData.selectedSubWeaponName; } }
     Cannon__Player_scr _cannon__Player;
@@ -51,6 +50,7 @@ public class Player_scr : MonoBehaviour
     float _hpAmount;
     bool _isPausing;
     bool _isSwitchingWeapon;
+    bool _isMainSelected;
     int _havingBombAmount;
     const int MAX_BOMB_AMOUNT = 3;
     #endregion
