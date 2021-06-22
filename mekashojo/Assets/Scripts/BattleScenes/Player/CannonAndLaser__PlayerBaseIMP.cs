@@ -17,19 +17,7 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
 
     public void Attack()
     {
-        //マウスを離した瞬間orエネルギーがなくなった瞬間の処理
-        if (_isActive && (!_getInput.isMouseLeft || _player.mainEnergyAmount <= 0))
-        {
-            _fire__Player.SetActive(false);
-            _isActive = false;
-        }
-
-        //左クリックした瞬間の処理
-        if (_getInput.isMouseLeft && _player.mainEnergyAmount > _player.maxMainEnergyAmount * UNABLE_TO_START_USING_RATE && !_isActive)
-        {
-            _fire__Player.SetActive(true);
-            _isActive = true;
-        }
+        AttackProcess();
 
         //左クリックしている間の処理
         if (_isActive)
@@ -55,4 +43,26 @@ public class CannonAndLaser__PlayerBaseImp : MonoBehaviour
             _isActive = false;
         }
     }
+
+    /// <summary>
+    /// 攻撃系の細かい処理
+    /// </summary>
+    void AttackProcess()
+    {
+        //マウスを離した瞬間orエネルギーがなくなった瞬間の処理
+        if (_isActive && !_player.CanAttack())
+        {
+            _fire__Player.SetActive(false);
+            _isActive = false;
+        }
+
+        //左クリックした瞬間の処理
+        if (!_isActive && _player.CanAttack(UNABLE_TO_START_USING_RATE))
+        {
+            _fire__Player.SetActive(true);
+            _isActive = true;
+        }
+    }
+
+    
 }

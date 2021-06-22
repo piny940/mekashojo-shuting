@@ -23,7 +23,7 @@ public class BeamMachineGun__Player_scr : MonoBehaviour
 
     public void Attack()
     {
-        if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
+        if (_player.CanAttack())
         {
             //一定フレームごとに呼び出す
             if (_count < 60 / _firePerSecound)

@@ -27,7 +27,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
     [HideInInspector] public float mainEnergyAmount { get; set; }
     [HideInInspector] public float subEnergyAmount { get; set; }
-    [HideInInspector] public bool isMainSelected { get; private set; }
+    bool _isMainSelected;
     [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
     [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName { get { return EquipmentData_scr.equipmentData.selectedSubWeaponName; } }
     Cannon__Player_scr _cannon__Player;
@@ -80,7 +80,7 @@ public class Player_scr : MonoBehaviour
         SetWeapon();
 
         //初めはmain選択状態にしておく
-        isMainSelected = true;
+        _isMainSelected = true;
         _mainTextImage.color = new Color(1, 1, 1, 1);
         _subTextImage.color = new Color(1, 1, 1, 0.2f);
         _playerModel__Main.SetActive(true);     //注意！_playerModel__Mainの設定はSetWeaponでやっているためこれをSetWeaponより先に走らせるとバグる
@@ -178,9 +178,9 @@ public class Player_scr : MonoBehaviour
     void SwitchWeapon()
     {
         //マウスホイールが奥に回された場合
-        if (_getInput.mouseWheel > 0 && !isMainSelected)
+        if (_getInput.mouseWheel > 0 && !_isMainSelected)
         {
-            isMainSelected = true;
+            _isMainSelected = true;
             _playerModel__Main.SetActive(true);
             _playerModel__Sub.SetActive(false);
 
@@ -196,9 +196,9 @@ public class Player_scr : MonoBehaviour
         }
 
         //マウスホイールが手前に回された場合
-        if (_getInput.mouseWheel < 0 && isMainSelected)
+        if (_getInput.mouseWheel < 0 && _isMainSelected)
         {
-            isMainSelected = false;
+            _isMainSelected = false;
             _playerModel__Main.SetActive(false);
             _playerModel__Sub.SetActive(true);
 
@@ -317,7 +317,7 @@ public class Player_scr : MonoBehaviour
     void Attack()
     {
         //メインが選択されていた時の処理
-        if (isMainSelected)
+        if (_isMainSelected)
         {
             MainAttack();
             return;
@@ -365,6 +365,41 @@ public class Player_scr : MonoBehaviour
         {
             _havingBombAmount++;
             _havingBombs[_havingBombAmount - 1].SetActive(true);
+        }
+    }
+
+
+    /// <summary>
+    /// メイン/サブ武器で攻撃可能かを返す
+    /// </summary>
+    /// <returns></returns>
+    public bool CanAttack()
+    {
+        if (_isMainSelected)
+        {
+            return _getInput.isMouseLeft && mainEnergyAmount > 0;
+        }
+        else
+        {
+            return _getInput.isMouseLeft && subEnergyAmount > 0;
+        }
+    }
+
+    /// <summary>
+    /// メイン/サブ武器で攻撃可能かを返す<br></br>
+    /// 引数にfloat型の数値を入力すると、エネルギー残量が少ないときはfalseを返すようにする
+    /// </summary>
+    /// <param name="unableToStartUsingRate"></param>
+    /// <returns></returns>
+    public bool CanAttack(float unableToStartUsingRate)
+    {
+        if (_isMainSelected)
+        {
+            return _getInput.isMouseLeft && mainEnergyAmount > maxMainEnergyAmount * unableToStartUsingRate;
+        }
+        else
+        {
+            return _getInput.isMouseLeft && subEnergyAmount > maxSubEnergyAmount * unableToStartUsingRate;
         }
     }
 }

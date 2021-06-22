@@ -13,7 +13,7 @@ public class Missile__Player_scr : MonoBehaviour
         //ミサイルは1クリック分の処理しかしない
 
         //左クリックを離した瞬間の処理
-        if (_hasAttacked && !_getInput.isMouseLeft)
+        if (_hasAttacked && !_player.CanAttack())
         {
             _hasAttacked = false;
             return;
@@ -25,7 +25,7 @@ public class Missile__Player_scr : MonoBehaviour
             return;
         }
 
-        if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
+        if (_player.CanAttack())
         {
             _hasAttacked = true;
             GameObject missileFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/MissileFire__Player"), transform.position, Quaternion.identity);
@@ -39,5 +39,6 @@ public class Missile__Player_scr : MonoBehaviour
 
             _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
         }
+        
     }
 }
