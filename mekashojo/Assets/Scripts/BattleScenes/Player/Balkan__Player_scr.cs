@@ -23,7 +23,7 @@ public class Balkan__Player_scr : MonoBehaviour
 
     public void Attack()
     {
-        if (_player.CanAttack())
+        if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
         {
             //一定フレームごとに呼び出す
             if (_count < 60 / _firePerSecound)
@@ -31,12 +31,21 @@ public class Balkan__Player_scr : MonoBehaviour
                 _count++;
                 return;
             }
-
             _count = 0;
-            Instantiate((GameObject)Resources.Load("BattleScenes/BalkanFire__Player"), transform.position, Quaternion.identity);
 
-            //エネルギーを減らす
-            _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.subWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.subWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
+            Fire();
         }
+    }
+
+
+    /// <summary>
+    /// 弾を発射する
+    /// </summary>
+    void Fire()
+    {
+        Instantiate((GameObject)Resources.Load("BattleScenes/BalkanFire__Player"), transform.position, Quaternion.identity);
+
+        //エネルギーを減らす
+        _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedSubWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedSubWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
     }
 }
