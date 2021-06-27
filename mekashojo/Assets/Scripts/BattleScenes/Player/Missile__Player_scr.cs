@@ -2,41 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Missile__Player_scr : MonoBehaviour
+public class Missile__Player_scr : PlayerWeaponBaseImp
 {
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
-    bool _canFire = true;
+    bool _hasAttacked = false;
+    public AttackManager attackManager;
 
-    public void Attack()
+    private void Start()
     {
-        //ミサイルは1クリック分の処理しかしない
-        AttackProcess();
-
-        if (_canFire && _getInput.isMouseLeft && _player.subEnergyAmount > 0)
-        {
-            Fire();
-        }
-        
+        attackManager = new AttackManager(Attack, CanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedSubWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedSubWeaponName]][EquipmentData_scr.equipmentParameter.Cost], null, null, null);
     }
 
-    /// <summary>
-    /// 攻撃に関する細かい処理をする
-    /// </summary>
-    void AttackProcess()
+    bool CanAttack()
     {
         //左クリックを離した瞬間の処理
-        if (!_canFire && !_getInput.isMouseLeft)
+        if (_hasAttacked && !_getInput.isMouseLeft)
         {
-            _canFire = true;
+            _hasAttacked = false;
         }
+
+        return !_hasAttacked && _getInput.isMouseLeft && _player.subEnergyAmount > 0;
     }
 
-
-    /// <summary>
-    /// ミサイルを発射する
-    /// </summary>
-    void Fire()
+    void Attack()
     {
         GameObject missileFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/MissileFire__Player"), transform.position, Quaternion.identity);
 
@@ -47,8 +36,6 @@ public class Missile__Player_scr : MonoBehaviour
         float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
         missileFire__Player.transform.localEulerAngles = new Vector3(0, 0, theta);
 
-        _player.subEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedSubWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedSubWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-
-        _canFire = false;
+        _hasAttacked = true;
     }
 }

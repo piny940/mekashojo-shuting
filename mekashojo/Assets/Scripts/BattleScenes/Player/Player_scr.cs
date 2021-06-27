@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+delegate void AttackDelegate(ref float energyAmount);
+
 public class Player_scr : MonoBehaviour
 {
     #region
@@ -25,8 +27,8 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
     [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
-    [HideInInspector] public float mainEnergyAmount { get; set; }
-    [HideInInspector] public float subEnergyAmount { get; set; }
+    [HideInInspector] public float mainEnergyAmount;
+    [HideInInspector] public float subEnergyAmount;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -43,8 +45,8 @@ public class Player_scr : MonoBehaviour
     Image _mainEnergyBarContentImage;
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
-    Action MainAttack;
-    Action SubAttack;
+    AttackDelegate MainAttack;
+    AttackDelegate SubAttack;
     float _hpAmount;
     bool _isPausing;
     bool _isSwitchingWeapon;
@@ -124,7 +126,6 @@ public class Player_scr : MonoBehaviour
         {
             _isPausing = false;
         }
-
 
 
         MovePlayer();
@@ -276,19 +277,20 @@ public class Player_scr : MonoBehaviour
         _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
 
 
+
         //メイン武器の設定
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
             case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
-                MainAttack = _cannon__Player.Attack;
+                MainAttack = _cannon__Player.attackManager.Execute;
                 _playerModel__Main = _playerModels[0];
                 break;
             case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
-                MainAttack = _laser__Player.Attack;
+                MainAttack = _laser__Player.attackManager.Execute;
                 _playerModel__Main = _playerModels[1];
                 break;
             case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
-                MainAttack = _beamMachineGun__Player.Attack;
+                MainAttack = _beamMachineGun__Player.attackManager.Execute;
                 _playerModel__Main = _playerModels[2];
                 break;
             default:
@@ -300,11 +302,11 @@ public class Player_scr : MonoBehaviour
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
             case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
-                SubAttack = _balkan__Player.Attack;
+                SubAttack = _balkan__Player.attackManager.Execute;
                 _playerModel__Sub = _playerModels[3];
                 break;
             case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
-                SubAttack = _missile__Player.Attack;
+                SubAttack = _missile__Player.attackManager.Execute;
                 _playerModel__Sub = _playerModels[4];
                 break;
             default:
@@ -321,7 +323,7 @@ public class Player_scr : MonoBehaviour
         //メインが選択されていた時の処理
         if (_isMainSelected)
         {
-            MainAttack();
+            MainAttack(ref mainEnergyAmount);
             return;
         }
 
@@ -332,7 +334,7 @@ public class Player_scr : MonoBehaviour
         }
 
         //サブが選択されていた時の処理
-        SubAttack();
+        SubAttack(ref subEnergyAmount);
     }
 
 

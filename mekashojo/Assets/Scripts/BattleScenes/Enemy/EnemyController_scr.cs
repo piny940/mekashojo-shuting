@@ -71,7 +71,7 @@ public class EnemyController_scr : MonoBehaviour
 
         for(int i = 0; i < _enemyNames.Count; i++)
         {
-            if (randomValueForEnemyChoosing <= (float)_produceProbabilityRatios[i] / (float)_produceProbabilityRatiosSum)
+            if (randomValueForEnemyChoosing <= (float)_produceProbabilityRatios.Take(i + 1).Sum() / (float)_produceProbabilityRatiosSum)
             {
                 //敵を生成する
                 //敵は画面の右半分に生成する仕様にしている
@@ -80,7 +80,6 @@ public class EnemyController_scr : MonoBehaviour
                 EnemyAmount++;
                 break;
             }
-            randomValueForEnemyChoosing -= (float)_produceProbabilityRatios[i] / (float)_produceProbabilityRatiosSum;
         }
     }
 }
