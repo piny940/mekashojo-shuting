@@ -9,7 +9,6 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
     bool _canFire;
     const float UNABLE_TO_START_USING_RATE = 0.01f; //武器を使い始めることができなくなるエネルギー量(全体に対する割合)
-    public AttackManager attackManager;
 
 
     public void Start()
@@ -17,8 +16,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
         _fire__Player.SetActive(false);
         _canFire = true;
 
-        attackManager = new AttackManager(Attack, CanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime, ProceedFirst, ProceedLast, CanStartAttack);
-
+        SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime, MyProceedFirst, MyProceedLast, MyCanStartAttack);
     }
 
     /// <summary>
@@ -36,11 +34,8 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// <summary>
     /// 攻撃そのもの
     /// </summary>
-    void Attack()
+    void MyAttack()
     {
-        //エネルギーを減らす
-        _player.mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime;
-
         //ミサイルの向きを変える
         float a = transform.position.x;
         float b = transform.position.y;
@@ -53,7 +48,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// <summary>
     /// 攻撃のはじめにする処理
     /// </summary>
-    void ProceedFirst()
+    void MyProceedFirst()
     {
         _fire__Player.SetActive(true);
     }
@@ -61,7 +56,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// <summary>
     /// 攻撃の最後にする処理
     /// </summary>
-    void ProceedLast()
+    void MyProceedLast()
     {
         _fire__Player.SetActive(false);
     }
@@ -70,7 +65,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// 攻撃し続けることができるか
     /// </summary>
     /// <returns></returns>
-    bool CanAttack()
+    bool MyCanAttack()
     {
         return _getInput.isMouseLeft && _player.mainEnergyAmount > 0;
     }
@@ -79,7 +74,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// 攻撃し始めることができるか
     /// </summary>
     /// <returns></returns>
-    bool CanStartAttack()
+    bool MyCanStartAttack()
     {
         return _getInput.isMouseLeft && _player.mainEnergyAmount > _player.maxMainEnergyAmount * UNABLE_TO_START_USING_RATE;
     }

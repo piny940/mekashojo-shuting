@@ -8,16 +8,15 @@ public class BeamMachineGun__Player_scr : PlayerWeaponBaseImp
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
     [SerializeField, Header("1秒あたりに発射する球の数")] int _firePerSecound;
     int _count;
-    public AttackManager attackManager;
 
     // Start is called before the first frame update
     void Start()
     {
         _count = 0;
-        attackManager = new AttackManager(Attack, CanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost], null, null, null);
+        SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost], null, null, null);
     }
 
-    void Attack()
+    void MyAttack()
     {
         GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
 
@@ -31,7 +30,7 @@ public class BeamMachineGun__Player_scr : PlayerWeaponBaseImp
         _count = 0;
     }
 
-    bool CanAttack()
+    bool MyCanAttack()
     {
         _count++;
         return _count > 60 / _firePerSecound && _getInput.isMouseLeft && _player.mainEnergyAmount > 0;

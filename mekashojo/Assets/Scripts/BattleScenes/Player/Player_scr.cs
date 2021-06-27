@@ -282,15 +282,15 @@ public class Player_scr : MonoBehaviour
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
             case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
-                MainAttack = _cannon__Player.attackManager.Execute;
+                MainAttack = _cannon__Player.Execute;
                 _playerModel__Main = _playerModels[0];
                 break;
             case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
-                MainAttack = _laser__Player.attackManager.Execute;
+                MainAttack = _laser__Player.Execute;
                 _playerModel__Main = _playerModels[1];
                 break;
             case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
-                MainAttack = _beamMachineGun__Player.attackManager.Execute;
+                MainAttack = _beamMachineGun__Player.Execute;
                 _playerModel__Main = _playerModels[2];
                 break;
             default:
@@ -302,11 +302,11 @@ public class Player_scr : MonoBehaviour
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
             case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
-                SubAttack = _balkan__Player.attackManager.Execute;
+                SubAttack = _balkan__Player.Execute;
                 _playerModel__Sub = _playerModels[3];
                 break;
             case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
-                SubAttack = _missile__Player.attackManager.Execute;
+                SubAttack = _missile__Player.Execute;
                 _playerModel__Sub = _playerModels[4];
                 break;
             default:
