@@ -9,64 +9,39 @@ public class PlayerWeaponBaseImp : MonoBehaviour
     Action Attack;
     Action ProceedLast;
     Func<bool> CanAttack;
-    Func<bool> CanStartAttack;
     float EnergyCost;
     public bool canAttack = false;
 
-    protected void SetMethod(Action Attack, Func<bool> CanAttack, float energyCost, Action ProceedFirst, Action ProceedLast, Func<bool> CanStartAttack)
+    protected void SetMethod(Action Attack, Func<bool> CanAttack, float energyCost, Action ProceedFirst, Action ProceedLast)
     {
         this.Attack = Attack;
         this.CanAttack = CanAttack;
         this.EnergyCost = energyCost;
         this.ProceedFirst = ProceedFirst;
         this.ProceedLast = ProceedLast;
-        this.CanStartAttack = CanStartAttack;
     }
 
     public void Execute(ref float energyAmount)
     {
-        if (CanStartAttack == null)
+        //攻撃のはじめにする処理
+        if (ProceedFirst != null && !canAttack && CanAttack())
         {
-            //キャノン・レーザー以外
-            //攻撃のはじめにする処理
-            if (ProceedFirst != null && !canAttack && CanAttack())
-            {
-                ProceedFirst();
-            }
-
-            //攻撃の終わりにする処理
-            if (ProceedLast != null && canAttack && !CanAttack())
-            {
-                ProceedLast();
-            }
-
-            canAttack = CanAttack();
+            ProceedFirst();
         }
-        else
-        {
-            //キャノン・レーザー
-            //攻撃のはじめにする処理
-            if (ProceedFirst != null && !canAttack && CanStartAttack())
-            {
-                ProceedFirst();
-            }
 
-            //攻撃の終わりにする処理
-            if (ProceedLast != null && canAttack && !CanAttack())
-            {
-                ProceedLast();
-            }
+        //攻撃の終わりにする処理
+        if (ProceedLast != null && canAttack && !CanAttack())
+        {
+            ProceedLast();
         }
 
         //攻撃そのもの
-        if (canAttack)
+        if (CanAttack())
         {
             Attack();
             energyAmount -= EnergyCost;
         }
 
+        canAttack = CanAttack();
     }
-    
-
-    
 }

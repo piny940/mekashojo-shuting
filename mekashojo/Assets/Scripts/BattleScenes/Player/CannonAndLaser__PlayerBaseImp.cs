@@ -7,14 +7,26 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     [SerializeField, Header("Cannon/LaserFire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
-    const float UNABLE_TO_START_USING_RATE = 0.01f; //武器を使い始めることができなくなるエネルギー量(全体に対する割合)
-
+    bool _isEnergyScarce;
 
     public void Start()
     {
         _fire__Player.SetActive(false);
 
-        SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime, MyProceedFirst, MyProceedLast, MyCanStartAttack);
+        SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime, MyProceedFirst, MyProceedLast);
+    }
+
+    private void Update()
+    {
+        if (_player.mainEnergyAmount <= 0)
+        {
+            _isEnergyScarce = true;
+        }
+
+        if (!_getInput.isMouseLeft && _isEnergyScarce)
+        {
+            _isEnergyScarce = false;
+        }
     }
 
     /// <summary>
@@ -23,6 +35,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     public void StopUsing()
     {
         MyProceedLast();
+        canAttack = false;
     }
 
     /// <summary>
@@ -45,7 +58,6 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     void MyProceedFirst()
     {
         _fire__Player.SetActive(true);
-        canAttack = true;
     }
 
     /// <summary>
@@ -54,7 +66,6 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     void MyProceedLast()
     {
         _fire__Player.SetActive(false);
-        canAttack = false;
     }
 
     /// <summary>
@@ -63,15 +74,6 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// <returns></returns>
     bool MyCanAttack()
     {
-        return _getInput.isMouseLeft && _player.mainEnergyAmount > 0;
-    }
-
-    /// <summary>
-    /// 攻撃し始めることができるか
-    /// </summary>
-    /// <returns></returns>
-    bool MyCanStartAttack()
-    {
-        return _getInput.isMouseLeft && _player.mainEnergyAmount > _player.maxMainEnergyAmount * UNABLE_TO_START_USING_RATE;
+        return _getInput.isMouseLeft && _player.mainEnergyAmount > 0 && !_isEnergyScarce;
     }
 }
