@@ -7,14 +7,12 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     [SerializeField, Header("Cannon/LaserFire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
-    bool _canFire;
     const float UNABLE_TO_START_USING_RATE = 0.01f; //武器を使い始めることができなくなるエネルギー量(全体に対する割合)
 
 
     public void Start()
     {
         _fire__Player.SetActive(false);
-        _canFire = true;
 
         SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost] * Time.deltaTime, MyProceedFirst, MyProceedLast, MyCanStartAttack);
     }
@@ -24,11 +22,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     /// </summary>
     public void StopUsing()
     {
-        if (_canFire)
-        {
-            _fire__Player.SetActive(false);
-            _canFire = false;
-        }
+        MyProceedLast();
     }
 
     /// <summary>
@@ -51,6 +45,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     void MyProceedFirst()
     {
         _fire__Player.SetActive(true);
+        canAttack = true;
     }
 
     /// <summary>
@@ -59,6 +54,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     void MyProceedLast()
     {
         _fire__Player.SetActive(false);
+        canAttack = false;
     }
 
     /// <summary>

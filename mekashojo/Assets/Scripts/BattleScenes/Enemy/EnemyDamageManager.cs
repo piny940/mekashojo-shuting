@@ -39,13 +39,13 @@ public class EnemyDamageManager : MonoBehaviour
     {
         //ドロップアイテムを落とす
 
-        float randomValueA = Random.value;
+        float randomValueForChoosingWhatMaterialToDrop = Random.value;
 
-        if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE)
+        if (randomValueForChoosingWhatMaterialToDrop <= ENHANCEMENT_MATERIAL_DROP_RATE)
         {
             //強化素材を落とす
-            float randomValueB = Mathf.Floor(Random.value * 8);
-            switch (randomValueB)
+            float randomValueForChoosingWhatEnhancementMaterialToDrop = Mathf.Floor(Random.value * 8);
+            switch (randomValueForChoosingWhatEnhancementMaterialToDrop)
             {
                 case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
                     //Cannonの強化素材を落とす
@@ -93,12 +93,12 @@ public class EnemyDamageManager : MonoBehaviour
             }
 
         }
-        else if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE)
+        else if (randomValueForChoosingWhatMaterialToDrop <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE)
         {
             //エネルギー回復パックを落とす
             Instantiate((GameObject)Resources.Load("BattleScenes/EnergyChargeMaterial"), transform.position, Quaternion.identity);
         }
-        else if (randomValueA <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE + BOMB_CHARGE_MATERIAL_DROP_RATE)
+        else if (randomValueForChoosingWhatMaterialToDrop <= ENHANCEMENT_MATERIAL_DROP_RATE + ENERGY_CHARGE_MATERIAL_DROP_RATE + BOMB_CHARGE_MATERIAL_DROP_RATE)
         {
             //ボム補充アイテムを落とす
             Instantiate((GameObject)Resources.Load("BattleScenes/BombChargeMaterial"), transform.position, Quaternion.identity);

@@ -11,7 +11,7 @@ public class PlayerWeaponBaseImp : MonoBehaviour
     Func<bool> CanAttack;
     Func<bool> CanStartAttack;
     float EnergyCost;
-    bool _canAttack = false;
+    public bool canAttack = false;
 
     protected void SetMethod(Action Attack, Func<bool> CanAttack, float energyCost, Action ProceedFirst, Action ProceedLast, Func<bool> CanStartAttack)
     {
@@ -29,39 +29,37 @@ public class PlayerWeaponBaseImp : MonoBehaviour
         {
             //キャノン・レーザー以外
             //攻撃のはじめにする処理
-            if (ProceedFirst != null && !_canAttack && CanAttack())
+            if (ProceedFirst != null && !canAttack && CanAttack())
             {
                 ProceedFirst();
             }
 
             //攻撃の終わりにする処理
-            if (ProceedLast != null && _canAttack && !CanAttack())
+            if (ProceedLast != null && canAttack && !CanAttack())
             {
                 ProceedLast();
             }
 
-            _canAttack = CanAttack();
+            canAttack = CanAttack();
         }
         else
         {
             //キャノン・レーザー
             //攻撃のはじめにする処理
-            if (!_canAttack && CanStartAttack())
+            if (ProceedFirst != null && !canAttack && CanStartAttack())
             {
                 ProceedFirst();
-                _canAttack = true;
             }
 
             //攻撃の終わりにする処理
-            if (_canAttack && !CanAttack())
+            if (ProceedLast != null && canAttack && !CanAttack())
             {
                 ProceedLast();
-                _canAttack = false;
             }
         }
 
         //攻撃そのもの
-        if (_canAttack)
+        if (canAttack)
         {
             Attack();
             energyAmount -= EnergyCost;
