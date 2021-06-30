@@ -10,7 +10,7 @@ public class PlayerWeaponBaseImp : MonoBehaviour
     Action ProceedLast;
     Func<bool> CanAttack;
     float EnergyCost;
-    public bool canAttack = false;
+    protected bool lastCanAttack = false;
 
     protected void SetMethod(Action Attack, Func<bool> CanAttack, float energyCost, Action ProceedFirst, Action ProceedLast)
     {
@@ -24,16 +24,18 @@ public class PlayerWeaponBaseImp : MonoBehaviour
     public void Execute(ref float energyAmount)
     {
         //攻撃のはじめにする処理
-        if (ProceedFirst != null && !canAttack && CanAttack())
+        if (ProceedFirst != null && !lastCanAttack && CanAttack())
         {
             ProceedFirst();
         }
 
         //攻撃の終わりにする処理
-        if (ProceedLast != null && canAttack && !CanAttack())
+        if (ProceedLast != null && lastCanAttack && !CanAttack())
         {
             ProceedLast();
         }
+
+        lastCanAttack = CanAttack();
 
         //攻撃そのもの
         if (CanAttack())
@@ -42,6 +44,5 @@ public class PlayerWeaponBaseImp : MonoBehaviour
             energyAmount -= EnergyCost;
         }
 
-        canAttack = CanAttack();
     }
 }

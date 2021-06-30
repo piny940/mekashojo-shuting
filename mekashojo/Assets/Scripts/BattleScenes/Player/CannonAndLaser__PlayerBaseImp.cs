@@ -35,7 +35,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     public void StopUsing()
     {
         MyProceedLast();
-        canAttack = false;
+        lastCanAttack = false;
     }
 
     /// <summary>
