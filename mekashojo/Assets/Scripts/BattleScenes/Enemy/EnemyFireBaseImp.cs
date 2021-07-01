@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class EnemyFireBaseImp : MonoBehaviour
 {
-    protected NormalEnemyData_scr.normalEnemyType normalEnemyType;
+    [SerializeField, Header("雑魚敵の種類を選ぶ")] NormalEnemyData_scr.normalEnemyType normalEnemyType;
+    protected bool isPausing = false;
+    protected Rigidbody2D rigidbody2D;
+    protected CommonForBattleScenes_scr commonForBattleScenes;
+    protected Vector3 savedVelocity;
 
     float _power;
 
+
     /// <summary>
     /// Startメソッドで呼ぶ<br></br>
-    /// これを呼ぶ前にnormalEnemyTypeを設定する必要がある
     /// </summary>
     protected void Initialize()
     {
         //攻撃力の取得
         _power = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount];
-    }
 
+        //コンポーネントの取得
+        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,17 +35,21 @@ public class EnemyFireBaseImp : MonoBehaviour
 
             switch ((int)normalEnemyType)
             {
-                case (int)NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone: //スタン型
-                case (int)NormalEnemyData_scr.normalEnemyType.SelfDestruct__MiddleDrone: //自爆型
+                case 2: //スタン型
                     throw new System.Exception();
-                case (int)NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone: //全方位ビーム
+
+                case 10: //自爆型
+                    throw new System.Exception();
+
+                case 7: //全方位ビーム
                     break;
+
                 default:    //それ以外ならプレイヤーに当たったら消滅する
                     Destroy(this.gameObject);
                     break;
 
             }
-            
+
         }
     }
 }

@@ -10,7 +10,7 @@ public class StageSelectButtonBaseImp : ButtonBaseImp
 
     protected ProgressData_scr.stageName _stageName;
     // ステージのシーン名
-    protected string _stageSceneName;
+    protected SceneChangeManager_scr.SceneNames _stageSceneName;
 
     protected void Initialize()
     {

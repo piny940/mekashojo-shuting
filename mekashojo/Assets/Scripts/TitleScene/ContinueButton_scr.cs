@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ContinueButton_scr : MonoBehaviour
 {
@@ -33,7 +32,7 @@ public class ContinueButton_scr : MonoBehaviour
         }
 
         //セーブデータがあった場合
-        SceneManager.LoadScene("MenuScene");
+        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
 
 
     }

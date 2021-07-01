@@ -25,7 +25,7 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
     void Update()
     {
         //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity,_animator);
+        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity, _animator);
         
         //移動速度の設定
         SetVelocity();

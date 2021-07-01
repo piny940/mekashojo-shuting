@@ -513,3 +513,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4abc5c1657c4f3f9cb03d2eb57703b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalEnemyType: 7

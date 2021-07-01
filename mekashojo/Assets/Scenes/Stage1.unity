@@ -549,6 +549,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _getInput: {fileID: 1967126173}
   _player: {fileID: 409409996}
+--- !u!1 &241853916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 241853918}
+  - component: {fileID: 241853917}
+  m_Layer: 0
+  m_Name: EnemyController
+  m_TagString: EnemyController__BattleScene
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &241853917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241853916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c7fe17bdda24d2b939e218794aa36d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxEnemyAmount: 1
+  _firstEnemyAmount: 1
+  _enemyNames:
+  - Enemy__SelfDestruct
+  - Enemy__WideBeam
+  - Enemy__GuidedBullet
+  - Enemy__SpreadBullet
+  - Enemy__FastBullet
+  - Enemy__SingleBullet
+  - Enemy__SlowBullet
+  - Enemy__StunBullet
+  _produceProbabilityRatios: 0000000000000000000000000000000000000000000000000000000001000000
+  _enemyProduceProbabilityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.021885965
+      outSlope: 0.021885965
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04210691
+    - serializedVersion: 3
+      time: 0.7429059
+      value: 0.61412525
+      inSlope: -0.9888979
+      outSlope: -0.9888979
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04020694
+      outWeight: 0.11911397
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _startCount: {fileID: 0}
+--- !u!4 &241853918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241853916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6361287, y: 0.71475697, z: -15.100777}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &245329239
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +1051,8 @@ MonoBehaviour:
   _contactDamageAmount: 20
   maxMainEnergyAmount: 1000
   maxSubEnergyAmount: 1000
+  _oneShakeTime: 0
+  _shakingSpeed: 0
   _getInput: {fileID: 1967126173}
   _startCount: {fileID: 834243744}
   _mainText: {fileID: 685453906}
@@ -988,6 +1079,9 @@ MonoBehaviour:
   - {fileID: 3051143350431596966}
   - {fileID: 4797287764147747068}
   - {fileID: 4797287764310878307}
+  mainEnergyAmount: 0
+  subEnergyAmount: 0
+  isStunning: 0
 --- !u!70 &409409997
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1551,90 +1645,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685453906}
   m_CullTransparentMesh: 1
---- !u!1 &706064851
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 706064853}
-  - component: {fileID: 706064852}
-  m_Layer: 0
-  m_Name: EnemyController
-  m_TagString: EnemyController__BattleScene
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &706064852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706064851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6c7fe17bdda24d2b939e218794aa36d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxEnemyAmount: 20
-  _firstEnemyAmount: 0
-  _enemyNames:
-  - Enemy__SelfDestruct
-  - Enemy__WideBeam
-  _produceProbabilityRatios: 0100000001000000
-  _enemyProduceProbabilityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0.021885965
-      outSlope: 0.021885965
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.04210691
-    - serializedVersion: 3
-      time: 0.7429059
-      value: 0.61412525
-      inSlope: -0.9888979
-      outSlope: -0.9888979
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.04020694
-      outWeight: 0.11911397
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _mainCamera: {fileID: 813929235}
-  _startCount: {fileID: 834243744}
---- !u!4 &706064853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706064851}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6361287, y: 0.71475697, z: -15.100777}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &764183415
 GameObject:
   m_ObjectHideFlags: 0

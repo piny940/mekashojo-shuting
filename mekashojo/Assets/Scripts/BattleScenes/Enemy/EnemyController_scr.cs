@@ -10,7 +10,6 @@ public class EnemyController_scr : MonoBehaviour
     [SerializeField, Header("敵のオブジェクトの名前")] List<string> _enemyNames;
     [SerializeField, Header("各敵を生成する確率の整数比")] List<int> _produceProbabilityRatios;
     [SerializeField, Header("敵の生成確率曲線")] AnimationCurve _enemyProduceProbabilityCurve;
-    [SerializeField, Header("MainCameraを入れる")] GameObject _mainCamera;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     public int EnemyAmount { get; set; }   //今いる敵の数
     int _produceProbabilityRatiosSum;

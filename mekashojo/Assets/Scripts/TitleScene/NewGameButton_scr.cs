@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class NewGameButton_scr : MonoBehaviour
 {
@@ -19,8 +18,9 @@ public class NewGameButton_scr : MonoBehaviour
 
     public void OnPush()
     {
+        //セーブデータの削除
         PlayerPrefs.DeleteAll();
-        SaveDataManager_scr.saveDataManager.SaveData();
-        SceneManager.LoadScene("MenuScene");
+
+        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
     }
 }

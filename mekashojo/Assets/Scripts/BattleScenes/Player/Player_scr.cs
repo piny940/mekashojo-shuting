@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 delegate void AttackDelegate(ref float energyAmount);
 
@@ -17,6 +16,8 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
     [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
     [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
+    [SerializeField, Header("Stun時の振動をどれだけ細かくするか")] int _oneShakeTime;
+    [SerializeField, Header("Stun時の振動の速さ")] float _shakingSpeed;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
@@ -29,6 +30,7 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
     [HideInInspector] public float mainEnergyAmount;
     [HideInInspector] public float subEnergyAmount;
+    [HideInInspector] public bool isStunning;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -52,6 +54,8 @@ public class Player_scr : MonoBehaviour
     bool _isSwitchingWeapon;
     bool _isMainSelected;
     int _havingBombAmount;
+    int _stunFrameCount;
+    Vector3 _shakingVector;
     const int MAX_BOMB_AMOUNT = 3;
     const float UNUSED_WEAPON_TRANSPARENCY = 0.2f;
     #endregion
@@ -106,6 +110,9 @@ public class Player_scr : MonoBehaviour
         //z座標を0にする
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 
+        //_stunFrameCountは0にしておく
+        _stunFrameCount = 0;
+
     }
 
     // Update is called once per frame
@@ -127,6 +134,15 @@ public class Player_scr : MonoBehaviour
             _isPausing = false;
         }
 
+        AutoEnergyCharge();
+
+        //Stun中
+        //Stun中でも動いて欲しいメソッドはこれより上に書く
+        if (isStunning)
+        {
+            Stun();
+            return;
+        }
 
         MovePlayer();
 
@@ -134,7 +150,6 @@ public class Player_scr : MonoBehaviour
 
         Attack();
 
-        AutoEnergyCharge();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -369,6 +384,34 @@ public class Player_scr : MonoBehaviour
         {
             _havingBombAmount++;
             _havingBombs[_havingBombAmount - 1].SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Stun攻撃をくらったら一定時間ビリビリする
+    /// </summary>
+    void Stun()
+    {
+        _stunFrameCount++;
+
+        //微小振動させる
+        if (_stunFrameCount % (_oneShakeTime*2) == 0)
+        {
+            _shakingVector = new Vector3(Random.value * _shakingSpeed, Random.value * _shakingSpeed, 0);
+
+            _rigidbody2D.velocity = _shakingVector;
+        }
+        else if(_stunFrameCount % (_oneShakeTime * 2) == _oneShakeTime)
+        {
+            _rigidbody2D.velocity = -_shakingVector;
+        }
+
+        //設定された時間の間ビリビリしたら止まる
+        if (_stunFrameCount * Time.deltaTime > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.StunDuration])
+        {
+            _stunFrameCount = 0;
+
+            isStunning = false;
         }
     }
 }

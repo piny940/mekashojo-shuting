@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Menu__StageSelect_scr : ButtonBaseImp
 {
@@ -9,7 +8,7 @@ public class Menu__StageSelect_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            SceneManager.LoadScene("StageSelectScene");
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageSelectScene);
         }
     }
 
