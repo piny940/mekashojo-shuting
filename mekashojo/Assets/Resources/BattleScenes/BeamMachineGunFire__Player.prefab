@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8576342808021512331}
   m_Layer: 0
   m_Name: BeamMachineGunFire__Player
-  m_TagString: Untagged
+  m_TagString: PlayerFire__BattleScene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

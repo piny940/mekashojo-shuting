@@ -91,7 +91,7 @@ public class EquipmentData_scr : MonoBehaviour
 
         selectedMainWeaponName = equipmentType.MainWeapon__Cannon;
 
-        selectedSubWeaponName = equipmentType.SubWeapon__Missile;
+        selectedSubWeaponName = equipmentType.SubWeapon__Balkan;
 
         selectedShieldName = equipmentType.Shield__Heavy;
 

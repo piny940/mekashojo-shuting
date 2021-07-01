@@ -37,11 +37,11 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Player_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
         {
             collision.GetComponent<Player_scr>().GetDamage(_power);
 
-            Instantiate((GameObject)Resources.Load("BattleScenes/ExplodeEffect__SelfDestruct__Enemy"),transform.position,Quaternion.identity);
+            Instantiate((GameObject)Resources.Load("BattleScenes/ExplodeEffect__SelfDestruct__Enemy"), transform.position, Quaternion.identity);
 
             DestroyMyself();
         }

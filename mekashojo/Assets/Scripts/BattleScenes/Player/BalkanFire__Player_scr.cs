@@ -20,11 +20,11 @@ public class BalkanFire__Player_scr : MonoBehaviour
     void Start()
     {
         //ゲームオブジェクトの取得
-        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player_BattleScene.ToString());
-        _getInput = GameObject.FindGameObjectWithTag(Common_scr.Tags.GetInput_BattleScene.ToString());
+        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
+        _getInput = GameObject.FindGameObjectWithTag(Common_scr.Tags.GetInput__BattleScene.ToString());
 
         //コンポーネントを取得
-        _commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes_BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        _commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _getInput_scr = _getInput.GetComponent<GetInput_scr>();
 
@@ -35,6 +35,11 @@ public class BalkanFire__Player_scr : MonoBehaviour
         _time = 0;
         _power = EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentType.SubWeapon__Balkan][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Balkan]][EquipmentData_scr.equipmentParameter.Power];
 
+        //nullの場合
+        if (_player == null || _getInput == null || _commonForBattleScenes == null)
+        {
+            throw new System.Exception();
+        }
     }
 
     // Update is called once per frame
@@ -53,21 +58,27 @@ public class BalkanFire__Player_scr : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag==Common_scr.Tags.Enemy_BattleScene.ToString())
+        if (collision.tag==Common_scr.Tags.Enemy__BattleScene.ToString())
         {
-            EnemyGetDamage_scr enemyGetDamage = collision.GetComponent<EnemyGetDamage_scr>();
+            EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
+
+            //nullの場合
+            if (enemyDamageManager == null)
+            {
+                throw new System.Exception();
+            }
 
             //弾が消滅する場合
-            if (enemyGetDamage.hp >= _power)
+            if (enemyDamageManager.hp >= _power)
             {
-                enemyGetDamage.GetDamage(_power);
+                enemyDamageManager.GetDamage(_power);
                 Destroy(this.gameObject);
             }
 
             //弾が消滅しない場合
             float comtemporaryPower = _power;
-            _power -= enemyGetDamage.hp;
-            enemyGetDamage.GetDamage(comtemporaryPower);
+            _power -= enemyDamageManager.hp;
+            enemyDamageManager.GetDamage(comtemporaryPower);
         }
     }
 }

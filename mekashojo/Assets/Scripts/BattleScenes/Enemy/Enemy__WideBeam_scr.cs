@@ -21,7 +21,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
 
         _firingInterval = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone][NormalEnemyData_scr.normalEnemyParameter.FiringInterval];
 
-        _time = _firingInterval / 2;
+        _time = Random.value * _firingInterval;
 
         _isBeamsActive = false;
 
@@ -46,9 +46,14 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
         //攻撃
         Attack();
     }
-
+    
     void Attack()
     {
+        if (!_startCount.hasStarted)
+        {
+            return;
+        }
+
         _time += Time.deltaTime;
 
         //平常時

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeamMachineGun__Player_scr : MonoBehaviour
+public class BeamMachineGun__Player_scr : PlayerWeaponBaseImp
 {
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
@@ -13,37 +13,26 @@ public class BeamMachineGun__Player_scr : MonoBehaviour
     void Start()
     {
         _count = 0;
+        SetMethod(MyAttack, MyCanAttack, EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedMainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]][EquipmentData_scr.equipmentParameter.Cost], null, null);
     }
 
-    // Update is called once per frame
-    void Update()
+    void MyAttack()
     {
+        GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
 
+        float a = transform.position.x;
+        float b = transform.position.y;
+        float u = _getInput.mousePosition.x;
+        float v = _getInput.mousePosition.y;
+        float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
+        beamMachineGunFire__Player.transform.localEulerAngles = new Vector3(0, 0, theta);
+
+        _count = 0;
     }
 
-    public void Attack()
+    bool MyCanAttack()
     {
-        if (_getInput.isMouseLeft && _player.subEnergyAmount > 0)
-        {
-            //一定フレームごとに呼び出す
-            if (_count < 60 / _firePerSecound)
-            {
-                _count++;
-                return;
-            }
-
-            _count = 0;
-            GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
-
-            float a = transform.position.x;
-            float b = transform.position.y;
-            float u = _getInput.mousePosition.x;
-            float v = _getInput.mousePosition.y;
-            float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
-            beamMachineGunFire__Player.transform.localEulerAngles = new Vector3(0, 0, theta);
-
-            //エネルギーを減らす
-            _player.mainEnergyAmount -= EquipmentData_scr.equipmentData.equipmentStatus[_player.mainWeaponName][EquipmentData_scr.equipmentData.equipmentLevel[_player.mainWeaponName]][EquipmentData_scr.equipmentParameter.Cost];
-        }
+        _count++;
+        return _count > 60 / _firePerSecound && _getInput.isMouseLeft && _player.mainEnergyAmount > 0;
     }
 }

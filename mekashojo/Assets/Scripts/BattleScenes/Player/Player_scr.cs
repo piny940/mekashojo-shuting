@@ -4,17 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+delegate void AttackDelegate(ref float energyAmount);
+
 public class Player_scr : MonoBehaviour
 {
     #region
     //変数を宣言
     [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] float _maxHP;
-    [SerializeField, Header("メインエネルギーの最大値")] float _maxMainEnergy;
-    [SerializeField, Header("サブエネルギーの最大値")] float _maxSubEnergy;
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
     [SerializeField, Header("敵と接触したときに受けるダメージ量")] float _contactDamageAmount;
+    [Header("メインエネルギーの最大値")] public float maxMainEnergyAmount;
+    [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
@@ -24,10 +26,9 @@ public class Player_scr : MonoBehaviour
     [SerializeField, Header("SubEnergyBarContentを入れる")] GameObject _subEnergyBarContent;
     [SerializeField, Header("武器を入れる(順番注意)")] List<GameObject> _weapons;
     [SerializeField, Header("PlayerModelを入れる(順番注意)")] List<GameObject> _playerModels;
-    [HideInInspector] public float mainEnergyAmount { get; set; }
-    [HideInInspector] public float subEnergyAmount { get; set; }
-    [HideInInspector] public EquipmentData_scr.equipmentType mainWeaponName { get { return EquipmentData_scr.equipmentData.selectedMainWeaponName; } }
-    [HideInInspector] public EquipmentData_scr.equipmentType subWeaponName { get { return EquipmentData_scr.equipmentData.selectedSubWeaponName; } }
+    [SerializeField, Header("HavingBombを入れる(1,2,3の順)")] List<GameObject> _havingBombs;
+    [HideInInspector] public float mainEnergyAmount;
+    [HideInInspector] public float subEnergyAmount;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -44,11 +45,15 @@ public class Player_scr : MonoBehaviour
     Image _mainEnergyBarContentImage;
     Image _subEnergyBarContentImage;
     Rigidbody2D _rigidbody2D;
-    Action MainAttack;
-    Action SubAttack;
+    AttackDelegate MainAttack;
+    AttackDelegate SubAttack;
     float _hpAmount;
-    bool _isMainSelected;
     bool _isPausing;
+    bool _isSwitchingWeapon;
+    bool _isMainSelected;
+    int _havingBombAmount;
+    const int MAX_BOMB_AMOUNT = 3;
+    const float UNUSED_WEAPON_TRANSPARENCY = 0.2f;
     #endregion
 
     // Start is called before the first frame update
@@ -78,20 +83,28 @@ public class Player_scr : MonoBehaviour
         //初めはmain選択状態にしておく
         _isMainSelected = true;
         _mainTextImage.color = new Color(1, 1, 1, 1);
-        _subTextImage.color = new Color(1, 1, 1, 0.2f);
+        _subTextImage.color = new Color(1, 1, 1, UNUSED_WEAPON_TRANSPARENCY);
         _playerModel__Main.SetActive(true);     //注意！_playerModel__Mainの設定はSetWeaponでやっているためこれをSetWeaponより先に走らせるとバグる
 
         //HPとエネルギー値はmaxにしておく
         _hpAmount = _maxHP;
         _hpBarContentImage.fillAmount = 1;
 
-        mainEnergyAmount = _maxMainEnergy;
+        mainEnergyAmount = maxMainEnergyAmount;
         _mainEnergyBarContentImage.fillAmount = 1;
 
-        subEnergyAmount = _maxSubEnergy;
+        subEnergyAmount = maxSubEnergyAmount;
         _subEnergyBarContentImage.fillAmount = 1;
 
-        
+        //ボムの所持数は0にしておく
+        _havingBombAmount = 0;
+        for(int i = 0; i < MAX_BOMB_AMOUNT; i++)
+        {
+            _havingBombs[i].SetActive(false);
+        }
+
+        //z座標を0にする
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 
     }
 
@@ -115,7 +128,6 @@ public class Player_scr : MonoBehaviour
         }
 
 
-
         MovePlayer();
 
         SwitchWeapon();
@@ -128,7 +140,7 @@ public class Player_scr : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //接触ダメージ
-        if (collision.tag == Common_scr.Tags.Enemy_BattleScene.ToString())
+        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
         {
             GetDamage(_contactDamageAmount);
         }
@@ -169,7 +181,7 @@ public class Player_scr : MonoBehaviour
     void SwitchWeapon()
     {
         //マウスホイールが奥に回された場合
-        if (_getInput.mouseWheel > 0)
+        if (_getInput.mouseWheel > 0 && !_isMainSelected)
         {
             _isMainSelected = true;
             _playerModel__Main.SetActive(true);
@@ -177,24 +189,46 @@ public class Player_scr : MonoBehaviour
 
             //画面にメインが選択中だと表示する
             _mainTextImage.color = new Color(1, 1, 1, 1);
-            _subTextImage.color = new Color(1, 1, 1, 0.2f);
+            _subTextImage.color = new Color(1, 1, 1, UNUSED_WEAPON_TRANSPARENCY);
 
+            //武器切り替え中フラグを立てる
+            _isSwitchingWeapon = true;
+
+            
             return;
         }
 
         //マウスホイールが手前に回された場合
-        if (_getInput.mouseWheel < 0)
+        if (_getInput.mouseWheel < 0 && _isMainSelected)
         {
             _isMainSelected = false;
             _playerModel__Main.SetActive(false);
             _playerModel__Sub.SetActive(true);
 
             //画面にサブが選択中だと表示する
-            _mainTextImage.color = new Color(1, 1, 1, 0.2f);
+            _mainTextImage.color = new Color(1, 1, 1, UNUSED_WEAPON_TRANSPARENCY);
             _subTextImage.color = new Color(1, 1, 1, 1);
 
+            //メイン武器の使用をやめる
+            if (EquipmentData_scr.equipmentData.selectedMainWeaponName == EquipmentData_scr.equipmentType.MainWeapon__Cannon)
+            {
+                _cannon__Player.StopUsing();
+            }
+            else if (EquipmentData_scr.equipmentData.selectedMainWeaponName == EquipmentData_scr.equipmentType.MainWeapon__Laser)
+            {
+                _laser__Player.StopUsing();
+            }
+
+            //武器切り替え中フラグを立てる
+            _isSwitchingWeapon = true;
         }
 
+        //キャノンやレーザーを使用したまま武器を切り替えると、切り替えた瞬間に弾が飛び出すため、「サブ武器にミサイルがセットされている場合は」左クリックを離すまでは「切り替え中」状態にし、サブ武器を使えないようにする
+        //使用できないようにするコードはAttackメソッドに書いた
+        if (_isSwitchingWeapon && !_getInput.isMouseLeft)
+        {
+            _isSwitchingWeapon = false;
+        }
 
     }
 
@@ -243,41 +277,40 @@ public class Player_scr : MonoBehaviour
         _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
 
 
+
         //メイン武器の設定
         switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
-            case 0:
-                MainAttack = _cannon__Player.Attack;
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
+                MainAttack = _cannon__Player.Execute;
                 _playerModel__Main = _playerModels[0];
                 break;
-            case 1:
-                MainAttack = _laser__Player.Attack;
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
+                MainAttack = _laser__Player.Execute;
                 _playerModel__Main = _playerModels[1];
                 break;
-            case 2:
-                MainAttack = _beamMachineGun__Player.Attack;
+            case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
+                MainAttack = _beamMachineGun__Player.Execute;
                 _playerModel__Main = _playerModels[2];
                 break;
             default:
-                Debug.Log("メイン武器に対応していない武器が設定されています");
-                break;
+                throw new System.Exception();
 
         }
 
         //サブ武器の設定
         switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
-            case 3:
-                SubAttack = _balkan__Player.Attack;
+            case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
+                SubAttack = _balkan__Player.Execute;
                 _playerModel__Sub = _playerModels[3];
                 break;
-            case 4:
-                SubAttack = _missile__Player.Attack;
+            case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
+                SubAttack = _missile__Player.Execute;
                 _playerModel__Sub = _playerModels[4];
                 break;
             default:
-                Debug.Log("サブ武器に対応していない武器が設定されています");
-                break;
+                throw new System.Exception();
         }
     }
 
@@ -290,31 +323,52 @@ public class Player_scr : MonoBehaviour
         //メインが選択されていた時の処理
         if (_isMainSelected)
         {
-            MainAttack();
+            MainAttack(ref mainEnergyAmount);
+            return;
+        }
+
+        //武器切り替え中はミサイルは使えないようにする
+        if (_isSwitchingWeapon && EquipmentData_scr.equipmentData.selectedSubWeaponName == EquipmentData_scr.equipmentType.SubWeapon__Missile)
+        {
             return;
         }
 
         //サブが選択されていた時の処理
-        SubAttack();
+        SubAttack(ref subEnergyAmount);
     }
+
 
     /// <summary>
     /// エネルギーの自動回復
     /// </summary>
     void AutoEnergyCharge()
     {
-        //メインエネルギーの回復とUIの更新
-        if (mainEnergyAmount < _maxMainEnergy)
+        //メインエネルギーの回復
+        if (mainEnergyAmount < maxMainEnergyAmount)
         {
             mainEnergyAmount += _mainEnergyChargePerSecond * Time.deltaTime;
-            _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / _maxMainEnergy;
         }
 
-        //サブエネルギーの回復とUIの更新
-        if (subEnergyAmount < _maxSubEnergy)
+        //サブエネルギーの回復
+        if (subEnergyAmount < maxSubEnergyAmount)
         {
             subEnergyAmount += _subEnergyChargePerSecond * Time.deltaTime;
-            _subEnergyBarContentImage.fillAmount = subEnergyAmount / _maxSubEnergy;
+        }
+
+        //エネルギー表示の更新
+        _mainEnergyBarContentImage.fillAmount = mainEnergyAmount / maxMainEnergyAmount;
+        _subEnergyBarContentImage.fillAmount = subEnergyAmount / maxSubEnergyAmount;
+    }
+
+    /// <summary>
+    /// ボムを１つ加える
+    /// </summary>
+    public void AddBomb()
+    {
+        if (_havingBombAmount < 3)
+        {
+            _havingBombAmount++;
+            _havingBombs[_havingBombAmount - 1].SetActive(true);
         }
     }
 }

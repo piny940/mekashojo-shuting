@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ReallyQuitBattleButton_scr : MonoBehaviour
+public class ReallyQuitBattleButton_scr : ButtonBaseImp
 {
+    private void Update()
+    {
+        ButtonUpdate();
+    }
+
     public void OnPush()
     {
-        SaveDataManager_scr.saveDataManager.SaveData();
-        SceneManager.LoadScene("MenuScene");
+        if (CanPush())
+        {
+            SaveDataManager_scr.saveDataManager.SaveData();
+            SceneManager.LoadScene("MenuScene");
+        }
     }
 }

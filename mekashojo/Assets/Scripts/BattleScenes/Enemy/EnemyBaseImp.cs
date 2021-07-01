@@ -9,9 +9,9 @@ public class EnemyBaseImp : MonoBehaviour
     protected new Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
+    protected StartCount_scr _startCount;
     bool _hasVelocitySet = false;
     bool _hasAnimationStarted = false;
-    StartCount_scr _startCount;
     EnemyController_scr _enemyController;
 
 
@@ -24,11 +24,17 @@ public class EnemyBaseImp : MonoBehaviour
 
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount_BattleScene.ToString()).GetComponent<StartCount_scr>();
+        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount__BattleScene.ToString()).GetComponent<StartCount_scr>();
 
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController_BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
-        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes_BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+
+        //nullの場合
+        if (_startCount == null || _enemyController == null || commonForBattleScenes == null)
+        {
+            throw new System.Exception();
+        }
     }
 
     /// <summary>
