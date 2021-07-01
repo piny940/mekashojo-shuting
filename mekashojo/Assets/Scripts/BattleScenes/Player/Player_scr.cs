@@ -371,39 +371,4 @@ public class Player_scr : MonoBehaviour
             _havingBombs[_havingBombAmount - 1].SetActive(true);
         }
     }
-
-
-    /// <summary>
-    /// メイン/サブ武器で攻撃可能かを返す
-    /// </summary>
-    /// <returns></returns>
-    public bool CanAttack()
-    {
-        if (_isMainSelected)
-        {
-            return _getInput.isMouseLeft && mainEnergyAmount > 0;
-        }
-        else
-        {
-            return _getInput.isMouseLeft && subEnergyAmount > 0;
-        }
-    }
-
-    /// <summary>
-    /// メイン/サブ武器で攻撃可能かを返す<br></br>
-    /// 引数にfloat型の数値を入力すると、エネルギー残量が少ないときはfalseを返すようにする
-    /// </summary>
-    /// <param name="unableToStartUsingRate"></param>
-    /// <returns></returns>
-    public bool CanAttack(float unableToStartUsingRate)
-    {
-        if (_isMainSelected)
-        {
-            return _getInput.isMouseLeft && mainEnergyAmount > maxMainEnergyAmount * unableToStartUsingRate;
-        }
-        else
-        {
-            return _getInput.isMouseLeft && subEnergyAmount > maxSubEnergyAmount * unableToStartUsingRate;
-        }
-    }
 }
