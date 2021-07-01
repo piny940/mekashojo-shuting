@@ -22,8 +22,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
         {
             _isEnergyScarce = true;
         }
-
-        if (!_getInput.isMouseLeft && _isEnergyScarce)
+        else if (!_getInput.isMouseLeft && _isEnergyScarce)
         {
             _isEnergyScarce = false;
         }

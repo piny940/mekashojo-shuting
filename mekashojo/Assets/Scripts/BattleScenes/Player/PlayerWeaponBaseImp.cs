@@ -38,7 +38,7 @@ public class PlayerWeaponBaseImp : MonoBehaviour
         lastCanAttack = CanAttack();
 
         //攻撃そのもの
-        if (CanAttack())
+        if (lastCanAttack)
         {
             Attack();
             energyAmount -= EnergyCost;
