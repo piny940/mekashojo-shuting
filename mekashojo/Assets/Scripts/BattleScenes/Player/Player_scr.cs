@@ -395,7 +395,7 @@ public class Player_scr : MonoBehaviour
         _stunFrameCount++;
 
         //微小振動させる
-        if (_stunFrameCount % (_oneShakeTime*2) == 0)
+        if (_stunFrameCount % (_oneShakeTime * 2) == 0)
         {
             _shakingVector = new Vector3(Random.value * _shakingSpeed, Random.value * _shakingSpeed, 0);
 
