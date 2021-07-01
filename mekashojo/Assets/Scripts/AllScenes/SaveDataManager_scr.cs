@@ -47,7 +47,7 @@ public class SaveData
 public class SaveDataManager_scr : MonoBehaviour
 {
     public static SaveDataManager_scr saveDataManager { get; set; }
-    public bool noSaveData;     //セーブデータがなかった時にtrue
+    [HideInInspector] public bool haveNoSaveData;     //セーブデータがなかった時にtrue
     SaveData _saveData;
     string _saveData__JsonString;   //セーブデータをstring型で保存
 
@@ -66,7 +66,7 @@ public class SaveDataManager_scr : MonoBehaviour
         }
 
         _saveData = new SaveData();
-        noSaveData = false;
+        haveNoSaveData = false;
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public class SaveDataManager_scr : MonoBehaviour
         //セーブデータがなかった場合の処理
         if (_saveData__JsonString == "")
         {
-            noSaveData = true;
+            haveNoSaveData = true;
             return;
         }
 

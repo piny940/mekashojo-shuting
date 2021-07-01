@@ -10,7 +10,7 @@ public class NormalEnemyData_scr : MonoBehaviour
     // 通常の敵のステータス一覧
     public IReadOnlyDictionary<normalEnemyType, Dictionary<normalEnemyParameter, float>> normalEnemyStatus { get; private set; }
 
-    public Dictionary<normalEnemyType, Dictionary<normalEnemyParameter, float>> _normalEnemyStatus__Data { get; set; }
+    private Dictionary<normalEnemyType, Dictionary<normalEnemyParameter, float>> _normalEnemyStatus__Data { get; set; }
 
     public enum normalEnemyType
     {
