@@ -2,25 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy__StunBullet_scr : Enemy__BulletBaseImp
+public class EnemyFire__RepeatedFire_scr : EnemyFireBaseImp
 {
     // Start is called before the first frame update
     void Start()
     {
-        normalEnemyType = NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone;
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.RepeatedFire__MiddleDrone;
 
-        BulletEnemyInitialize();
+        Initialize();
     }
-
 
     // Update is called once per frame
     void Update()
     {
-        //ポーズの処理
         commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
 
-        SetVelocity();
-
-        Attack();
+        DestroyLater();
     }
 }

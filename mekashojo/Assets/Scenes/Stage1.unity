@@ -592,7 +592,9 @@ MonoBehaviour:
   - Enemy__SlowBullet
   - Enemy__StunBullet
   - Enemy__Missile
-  _produceProbabilityRatios: 000000000000000000000000000000000000000000000000000000000000000001000000
+  - Enemy__RepeatedFire
+  - Enemy__WideSpreadBullet
+  _produceProbabilityRatios: 0000000000000000000000000000000000000000000000000000000000000000000000000000000001000000
   _enemyProduceProbabilityCurve:
     serializedVersion: 2
     m_Curve:

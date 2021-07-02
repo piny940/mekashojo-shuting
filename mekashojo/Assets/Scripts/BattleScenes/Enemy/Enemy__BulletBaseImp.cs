@@ -29,18 +29,10 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
         }
     }
 
-    // Update is called once per frame
-    protected void Update()
-    {
-        //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
-
-        SetVelocity();
-
-        Attack();
-    }
-
-    void Attack()
+    /// <summary>
+    /// 攻撃処理のメソッド
+    /// </summary>
+    protected void Attack()
     {
         _time += Time.deltaTime;
 
@@ -48,28 +40,105 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
         {
             _time = 0;
 
-            //弾の生成
-            GameObject bullet = Instantiate((GameObject)Resources.Load(EnemyFirePath(normalEnemyType)), transform.position, Quaternion.identity);
+            Vector3 modifiedThisPosition = new Vector3(transform.position.x, transform.position.y, _player.transform.position.z);
 
-            //コンポーネントの取得
-            Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
+            Fire((_player.transform.position - modifiedThisPosition) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - modifiedThisPosition));
+        }
+    }
 
-            //null安全性
-            if (bulletRigidbody2D == null)
+
+    /// <summary>
+    /// 発射速度のリストを引数に受け取った時はSpreadBulletかWideSpreadBulletと判断
+    /// </summary>
+    /// <param name="fireDirections"></param>
+    protected void Attack(List<Vector3> fireDirections)
+    {
+        _time += Time.deltaTime;
+
+        if (_time > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.FiringInterval])
+        {
+            _time = 0;
+
+            for (int i = 0; i < fireDirections.Count; i++)
             {
-                throw new System.Exception();
-            }
-
-            //弾の速度の設定
-            bulletRigidbody2D.velocity = (_player.transform.position - transform.position) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.FastBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - transform.position);
-
-            //ミサイルの場合は弾の向きを調整する
-            if (normalEnemyType == NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone)
-            {
-                commonForBattleScenes.RotateToLookAt(bullet, transform.position, _player.transform.position);
+                Fire(fireDirections[i]);
             }
         }
     }
+
+
+    /// <summary>
+    /// floatとref intを引数に受け取った時はRepeatedFireと判断
+    /// </summary>
+    /// <param name="shortFiringInterval"></param>
+    protected void Attack(float shortFiringInterval, ref int firingCount, ref int frameCount,ref Vector3 firingDirection, ref bool isFiringDirectionSet)
+    {
+        _time += Time.deltaTime;
+
+        if (_time > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.FiringInterval])
+        {
+            frameCount++;
+
+            //発射速度の設定
+            if (!isFiringDirectionSet)
+            {
+                Vector3 modifiedThisPosition = new Vector3(transform.position.x, transform.position.y, _player.transform.position.z);
+
+                firingDirection = (_player.transform.position - modifiedThisPosition) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - modifiedThisPosition);
+
+                isFiringDirectionSet = true;
+            }
+
+            //一定小時間ごとに発射する
+            if (frameCount > shortFiringInterval)
+            {
+                frameCount = 0;
+
+                Fire(firingDirection);
+
+                firingCount++;
+            }
+
+            //一定数発射したら発射を終了する
+            if (firingCount > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.RepeatedFire__MiddleDrone][NormalEnemyData_scr.normalEnemyParameter.FiringCount])
+            {
+                firingCount = 0;
+                _time = 0;
+                isFiringDirectionSet = false;
+            }
+            
+        }
+    }
+
+
+    /// <summary>
+    /// 弾を指定された速度で発射する
+    /// </summary>
+    /// <param name="bulletVelocity"></param>
+    void Fire(Vector3 bulletVelocity)
+    {
+        //弾の生成
+        GameObject bullet = Instantiate((GameObject)Resources.Load(EnemyFirePath(normalEnemyType)), transform.position, Quaternion.identity);
+
+        //コンポーネントの取得
+        Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
+
+        //null安全性
+        if (bulletRigidbody2D == null)
+        {
+            throw new System.Exception();
+        }
+
+        //弾の速度の設定
+        bulletRigidbody2D.velocity = bulletVelocity;
+
+        //ミサイルの場合は弾の向きを調整する
+        if (normalEnemyType == NormalEnemyData_scr.normalEnemyType.Missile__MiddleDrone)
+        {
+            commonForBattleScenes.RotateToLookAt(bullet, transform.position, _player.transform.position);
+        }
+    }
+
 
     /// <summary>
     /// 弾のPrefabのパスを返す
@@ -104,6 +173,10 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
 
             case NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone:
                 enemyType = "Missile";
+                break;
+
+            case NormalEnemyData_scr.normalEnemyType.WidespreadBullet__MiddleDrone:
+                enemyType = "WideSpreadBullet";
                 break;
 
             default:

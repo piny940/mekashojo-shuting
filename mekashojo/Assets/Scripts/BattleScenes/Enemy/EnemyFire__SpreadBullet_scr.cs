@@ -14,6 +14,8 @@ public class EnemyFire__SpreadBullet_scr : EnemyFireBaseImp
 
     private void Update()
     {
+        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+
         DestroyLater();
     }
 }

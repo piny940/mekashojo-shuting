@@ -6,7 +6,7 @@ public class EnemyFireBaseImp : MonoBehaviour
 {
     protected NormalEnemyData_scr.normalEnemyType normalEnemyType;
     protected bool isPausing = false;
-    protected Rigidbody2D rigidbody2D;
+    protected new Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
 

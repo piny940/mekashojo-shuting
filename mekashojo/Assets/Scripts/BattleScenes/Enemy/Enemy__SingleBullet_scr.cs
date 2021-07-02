@@ -10,4 +10,16 @@ public class Enemy__SingleBullet_scr : Enemy__BulletBaseImp
 
         BulletEnemyInitialize();
     }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        //ポーズの処理
+        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+
+        SetVelocity();
+
+        Attack();
+    }
 }
