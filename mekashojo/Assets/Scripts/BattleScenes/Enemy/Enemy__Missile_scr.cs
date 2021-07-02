@@ -7,7 +7,7 @@ public class Enemy__Missile_scr : Enemy__BulletBaseImp
     // Start is called before the first frame update
     void Start()
     {
-        normalEnemyType = NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone;
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.Missile__MiddleDrone;
 
         BulletEnemyInitialize();
     }

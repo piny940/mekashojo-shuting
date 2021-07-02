@@ -7,10 +7,21 @@ public class EnemyController_scr : MonoBehaviour
 {
     [SerializeField, Header("敵の数の上限")] int _maxEnemyAmount;
     [SerializeField, Header("初めにいる敵の数")] int _firstEnemyAmount;
-    [SerializeField, Header("敵のオブジェクトの名前")] List<string> _enemyNames;
-    [SerializeField, Header("各敵を生成する確率の整数比")] List<int> _produceProbabilityRatios;
+    [SerializeField, Header("各敵の生成比")] int _spreadBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _singleBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _stunBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _fastBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _slowBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _missileEnemyProduceProbabilityRatio;
+    [SerializeField] int _repeatedEnemyProduceProbabilityRatio;
+    [SerializeField] int _wideBeamEnemyProduceProbabilityRatio;
+    [SerializeField] int _guidedBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _wideSpreadBulletEnemyProduceProbabilityRatio;
+    [SerializeField] int _selfDestructEnemyProduceProbabilityRatio;
     [SerializeField, Header("敵の生成確率曲線")] AnimationCurve _enemyProduceProbabilityCurve;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
+    List<int> _produceProbabilityRatios;    //各敵を生成する確率の生成比
+    List<string> _enemyNames = new List<string>() { "Enemy__SpreadBullet", "Enemy__SingleBullet", "Enemy__StunBullet", "Enemy__FastBullet", "Enemy__SlowBullet", "Enemy__Missile", "Enemy__RepeatedFire", "Enemy__WideBeam", "Enemy__GuidedBullet", "Enemy__WideSpreadBullet", "Enemy__SelfDestruct" };
     public int EnemyAmount { get; set; }   //今いる敵の数
     int _produceProbabilityRatiosSum;
     const float ENEMY_POSITION_Z = 10;
@@ -23,11 +34,15 @@ public class EnemyController_scr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _produceProbabilityRatios = new List<int>() { _spreadBulletEnemyProduceProbabilityRatio, _singleBulletEnemyProduceProbabilityRatio, _stunBulletEnemyProduceProbabilityRatio, _fastBulletEnemyProduceProbabilityRatio, _slowBulletEnemyProduceProbabilityRatio, _missileEnemyProduceProbabilityRatio, _repeatedEnemyProduceProbabilityRatio, _wideBeamEnemyProduceProbabilityRatio, _guidedBulletEnemyProduceProbabilityRatio, _wideSpreadBulletEnemyProduceProbabilityRatio, _selfDestructEnemyProduceProbabilityRatio };
+
         //各敵の生成する確率比の合計を求める
         _produceProbabilityRatiosSum = _produceProbabilityRatios.Sum();
 
         //はじめにいる敵の数
         EnemyAmount = _firstEnemyAmount;
+
+        
     }
 
     // Update is called once per frame

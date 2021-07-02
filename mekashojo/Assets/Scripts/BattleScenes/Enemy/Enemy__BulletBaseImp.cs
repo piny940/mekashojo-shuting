@@ -171,12 +171,16 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
                 enemyType = "StunBullet";
                 break;
 
-            case NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone:
+            case NormalEnemyData_scr.normalEnemyType.Missile__MiddleDrone:
                 enemyType = "Missile";
                 break;
 
             case NormalEnemyData_scr.normalEnemyType.WidespreadBullet__MiddleDrone:
                 enemyType = "WideSpreadBullet";
+                break;
+
+            case NormalEnemyData_scr.normalEnemyType.SpreadBullet__SmallDrone:
+                enemyType = "SpreadBullet";
                 break;
 
             default:

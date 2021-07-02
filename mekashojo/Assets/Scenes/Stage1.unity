@@ -582,19 +582,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxEnemyAmount: 20
   _firstEnemyAmount: 0
-  _enemyNames:
-  - Enemy__SelfDestruct
-  - Enemy__WideBeam
-  - Enemy__GuidedBullet
-  - Enemy__SpreadBullet
-  - Enemy__FastBullet
-  - Enemy__SingleBullet
-  - Enemy__SlowBullet
-  - Enemy__StunBullet
-  - Enemy__Missile
-  - Enemy__RepeatedFire
-  - Enemy__WideSpreadBullet
-  _produceProbabilityRatios: 0000000000000000000000000000000000000000000000000000000000000000000000000000000001000000
+  _spreadBulletEnemyProduceProbabilityRatio: 0
+  _singleBulletEnemyProduceProbabilityRatio: 0
+  _stunBulletEnemyProduceProbabilityRatio: 0
+  _fastBulletEnemyProduceProbabilityRatio: 0
+  _slowBulletEnemyProduceProbabilityRatio: 0
+  _missileEnemyProduceProbabilityRatio: 0
+  _repeatedEnemyProduceProbabilityRatio: 0
+  _wideBeamEnemyProduceProbabilityRatio: 0
+  _guidedBulletEnemyProduceProbabilityRatio: 0
+  _wideSpreadBulletEnemyProduceProbabilityRatio: 0
+  _selfDestructEnemyProduceProbabilityRatio: 1
   _enemyProduceProbabilityCurve:
     serializedVersion: 2
     m_Curve:
