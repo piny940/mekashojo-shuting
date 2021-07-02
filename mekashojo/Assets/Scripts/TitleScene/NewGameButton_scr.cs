@@ -2,25 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewGameButton_scr : MonoBehaviour
+public class NewGameButton_scr : ButtonBaseImp
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
+        ButtonUpdate();
     }
 
     public void OnPush()
     {
-        //セーブデータの削除
-        PlayerPrefs.DeleteAll();
+        if (CanPush())
+        {
+            SaveDataManager_scr.saveDataManager.Initialize();
 
-        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+        }
     }
 }

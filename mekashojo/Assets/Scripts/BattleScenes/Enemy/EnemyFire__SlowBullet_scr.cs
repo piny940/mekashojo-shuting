@@ -14,5 +14,7 @@ public class EnemyFire__SlowBullet_scr : EnemyFireBaseImp
     void Update()
     {
         commonForBattleScenes.Pause(GetComponent<Rigidbody2D>(), ref isPausing, ref savedVelocity);
+
+        DestroyLater();
     }
 }

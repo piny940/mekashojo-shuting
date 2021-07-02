@@ -20,7 +20,6 @@ public class Common_scr : MonoBehaviour
         CommonForBattleScenes__BattleScene
     }
 
-    //シングルトン
     private void Awake()
     {
         if (common == null)

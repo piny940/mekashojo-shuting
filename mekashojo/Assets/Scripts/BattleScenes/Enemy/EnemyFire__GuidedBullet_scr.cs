@@ -43,6 +43,8 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
         commonForBattleScenes.Pause(GetComponent<Rigidbody2D>(), ref isPausing, ref savedVelocity);
 
         Move();
+
+        DestroyLater();
     }
 
     void Move()

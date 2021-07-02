@@ -9,8 +9,10 @@ public class EnemyFireBaseImp : MonoBehaviour
     protected Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
-
+    float _time;
     float _power;
+
+    const float DISAPPEAR_TIME = 5;
 
 
     /// <summary>
@@ -24,7 +26,21 @@ public class EnemyFireBaseImp : MonoBehaviour
         //コンポーネントの取得
         commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+
+        _time = 0;
     }
+
+
+    protected void DestroyLater()
+    {
+        _time += Time.deltaTime;
+
+        if (_time > DISAPPEAR_TIME)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,15 +49,26 @@ public class EnemyFireBaseImp : MonoBehaviour
             //ダメージを与える
             collision.GetComponent<Player_scr>().GetDamage(_power);
 
-            switch ((int)normalEnemyType)
+            switch (normalEnemyType)
             {
-                case 2: //スタン型
+                case NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone:
+                    Player_scr player = collision.GetComponent<Player_scr>();
+
+                    if (player == null)
+                    {
+                        throw new System.Exception();
+                    }
+
+                    //ダメージを与える
+                    player.GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
+
+                    player.isStunning = true;
+                    break;
+
+                case NormalEnemyData_scr.normalEnemyType.SelfDestruct__MiddleDrone:
                     throw new System.Exception();
 
-                case 10: //自爆型
-                    throw new System.Exception();
-
-                case 7: //全方位ビーム
+                case NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone:
                     break;
 
                 default:    //それ以外ならプレイヤーに当たったら消滅する

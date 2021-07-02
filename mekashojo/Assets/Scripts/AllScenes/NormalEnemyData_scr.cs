@@ -37,7 +37,6 @@ public class NormalEnemyData_scr : MonoBehaviour
         BulletSpeed,
     }
 
-    //シングルトン
     private void Awake()
     {
         if (normalEnemyData == null)

@@ -9,4 +9,9 @@ public class EnemyFire__SpreadBullet_scr : EnemyFireBaseImp
     {
         Initialize();
     }
+
+    private void Update()
+    {
+        DestroyLater();
+    }
 }

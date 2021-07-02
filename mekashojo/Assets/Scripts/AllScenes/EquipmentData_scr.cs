@@ -79,7 +79,6 @@ public class EquipmentData_scr : MonoBehaviour
 
     #endregion
 
-    //シングルトン
     private void Awake()
     {
         if (equipmentData == null)

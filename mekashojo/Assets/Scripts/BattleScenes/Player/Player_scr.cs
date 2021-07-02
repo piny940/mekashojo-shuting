@@ -259,7 +259,8 @@ public class Player_scr : MonoBehaviour
         {
             _hpAmount = 0;
             _hpBarContentImage.fillAmount = 0;
-            //死んだときの処理
+
+            Die();
             return;
         }
 
@@ -375,6 +376,7 @@ public class Player_scr : MonoBehaviour
         _subEnergyBarContentImage.fillAmount = subEnergyAmount / maxSubEnergyAmount;
     }
 
+
     /// <summary>
     /// ボムを１つ加える
     /// </summary>
@@ -386,6 +388,7 @@ public class Player_scr : MonoBehaviour
             _havingBombs[_havingBombAmount - 1].SetActive(true);
         }
     }
+
 
     /// <summary>
     /// Stun攻撃をくらったら一定時間ビリビリする
@@ -413,5 +416,12 @@ public class Player_scr : MonoBehaviour
 
             isStunning = false;
         }
+    }
+
+
+    void Die()
+    {
+        //死んだ時の処理
+        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageFailedScene);
     }
 }

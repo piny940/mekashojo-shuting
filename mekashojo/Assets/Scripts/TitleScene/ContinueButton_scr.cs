@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContinueButton_scr : MonoBehaviour
+public class ContinueButton_scr : ButtonBaseImp
 {
     [SerializeField,Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
 
@@ -12,28 +12,28 @@ public class ContinueButton_scr : MonoBehaviour
         _noSaveDataScreen.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        ButtonUpdate();
     }
 
     public void OnPush()
     {
-        //セーブデータを読み込む
-        SaveDataManager_scr.saveDataManager.LoadData();
-
-        //セーブデータがなかった場合
-        if (SaveDataManager_scr.saveDataManager.haveNoSaveData)
+        if (CanPush())
         {
-            _noSaveDataScreen.SetActive(true);
-            SaveDataManager_scr.saveDataManager.haveNoSaveData = false;
-            return;
+            //セーブデータを読み込む
+            SaveDataManager_scr.saveDataManager.LoadData();
+
+            //セーブデータがなかった場合
+            if (SaveDataManager_scr.saveDataManager.haveNoSaveData)
+            {
+                _noSaveDataScreen.SetActive(true);
+                SaveDataManager_scr.saveDataManager.haveNoSaveData = false;
+                return;
+            }
+
+            //セーブデータがあった場合
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
         }
-
-        //セーブデータがあった場合
-        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
-
-
     }
 }
