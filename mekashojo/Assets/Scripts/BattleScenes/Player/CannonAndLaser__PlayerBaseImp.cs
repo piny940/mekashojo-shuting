@@ -7,6 +7,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     [SerializeField, Header("Cannon/LaserFire__Playerを入れる")] GameObject _fire__Player;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
+    [SerializeField, Header("CommonForBattleScenesを入れる")] CommonForBattleScenes_scr _commonForBattleScenes;
     bool _isEnergyScarce;
 
     public void Start()
@@ -43,12 +44,7 @@ public class CannonAndLaser__PlayerBaseImp : PlayerWeaponBaseImp
     void MyAttack()
     {
         //ミサイルの向きを変える
-        float a = transform.position.x;
-        float b = transform.position.y;
-        float u = _getInput.mousePosition.x;
-        float v = _getInput.mousePosition.y;
-        float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
-        transform.localEulerAngles = new Vector3(0, 0, theta);
+        _commonForBattleScenes.RotateToLookAt(this.gameObject, transform.position, _getInput.mousePosition);
     }
 
     /// <summary>

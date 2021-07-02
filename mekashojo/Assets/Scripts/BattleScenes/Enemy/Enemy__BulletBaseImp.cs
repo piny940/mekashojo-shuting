@@ -9,13 +9,16 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
     float _time;
     GameObject _player;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Startメソッドで呼ぶ<br></br>
+    /// これより前にnormalEnemyTypeを設定する必要がある
+    /// </summary>
     protected void BulletEnemyInitialize()
     {
         Initialize();
 
         //_timeの初期化
-        _time = Random.Range(0, NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.FastBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.FiringInterval]);
+        _time = Random.Range(0, NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.FiringInterval]);
 
         //_playerの取得
         _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
@@ -41,7 +44,7 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
     {
         _time += Time.deltaTime;
 
-        if (_time > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.FastBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.FiringInterval])
+        if (_time > NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.FiringInterval])
         {
             _time = 0;
 
@@ -59,6 +62,12 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
 
             //弾の速度の設定
             bulletRigidbody2D.velocity = (_player.transform.position - transform.position) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.FastBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - transform.position);
+
+            //ミサイルの場合は弾の向きを調整する
+            if (normalEnemyType == NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone)
+            {
+                commonForBattleScenes.RotateToLookAt(bullet, transform.position, _player.transform.position);
+            }
         }
     }
 
@@ -91,6 +100,10 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
 
             case NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone:
                 enemyType = "StunBullet";
+                break;
+
+            case NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone:
+                enemyType = "Missile";
                 break;
 
             default:

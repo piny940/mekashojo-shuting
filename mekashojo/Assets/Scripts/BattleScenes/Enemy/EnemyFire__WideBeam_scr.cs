@@ -7,6 +7,8 @@ public class EnemyFire__WideBeam_scr : EnemyFireBaseImp
     // Start is called before the first frame update
     void Start()
     {
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone;
+
         Initialize();
     }
 

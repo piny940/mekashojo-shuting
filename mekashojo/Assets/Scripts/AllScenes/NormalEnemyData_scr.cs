@@ -19,7 +19,7 @@ public class NormalEnemyData_scr : MonoBehaviour
         StunBullet__SmallDrone,
         FastBullet__SmallDrone,
         SlowBullet__SmallDrone,
-        SmallBomb__MiddleDrone,
+        Missile__MiddleDrone,
         RepeatedFire__MiddleDrone,
         WideBeam__MiddleDrone,
         GuidedBullet__MiddleDrone,
@@ -112,7 +112,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                 }
             },
             {
-                normalEnemyType.SmallBomb__MiddleDrone,
+                normalEnemyType.Missile__MiddleDrone,
                 new Dictionary<normalEnemyParameter, float>()
                 {
                     { normalEnemyParameter.HP, 20 },

@@ -7,6 +7,8 @@ public class EnemyFire__SlowBullet_scr : EnemyFireBaseImp
     // Start is called before the first frame update
     void Start()
     {
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.SlowBullet__SmallDrone;
+
         Initialize();
     }
 

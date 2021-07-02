@@ -4,38 +4,33 @@ using UnityEngine;
 
 public class EnemyFireBaseImp : MonoBehaviour
 {
-    [SerializeField, Header("雑魚敵の種類を選ぶ")] NormalEnemyData_scr.normalEnemyType normalEnemyType;
+    protected NormalEnemyData_scr.normalEnemyType normalEnemyType;
     protected bool isPausing = false;
     protected Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
-    float _time;
-    float _power;
-
-    const float DISAPPEAR_TIME = 5;
-
 
     /// <summary>
     /// Startメソッドで呼ぶ<br></br>
+    /// これより前にnormalEnemyTypeを設定する
     /// </summary>
     protected void Initialize()
     {
-        //攻撃力の取得
-        _power = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount];
-
         //コンポーネントの取得
         commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-
-        _time = 0;
     }
 
-
+    /// <summary>
+    /// 画面の外に出たら消滅する
+    /// </summary>
     protected void DestroyLater()
     {
-        _time += Time.deltaTime;
+        //画面左下と右上の座標の取得
+        Vector3　cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 cornerPosition__RightTop = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-        if (_time > DISAPPEAR_TIME)
+        if (transform.position.x < cornerPosition__LeftBottom.x || transform.position.x > cornerPosition__RightTop.x || transform.position.y > cornerPosition__RightTop.y || transform.position.y < cornerPosition__LeftBottom.y)
         {
             Destroy(gameObject);
         }
@@ -47,11 +42,13 @@ public class EnemyFireBaseImp : MonoBehaviour
         if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
         {
             //ダメージを与える
-            collision.GetComponent<Player_scr>().GetDamage(_power);
+            collision.GetComponent<Player_scr>().GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
 
             switch (normalEnemyType)
             {
+                //スタン型の場合は
                 case NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone:
+                    //Player_scrを取得
                     Player_scr player = collision.GetComponent<Player_scr>();
 
                     if (player == null)
@@ -62,16 +59,20 @@ public class EnemyFireBaseImp : MonoBehaviour
                     //ダメージを与える
                     player.GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
 
+                    //スタンさせる
                     player.isStunning = true;
                     break;
 
+                //自爆型には対応していない
                 case NormalEnemyData_scr.normalEnemyType.SelfDestruct__MiddleDrone:
                     throw new System.Exception();
 
+                //全方位ビームの場合は何もしない
                 case NormalEnemyData_scr.normalEnemyType.WideBeam__MiddleDrone:
                     break;
 
-                default:    //それ以外ならプレイヤーに当たったら消滅する
+                //それ以外ならプレイヤーに当たったら消滅する
+                default:
                     Destroy(this.gameObject);
                     break;
 

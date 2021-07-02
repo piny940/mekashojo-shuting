@@ -447,6 +447,7 @@ MonoBehaviour:
   _fire__Player: {fileID: 2141373533}
   _getInput: {fileID: 1967126173}
   _player: {fileID: 409409996}
+  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &226766572
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _getInput: {fileID: 1967126173}
   _player: {fileID: 409409996}
+  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &241853916
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +591,8 @@ MonoBehaviour:
   - Enemy__SingleBullet
   - Enemy__SlowBullet
   - Enemy__StunBullet
-  _produceProbabilityRatios: 0100000001000000010000000100000001000000010000000100000001000000
+  - Enemy__Missile
+  _produceProbabilityRatios: 000000000000000000000000000000000000000000000000000000000000000001000000
   _enemyProduceProbabilityCurve:
     serializedVersion: 2
     m_Curve:
@@ -684,6 +687,7 @@ MonoBehaviour:
   _getInput: {fileID: 1967126173}
   _player: {fileID: 409409996}
   _firePerSecound: 5
+  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &280778227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +2569,7 @@ MonoBehaviour:
   _fire__Player: {fileID: 1504368639}
   _getInput: {fileID: 1967126173}
   _player: {fileID: 409409996}
+  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &1142169394
 GameObject:
   m_ObjectHideFlags: 0

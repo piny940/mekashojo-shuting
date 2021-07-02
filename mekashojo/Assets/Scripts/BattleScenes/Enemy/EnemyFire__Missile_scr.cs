@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFire_StunBullet_scr : EnemyFireBaseImp
+public class EnemyFire__Missile_scr : EnemyFireBaseImp
 {
     // Start is called before the first frame update
     void Start()
     {
-        normalEnemyType = NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone;
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.Missile__MiddleDrone;
 
         Initialize();
     }
@@ -16,7 +16,5 @@ public class EnemyFire_StunBullet_scr : EnemyFireBaseImp
     void Update()
     {
         commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
-
-        DestroyLater();
     }
 }

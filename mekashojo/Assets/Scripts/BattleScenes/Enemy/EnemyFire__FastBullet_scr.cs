@@ -7,6 +7,8 @@ public class EnemyFire__FastBullet_scr : EnemyFireBaseImp
     // Start is called before the first frame update
     void Start()
     {
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.FastBullet__SmallDrone;
+
         Initialize();
     }
 

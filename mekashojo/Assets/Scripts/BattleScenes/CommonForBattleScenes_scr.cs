@@ -72,7 +72,22 @@ public class CommonForBattleScenes_scr : MonoBehaviour
             isPausing = false;
             animator.SetBool("hasStarted", true);
         }
+    }
 
 
+    /// <summary>
+    /// オブジェクトをある方向へ向ける
+    /// </summary>
+    /// <param name="rotateObject"></param>
+    /// <param name="originPosition"></param>
+    /// <param name="targetPosition"></param>
+    public void RotateToLookAt(GameObject rotateObject, Vector3 originPosition, Vector3 targetPosition)
+    {
+        float a = originPosition.x;
+        float b = originPosition.y;
+        float u = targetPosition.x;
+        float v = targetPosition.y;
+        float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(u - a, v - b, 0), new Vector3(0, 0, 1));
+        rotateObject.transform.localEulerAngles = new Vector3(0, 0, theta);
     }
 }

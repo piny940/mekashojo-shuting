@@ -14,6 +14,8 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
     // Start is called before the first frame update
     void Start()
     {
+        normalEnemyType = NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone;
+
         //コンポーネントの取得
         _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
         _startCountObject = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount__BattleScene.ToString());
