@@ -5,6 +5,7 @@ using UnityEngine;
 public class BackButton__NoSaveDataScreen_scr : ButtonBaseImp
 {
     [SerializeField, Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
+    [SerializeField, Header("ボタンを押した時のサウンド")] AudioClip _pushSound;
 
     private void Update()
     {
@@ -15,6 +16,7 @@ public class BackButton__NoSaveDataScreen_scr : ButtonBaseImp
     {
         if (CanPush())
         {
+            Common_scr.common.audioSource.PlayOneShot(_pushSound);
             _noSaveDataScreen.SetActive(false);
         }
     }

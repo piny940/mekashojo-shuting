@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NewGameButton_scr : ButtonBaseImp
 {
+    [SerializeField, Header("押したときになる音")] AudioClip _clickSound;
+
     // Update is called once per frame
     void Update()
     {
@@ -14,6 +16,8 @@ public class NewGameButton_scr : ButtonBaseImp
     {
         if (CanPush())
         {
+            Common_scr.common.audioSource.PlayOneShot(_clickSound);
+
             SaveDataManager_scr.saveDataManager.Initialize();
 
             SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);

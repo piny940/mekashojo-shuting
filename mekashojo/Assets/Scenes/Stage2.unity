@@ -652,7 +652,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &172551004
 GameObject:
@@ -686,6 +686,7 @@ MonoBehaviour:
   _fire__Player: {fileID: 714651033}
   _getInput: {fileID: 885443656}
   _player: {fileID: 311645780}
+  _commonForBattleScenes: {fileID: 0}
 --- !u!4 &172551006
 Transform:
   m_ObjectHideFlags: 0
@@ -732,16 +733,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxEnemyAmount: 20
   _firstEnemyAmount: 0
-  _enemyNames:
-  - Enemy__SelfDestruct
-  - Enemy__WideBeam
-  - Enemy__GuidedBullet
-  - Enemy__SpreadBullet
-  - Enemy__FastBullet
-  - Enemy__SingleBullet
-  - Enemy__SlowBullet
-  - Enemy__StunBullet
-  _produceProbabilityRatios: 0100000001000000010000000100000001000000010000000100000001000000
+  _spreadBulletEnemyProduceProbabilityRatio: 0
+  _singleBulletEnemyProduceProbabilityRatio: 0
+  _stunBulletEnemyProduceProbabilityRatio: 0
+  _fastBulletEnemyProduceProbabilityRatio: 0
+  _slowBulletEnemyProduceProbabilityRatio: 0
+  _missileEnemyProduceProbabilityRatio: 0
+  _repeatedEnemyProduceProbabilityRatio: 0
+  _wideBeamEnemyProduceProbabilityRatio: 0
+  _guidedBulletEnemyProduceProbabilityRatio: 0
+  _wideSpreadBulletEnemyProduceProbabilityRatio: 0
+  _selfDestructEnemyProduceProbabilityRatio: 0
   _enemyProduceProbabilityCurve:
     serializedVersion: 2
     m_Curve:
@@ -788,7 +790,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &212080369
 GameObject:
@@ -1376,7 +1378,7 @@ Transform:
   - {fileID: 1891472971}
   - {fileID: 2045981555}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &339112770
 GameObject:
@@ -1523,6 +1525,7 @@ MonoBehaviour:
   _fire__Player: {fileID: 1017332687}
   _getInput: {fileID: 885443656}
   _player: {fileID: 311645780}
+  _commonForBattleScenes: {fileID: 0}
 --- !u!4 &354884659
 Transform:
   m_ObjectHideFlags: 0
@@ -2922,7 +2925,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &885443655
 PrefabInstance:
@@ -3430,7 +3433,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 45.891, y: 0, z: 0}
 --- !u!1 &1017332687
 GameObject:
@@ -4121,7 +4124,7 @@ RectTransform:
   - {fileID: 579369711}
   - {fileID: 934047349}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4518,6 +4521,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320737880}
   m_CullTransparentMesh: 1
+--- !u!1001 &1344569819
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.7572888
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.86399186
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15.421266
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787587, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 60215952269787589, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_Name
+      value: BGMPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
 --- !u!1 &1357671275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4704,6 +4764,7 @@ MonoBehaviour:
   _getInput: {fileID: 885443656}
   _player: {fileID: 311645780}
   _firePerSecound: 5
+  _commonForBattleScenes: {fileID: 0}
 --- !u!4 &1425056714
 Transform:
   m_ObjectHideFlags: 0
@@ -4996,7 +5057,7 @@ Transform:
   - {fileID: 388006530}
   - {fileID: 831067243}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584260847
 GameObject:
@@ -5178,7 +5239,7 @@ RectTransform:
   m_LocalScale: {x: 0.009259259, y: 0.009259259, z: 0.009259259}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5900,6 +5961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _getInput: {fileID: 885443656}
   _player: {fileID: 311645780}
+  _commonForBattleScenes: {fileID: 0}
 --- !u!4 &2051645827
 Transform:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentSelectButton__Cannon_scr : EquipmentSelectButtonBaseImp
 {
+    [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
+
     private void Start()
     {
         type = EquipmentData_scr.equipmentType.MainWeapon__Cannon;
@@ -14,6 +16,7 @@ public class EquipmentSelectButton__Cannon_scr : EquipmentSelectButtonBaseImp
     {
         if (CanPush())
         {
+            Common_scr.common.audioSource.PlayOneShot(_pushSound);
             SelectedWeaponChanged();
         }
     }
