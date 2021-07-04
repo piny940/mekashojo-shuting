@@ -9,7 +9,6 @@ public class Player_scr : MonoBehaviour
 {
     #region
     //変数を宣言
-    [SerializeField, Header("移動速度")]float _speed;
     [SerializeField, Header("HPの最大値")] float _maxHP;
     [SerializeField, Header("メインエネルギーの1秒あたりの回復量")] float _mainEnergyChargePerSecond;
     [SerializeField, Header("サブエネルギーの1秒あたりの回復量")] float _subEnergyChargePerSecond;
@@ -18,6 +17,7 @@ public class Player_scr : MonoBehaviour
     [Header("サブエネルギーの最大値")] public float maxSubEnergyAmount;
     [SerializeField, Header("Stun時の振動をどれだけ細かくするか")] int _oneShakeTime;
     [SerializeField, Header("Stun時の振動の速さ")] float _shakingSpeed;
+    [SerializeField, Header("重量に対する移動速度の関数")] AnimationCurve _speedCurve;
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
     [SerializeField, Header("MainTextを入れる")] GameObject _mainText;
@@ -32,12 +32,15 @@ public class Player_scr : MonoBehaviour
     [HideInInspector] public float subEnergyAmount;
     [HideInInspector] public bool isStunning;
     [HideInInspector] public bool isBombUsing;
+    [HideInInspector] public bool isShieldUsing;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
     Balkan__Player_scr _balkan__Player;
     Missile__Player_scr _missile__Player;
     Bomb__Player_scr _bomb__Player;
+    HeavyShield__Player_scr _heavyShield__Player;
+    LightShield__Player_scr _lightShield__Player;
     GameObject _playerModel__Main;
     GameObject _playerModel__Sub;
     Image _mainTextImage;
@@ -48,12 +51,14 @@ public class Player_scr : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     AttackDelegate MainAttack;
     AttackDelegate SubAttack;
+    System.Action UseShield;
     float _hpAmount;
+    float _speedWhileUsingShield;
+    float _speed;
     bool _isPausing;
     bool _isSwitchingWeapon;
     bool _isMainSelected;
     bool _isBombPerformanceDoing;
-    bool _isUsingShield;
     int _havingBombAmount;
     int _stunFrameCount;
     Vector3 _shakingVector;
@@ -71,17 +76,22 @@ public class Player_scr : MonoBehaviour
         _hpBarContentImage = _hpBarContent.GetComponent<Image>();
         _mainEnergyBarContentImage = _mainEnergyBarContent.GetComponent<Image>();
         _subEnergyBarContentImage = _subEnergyBarContent.GetComponent<Image>();
-        _cannon__Player = _weapons[0].GetComponent<Cannon__Player_scr>();
-        _laser__Player = _weapons[1].GetComponent<Laser__Player_scr>();
-        _beamMachineGun__Player = _weapons[2].GetComponent<BeamMachineGun__Player_scr>();
-        _balkan__Player = _weapons[3].GetComponent<Balkan__Player_scr>();
-        _missile__Player = _weapons[4].GetComponent<Missile__Player_scr>();
-        _bomb__Player = _weapons[5].GetComponent<Bomb__Player_scr>();
+        _cannon__Player = _weapons[(int)EquipmentData_scr.equipmentType.MainWeapon__Cannon].GetComponent<Cannon__Player_scr>();
+        _laser__Player = _weapons[(int)EquipmentData_scr.equipmentType.MainWeapon__Laser].GetComponent<Laser__Player_scr>();
+        _beamMachineGun__Player = _weapons[(int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun].GetComponent<BeamMachineGun__Player_scr>();
+        _balkan__Player = _weapons[(int)EquipmentData_scr.equipmentType.SubWeapon__Balkan].GetComponent<Balkan__Player_scr>();
+        _missile__Player = _weapons[(int)EquipmentData_scr.equipmentType.SubWeapon__Missile].GetComponent<Missile__Player_scr>();
+        _bomb__Player = _weapons[(int)EquipmentData_scr.equipmentType.Bomb].GetComponent<Bomb__Player_scr>();
+        _heavyShield__Player = _weapons[(int)EquipmentData_scr.equipmentType.Shield__Heavy].GetComponent<HeavyShield__Player_scr>();
+        _lightShield__Player = _weapons[(int)EquipmentData_scr.equipmentType.Shield__Light].GetComponent<LightShield__Player_scr>();
         
 
         //初期化
         //武器を設定
         SetWeapon();
+
+        //速度を設定
+        SetSpeed();
 
         //初めはmain選択状態にしておく
         _isMainSelected = true;
@@ -112,6 +122,9 @@ public class Player_scr : MonoBehaviour
         //_stunFrameCountは0にしておく
         _stunFrameCount = 0;
 
+        isBombUsing = false;
+        isShieldUsing = false;
+
     }
 
     // Update is called once per frame
@@ -135,6 +148,8 @@ public class Player_scr : MonoBehaviour
 
         AutoEnergyCharge();
 
+        UseBomb();
+
         //Stun中
         //Stun中でも動いて欲しいメソッドはこれより上に書く
         if (isStunning)
@@ -148,8 +163,6 @@ public class Player_scr : MonoBehaviour
         SwitchWeapon();
 
         Attack();
-
-        UseBomb();
 
         UseShield();
     }
@@ -169,10 +182,17 @@ public class Player_scr : MonoBehaviour
     /// </summary>
     void MovePlayer()
     {
+        float speed = _speed;
+
+        if (isShieldUsing)
+        {
+            speed = _speedWhileUsingShield;
+        }
+
         //水平方向の移動
         if (_getInput.horizontalKey != 0)
         {
-            _rigidbody2D.velocity = new Vector3(_speed * _getInput.horizontalKey, _rigidbody2D.velocity.y, 0);
+            _rigidbody2D.velocity = new Vector3(speed * _getInput.horizontalKey, _rigidbody2D.velocity.y, 0);
         }
         else
         {
@@ -182,7 +202,7 @@ public class Player_scr : MonoBehaviour
         //垂直方向の移動
         if (_getInput.verticalKey != 0)
         {
-            _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, _speed * _getInput.verticalKey, 0);
+            _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, speed * _getInput.verticalKey, 0);
         }
         else
         {
@@ -256,7 +276,7 @@ public class Player_scr : MonoBehaviour
     /// <param name="power"></param>
     public void GetDamage(float power)
     {
-        if (_isUsingShield)
+        if (isShieldUsing)
         {
             power = power * EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedShieldName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedShieldName]][EquipmentData_scr.equipmentParameter.DamageReductionRate] * 0.01f;
         }
@@ -297,21 +317,21 @@ public class Player_scr : MonoBehaviour
         _weapons[(int)EquipmentData_scr.equipmentData.selectedMainWeaponName].SetActive(true);
         _weapons[(int)EquipmentData_scr.equipmentData.selectedSubWeaponName].SetActive(true);
         _weapons[(int)EquipmentData_scr.equipmentType.Bomb].SetActive(true);
-
+        _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
 
 
         //メイン武器の設定
-        switch ((int)EquipmentData_scr.equipmentData.selectedMainWeaponName)
+        switch (EquipmentData_scr.equipmentData.selectedMainWeaponName)
         {
-            case (int)EquipmentData_scr.equipmentType.MainWeapon__Cannon:
+            case EquipmentData_scr.equipmentType.MainWeapon__Cannon:
                 MainAttack = _cannon__Player.Execute;
                 _playerModel__Main = _playerModels[0];
                 break;
-            case (int)EquipmentData_scr.equipmentType.MainWeapon__Laser:
+            case EquipmentData_scr.equipmentType.MainWeapon__Laser:
                 MainAttack = _laser__Player.Execute;
                 _playerModel__Main = _playerModels[1];
                 break;
-            case (int)EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
+            case EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun:
                 MainAttack = _beamMachineGun__Player.Execute;
                 _playerModel__Main = _playerModels[2];
                 break;
@@ -321,16 +341,70 @@ public class Player_scr : MonoBehaviour
         }
 
         //サブ武器の設定
-        switch ((int)EquipmentData_scr.equipmentData.selectedSubWeaponName)
+        switch (EquipmentData_scr.equipmentData.selectedSubWeaponName)
         {
-            case (int)EquipmentData_scr.equipmentType.SubWeapon__Balkan:
+            case EquipmentData_scr.equipmentType.SubWeapon__Balkan:
                 SubAttack = _balkan__Player.Execute;
                 _playerModel__Sub = _playerModels[3];
                 break;
-            case (int)EquipmentData_scr.equipmentType.SubWeapon__Missile:
+            case EquipmentData_scr.equipmentType.SubWeapon__Missile:
                 SubAttack = _missile__Player.Execute;
                 _playerModel__Sub = _playerModels[4];
                 break;
+            default:
+                throw new System.Exception();
+        }
+
+        //シールドの設定
+        switch (EquipmentData_scr.equipmentData.selectedShieldName)
+        {
+            case EquipmentData_scr.equipmentType.Shield__Heavy:
+                UseShield = _heavyShield__Player.UseShield;
+                break;
+
+            case EquipmentData_scr.equipmentType.Shield__Light:
+                UseShield = _lightShield__Player.UseShield;
+                break;
+
+            default:
+                throw new System.Exception();
+        }
+    }
+
+
+    void SetSpeed()
+    {
+        int sumWeight
+            = EquipmentData_scr.equipmentData.equipmentStatus
+                [EquipmentData_scr.equipmentData.selectedMainWeaponName]
+                [EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedMainWeaponName]]
+                [EquipmentData_scr.equipmentParameter.Weight]
+            + EquipmentData_scr.equipmentData.equipmentStatus
+                [EquipmentData_scr.equipmentData.selectedSubWeaponName]
+                [EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedSubWeaponName]]
+                [EquipmentData_scr.equipmentParameter.Weight]
+            + EquipmentData_scr.equipmentData.equipmentStatus
+                [EquipmentData_scr.equipmentType.Bomb]
+                [EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Bomb]]
+                [EquipmentData_scr.equipmentParameter.Weight]
+            + EquipmentData_scr.equipmentData.equipmentStatus
+                [EquipmentData_scr.equipmentData.selectedShieldName]
+                [EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedShieldName]]
+                [EquipmentData_scr.equipmentParameter.Weight];
+
+        _speed = _speedCurve.Evaluate(sumWeight);
+
+        //盾使用中の移動速度の計算
+        switch (EquipmentData_scr.equipmentData.selectedShieldName)
+        {
+            case EquipmentData_scr.equipmentType.Shield__Heavy:
+                _speedWhileUsingShield = _speed * _heavyShield__Player.speedReduceRate;
+                break;
+
+            case EquipmentData_scr.equipmentType.Shield__Light:
+                _speedWhileUsingShield = _speed * _lightShield__Player.speedReduceRate;
+                break;
+
             default:
                 throw new System.Exception();
         }
@@ -459,22 +533,5 @@ public class Player_scr : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// シールドを使う
-    /// </summary>
-    void UseShield()
-    {
-        if (_getInput.isMouseRight && !_isUsingShield)
-        {
-            //シールドを使い始める時の処理
-            _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
-            _isUsingShield = true;
-        }
-        else if (!_getInput.isMouseRight && _isUsingShield)
-        {
-            //シールドを使い終わる時の処理
-            _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(false);
-            _isUsingShield = false;
-        }
-    }
+    
 }
