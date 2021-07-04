@@ -38,8 +38,6 @@ public class Player_scr : MonoBehaviour
     Balkan__Player_scr _balkan__Player;
     Missile__Player_scr _missile__Player;
     Bomb__Player_scr _bomb__Player;
-    HeavyShield__Player_scr _heavyShield__Player;
-    LightShield__Player_scr _lightShield__Player;
     GameObject _playerModel__Main;
     GameObject _playerModel__Sub;
     Image _mainTextImage;
@@ -55,6 +53,7 @@ public class Player_scr : MonoBehaviour
     bool _isSwitchingWeapon;
     bool _isMainSelected;
     bool _isBombPerformanceDoing;
+    bool _isUsingShield;
     int _havingBombAmount;
     int _stunFrameCount;
     Vector3 _shakingVector;
@@ -78,9 +77,7 @@ public class Player_scr : MonoBehaviour
         _balkan__Player = _weapons[3].GetComponent<Balkan__Player_scr>();
         _missile__Player = _weapons[4].GetComponent<Missile__Player_scr>();
         _bomb__Player = _weapons[5].GetComponent<Bomb__Player_scr>();
-        _heavyShield__Player = _weapons[6].GetComponent<HeavyShield__Player_scr>();
-        _lightShield__Player = _weapons[7].GetComponent<LightShield__Player_scr>();
-
+        
 
         //初期化
         //武器を設定
@@ -153,6 +150,8 @@ public class Player_scr : MonoBehaviour
         Attack();
 
         UseBomb();
+
+        UseShield();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -257,6 +256,11 @@ public class Player_scr : MonoBehaviour
     /// <param name="power"></param>
     public void GetDamage(float power)
     {
+        if (_isUsingShield)
+        {
+            power = power * EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedShieldName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedShieldName]][EquipmentData_scr.equipmentParameter.DamageReductionRate] * 0.01f;
+        }
+
         //死ぬ場合
         if (_hpAmount <= power)
         {
@@ -293,7 +297,6 @@ public class Player_scr : MonoBehaviour
         _weapons[(int)EquipmentData_scr.equipmentData.selectedMainWeaponName].SetActive(true);
         _weapons[(int)EquipmentData_scr.equipmentData.selectedSubWeaponName].SetActive(true);
         _weapons[(int)EquipmentData_scr.equipmentType.Bomb].SetActive(true);
-        _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
 
 
 
@@ -452,6 +455,26 @@ public class Player_scr : MonoBehaviour
         if (isBombUsing)
         {
             _bomb__Player.Attack();
+        }
+    }
+
+
+    /// <summary>
+    /// シールドを使う
+    /// </summary>
+    void UseShield()
+    {
+        if (_getInput.isMouseRight && !_isUsingShield)
+        {
+            //シールドを使い始める時の処理
+            _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(true);
+            _isUsingShield = true;
+        }
+        else if (!_getInput.isMouseRight && _isUsingShield)
+        {
+            //シールドを使い終わる時の処理
+            _weapons[(int)EquipmentData_scr.equipmentData.selectedShieldName].SetActive(false);
+            _isUsingShield = false;
         }
     }
 }
