@@ -23,6 +23,9 @@ public class Enemy__GuidedBullet_scr : EnemyBaseImp
         SetVelocity();
 
         Attack();
+
+        //画面の外に出たら消滅する
+        DestroyLater();
     }
 
     void Attack()

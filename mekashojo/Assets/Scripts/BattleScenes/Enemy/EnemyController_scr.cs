@@ -26,6 +26,7 @@ public class EnemyController_scr : MonoBehaviour
     int _produceProbabilityRatiosSum;
     const float ENEMY_POSITION_Z = 10;
     const float SCREEN_FRAME_WIDTH = 1;
+    const float UI_WIDTH = 1.5f;
     Vector3 _cornerPosition__LeftBottom;
     Vector3 _cornerPosition__RightTop;
 
@@ -90,7 +91,7 @@ public class EnemyController_scr : MonoBehaviour
                 //敵を生成する
                 //敵は画面の右半分に生成する仕様にしている
                 //上下左右に「敵が出現しない空間」を設けておかないと敵がスクリーンの端っこに生成されてしまうため、SCREEN_FRAME_WIDTHによってスクリーン端には敵を生成しないようにした
-                Instantiate((GameObject)Resources.Load("BattleScenes/" + _enemyNames[i]), new Vector3(Random.Range((_cornerPosition__LeftBottom.x + _cornerPosition__RightTop.x) / 2, _cornerPosition__RightTop.x - SCREEN_FRAME_WIDTH), Random.Range(_cornerPosition__LeftBottom.y + SCREEN_FRAME_WIDTH, _cornerPosition__RightTop.y - SCREEN_FRAME_WIDTH), ENEMY_POSITION_Z), Quaternion.identity);
+                Instantiate((GameObject)Resources.Load("BattleScenes/" + _enemyNames[i]), new Vector3(Random.Range((_cornerPosition__LeftBottom.x + _cornerPosition__RightTop.x) / 2, _cornerPosition__RightTop.x - SCREEN_FRAME_WIDTH), Random.Range(_cornerPosition__LeftBottom.y + SCREEN_FRAME_WIDTH, _cornerPosition__RightTop.y - SCREEN_FRAME_WIDTH - UI_WIDTH), ENEMY_POSITION_Z), Quaternion.identity);
                 EnemyAmount++;
                 break;
             }

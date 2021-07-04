@@ -13,6 +13,7 @@ public class EnemyBaseImp : MonoBehaviour
     bool _hasVelocitySet = false;
     bool _hasAnimationStarted = false;
     EnemyController_scr _enemyController;
+    const float SCREEN_FRAME = 1;
 
 
     /// <summary>
@@ -72,6 +73,22 @@ public class EnemyBaseImp : MonoBehaviour
         {
             animator.SetBool("hasStarted", true);
             _hasAnimationStarted = true;
+        }
+    }
+
+
+    /// <summary>
+    /// 画面の外に出たら消滅する
+    /// </summary>
+    protected void DestroyLater()
+    {
+        //画面左下と右上の座標の取得
+        Vector3 cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 cornerPosition__RightTop = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        if (transform.position.x < cornerPosition__LeftBottom.x - SCREEN_FRAME || transform.position.x > cornerPosition__RightTop.x + SCREEN_FRAME || transform.position.y > cornerPosition__RightTop.y + SCREEN_FRAME || transform.position.y < cornerPosition__LeftBottom.y - SCREEN_FRAME)
+        {
+            DestroyMyself();
         }
     }
 

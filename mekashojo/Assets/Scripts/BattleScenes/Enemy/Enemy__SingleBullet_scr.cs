@@ -21,5 +21,7 @@ public class Enemy__SingleBullet_scr : Enemy__BulletBaseImp
         SetVelocity();
 
         Attack();
+
+        DestroyLater();
     }
 }

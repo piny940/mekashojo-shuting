@@ -31,5 +31,7 @@ public class Enemy__WideSpreadBullet_scr : Enemy__BulletBaseImp
         SetVelocity();
 
         Attack(_fireDirections);
+
+        DestroyLater();
     }
 }

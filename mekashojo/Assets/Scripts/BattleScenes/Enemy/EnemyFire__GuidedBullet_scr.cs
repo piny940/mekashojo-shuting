@@ -9,6 +9,7 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
     GameObject _startCountObject;
     StartCount_scr _startCount;
     bool _hasApproached;
+    bool _isFirst;
     float _speed;
     
     // Start is called before the first frame update
@@ -36,6 +37,8 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
             throw new System.Exception();
         }
 
+        _isFirst = false;
+
         Initialize();
     }
 
@@ -60,16 +63,16 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
 
         float distance = Vector3.Magnitude(adjustedPlayerPosition - transform.position);
 
-        
 
         if (distance < _stopChasingDistance)
         {
             _hasApproached = true;
         }
 
-        if (!_hasApproached)
+        if (!_hasApproached || _isFirst)
         {
             GetComponent<Rigidbody2D>().velocity = (adjustedPlayerPosition - transform.position) * _speed / distance;
+            _isFirst = false;
         }
     }
 }

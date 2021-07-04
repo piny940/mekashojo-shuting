@@ -22,5 +22,7 @@ public class Enemy__Missile_scr : Enemy__BulletBaseImp
         SetVelocity();
 
         Attack();
+
+        DestroyLater();
     }
 }

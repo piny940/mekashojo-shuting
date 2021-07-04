@@ -22,5 +22,7 @@ public class Enemy__StunBullet_scr : Enemy__BulletBaseImp
         SetVelocity();
 
         Attack();
+
+        DestroyLater();
     }
 }

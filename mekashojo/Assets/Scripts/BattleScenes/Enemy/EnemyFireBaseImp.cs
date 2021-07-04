@@ -9,6 +9,7 @@ public class EnemyFireBaseImp : MonoBehaviour
     protected new Rigidbody2D rigidbody2D;
     protected CommonForBattleScenes_scr commonForBattleScenes;
     protected Vector3 savedVelocity;
+    const float SCREEN_FRAME = 1;
 
     /// <summary>
     /// Startメソッドで呼ぶ<br></br>
@@ -30,7 +31,7 @@ public class EnemyFireBaseImp : MonoBehaviour
         Vector3　cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 cornerPosition__RightTop = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-        if (transform.position.x < cornerPosition__LeftBottom.x || transform.position.x > cornerPosition__RightTop.x || transform.position.y > cornerPosition__RightTop.y || transform.position.y < cornerPosition__LeftBottom.y)
+        if (transform.position.x < cornerPosition__LeftBottom.x - SCREEN_FRAME || transform.position.x > cornerPosition__RightTop.x + SCREEN_FRAME || transform.position.y > cornerPosition__RightTop.y + SCREEN_FRAME || transform.position.y < cornerPosition__LeftBottom.y - SCREEN_FRAME)
         {
             Destroy(gameObject);
         }

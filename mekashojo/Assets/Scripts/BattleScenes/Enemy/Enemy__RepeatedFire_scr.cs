@@ -32,5 +32,7 @@ public class Enemy__RepeatedFire_scr : Enemy__BulletBaseImp
         SetVelocity();
 
         Attack(_shortFiringInterval, ref _firingCount, ref _frameCount, ref _firingDirection, ref _hasFiringDirectionSet);
+
+        DestroyLater();
     }
 }

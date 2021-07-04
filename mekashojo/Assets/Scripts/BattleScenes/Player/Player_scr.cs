@@ -31,6 +31,7 @@ public class Player_scr : MonoBehaviour
     [HideInInspector] public float mainEnergyAmount;
     [HideInInspector] public float subEnergyAmount;
     [HideInInspector] public bool isStunning;
+    [HideInInspector] public bool isBombUsing;
     Cannon__Player_scr _cannon__Player;
     Laser__Player_scr _laser__Player;
     BeamMachineGun__Player_scr _beamMachineGun__Player;
@@ -53,6 +54,7 @@ public class Player_scr : MonoBehaviour
     bool _isPausing;
     bool _isSwitchingWeapon;
     bool _isMainSelected;
+    bool _isBombPerformanceDoing;
     int _havingBombAmount;
     int _stunFrameCount;
     Vector3 _shakingVector;
@@ -150,6 +152,7 @@ public class Player_scr : MonoBehaviour
 
         Attack();
 
+        UseBomb();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -423,5 +426,32 @@ public class Player_scr : MonoBehaviour
     {
         //死んだ時の処理
         SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageFailedScene);
+    }
+
+
+    /// <summary>
+    /// ボムを使用する
+    /// </summary>
+    void UseBomb()
+    {
+        if (_getInput.bombKey > 0 && !_isBombPerformanceDoing && !isBombUsing && _havingBombAmount > 0)
+        {
+            _isBombPerformanceDoing = true;
+            _havingBombAmount--;
+            _havingBombs[_havingBombAmount].SetActive(false);
+        }
+
+        if (_isBombPerformanceDoing)
+        {
+            //ここにボム使用時の演出を入れる
+
+            isBombUsing = true;
+            _isBombPerformanceDoing = false;
+        }
+
+        if (isBombUsing)
+        {
+            _bomb__Player.Attack();
+        }
     }
 }

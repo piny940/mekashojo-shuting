@@ -45,6 +45,9 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
 
         //攻撃
         Attack();
+
+        //画面の外に出たら消滅する
+        DestroyLater();
     }
     
     void Attack()
