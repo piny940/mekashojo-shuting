@@ -9,7 +9,7 @@ public class EnemyDamageManager : MonoBehaviour
     public float hp { get; set; }
     const float ENHANCEMENT_MATERIAL_DROP_RATE = 0.05f;
     const float ENERGY_CHARGE_MATERIAL_DROP_RATE = 0.03f;
-    const float BOMB_CHARGE_MATERIAL_DROP_RATE = 0.05f;
+    const float BOMB_CHARGE_MATERIAL_DROP_RATE = 0.01f;
     public readonly int noBombDamageFrames = 3;
     public int frameCounterForPlayerBomb { get; private set; }
     public bool isInsideBomb = false;
