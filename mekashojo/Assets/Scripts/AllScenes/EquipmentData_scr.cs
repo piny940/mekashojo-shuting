@@ -20,9 +20,6 @@ public class EquipmentData_scr : MonoBehaviour
     // 所持している強化用素材の数
     public Dictionary<equipmentType, int> enhancementMaterialsCount { get; set; }
 
-    // 入手した強化用素材の数
-    public Dictionary<equipmentType,int> aquiredEnhancementMaterialsCount { get; set; }
-
     // 現在の装備ごとのレベル
     public Dictionary<equipmentType, level> equipmentLevel { get; set; }
 
@@ -98,18 +95,6 @@ public class EquipmentData_scr : MonoBehaviour
         selectedShieldName = equipmentType.Shield__Heavy;
 
         enhancementMaterialsCount = new Dictionary<equipmentType, int>()
-        {
-            { equipmentType.MainWeapon__Cannon, 0 },
-            { equipmentType.MainWeapon__Laser, 0 },
-            { equipmentType.MainWeapon__BeamMachineGun, 0 },
-            { equipmentType.SubWeapon__Balkan, 0 },
-            { equipmentType.SubWeapon__Missile, 0 },
-            { equipmentType.Bomb, 0 },
-            { equipmentType.Shield__Heavy, 0 },
-            { equipmentType.Shield__Light, 0 }
-        };
-
-        aquiredEnhancementMaterialsCount = new Dictionary<equipmentType, int>()
         {
             { equipmentType.MainWeapon__Cannon, 0 },
             { equipmentType.MainWeapon__Laser, 0 },

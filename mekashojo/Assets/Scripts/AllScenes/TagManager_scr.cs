@@ -16,7 +16,8 @@ public class TagManager_scr : MonoBehaviour
         GetInput__BattleScene,
         Player__BattleScene,
         EnemyController__BattleScene,
-        CommonForBattleScenes__BattleScene
+        CommonForBattleScenes__BattleScene,
+        AcquiredEnhancementMaterialData__BattleScene
     }
 
     private void Awake()
