@@ -30,7 +30,7 @@ public class EnemyController_scr : MonoBehaviour
     Vector3 _cornerPosition__LeftBottom;
     Vector3 _cornerPosition__RightTop;
 
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +43,7 @@ public class EnemyController_scr : MonoBehaviour
         //はじめにいる敵の数
         EnemyAmount = _firstEnemyAmount;
 
-        
+
     }
 
     // Update is called once per frame
@@ -84,7 +84,7 @@ public class EnemyController_scr : MonoBehaviour
         float randomValueForEnemyChoosing;
         randomValueForEnemyChoosing = Random.value;
 
-        for(int i = 0; i < _enemyNames.Count; i++)
+        for (int i = 0; i < _enemyNames.Count; i++)
         {
             if (randomValueForEnemyChoosing <= (float)_produceProbabilityRatios.Take(i + 1).Sum() / (float)_produceProbabilityRatiosSum)
             {

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class LightShield__Player_scr : Shield__PlayerBaseImp
 {
-    
+
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ContinueButton_scr : ButtonBaseImp
 {
-    [SerializeField,Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
+    [SerializeField, Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
     [SerializeField, Header("セーブデータがなかったときのボタンのサウンド")] AudioClip _noSaveDataSound;
     [SerializeField, Header("セーブデータがあったときのボタンのサウンド")] AudioClip _existSaveDataSound;
 

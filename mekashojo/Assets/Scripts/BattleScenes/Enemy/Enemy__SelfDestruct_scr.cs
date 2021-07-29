@@ -18,7 +18,7 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
 
         Initialize();
 
-        
+
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
     {
         //ポーズの処理
         commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity, _animator);
-        
+
         //移動速度の設定
         SetVelocity();
 

@@ -20,5 +20,5 @@ public class RestartButton_scr : ButtonBaseImp
             _pauseScreen.SetActive(false);
         }
     }
-    
+
 }

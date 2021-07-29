@@ -15,5 +15,5 @@ public class CannonAndLaserFire__PlayerBaseImp : MonoBehaviour
         }
     }
 
-    
+
 }

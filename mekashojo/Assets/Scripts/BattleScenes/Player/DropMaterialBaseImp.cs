@@ -148,7 +148,7 @@ public class DropMaterialBaseImp : MonoBehaviour
                 default:
                     break;
             }
-            
+
             //拾った時のエフェクトを表示する？
             Destroy(this.gameObject);
 

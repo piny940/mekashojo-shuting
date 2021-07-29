@@ -47,7 +47,7 @@ public class BalkanFire__Player_scr : MonoBehaviour
     {
         //一定時間経過したら消滅する
         _time += Time.deltaTime;
-        if(_time> _disappearTime)
+        if (_time > _disappearTime)
         {
             Destroy(this.gameObject);
         }

@@ -30,7 +30,7 @@ public class Bomb__Player_scr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Attack()
@@ -40,7 +40,7 @@ public class Bomb__Player_scr : MonoBehaviour
         {
             _isBombActive = true;
         }
-        
+
         if (_bombFire.transform.localScale.x < MAX_BOBM_SIZE)
         {
             //ボムを大きくしていく

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StartCount_scr : MonoBehaviour
 {
-    
+
     [HideInInspector] public bool hasStarted { get; set; }
     [HideInInspector] public bool isStarting { get; set; }
     [SerializeField, Header("StartCount__1を入れる")] GameObject _startCount__1;
