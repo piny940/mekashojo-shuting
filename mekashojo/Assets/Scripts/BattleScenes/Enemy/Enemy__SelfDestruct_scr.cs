@@ -25,19 +25,21 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
     void Update()
     {
         //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity,_animator);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity, _animator);
         
         //移動速度の設定
         SetVelocity();
 
         //アニメーションの開始
         StartAnimation(_animator);
-        
+
+        //画面の外に出たら消滅する
+        DestroyLater();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Player__BattleScene.ToString())
         {
             collision.GetComponent<Player_scr>().GetDamage(_power);
 

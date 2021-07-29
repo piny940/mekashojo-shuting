@@ -10,10 +10,14 @@ public class EnemyDamageManager : MonoBehaviour
     const float ENHANCEMENT_MATERIAL_DROP_RATE = 0.05f;
     const float ENERGY_CHARGE_MATERIAL_DROP_RATE = 0.03f;
     const float BOMB_CHARGE_MATERIAL_DROP_RATE = 0.01f;
+    public readonly int noBombDamageFrames = 3;
+    public int frameCounterForPlayerBomb { get; private set; }  //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったら
+                                                                //「isInsideBomb」をtrueにする”って処理を入れることで、ボムのなかにスポーンしたのかどうかを判定する
+    public bool isInsideBomb = false;
 
     private void Start()
     {
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
         //nullの場合
         if (_enemyController == null)
@@ -23,8 +27,24 @@ public class EnemyDamageManager : MonoBehaviour
 
         hp = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[_enemyType][NormalEnemyData_scr.normalEnemyParameter.HP];
 
+        //noBombDamageFramesは1だと意味がないため１以下だとエラーを吐くようにする
+        if (noBombDamageFrames < 2)
+        {
+            throw new System.Exception();
+        }
     }
 
+
+    private void Update()
+    {
+        CountFrameForPlayerBomb();
+    }
+
+
+    /// <summary>
+    /// ダメージを受ける
+    /// </summary>
+    /// <param name="power"></param>
     public void GetDamage(float power)
     {
         hp -= power;
@@ -35,6 +55,10 @@ public class EnemyDamageManager : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 死ぬ
+    /// </summary>
     void Die()
     {
         //ドロップアイテムを落とす
@@ -107,5 +131,18 @@ public class EnemyDamageManager : MonoBehaviour
         //消滅する
         _enemyController.EnemyAmount--;
         Destroy(this.gameObject);
+    }
+
+
+    /// <summary>
+    /// プレイヤーのボムの内側にスポーンした時はボムをダメージを受けないようにするためのフレームカウンター「frameCounterForPlayerBomb」をマイフレームincrementする<br></br>
+    /// Updateで呼ぶ
+    /// </summary>
+    void CountFrameForPlayerBomb()
+    {
+        if (frameCounterForPlayerBomb < noBombDamageFrames)
+        {
+            frameCounterForPlayerBomb++;
+        }
     }
 }

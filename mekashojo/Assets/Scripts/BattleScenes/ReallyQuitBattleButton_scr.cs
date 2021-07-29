@@ -14,8 +14,7 @@ public class ReallyQuitBattleButton_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            SaveDataManager_scr.saveDataManager.SaveData();
-            SceneManager.LoadScene("MenuScene");
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
         }
     }
 }

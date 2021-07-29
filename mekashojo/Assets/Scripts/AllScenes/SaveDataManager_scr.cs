@@ -47,12 +47,10 @@ public class SaveData
 public class SaveDataManager_scr : MonoBehaviour
 {
     public static SaveDataManager_scr saveDataManager { get; set; }
-    [HideInInspector] public bool haveNoSaveData;     //セーブデータがなかった時にtrue
     SaveData _saveData;
     string _saveData__JsonString;   //セーブデータをstring型で保存
 
 
-    //シングルトン
     private void Awake()
     {
         if (saveDataManager == null)
@@ -66,13 +64,12 @@ public class SaveDataManager_scr : MonoBehaviour
         }
 
         _saveData = new SaveData();
-        haveNoSaveData = false;
     }
 
     /// <summary>
     /// データをセーブする
     /// </summary>
-    public void SaveData()
+    public void Save()
     {
         //選択中の装備の保存
         _saveData.selectedMainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
@@ -148,15 +145,14 @@ public class SaveDataManager_scr : MonoBehaviour
     /// <summary>
     /// セーブデータをロードする
     /// </summary>
-    public void LoadData()
+    public bool Load()
     {
         _saveData__JsonString = PlayerPrefs.GetString("SaveData");
 
         //セーブデータがなかった場合の処理
         if (_saveData__JsonString == "")
         {
-            haveNoSaveData = true;
-            return;
+            return false;
         }
 
         //セーブデータがあった場合の処理
@@ -204,11 +200,11 @@ public class SaveDataManager_scr : MonoBehaviour
         EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light] = _saveData.enhancementMaterialsCount__LightShield;
 
 
-        //ステージの進捗の保存
+        //ステージの進捗のロード
         ProgressData_scr.progressData.stageClearAchievement = _saveData.stageClearAchievement;
 
 
-        //設定のデータの保存
+        //設定のデータのロード
         Setting_scr.setting.bgmVolume = _saveData.bgmVolume;
 
         Setting_scr.setting.seVolume = _saveData.seVolume;
@@ -222,7 +218,78 @@ public class SaveDataManager_scr : MonoBehaviour
         Setting_scr.setting.leftKey = _saveData.leftKey;
 
         Setting_scr.setting.rightKey = _saveData.rightKey;
-        
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// データの初期化
+    /// </summary>
+    public void Initialize()
+    {
+        //選択中の装備の初期化
+        EquipmentData_scr.equipmentData.selectedMainWeaponName = EquipmentData_scr.equipmentType.MainWeapon__Cannon;
+
+        EquipmentData_scr.equipmentData.selectedSubWeaponName = EquipmentData_scr.equipmentType.SubWeapon__Balkan;
+
+        EquipmentData_scr.equipmentData.selectedShieldName = EquipmentData_scr.equipmentType.Shield__Heavy;
+
+
+        //装備のレベルの初期化
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__Cannon] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__Laser] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Balkan] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.SubWeapon__Missile] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Bomb] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Heavy] = EquipmentData_scr.level.Level1;
+
+        EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.Shield__Light] = EquipmentData_scr.level.Level1;
+
+
+        //強化素材の所持数の初期化
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Cannon] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Laser] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Balkan] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Bomb] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Heavy] = 0;
+
+        EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light] = 0;
+
+
+        //ステージの進捗の初期化
+        ProgressData_scr.progressData.stageClearAchievement = ProgressData_scr.stageName._none;
+
+
+        //設定のデータの初期化
+        Setting_scr.setting.bgmVolume = _saveData.bgmVolume;
+
+        Setting_scr.setting.seVolume = _saveData.seVolume;
+
+        Setting_scr.setting.mouseSensitivity = _saveData.mouseSensitivity;
+
+        Setting_scr.setting.forwardKey = _saveData.forwardKey;
+
+        Setting_scr.setting.backKey = _saveData.backKey;
+
+        Setting_scr.setting.leftKey = _saveData.leftKey;
+
+        Setting_scr.setting.rightKey = _saveData.rightKey;
+
+        Save();
     }
 
 }

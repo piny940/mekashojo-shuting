@@ -19,7 +19,7 @@ public class NormalEnemyData_scr : MonoBehaviour
         StunBullet__SmallDrone,
         FastBullet__SmallDrone,
         SlowBullet__SmallDrone,
-        SmallBomb__MiddleDrone,
+        Missile__MiddleDrone,
         RepeatedFire__MiddleDrone,
         WideBeam__MiddleDrone,
         GuidedBullet__MiddleDrone,
@@ -37,7 +37,6 @@ public class NormalEnemyData_scr : MonoBehaviour
         BulletSpeed,
     }
 
-    //シングルトン
     private void Awake()
     {
         if (normalEnemyData == null)
@@ -61,7 +60,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 5 },
                     { normalEnemyParameter.FiringInterval, 3 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 0.8f },
+                    { normalEnemyParameter.BulletSpeed, 5 },
                 }
             },
             {
@@ -73,7 +72,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 1 },
                     { normalEnemyParameter.FiringInterval, 2 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 1 },
+                    { normalEnemyParameter.BulletSpeed, 5 },
                 }
             },
             {
@@ -83,9 +82,9 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.HP, 5 },
                     { normalEnemyParameter.DamageAmount, 20 },
                     { normalEnemyParameter.FiringCount, 1 },
-                    { normalEnemyParameter.FiringInterval, 5 },
+                    { normalEnemyParameter.FiringInterval, 10 },
                     { normalEnemyParameter.StunDuration, 3 },
-                    { normalEnemyParameter.BulletSpeed, 1 },
+                    { normalEnemyParameter.BulletSpeed, 5 },
                 }
             },
             {
@@ -97,7 +96,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 1 },
                     { normalEnemyParameter.FiringInterval, 1 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 2.5f },
+                    { normalEnemyParameter.BulletSpeed, 10 },
                 }
             },
             {
@@ -109,11 +108,11 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 1 },
                     { normalEnemyParameter.FiringInterval, 3 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 0.6f },
+                    { normalEnemyParameter.BulletSpeed, 4 },
                 }
             },
             {
-                normalEnemyType.SmallBomb__MiddleDrone,
+                normalEnemyType.Missile__MiddleDrone,
                 new Dictionary<normalEnemyParameter, float>()
                 {
                     { normalEnemyParameter.HP, 20 },
@@ -121,7 +120,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 3 },
                     { normalEnemyParameter.FiringInterval, 3 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, -1 },
+                    { normalEnemyParameter.BulletSpeed, 4 },
                 }
             },
             {
@@ -133,7 +132,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 5 },
                     { normalEnemyParameter.FiringInterval, 3 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 1.2f },
+                    { normalEnemyParameter.BulletSpeed, 7 },
                 }
             },
             {
@@ -157,7 +156,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 1 },
                     { normalEnemyParameter.FiringInterval, 5 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 0.8f },
+                    { normalEnemyParameter.BulletSpeed, 4 },
                 }
             },
             {
@@ -169,7 +168,7 @@ public class NormalEnemyData_scr : MonoBehaviour
                     { normalEnemyParameter.FiringCount, 8 },
                     { normalEnemyParameter.FiringInterval, 5 },
                     { normalEnemyParameter.StunDuration, -1 },
-                    { normalEnemyParameter.BulletSpeed, 1 },
+                    { normalEnemyParameter.BulletSpeed, 6 },
                 }
             },
             {

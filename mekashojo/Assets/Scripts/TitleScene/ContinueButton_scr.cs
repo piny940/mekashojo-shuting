@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class ContinueButton_scr : MonoBehaviour
+public class ContinueButton_scr : ButtonBaseImp
 {
     [SerializeField,Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
+    [SerializeField, Header("セーブデータがなかったときのボタンのサウンド")] AudioClip _noSaveDataSound;
+    [SerializeField, Header("セーブデータがあったときのボタンのサウンド")] AudioClip _existSaveDataSound;
 
     // Start is called before the first frame update
     void Start()
@@ -13,28 +14,26 @@ public class ContinueButton_scr : MonoBehaviour
         _noSaveDataScreen.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        ButtonUpdate();
     }
 
     public void OnPush()
     {
-        //セーブデータを読み込む
-        SaveDataManager_scr.saveDataManager.LoadData();
-
-        //セーブデータがなかった場合
-        if (SaveDataManager_scr.saveDataManager.haveNoSaveData)
+        if (CanPush())
         {
-            _noSaveDataScreen.SetActive(true);
-            SaveDataManager_scr.saveDataManager.haveNoSaveData = false;
-            return;
+            //セーブデータがなかった場合
+            if (!SaveDataManager_scr.saveDataManager.Load())
+            {
+                SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_noSaveDataSound);
+                _noSaveDataScreen.SetActive(true);
+                return;
+            }
+
+            //セーブデータがあった場合
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
         }
-
-        //セーブデータがあった場合
-        SceneManager.LoadScene("MenuScene");
-
-
     }
 }

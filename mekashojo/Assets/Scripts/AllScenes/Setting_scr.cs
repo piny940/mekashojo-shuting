@@ -14,7 +14,6 @@ public class Setting_scr : MonoBehaviour
     public char leftKey { get; set; }
     public char rightKey { get; set; }
 
-    //シングルトン
     private void Awake()
     {
         if (setting == null)

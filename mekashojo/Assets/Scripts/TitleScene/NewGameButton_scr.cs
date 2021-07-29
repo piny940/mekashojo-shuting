@@ -1,26 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class NewGameButton_scr : MonoBehaviour
+public class NewGameButton_scr : ButtonBaseImp
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField, Header("押したときになる音")] AudioClip _clickSound;
 
     // Update is called once per frame
     void Update()
     {
-        
+        ButtonUpdate();
     }
 
     public void OnPush()
     {
-        PlayerPrefs.DeleteAll();
-        SaveDataManager_scr.saveDataManager.SaveData();
-        SceneManager.LoadScene("MenuScene");
+        if (CanPush())
+        {
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_clickSound);
+
+            SaveDataManager_scr.saveDataManager.Initialize();
+
+            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+        }
     }
 }

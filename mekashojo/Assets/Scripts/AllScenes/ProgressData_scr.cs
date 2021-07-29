@@ -22,6 +22,7 @@ public class ProgressData_scr : MonoBehaviour
 
     public enum stageName
     {
+        _none,
         stage1,
         stage2,
         stage3,
@@ -29,7 +30,6 @@ public class ProgressData_scr : MonoBehaviour
         lastStage,
     }
 
-    //シングルトン
     private void Awake()
     {
         if (progressData == null)

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentSelectButton__LightShield_scr : EquipmentSelectButtonBaseImp
 {
+    [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
+
     private void Start()
     {
         type = EquipmentData_scr.equipmentType.Shield__Light;
@@ -14,6 +16,7 @@ public class EquipmentSelectButton__LightShield_scr : EquipmentSelectButtonBaseI
     {
         if (CanPush())
         {
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             SelectedWeaponChanged();
         }
     }

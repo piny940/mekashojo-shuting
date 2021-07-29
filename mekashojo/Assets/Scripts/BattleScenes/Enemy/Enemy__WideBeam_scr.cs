@@ -38,13 +38,16 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
     void Update()
     {
         //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity);
 
         //移動速度の設定
         SetVelocity();
 
         //攻撃
         Attack();
+
+        //画面の外に出たら消滅する
+        DestroyLater();
     }
     
     void Attack()

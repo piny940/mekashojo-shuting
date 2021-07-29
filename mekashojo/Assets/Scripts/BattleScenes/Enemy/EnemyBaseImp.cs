@@ -13,6 +13,7 @@ public class EnemyBaseImp : MonoBehaviour
     bool _hasVelocitySet = false;
     bool _hasAnimationStarted = false;
     EnemyController_scr _enemyController;
+    const float SCREEN_FRAME = 1;
 
 
     /// <summary>
@@ -24,11 +25,11 @@ public class EnemyBaseImp : MonoBehaviour
 
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        _startCount = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount__BattleScene.ToString()).GetComponent<StartCount_scr>();
+        _startCount = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.StartCount__BattleScene.ToString()).GetComponent<StartCount_scr>();
 
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
-        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        commonForBattleScenes = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
 
         //nullの場合
         if (_startCount == null || _enemyController == null || commonForBattleScenes == null)
@@ -72,6 +73,25 @@ public class EnemyBaseImp : MonoBehaviour
         {
             animator.SetBool("hasStarted", true);
             _hasAnimationStarted = true;
+        }
+    }
+
+
+    /// <summary>
+    /// 画面の外に出たら消滅する
+    /// </summary>
+    protected void DestroyLater()
+    {
+        //画面左下と右上の座標の取得
+        Vector3 cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 cornerPosition__RightTop = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        //画面の外に出たら消滅する
+        //画面外という判定にはSCREEN_FRAMEの分だけ余裕を持たせておく
+        if (transform.position.x < cornerPosition__LeftBottom.x - SCREEN_FRAME || transform.position.x > cornerPosition__RightTop.x + SCREEN_FRAME
+            || transform.position.y > cornerPosition__RightTop.y + SCREEN_FRAME || transform.position.y < cornerPosition__LeftBottom.y - SCREEN_FRAME)
+        {
+            DestroyMyself();
         }
     }
 
