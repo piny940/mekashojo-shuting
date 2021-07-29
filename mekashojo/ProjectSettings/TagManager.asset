@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy__BattleScene
+  - PauseController__BattleScene
+  - StartCount__BattleScene
+  - GetInput__BattleScene
+  - Player__BattleScene
+  - EnemyController__BattleScene
+  - PlayerFire__BattleScene
+  - EnemyFire__BattleScene
+  - CommonForBattleScenes__BattleScene
+  - AcquiredEnhancementMaterialData__BattleScene
   layers:
   - Default
   - TransparentFX
@@ -40,4 +50,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 2905954023
     locked: 0
