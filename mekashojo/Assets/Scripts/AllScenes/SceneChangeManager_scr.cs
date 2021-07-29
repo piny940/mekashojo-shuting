@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class SceneChangeManager_scr : MonoBehaviour
 {
     static public SceneChangeManager_scr sceneChangeManager = null;
-    [SerializeField, Header("はじめにいるScene")] SceneNames _firstSceneName;
     private SceneNames _currentSceneName;
     public SceneNames previousSceneName { get; private set; }
 
@@ -43,8 +42,8 @@ public class SceneChangeManager_scr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentSceneName = _firstSceneName;
-        previousSceneName = _firstSceneName;    //previousSceneNameはとりあえず_firstSceneNameで初期化しとく
+        _currentSceneName = SceneNames.TitleScene;
+        previousSceneName = SceneNames.TitleScene;    //previousSceneNameはとりあえず_firstSceneNameで初期化しとく
     }
 
     public void ChangeScene(SceneNames nextSceneName)
