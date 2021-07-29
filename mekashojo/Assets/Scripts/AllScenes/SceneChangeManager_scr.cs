@@ -43,7 +43,7 @@ public class SceneChangeManager_scr : MonoBehaviour
     void Start()
     {
         _currentSceneName = SceneNames.TitleScene;
-        previousSceneName = SceneNames.TitleScene;    //previousSceneNameはとりあえず_firstSceneNameで初期化しとく
+        previousSceneName = SceneNames.TitleScene;
     }
 
     public void ChangeScene(SceneNames nextSceneName)
