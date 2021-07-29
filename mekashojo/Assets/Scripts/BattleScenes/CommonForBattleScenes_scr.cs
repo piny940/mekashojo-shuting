@@ -13,7 +13,7 @@ public class CommonForBattleScenes_scr : MonoBehaviour
     /// <param name="isPausing"></param>
     /// <param name="rigidbody2D"></param>
     /// <param name="savedVelocity"></param>
-    public void Pause(Rigidbody2D rigidbody2D, ref bool isPausing, ref Vector3 savedVelocity)
+    public void ProceedPausing(Rigidbody2D rigidbody2D, ref bool isPausing, ref Vector3 savedVelocity)
     {
         //ポーズし始めた時
         if (!_startCount.hasStarted && !isPausing)
@@ -48,7 +48,7 @@ public class CommonForBattleScenes_scr : MonoBehaviour
     /// <param name="isPausing"></param>
     /// <param name="savedVelocity"></param>
     /// <param name="animator"></param>
-    public void Pause(Rigidbody2D rigidbody2D, ref bool isPausing, ref Vector3 savedVelocity, Animator animator)
+    public void ProceedPausing(Rigidbody2D rigidbody2D, ref bool isPausing, ref Vector3 savedVelocity, Animator animator)
     {
         //ポーズし始めた時
         if (!_startCount.hasStarted && !isPausing)

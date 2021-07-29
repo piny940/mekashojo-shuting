@@ -27,7 +27,7 @@ public class Enemy__SpreadBullet_scr : Enemy__BulletBaseImp
     // Update is called once per frame
     void Update()
     {
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity);
 
         SetVelocity();
 

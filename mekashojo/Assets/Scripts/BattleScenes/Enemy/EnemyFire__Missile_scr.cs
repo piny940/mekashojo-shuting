@@ -15,6 +15,6 @@ public class EnemyFire__Missile_scr : EnemyFireBaseImp
     // Update is called once per frame
     void Update()
     {
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity);
     }
 }

@@ -17,7 +17,7 @@ public class Enemy__FastBullet_scr : Enemy__BulletBaseImp
     void Update()
     {
         //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity);
 
         SetVelocity();
 

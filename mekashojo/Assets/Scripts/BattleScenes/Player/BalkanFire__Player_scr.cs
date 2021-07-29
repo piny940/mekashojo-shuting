@@ -53,7 +53,7 @@ public class BalkanFire__Player_scr : MonoBehaviour
         }
 
         //ポーズの処理
-        _commonForBattleScenes.Pause(_rigidbody2D, ref _isPausing, ref _savedVelocity);
+        _commonForBattleScenes.ProceedPausing(_rigidbody2D, ref _isPausing, ref _savedVelocity);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

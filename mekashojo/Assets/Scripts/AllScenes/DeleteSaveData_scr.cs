@@ -19,6 +19,8 @@ public class DeleteSaveData_scr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
+
         if (Input.anyKeyDown)
         {
             _input += Input.inputString;
@@ -35,4 +37,5 @@ public class DeleteSaveData_scr : MonoBehaviour
             Debug.Log("Deleted!");
         }
     }
+#endif
 }

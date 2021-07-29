@@ -71,7 +71,7 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
     /// floatとref intを引数に受け取った時はRepeatedFireと判断
     /// </summary>
     /// <param name="shortFiringInterval"></param>
-    protected void Attack(float shortFiringInterval, ref int firingCount, ref int frameCount,ref Vector3 firingDirection, ref bool isFiringDirectionSet)
+    protected void Attack(float shortFiringInterval, ref int firingCount, ref int frameCount, ref Vector3 firingDirection, ref bool isFiringDirectionSet)
     {
         _time += Time.deltaTime;
 
@@ -82,9 +82,9 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
             //発射速度の設定
             if (!isFiringDirectionSet)
             {
-                Vector3 modifiedThisPosition = new Vector3(transform.position.x, transform.position.y, _player.transform.position.z);
+                Vector3 position__Modified = new Vector3(transform.position.x, transform.position.y, _player.transform.position.z);
 
-                firingDirection = (_player.transform.position - modifiedThisPosition) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - modifiedThisPosition);
+                firingDirection = (_player.transform.position - position__Modified) * NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed] / Vector3.Magnitude(_player.transform.position - position__Modified);
 
                 isFiringDirectionSet = true;
             }
@@ -106,7 +106,6 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
                 _time = 0;
                 isFiringDirectionSet = false;
             }
-            
         }
     }
 

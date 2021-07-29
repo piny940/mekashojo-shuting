@@ -42,24 +42,21 @@ public class EnemyFireBaseImp : MonoBehaviour
     {
         if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
         {
+            //Player_scrを取得
+            Player_scr player = collision.GetComponent<Player_scr>();
+
+            if (player == null)
+            {
+                throw new System.Exception();
+            }
+
             //ダメージを与える
-            collision.GetComponent<Player_scr>().GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
+            player.GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
 
             switch (normalEnemyType)
             {
                 //スタン型の場合は
                 case NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone:
-                    //Player_scrを取得
-                    Player_scr player = collision.GetComponent<Player_scr>();
-
-                    if (player == null)
-                    {
-                        throw new System.Exception();
-                    }
-
-                    //ダメージを与える
-                    player.GetDamage(NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.StunBullet__SmallDrone][NormalEnemyData_scr.normalEnemyParameter.DamageAmount]);
-
                     //スタンさせる
                     player.isStunning = true;
                     break;
@@ -78,7 +75,6 @@ public class EnemyFireBaseImp : MonoBehaviour
                     break;
 
             }
-
         }
     }
 }

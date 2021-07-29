@@ -45,7 +45,7 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
     // Update is called once per frame
     void Update()
     {
-        commonForBattleScenes.Pause(GetComponent<Rigidbody2D>(), ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(GetComponent<Rigidbody2D>(), ref isPausing, ref savedVelocity);
 
         Move();
 

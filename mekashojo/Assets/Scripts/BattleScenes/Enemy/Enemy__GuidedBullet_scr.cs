@@ -18,7 +18,7 @@ public class Enemy__GuidedBullet_scr : EnemyBaseImp
     void Update()
     {
         //ポーズの処理
-        commonForBattleScenes.Pause(rigidbody2D, ref isPausing, ref savedVelocity);
+        commonForBattleScenes.ProceedPausing(rigidbody2D, ref isPausing, ref savedVelocity);
 
         SetVelocity();
 
