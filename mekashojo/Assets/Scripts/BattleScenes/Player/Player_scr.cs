@@ -53,7 +53,7 @@ public class Player_scr : MonoBehaviour
     AttackDelegate SubAttack;
     System.Action ProceedShield;
     float _hpAmount;
-    float _speedWhileUsingShield;
+    float _speedReduceRate;
     float _speed;
     bool _isPausing;
     bool _isSwitchingWeapon;
@@ -186,7 +186,7 @@ public class Player_scr : MonoBehaviour
 
         if (isShieldUsing)
         {
-            speed = _speedWhileUsingShield;
+            speed *= _speedReduceRate;
         }
 
         //水平方向の移動
@@ -398,11 +398,11 @@ public class Player_scr : MonoBehaviour
         switch (EquipmentData_scr.equipmentData.selectedShieldName)
         {
             case EquipmentData_scr.equipmentType.Shield__Heavy:
-                _speedWhileUsingShield = _speed * _heavyShield__Player.speedReduceRate;
+                _speedReduceRate = _heavyShield__Player.speedReduceRate;
                 break;
 
             case EquipmentData_scr.equipmentType.Shield__Light:
-                _speedWhileUsingShield = _speed * _lightShield__Player.speedReduceRate;
+                _speedReduceRate = _lightShield__Player.speedReduceRate;
                 break;
 
             default:
