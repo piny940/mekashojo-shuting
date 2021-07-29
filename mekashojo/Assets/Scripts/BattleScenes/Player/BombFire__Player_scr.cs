@@ -6,7 +6,7 @@ public class BombFire__Player_scr : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
 
@@ -30,7 +30,7 @@ public class BombFire__Player_scr : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
 

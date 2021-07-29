@@ -18,7 +18,7 @@ public class EnemyFireBaseImp : MonoBehaviour
     protected void Initialize()
     {
         //コンポーネントの取得
-        commonForBattleScenes = GameObject.FindGameObjectWithTag(Common_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
+        commonForBattleScenes = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.CommonForBattleScenes__BattleScene.ToString()).GetComponent<CommonForBattleScenes_scr>();
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -40,7 +40,7 @@ public class EnemyFireBaseImp : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Player__BattleScene.ToString())
         {
             //Player_scrを取得
             Player_scr player = collision.GetComponent<Player_scr>();

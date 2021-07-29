@@ -17,7 +17,7 @@ public class EnemyDamageManager : MonoBehaviour
 
     private void Start()
     {
-        _enemyController = GameObject.FindGameObjectWithTag(Common_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
+        _enemyController = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.EnemyController__BattleScene.ToString()).GetComponent<EnemyController_scr>();
 
         //nullの場合
         if (_enemyController == null)

@@ -21,7 +21,7 @@ public class Enemy__BulletBaseImp : EnemyBaseImp
         _time = Random.Range(0, NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[normalEnemyType][NormalEnemyData_scr.normalEnemyParameter.FiringInterval]);
 
         //_playerの取得
-        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
+        _player = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.Player__BattleScene.ToString());
 
         if (_player == null)
         {

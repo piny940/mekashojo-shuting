@@ -18,8 +18,8 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
         normalEnemyType = NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone;
 
         //コンポーネントの取得
-        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
-        _startCountObject = GameObject.FindGameObjectWithTag(Common_scr.Tags.StartCount__BattleScene.ToString());
+        _player = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.Player__BattleScene.ToString());
+        _startCountObject = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.StartCount__BattleScene.ToString());
 
         //弾の速さの取得
         _speed = NormalEnemyData_scr.normalEnemyData.normalEnemyStatus[NormalEnemyData_scr.normalEnemyType.GuidedBullet__MiddleDrone][NormalEnemyData_scr.normalEnemyParameter.BulletSpeed];

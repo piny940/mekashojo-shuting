@@ -10,7 +10,7 @@ public class Menu__Settings_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_pushSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             //具体的な処理はまだ
         }
     }

@@ -16,7 +16,7 @@ public class BackButton__NoSaveDataScreen_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_pushSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             _noSaveDataScreen.SetActive(false);
         }
     }

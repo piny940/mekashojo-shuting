@@ -10,7 +10,7 @@ public class Menu__StageSelect_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_pushSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageSelectScene);
         }
     }

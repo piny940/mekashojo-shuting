@@ -22,7 +22,7 @@ public class StageSelectButtonBaseImp : ButtonBaseImp
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_pushSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             _stageDescriptions.text = ProgressData_scr.progressData.stageDescriptions[_stageName];
             _startButton.selectingStageName = _stageSceneName;
         }

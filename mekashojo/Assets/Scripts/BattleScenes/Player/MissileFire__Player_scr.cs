@@ -17,8 +17,8 @@ public class MissileFire__Player_scr : MonoBehaviour
     void Start()
     {
         //コンポーネントを取得
-        _player = GameObject.FindGameObjectWithTag(Common_scr.Tags.Player__BattleScene.ToString());
-        _getInput = GameObject.FindGameObjectWithTag(Common_scr.Tags.GetInput__BattleScene.ToString());
+        _player = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.Player__BattleScene.ToString());
+        _getInput = GameObject.FindGameObjectWithTag(TagManager_scr.Tags.GetInput__BattleScene.ToString());
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _getInput_scr = _getInput.GetComponent<GetInput_scr>();
 
@@ -49,7 +49,7 @@ public class MissileFire__Player_scr : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Enemy__BattleScene.ToString())
         {
             EnemyDamageManager enemyDamageManager = collision.GetComponent<EnemyDamageManager>();
 

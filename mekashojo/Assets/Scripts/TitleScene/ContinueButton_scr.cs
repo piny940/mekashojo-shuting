@@ -26,13 +26,13 @@ public class ContinueButton_scr : ButtonBaseImp
             //セーブデータがなかった場合
             if (!SaveDataManager_scr.saveDataManager.Load())
             {
-                Common_scr.common.audioSource.PlayOneShot(_noSaveDataSound);
+                SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_noSaveDataSound);
                 _noSaveDataScreen.SetActive(true);
                 return;
             }
 
             //セーブデータがあった場合
-            Common_scr.common.audioSource.PlayOneShot(_existSaveDataSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
             SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
         }
     }

@@ -16,7 +16,7 @@ public class EquipmentSelectButton__LightShield_scr : EquipmentSelectButtonBaseI
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_pushSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
             SelectedWeaponChanged();
         }
     }

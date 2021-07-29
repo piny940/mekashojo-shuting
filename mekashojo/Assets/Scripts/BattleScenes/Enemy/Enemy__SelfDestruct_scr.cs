@@ -39,7 +39,7 @@ public class Enemy__SelfDestruct_scr : EnemyBaseImp
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == Common_scr.Tags.Player__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Player__BattleScene.ToString())
         {
             collision.GetComponent<Player_scr>().GetDamage(_power);
 

@@ -16,7 +16,7 @@ public class NewGameButton_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            Common_scr.common.audioSource.PlayOneShot(_clickSound);
+            SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_clickSound);
 
             SaveDataManager_scr.saveDataManager.Initialize();
 

@@ -51,7 +51,7 @@ public class Player_scr : MonoBehaviour
     Rigidbody2D _rigidbody2D;
     AttackDelegate MainAttack;
     AttackDelegate SubAttack;
-    System.Action UseShield;
+    System.Action ProceedShield;
     float _hpAmount;
     float _speedWhileUsingShield;
     float _speed;
@@ -148,7 +148,7 @@ public class Player_scr : MonoBehaviour
 
         AutoEnergyCharge();
 
-        UseBomb();
+        ProceedBomb();
 
         //Stun中
         //Stun中でも動いて欲しいメソッドはこれより上に書く
@@ -164,13 +164,13 @@ public class Player_scr : MonoBehaviour
 
         Attack();
 
-        UseShield();
+        ProceedShield();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //接触ダメージ
-        if (collision.tag == Common_scr.Tags.Enemy__BattleScene.ToString())
+        if (collision.tag == TagManager_scr.Tags.Enemy__BattleScene.ToString())
         {
             GetDamage(_contactDamageAmount);
         }
@@ -278,7 +278,7 @@ public class Player_scr : MonoBehaviour
     {
         if (isShieldUsing)
         {
-            power = power * EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedShieldName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedShieldName]][EquipmentData_scr.equipmentParameter.DamageReductionRate] * 0.01f;
+            power = power * (1 - EquipmentData_scr.equipmentData.equipmentStatus[EquipmentData_scr.equipmentData.selectedShieldName][EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentData.selectedShieldName]][EquipmentData_scr.equipmentParameter.DamageReductionRate] * 0.01f);
         }
 
         //死ぬ場合
@@ -359,11 +359,11 @@ public class Player_scr : MonoBehaviour
         switch (EquipmentData_scr.equipmentData.selectedShieldName)
         {
             case EquipmentData_scr.equipmentType.Shield__Heavy:
-                UseShield = _heavyShield__Player.UseShield;
+                ProceedShield = _heavyShield__Player.UseShield;
                 break;
 
             case EquipmentData_scr.equipmentType.Shield__Light:
-                UseShield = _lightShield__Player.UseShield;
+                ProceedShield = _lightShield__Player.UseShield;
                 break;
 
             default:
@@ -509,7 +509,7 @@ public class Player_scr : MonoBehaviour
     /// <summary>
     /// ボムを使用する
     /// </summary>
-    void UseBomb()
+    void ProceedBomb()
     {
         if (_getInput.bombKey > 0 && !_isBombPerformanceDoing && !isBombUsing && _havingBombAmount > 0)
         {
