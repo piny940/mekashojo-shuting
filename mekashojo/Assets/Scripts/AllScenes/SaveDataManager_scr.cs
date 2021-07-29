@@ -47,7 +47,6 @@ public class SaveData
 public class SaveDataManager_scr : MonoBehaviour
 {
     public static SaveDataManager_scr saveDataManager { get; set; }
-    [HideInInspector] public bool haveNoSaveData;     //セーブデータがなかった時にtrue
     SaveData _saveData;
     string _saveData__JsonString;   //セーブデータをstring型で保存
 
@@ -65,13 +64,12 @@ public class SaveDataManager_scr : MonoBehaviour
         }
 
         _saveData = new SaveData();
-        haveNoSaveData = false;
     }
 
     /// <summary>
     /// データをセーブする
     /// </summary>
-    public void SaveData()
+    public void Save()
     {
         //選択中の装備の保存
         _saveData.selectedMainWeaponName = EquipmentData_scr.equipmentData.selectedMainWeaponName;
@@ -147,15 +145,14 @@ public class SaveDataManager_scr : MonoBehaviour
     /// <summary>
     /// セーブデータをロードする
     /// </summary>
-    public void LoadData()
+    public bool Load()
     {
         _saveData__JsonString = PlayerPrefs.GetString("SaveData");
 
         //セーブデータがなかった場合の処理
         if (_saveData__JsonString == "")
         {
-            haveNoSaveData = true;
-            return;
+            return false;
         }
 
         //セーブデータがあった場合の処理
@@ -221,7 +218,8 @@ public class SaveDataManager_scr : MonoBehaviour
         Setting_scr.setting.leftKey = _saveData.leftKey;
 
         Setting_scr.setting.rightKey = _saveData.rightKey;
-        
+
+        return true;
     }
 
 
@@ -291,7 +289,7 @@ public class SaveDataManager_scr : MonoBehaviour
 
         Setting_scr.setting.rightKey = _saveData.rightKey;
 
-        SaveData();
+        Save();
     }
 
 }

@@ -54,7 +54,7 @@ public class SceneChangeManager_scr : MonoBehaviour
         _currentSceneName = nextSceneName;
 
         //セーブデータの保存
-        SaveDataManager_scr.saveDataManager.SaveData();
+        SaveDataManager_scr.saveDataManager.Save();
 
         //シーンの移動
         SceneManager.LoadScene(nextSceneName.ToString());

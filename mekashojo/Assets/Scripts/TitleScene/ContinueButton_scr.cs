@@ -23,15 +23,11 @@ public class ContinueButton_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            //セーブデータを読み込む
-            SaveDataManager_scr.saveDataManager.LoadData();
-
             //セーブデータがなかった場合
-            if (SaveDataManager_scr.saveDataManager.haveNoSaveData)
+            if (!SaveDataManager_scr.saveDataManager.Load())
             {
                 Common_scr.common.audioSource.PlayOneShot(_noSaveDataSound);
                 _noSaveDataScreen.SetActive(true);
-                SaveDataManager_scr.saveDataManager.haveNoSaveData = false;
                 return;
             }
 
