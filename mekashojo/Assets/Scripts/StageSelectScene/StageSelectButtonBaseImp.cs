@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StageSelectButtonBaseImp : ButtonBaseImp
 {
     [SerializeField, Header("StageDescriptionsを入れる")] private StageDescriptions_scr _stageDescriptions;
-    [SerializeField, Header("StartButtonを入れる")]  private StartButton_scr _startButton;
+    [SerializeField, Header("StartButtonを入れる")] private StartButton_scr _startButton;
     [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
 
     protected ProgressData_scr.stageName _stageName;

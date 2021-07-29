@@ -84,7 +84,7 @@ public class Player_scr : MonoBehaviour
         _bomb__Player = _weapons[(int)EquipmentData_scr.equipmentType.Bomb].GetComponent<Bomb__Player_scr>();
         _heavyShield__Player = _weapons[(int)EquipmentData_scr.equipmentType.Shield__Heavy].GetComponent<HeavyShield__Player_scr>();
         _lightShield__Player = _weapons[(int)EquipmentData_scr.equipmentType.Shield__Light].GetComponent<LightShield__Player_scr>();
-        
+
 
         //初期化
         //武器を設定
@@ -111,7 +111,7 @@ public class Player_scr : MonoBehaviour
 
         //ボムの所持数は0にしておく
         _havingBombAmount = 0;
-        for(int i = 0; i < MAX_BOMB_AMOUNT; i++)
+        for (int i = 0; i < MAX_BOMB_AMOUNT; i++)
         {
             _havingBombs[i].SetActive(false);
         }
@@ -231,7 +231,7 @@ public class Player_scr : MonoBehaviour
             //武器切り替え中フラグを立てる
             _isSwitchingWeapon = true;
 
-            
+
             return;
         }
 
@@ -269,7 +269,7 @@ public class Player_scr : MonoBehaviour
 
     }
 
-    
+
     /// <summary>
     /// ダメージを受ける
     /// </summary>
@@ -308,7 +308,7 @@ public class Player_scr : MonoBehaviour
             _weapons[i].SetActive(false);
         }
 
-        for(int i = 0; i < _playerModels.Count; i++)
+        for (int i = 0; i < _playerModels.Count; i++)
         {
             _playerModels[i].SetActive(false);
         }
@@ -484,7 +484,7 @@ public class Player_scr : MonoBehaviour
 
             _rigidbody2D.velocity = _shakingVector;
         }
-        else if(_stunFrameCount % (_oneShakeTime * 2) == _oneShakeTime)
+        else if (_stunFrameCount % (_oneShakeTime * 2) == _oneShakeTime)
         {
             _rigidbody2D.velocity = -_shakingVector;
         }
@@ -533,5 +533,5 @@ public class Player_scr : MonoBehaviour
     }
 
 
-    
+
 }

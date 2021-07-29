@@ -7,7 +7,7 @@ public class PauseController_scr : MonoBehaviour
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("PauseScreenを入れる")] GameObject _pauseScreen;
     [SerializeField, Header("StartCountを入れる")] StartCount_scr _startCount;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,5 +25,5 @@ public class PauseController_scr : MonoBehaviour
         }
     }
 
-    
+
 }

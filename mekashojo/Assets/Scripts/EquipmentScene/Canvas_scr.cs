@@ -26,13 +26,14 @@ public class Canvas_scr : MonoBehaviour
     /// </summary>
     private Vector3 _mousePosition
     {
-        get {
+        get
+        {
             Vector3 _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _mousePosition.z = 0;
             return _mousePosition;
         }
     }
-    
+
     void Start()
     {
         // _lastDisplayedEquipmentTypeを初期化。適当に、選択中のメイン装備で初期化している。

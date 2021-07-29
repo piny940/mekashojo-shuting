@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ExplodeEffect__SelfDestruct__Enemy_scr : ExplodeEffectBaseImp
 {
-    
+
 }

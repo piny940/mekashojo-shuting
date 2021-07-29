@@ -13,6 +13,6 @@ public class CannonFire__Player_scr : CannonAndLaserFire__PlayerBaseImp
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

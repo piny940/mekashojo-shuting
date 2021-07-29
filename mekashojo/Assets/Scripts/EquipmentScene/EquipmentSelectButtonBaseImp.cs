@@ -165,7 +165,7 @@ public class EquipmentSelectButtonBaseImp : ButtonBaseImp
     /// <returns></returns>
     private bool IsMaxLevel()
     {
-        switch(type)
+        switch (type)
         {
             case EquipmentData_scr.equipmentType.MainWeapon__Cannon:
             case EquipmentData_scr.equipmentType.MainWeapon__Laser:

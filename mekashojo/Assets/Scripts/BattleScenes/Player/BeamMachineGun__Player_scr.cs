@@ -20,7 +20,7 @@ public class BeamMachineGun__Player_scr : PlayerWeaponBaseImp
     void MyAttack()
     {
         GameObject beamMachineGunFire__Player = Instantiate((GameObject)Resources.Load("BattleScenes/BeamMachineGunFire__Player"), transform.position, Quaternion.identity);
-        
+
         _commonForBattleScenes.RotateToLookAt(beamMachineGunFire__Player, transform.position, _getInput.mousePosition);
 
         _count = 0;

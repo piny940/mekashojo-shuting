@@ -12,7 +12,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
     [SerializeField, Header("Beamを入れる")] GameObject _beam;
     SpriteRenderer _spriteRenderer;
     PolygonCollider2D _polygonCollier2D;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +49,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
         //画面の外に出たら消滅する
         DestroyLater();
     }
-    
+
     void Attack()
     {
         if (!_startCount.hasStarted)
@@ -80,7 +80,7 @@ public class Enemy__WideBeam_scr : EnemyBaseImp
 
                 //薄く表示させる
                 _spriteRenderer.color = new Color(1, 1, 1, 0.1f);
-                
+
             }
 
             return;

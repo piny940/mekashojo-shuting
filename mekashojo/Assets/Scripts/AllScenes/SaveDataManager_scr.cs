@@ -82,7 +82,7 @@ public class SaveDataManager_scr : MonoBehaviour
         //装備のレベルの保存
         _saveData.cannonLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__Cannon];
 
-        _saveData.laserLevel= EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__Laser];
+        _saveData.laserLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__Laser];
 
         _saveData.beamMachineGunLevel = EquipmentData_scr.equipmentData.equipmentLevel[EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun];
 

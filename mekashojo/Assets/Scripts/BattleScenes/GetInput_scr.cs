@@ -18,7 +18,8 @@ public class GetInput_scr : MonoBehaviour
 
     [HideInInspector] public float mouseWheel { get { return Input.GetAxis("Mouse ScrollWheel"); } }
 
-    [HideInInspector] public Vector3 mousePosition
+    [HideInInspector]
+    public Vector3 mousePosition
     {
         get
         {

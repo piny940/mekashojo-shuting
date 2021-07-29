@@ -10,7 +10,7 @@ public class Shield__PlayerBaseImp : MonoBehaviour
     [SerializeField, Header("GetInputを入れる")] GetInput_scr _getInput;
     [SerializeField, Header("Playerを入れる")] Player_scr _player;
     [SerializeField, Header("ShieldModelを入れる")] GameObject _shieldModel;
-    
+
     float _defaultShieldSize;
 
 
@@ -24,7 +24,7 @@ public class Shield__PlayerBaseImp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void UseShield()
@@ -54,7 +54,7 @@ public class Shield__PlayerBaseImp : MonoBehaviour
             {
                 _shieldModel.transform.localScale += new Vector3(_shieldRestoreSpeed, _shieldRestoreSpeed, 0) * Time.deltaTime;
             }
-            
+
         }
     }
 }

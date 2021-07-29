@@ -11,7 +11,7 @@ public class EnemyFire__GuidedBullet_scr : EnemyFireBaseImp
     bool _hasApproached;
     bool _isFirst;
     float _speed;
-    
+
     // Start is called before the first frame update
     void Start()
     {
