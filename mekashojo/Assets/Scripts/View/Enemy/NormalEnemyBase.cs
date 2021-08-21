@@ -8,6 +8,7 @@ namespace View
         [SerializeField, Header("NormalEnemyDataを入れる")] protected Model.NormalEnemyData _normalEnemyData;
         protected Rigidbody2D rigidbody2D;
         protected int id;
+        protected bool isDead;
 
         private EnemyIDContainer _idContainer;
         private ObservableCollection<int> _lastmaterialNumbers;
@@ -28,11 +29,6 @@ namespace View
 
             _lastmaterialNumbers = new ObservableCollection<int>(enemyDamageManager.materialNumbers);
 
-            enemyDamageManager.OnIsDeadChanged.AddListener((isDead) =>
-            {
-                if (isDead) { Die(); }
-            });
-
             //ドロップアイテムの生成
             enemyDamageManager.materialNumbers.CollectionChanged += (sender, e) =>
             {
@@ -41,13 +37,6 @@ namespace View
 
             return enemyDamageManager;
         }
-
-        protected void Die()
-        {
-            Controller.EnemyClassController.enemyElements__SimpleBullet.Remove(id);
-            Destroy(this.gameObject);
-        }
-
 
         /// <summary>
         /// materialNumbersに変更が加わった時の処理

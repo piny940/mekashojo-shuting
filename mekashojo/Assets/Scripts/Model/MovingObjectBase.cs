@@ -58,7 +58,7 @@ namespace Model
         /// <summary>
         /// ポーズ時に停止する
         /// </summary>
-        protected void StopOnPausing()
+        public void StopOnPausing()
         {
             //ポーズし始めた時
             if (!pauseController.isGameGoing && !_hasStopped)
@@ -97,7 +97,7 @@ namespace Model
         /// <summary>
         /// 画面の外に出たら消滅する
         /// </summary>
-        protected void DestroyLater(Vector3 thisPosition)
+        public void DestroyLater(Vector3 thisPosition)
         {
             //画面左下と右上の座標の取得
             Vector3 cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));

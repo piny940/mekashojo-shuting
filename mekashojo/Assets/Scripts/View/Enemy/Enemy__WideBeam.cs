@@ -41,7 +41,7 @@ namespace View
                 enemyDamageManager = enemyDamageManager,
                 enemyObject = this.gameObject,
             };
-            Controller.EnemyClassController.enemyElements__SimpleBullet.Add(id, enemyElements);
+            Controller.EnemyClassController.enemyTable__SimpleBullet.Add(id, enemyElements);
 
 
             enemy__WideBeam.OnVelocityChanged.AddListener((velocity) =>
@@ -51,7 +51,12 @@ namespace View
 
             enemy__WideBeam.OnIsDestroyedChanged.AddListener((isDead) =>
             {
-                if (isDead) { Die(); }
+                this.isDead = isDead;
+            });
+
+            enemyDamageManager.OnIsDeadChanged.AddListener((bool isDead) =>
+            {
+                this.isDead = isDead;
             });
 
             // 当たり判定の処理
@@ -94,6 +99,18 @@ namespace View
             {
                 _enemyFire__WideBeam.SetActive(false);
             }
+        }
+
+
+        private void Update()
+        {
+            if (isDead) Die();
+        }
+
+        private void Die()
+        {
+            Controller.EnemyClassController.enemyTable__WideBeam.Remove(id);
+            Destroy(this.gameObject);
         }
     }
 }

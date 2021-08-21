@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7755285192140109872}
   - component: {fileID: 1809318099864907882}
-  - component: {fileID: 3287108979445505928}
   - component: {fileID: 4029691147017601672}
   - component: {fileID: 2307569910698991052}
+  - component: {fileID: -3334559611188396983}
   m_Layer: 0
   m_Name: EnemyFire__FastBullet
   m_TagString: Untagged
@@ -85,18 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3287108979445505928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689383396216349081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d078b8aac8c1d46ee9086ef2d511931c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &4029691147017601672
 Rigidbody2D:
   serializedVersion: 4
@@ -134,3 +122,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.16
+--- !u!114 &-3334559611188396983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689383396216349081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750b7e877849a4c46b2fae0878e723e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _normalEnemyData: {fileID: 11400000, guid: a8a4d61a8d0344cc7802f38be66918aa, type: 2}

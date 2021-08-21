@@ -8,7 +8,7 @@ namespace View
 
         private void Awake()
         {
-            id = ++Model.EnemyController.lastID;
+            id = ++Model.IDManager.lastEnemyID;
         }
     }
 }

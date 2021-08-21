@@ -17,9 +17,6 @@ namespace Model
         public ObservableCollection<int> enemyNumbers { get; private set; }
             = new ObservableCollection<int>(new int[System.Enum.GetNames(typeof(NormalEnemyData.normalEnemyType)).Length]);
 
-        //IDをどこまで使ったか
-        public static int lastID = 0;
-
         public EnemyController(PauseController pauseController, EnemyControlData enemyControlData)
         {
             _pauseController = pauseController;

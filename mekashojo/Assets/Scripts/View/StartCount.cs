@@ -26,7 +26,7 @@ namespace View
             Controller.ModelClassController.pauseController.OnStartTimeCounterChanged.AddListener((float startTimeCounter) =>
             {
                 //カウントダウンを表示する
-                if (startTimeCounter <= 1 && _displayingNumber != 3)
+                if (startTimeCounter > 0 && startTimeCounter <= 1 && _displayingNumber != 3)
                 {
                     _displayingNumber = 3;
                     return;

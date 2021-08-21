@@ -12,26 +12,38 @@ namespace Controller
         public GameObject enemyObject;
     }
 
+    public struct EnemyFireElements
+    {
+        public Model.EnemyFire enemyFire;
+        public GameObject enemyFireObject;
+    }
+
     public class EnemyClassController : MonoBehaviour
     {
-        public static Dictionary<int, EnemyElements> enemyElements__SimpleBullet;
-        public static Dictionary<int, EnemyElements> enemyElements__WideBeam;
+        public static Dictionary<int, EnemyElements> enemyTable__SimpleBullet;
+        public static Dictionary<int, EnemyElements> enemyTable__WideBeam;
+        public static Dictionary<int, EnemyFireElements> enemyFireTable__Bullet;
+
         public static GameObject player;
 
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
 
-            enemyElements__SimpleBullet = new Dictionary<int, EnemyElements>();
-            enemyElements__WideBeam = new Dictionary<int, EnemyElements>();
+            enemyTable__SimpleBullet = new Dictionary<int, EnemyElements>();
+            enemyTable__WideBeam = new Dictionary<int, EnemyElements>();
+            enemyFireTable__Bullet = new Dictionary<int, EnemyFireElements>();
         }
 
         // Update is called once per frame
         void Update()
         {
             // Enemy__SimpleBulletの処理
-            foreach (EnemyElements enemyElements in enemyElements__SimpleBullet.Values)
+            foreach (EnemyElements enemyElements in enemyTable__SimpleBullet.Values)
             {
+                if (enemyElements.enemy__SimpleBullet == null)
+                    return;
+
                 enemyElements.enemy__SimpleBullet.RunEveryFrame(
                     player.transform.position,
                     enemyElements.enemyObject.transform.position
@@ -41,13 +53,29 @@ namespace Controller
             }
 
             // Enemy__WideBeamの処理
-            foreach (EnemyElements enemyElements in enemyElements__WideBeam.Values)
+            foreach (EnemyElements enemyElements in enemyTable__WideBeam.Values)
             {
+                if (enemyElements.enemy__WideBeam == null)
+                    return;
+
                 enemyElements.enemy__WideBeam.RunEveryFrame(
                     enemyElements.enemyObject.transform.position
                     );
 
                 enemyElements.enemyDamageManager.CountFrameForPlayerBomb();
+            }
+
+            // EnemyFire__Bulletの処理
+            foreach (EnemyFireElements enemyFireElements in enemyFireTable__Bullet.Values)
+            {
+                if (enemyFireElements.enemyFire == null)
+                    return;
+
+                enemyFireElements.enemyFire.DestroyLater(
+                    enemyFireElements.enemyFireObject.transform.position
+                    );
+
+                enemyFireElements.enemyFire.StopOnPausing();
             }
         }
     }

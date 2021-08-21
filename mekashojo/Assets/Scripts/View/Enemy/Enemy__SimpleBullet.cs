@@ -30,7 +30,7 @@ namespace View
                 enemyDamageManager = enemyDamageManager,
                 enemyObject = this.gameObject,
             };
-            Controller.EnemyClassController.enemyElements__SimpleBullet.Add(id, enemyElements);
+            Controller.EnemyClassController.enemyTable__SimpleBullet.Add(id, enemyElements);
 
 
             enemy__SimpleBullet.OnVelocityChanged.AddListener((velocity) =>
@@ -40,7 +40,12 @@ namespace View
 
             enemy__SimpleBullet.OnIsDestroyedChanged.AddListener((isDead) =>
             {
-                if (isDead) { Die(); }
+                this.isDead = isDead;
+            });
+
+            enemyDamageManager.OnIsDeadChanged.AddListener((bool isDead) =>
+            {
+                this.isDead = isDead;
             });
 
             enemy__SimpleBullet.FireBullet = Fire;
@@ -53,6 +58,17 @@ namespace View
                     enemy__SimpleBullet.DoDamage();
                 }
             };
+        }
+
+        private void Update()
+        {
+            if (isDead) Die();
+        }
+
+        private void Die()
+        {
+            Controller.EnemyClassController.enemyTable__SimpleBullet.Remove(id);
+            Destroy(this.gameObject);
         }
     }
 }
