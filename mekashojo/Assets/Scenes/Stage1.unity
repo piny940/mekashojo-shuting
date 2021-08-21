@@ -3667,7 +3667,7 @@ GameObject:
   - component: {fileID: 1504368643}
   m_Layer: 0
   m_Name: LaserFire__Player
-  m_TagString: PlayerFire__BattleScene
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5289,7 +5289,7 @@ GameObject:
   - component: {fileID: 2141373536}
   m_Layer: 0
   m_Name: CannonFire__Player
-  m_TagString: PlayerFire__BattleScene
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

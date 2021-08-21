@@ -7,7 +7,7 @@ namespace Model
     //Cannon__PlayerとLaser__Playerにこのクラスを継承させる
     public class CannonAndLase__PlayerBase : PlayerWeaponBase
     {
-        bool _isEnergyScarce;
+        private bool _isEnergyScarce;
         private Vector3 _firingTarget = Vector3.zero;
         private bool _isFireVisible = false;
 

@@ -41,11 +41,11 @@ MonoBehaviour:
   spreadBulletEnemyProduceProbabilityRatio: 0
   singleBulletEnemyProduceProbabilityRatio: 0
   stunBulletEnemyProduceProbabilityRatio: 0
-  fastBulletEnemyProduceProbabilityRatio: 1
+  fastBulletEnemyProduceProbabilityRatio: 0
   slowBulletEnemyProduceProbabilityRatio: 0
   missileEnemyProduceProbabilityRatio: 0
   repeatedEnemyProduceProbabilityRatio: 0
-  wideBeamEnemyProduceProbabilityRatio: 0
+  wideBeamEnemyProduceProbabilityRatio: 1
   guidedBulletEnemyProduceProbabilityRatio: 0
   wideSpreadBulletEnemyProduceProbabilityRatio: 0
   selfDestructEnemyProduceProbabilityRatio: 0

@@ -38,18 +38,18 @@ namespace View
             Controller.EnemyElements enemyElements = new Controller.EnemyElements()
             {
                 enemy__WideBeam = enemy__WideBeam,
-                enemyDamageManager = enemyDamageManager,
                 enemyObject = this.gameObject,
             };
-            Controller.EnemyClassController.enemyTable__SimpleBullet.Add(id, enemyElements);
+            Controller.EnemyClassController.enemyTable__WideBeam.Add(id, enemyElements);
+            Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
 
 
-            enemy__WideBeam.OnVelocityChanged.AddListener((velocity) =>
+            enemy__WideBeam.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__WideBeam.OnIsDestroyedChanged.AddListener((isDead) =>
+            enemy__WideBeam.OnIsDestroyedChanged.AddListener((bool isDead) =>
             {
                 this.isDead = isDead;
             });
@@ -70,7 +70,6 @@ namespace View
 
             enemy__WideBeam.OnBeamStatusChanged.AddListener(OnBeamStatusChanged);
         }
-
 
         private void OnBeamStatusChanged(Model.EnemyManager.beamFiringProcesses beamStatus)
         {
@@ -100,7 +99,6 @@ namespace View
                 _enemyFire__WideBeam.SetActive(false);
             }
         }
-
 
         private void Update()
         {

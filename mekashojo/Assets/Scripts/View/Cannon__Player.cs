@@ -22,7 +22,10 @@ namespace View
                 this.gameObject.transform.localEulerAngles = new Vector3(0, 0, theta);
             });
 
-            Controller.ModelClassController.cannon__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) => { _cannonFire__Player.SetActive(isFireVisible); });
+            Controller.ModelClassController.cannon__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
+            {
+                _cannonFire__Player.SetActive(isFireVisible);
+            });
         }
     }
 }

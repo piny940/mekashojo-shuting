@@ -8,7 +8,7 @@ namespace Model
     // RepeatedBullet, StunBullet, GuidedBulletはこのクラスを用いる
     public class Enemy__SimpleBullet : EnemyManager
     {
-        private float _time = 0;
+        private float _time;
         private bool _isAttacking = false;
         private Vector3 _newPlayerPosition;
         private readonly NormalEnemyData _normalEnemyData;
@@ -21,6 +21,7 @@ namespace Model
             _firingBulletSettings.shortFiringIntervalFrameAmount = _normalEnemyData.shortFiringIntervalFrameAmount;
             _firingBulletSettings.firePath = _normalEnemyData.type.ToString();
             _firingBulletSettings.firingAmount = _normalEnemyData.firintgAmount;
+            _time = Random.value * _normalEnemyData.firingInterval;
         }
 
         public void RunEveryFrame(Vector3 playerPosition, Vector3 thisPosition)

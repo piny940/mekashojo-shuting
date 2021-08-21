@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace View
 {
     // プレイヤーの方に向かって弾を飛ばす敵、すなわち
@@ -27,18 +29,18 @@ namespace View
             Controller.EnemyElements enemyElements = new Controller.EnemyElements()
             {
                 enemy__SimpleBullet = enemy__SimpleBullet,
-                enemyDamageManager = enemyDamageManager,
                 enemyObject = this.gameObject,
             };
             Controller.EnemyClassController.enemyTable__SimpleBullet.Add(id, enemyElements);
+            Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
 
 
-            enemy__SimpleBullet.OnVelocityChanged.AddListener((velocity) =>
+            enemy__SimpleBullet.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__SimpleBullet.OnIsDestroyedChanged.AddListener((isDead) =>
+            enemy__SimpleBullet.OnIsDestroyedChanged.AddListener((bool isDead) =>
             {
                 this.isDead = isDead;
             });

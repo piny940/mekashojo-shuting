@@ -33,7 +33,7 @@ namespace Model
             {
                 velocity = new Vector3(InputController.horizontalKey * SPEED, velocity.y, 0);
             }
-            else
+            else if (velocity.x != 0)
             {
                 velocity = new Vector3(0, velocity.y, 0);
             }
@@ -43,7 +43,7 @@ namespace Model
             {
                 velocity = new Vector3(velocity.x, InputController.verticalKey * SPEED, 0);
             }
-            else
+            else if (velocity.y != 0)
             {
                 velocity = new Vector3(velocity.x, 0, 0);
             }

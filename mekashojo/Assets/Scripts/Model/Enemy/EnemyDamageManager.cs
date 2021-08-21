@@ -69,10 +69,12 @@ namespace Model
             }
         }
 
+        public void RunEveryFrame() { CountFrameForPlayerBomb(); }
+
         /// <summary>
         /// 死ぬ
         /// </summary>
-        void Die()
+        private void Die()
         {
             //ドロップアイテムを落とす
             if (Random.value < _droppingProbabilities.Values.Sum())
@@ -89,9 +91,8 @@ namespace Model
         /// <summary>
         /// プレイヤーのボムの内側にスポーンした時はボムをダメージを受けないようにするためのフレームカウンター
         /// 「frameCounterForPlayerBomb」をマイフレームincrementする<br></br>
-        /// Updateで呼ぶ
         /// </summary>
-        public void CountFrameForPlayerBomb()
+        private void CountFrameForPlayerBomb()
         {
             if (frameCounterForPlayerBomb < noBombDamageFrames)
             {

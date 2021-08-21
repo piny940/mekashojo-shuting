@@ -49,7 +49,7 @@ namespace View
                     enemyFireObject = this.gameObject,
                 };
 
-            Controller.EnemyClassController.enemyFireTable__Bullet.Add(_id, enemyFireElements);
+            Controller.EnemyClassController.fireTable__Bullet.Add(_id, enemyFireElements);
         }
 
         private void Update()
@@ -59,7 +59,7 @@ namespace View
 
         private void Die()
         {
-            Controller.EnemyClassController.enemyFireTable__Bullet.Remove(_id);
+            Controller.EnemyClassController.fireTable__Bullet.Remove(_id);
             Destroy(this.gameObject);
         }
     }

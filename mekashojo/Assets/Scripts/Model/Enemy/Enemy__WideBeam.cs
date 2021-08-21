@@ -12,6 +12,7 @@ namespace Model
         public Enemy__WideBeam(PauseController pauseController, EnemyController enemyController, PlayerStatusController playerStatusController, NormalEnemyData normalEnemyData) : base(pauseController, enemyController, playerStatusController)
         {
             _normalEnemyData = normalEnemyData;
+            _time = Random.value * _normalEnemyData.firingInterval;
         }
 
         public void RunEveryFrame(Vector3 thisPosition)

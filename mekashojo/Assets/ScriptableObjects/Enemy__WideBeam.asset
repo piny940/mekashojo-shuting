@@ -15,10 +15,10 @@ MonoBehaviour:
   type: 7
   hp: 10
   movingSpeed: 1
-  damageAmount: 0
+  damageAmount: 10
   firintgAmount: 0
-  firingInterval: 0
+  firingInterval: 10
   shortFiringIntervalFrameAmount: 0
-  beamTime: 0
-  beamNoticingTime: 0
+  beamTime: 3
+  beamNoticingTime: 1
   bulletSpeed: 0
