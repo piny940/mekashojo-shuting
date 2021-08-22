@@ -28,11 +28,10 @@ namespace Model
         private bool _isDead = false;
 
         public float hp { get; set; }
-        public readonly int noBombDamageFrames = 3;
+        public readonly int noBombDamageFrames = 5;
 
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
         public int frameCounterForPlayerBomb { get; private set; }
-        public bool isInsideBomb = false;
 
         public UnityEvent<bool> OnIsDeadChanged = new UnityEvent<bool>();
 

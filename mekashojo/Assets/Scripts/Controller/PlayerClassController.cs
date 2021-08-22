@@ -21,6 +21,8 @@ namespace Controller
 
         public static Model.PlayerFire laserFire;
 
+        public static Model.BombFire__Player bombFire__Player;
+
         public static Dictionary<int, PlayerBulletElements> playerBulletTable;
 
         public static Dictionary<int, DropMaterialElements> dropMaterialTable;
@@ -40,6 +42,8 @@ namespace Controller
             cannonFire = new Model.PlayerFire(ModelClassController.pauseController, false);
 
             laserFire = new Model.PlayerFire(ModelClassController.pauseController, false);
+
+            bombFire__Player = new Model.BombFire__Player();
         }
 
         // Update is called once per frame

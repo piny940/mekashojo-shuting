@@ -7,6 +7,7 @@ namespace Model
     {
         private const float MAIN_ENERGY_AUTO_CHARGE_AMOUNT = 10;
         private const float SUB_ENERGY_AUTO_CHARGE_AMOUNT = 10;
+        private const int MAX_BOMB_AMOUNT = 3;
 
         //この3つの定数はView側でも使うからpublicにしておく
         //constにできないからhpとかの初期化がコンストラクタの中で行われてる
@@ -18,10 +19,14 @@ namespace Model
         private float _hp;
         private float _mainEnergyAmount;
         private float _subEnergyAmount;
+        private int _bombAmount = 0;
 
         private PauseController _pauseController;
 
         public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
+        public UnityEvent<float> OnMainEnergyChanged = new UnityEvent<float>();
+        public UnityEvent<float> OnSubEnergyChanged = new UnityEvent<float>();
+        public UnityEvent<int> OnBombAmountChanged = new UnityEvent<int>();
 
         public float hp
         {
@@ -33,8 +38,6 @@ namespace Model
             }
         }
 
-        public UnityEvent<float> OnMainEnergyChanged = new UnityEvent<float>();
-
         public float mainEnergyAmount
         {
             get { return _mainEnergyAmount; }
@@ -45,8 +48,6 @@ namespace Model
             }
         }
 
-        public UnityEvent<float> OnSubEnergyChanged = new UnityEvent<float>();
-
         public float subEnergyAmount
         {
             get { return _subEnergyAmount; }
@@ -54,6 +55,16 @@ namespace Model
             {
                 _subEnergyAmount = value;
                 OnSubEnergyChanged?.Invoke(_subEnergyAmount);
+            }
+        }
+
+        public int bombAmount
+        {
+            get { return _bombAmount; }
+            set
+            {
+                _bombAmount = value;
+                OnBombAmountChanged?.Invoke(value);
             }
         }
 
@@ -90,6 +101,14 @@ namespace Model
         public void ChargeSubEnergy(float amount)
         {
             subEnergyAmount += Mathf.Min(amount, maxSubEnergy - subEnergyAmount);
+        }
+
+        public void ChargeBomb()
+        {
+            if (bombAmount != MAX_BOMB_AMOUNT)
+            {
+                bombAmount++;
+            }
         }
     }
 }

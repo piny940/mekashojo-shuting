@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1663328993134803014}
   - component: {fileID: 1663328993134803015}
   - component: {fileID: 1406988023882975330}
+  - component: {fileID: -438145726939173571}
   m_Layer: 0
   m_Name: Enemy__RepeatedFire
   m_TagString: BattleScenes/Enemy
@@ -177,3 +178,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normalEnemyData: {fileID: 11400000, guid: 1dbbf228c49644ef9bdb2f75cfe5cfe5, type: 2}
+--- !u!114 &-438145726939173571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663328993134803010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94447dafc96f0495f928cf10da4d4fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

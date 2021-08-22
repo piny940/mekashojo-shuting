@@ -34,6 +34,8 @@ namespace Controller
 
         public static Model.Missile__Player missile__Player;
 
+        public static Model.Bomb__Player bomb__Player;
+
         public static Model.WeaponManager weaponManager;
 
         public static Model.EnemyController enemyController;
@@ -56,6 +58,8 @@ namespace Controller
             balkan__Player = new Model.Balkan__Player(playerStatusController);
 
             missile__Player = new Model.Missile__Player(playerStatusController);
+
+            bomb__Player = new Model.Bomb__Player(playerStatusController, pauseController);
 
             _weaponInstances = new WeaponInstances()
             {
@@ -85,6 +89,8 @@ namespace Controller
             weaponManager.SwitchWeapon();
 
             weaponManager.ProceedAttack();
+
+            bomb__Player.ProceedBomb();
 
             enemyController.CreateNewEnemy(_enemyControlData);
         }

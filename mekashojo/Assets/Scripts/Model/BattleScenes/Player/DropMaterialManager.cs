@@ -83,42 +83,42 @@ namespace Model
             switch (_materialType)
             {
                 case materialType.CannonEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Cannon]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.MainWeapon__Cannon]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.LaserEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__Laser]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.MainWeapon__Laser]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.BeamMachineGunEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.MainWeapon__BeamMachineGun]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.MainWeapon__BeamMachineGun]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.BalkanEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Balkan]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.SubWeapon__Balkan]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.MissileEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.SubWeapon__Missile]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.SubWeapon__Missile]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.BombEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Bomb]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.Bomb]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.HeavyShieldEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Heavy]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.Shield__Heavy]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
                 case materialType.LightShieldEnhancementMaterial:
-                    EquipmentData_scr.equipmentData.enhancementMaterialsCount[EquipmentData_scr.equipmentType.Shield__Light]++;
+                    EquipmentData.equipmentData.enhancementMaterialsCount[EquipmentData.equipmentType.Shield__Light]++;
                     //AcuiredEnhancementMaterialCountを1増やす
                     break;
 
@@ -128,7 +128,7 @@ namespace Model
                     break;
 
                 case materialType.BombChargeMaterial:
-                    //TODO:ボムをチャージする
+                    _playerStatusController.ChargeBomb();
                     break;
 
                 default:

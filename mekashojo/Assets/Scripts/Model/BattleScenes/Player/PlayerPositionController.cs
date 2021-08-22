@@ -19,8 +19,11 @@ namespace Model
 
         public void ChangeVelocity()
         {
-
-            if (!pauseController.isGameGoing) { return; }
+            if (!pauseController.isGameGoing)
+            {
+                velocity = Vector3.zero;
+                return;
+            }
 
             if (isStunning)
             {
@@ -28,25 +31,11 @@ namespace Model
                 return;
             }
 
-            //水平方向の速度の変更
-            if (InputController.horizontalKey != 0)
-            {
-                velocity = new Vector3(InputController.horizontalKey * SPEED, velocity.y, 0);
-            }
-            else if (velocity.x != 0)
-            {
-                velocity = new Vector3(0, velocity.y, 0);
-            }
-
-            //垂直方向の速度の変更
-            if (InputController.verticalKey != 0)
-            {
-                velocity = new Vector3(velocity.x, InputController.verticalKey * SPEED, 0);
-            }
-            else if (velocity.y != 0)
-            {
-                velocity = new Vector3(velocity.x, 0, 0);
-            }
+            //速度の設定
+            velocity = new Vector3(
+                InputController.horizontalKey * SPEED,
+                InputController.verticalKey * SPEED,
+                0);
         }
 
         private void Stun()
