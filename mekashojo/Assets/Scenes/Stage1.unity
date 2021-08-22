@@ -392,7 +392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &224663513
 Transform:
   m_ObjectHideFlags: 0
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ee46183bd4b4b359d5177b7d9bd5d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cannonFire__Player: {fileID: 2141373533}
+  fire__Player: {fileID: 2141373533}
 --- !u!1 &239476529
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,14 +430,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 239476530}
-  - component: {fileID: 239476532}
+  - component: {fileID: 239476531}
   m_Layer: 0
   m_Name: Missile__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &239476530
 Transform:
   m_ObjectHideFlags: 0
@@ -452,7 +452,7 @@ Transform:
   m_Father: {fileID: 409409995}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &239476532
+--- !u!114 &239476531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -461,12 +461,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 239476529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bc7d881e18754028853fe90dcef337d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ba4191854d2e4d7d89465a8252ccb11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _getInput: {fileID: 1182341971}
-  _player: {fileID: 0}
-  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &241853916
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,14 +516,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245329240}
-  - component: {fileID: 245329242}
+  - component: {fileID: 245329241}
   m_Layer: 0
   m_Name: BeamMachineGun__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &245329240
 Transform:
   m_ObjectHideFlags: 0
@@ -541,7 +538,7 @@ Transform:
   m_Father: {fileID: 409409995}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &245329242
+--- !u!114 &245329241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -550,13 +547,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 245329239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5965c1f9241489e90ed5fdb5b6a2f2, type: 3}
+  m_Script: {fileID: 11500000, guid: cc1692c74073e408bb66f5cd4b59f092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _getInput: {fileID: 1182341971}
-  _player: {fileID: 0}
-  _firePerSecound: 5
-  _commonForBattleScenes: {fileID: 880204060}
 --- !u!1 &280778227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,14 +2049,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 865022775}
-  - component: {fileID: 865022777}
+  - component: {fileID: 865022776}
   m_Layer: 0
   m_Name: Balkan__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &865022775
 Transform:
   m_ObjectHideFlags: 0
@@ -2078,7 +2071,7 @@ Transform:
   m_Father: {fileID: 409409995}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &865022777
+--- !u!114 &865022776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2087,12 +2080,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 865022774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870188f44a8ca491fad6509742a65d4a, type: 3}
+  m_Script: {fileID: 11500000, guid: b5ec989f45b2142d4a2751d4ef8541cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _getInput: {fileID: 1182341971}
-  _player: {fileID: 0}
-  _firePerSecound: 20
 --- !u!1 &880204059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,7 +2496,7 @@ Transform:
   - {fileID: 880204061}
   - {fileID: 1875741842847123406}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &984087843
 GameObject:
@@ -2517,14 +2507,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 984087844}
-  - component: {fileID: 984087846}
+  - component: {fileID: 984087845}
   m_Layer: 0
   m_Name: Laser__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &984087844
 Transform:
   m_ObjectHideFlags: 0
@@ -2540,7 +2530,7 @@ Transform:
   m_Father: {fileID: 409409995}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &984087846
+--- !u!114 &984087845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2549,13 +2539,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 984087843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc13b1828fb745a49f2e9eb70176d70, type: 3}
+  m_Script: {fileID: 11500000, guid: a2e84cc80568d463e97981506dbd151c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fire__Player: {fileID: 1504368639}
-  _getInput: {fileID: 1182341971}
-  _player: {fileID: 0}
-  _commonForBattleScenes: {fileID: 880204060}
+  fire__Player: {fileID: 1504368639}
 --- !u!1 &1140389554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3662,16 +3649,16 @@ GameObject:
   m_Component:
   - component: {fileID: 1504368641}
   - component: {fileID: 1504368640}
-  - component: {fileID: 1504368642}
   - component: {fileID: 1504368644}
   - component: {fileID: 1504368643}
+  - component: {fileID: 1504368642}
   m_Layer: 0
   m_Name: LaserFire__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1504368640
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3746,9 +3733,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1504368639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb4902de5ada43618f8f69f0941b2c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ce7b536bc6742369fb19ae3aa7d5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 1
 --- !u!50 &1504368643
 Rigidbody2D:
   serializedVersion: 4
@@ -3920,6 +3908,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 626395841}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1598245212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598245214}
+  - component: {fileID: 1598245213}
+  m_Layer: 0
+  m_Name: PlayerClassController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1598245213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598245212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a38fa6b5161244b6e904bdd5047efe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1598245214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598245212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.613939, y: 2.3869848, z: -163.42355}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1603074791
 GameObject:
@@ -5287,13 +5318,14 @@ GameObject:
   - component: {fileID: 2141373534}
   - component: {fileID: 2141373537}
   - component: {fileID: 2141373536}
+  - component: {fileID: 2141373538}
   m_Layer: 0
   m_Name: CannonFire__Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2141373534
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5406,6 +5438,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2141373538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141373533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ce7b536bc6742369fb19ae3aa7d5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 0
 --- !u!82 &60215952408231328
 AudioSource:
   m_ObjectHideFlags: 0

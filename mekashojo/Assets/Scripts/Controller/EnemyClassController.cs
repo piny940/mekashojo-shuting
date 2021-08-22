@@ -6,7 +6,10 @@ namespace Controller
     public struct EnemyElements
     {
         public Model.Enemy__SimpleBullet enemy__SimpleBullet;
+        public Model.Enemy__SpreadBullet enemy__SpreadBullet;
+        public Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet;
         public Model.Enemy__WideBeam enemy__WideBeam;
+        public Model.Enemy__SelfDestruct enemy__SelfDestruct;
 
         public GameObject enemyObject;
     }
@@ -21,18 +24,24 @@ namespace Controller
     {
         public static Dictionary<int, Model.EnemyDamageManager> damageManagerTable;
         public static Dictionary<int, EnemyElements> enemyTable__SimpleBullet;
+        public static Dictionary<int, EnemyElements> enemyTable__SpreadBullet;
+        public static Dictionary<int, EnemyElements> enemyTable__WideSpreadBullet;
         public static Dictionary<int, EnemyElements> enemyTable__WideBeam;
+        public static Dictionary<int, EnemyElements> enemyTable__SelfDestruct;
         public static Dictionary<int, EnemyFireElements> fireTable__Bullet;
 
-        public static GameObject player;
+        private GameObject _player;
 
         private void Awake()
         {
-            player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
+            _player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
             enemyTable__SimpleBullet = new Dictionary<int, EnemyElements>();
+            enemyTable__SpreadBullet = new Dictionary<int, EnemyElements>();
+            enemyTable__WideSpreadBullet = new Dictionary<int, EnemyElements>();
             enemyTable__WideBeam = new Dictionary<int, EnemyElements>();
+            enemyTable__SelfDestruct = new Dictionary<int, EnemyElements>();
             fireTable__Bullet = new Dictionary<int, EnemyFireElements>();
         }
 
@@ -49,7 +58,23 @@ namespace Controller
             foreach (EnemyElements enemyElements in enemyTable__SimpleBullet.Values)
             {
                 enemyElements.enemy__SimpleBullet.RunEveryFrame(
-                    player.transform.position,
+                    _player.transform.position,
+                    enemyElements.enemyObject.transform.position
+                    );
+            }
+
+            // Enemy__SpreadBulletの処理
+            foreach (EnemyElements enemyElements in enemyTable__SpreadBullet.Values)
+            {
+                enemyElements.enemy__SpreadBullet.RunEveryFrame(
+                    enemyElements.enemyObject.transform.position
+                    );
+            }
+
+            // Enemy__WideSpreadBulletの処理
+            foreach (EnemyElements enemyElements in enemyTable__WideSpreadBullet.Values)
+            {
+                enemyElements.enemy__WideSpreadBullet.RunEveryFrame(
                     enemyElements.enemyObject.transform.position
                     );
             }
@@ -62,17 +87,21 @@ namespace Controller
                     );
             }
 
+            // Enemy__SelfDestructの処理
+            foreach (EnemyElements enemyElements in enemyTable__SelfDestruct.Values)
+            {
+                enemyElements.enemy__SelfDestruct.RunEveryFrame(
+                    enemyElements.enemyObject.transform.position
+                    );
+            }
+
             // EnemyFire__Bulletの処理
             foreach (EnemyFireElements enemyFireElements in fireTable__Bullet.Values)
             {
-                if (enemyFireElements.enemyFire == null)
-                    return;
-
-                enemyFireElements.enemyFire.DestroyLater(
-                    enemyFireElements.enemyFireObject.transform.position
+                enemyFireElements.enemyFire.RunEveryFrame(
+                    enemyFireElements.enemyFireObject.transform.position,
+                    _player.transform.position
                     );
-
-                enemyFireElements.enemyFire.StopOnPausing();
             }
         }
     }

@@ -45,7 +45,7 @@ MonoBehaviour:
   slowBulletEnemyProduceProbabilityRatio: 0
   missileEnemyProduceProbabilityRatio: 0
   repeatedEnemyProduceProbabilityRatio: 0
-  wideBeamEnemyProduceProbabilityRatio: 1
+  wideBeamEnemyProduceProbabilityRatio: 0
   guidedBulletEnemyProduceProbabilityRatio: 0
-  wideSpreadBulletEnemyProduceProbabilityRatio: 0
-  selfDestructEnemyProduceProbabilityRatio: 0
+  wideSpreadBulletEnemyProduceProbabilityRatio: 1
+  selfDestructEnemyProduceProbabilityRatio: 1
