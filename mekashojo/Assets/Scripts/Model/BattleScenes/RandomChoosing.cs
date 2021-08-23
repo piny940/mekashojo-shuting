@@ -15,7 +15,7 @@ namespace Model
             float totalProbability = probabilities.Values.Sum();
 
             // 0〜確率比の和の間で乱数を作成
-            float randomValue = Random.Range(0, totalProbability);
+            float randomValue = Random.value * totalProbability;
 
             // 乱数から各確率を引いていき、0以下になったら終了
             foreach (KeyValuePair<T, float> pair in probabilities)
