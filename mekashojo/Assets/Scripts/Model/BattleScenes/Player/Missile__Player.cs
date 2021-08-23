@@ -42,7 +42,7 @@ namespace Model
             return
                 !_hasAttacked && InputController.isMouseLeft
                 && playerStatusController.subEnergyAmount > 0
-                && !Controller.ModelClassController.weaponManager.isSwitchingWeapon;
+                && !Controller.BattleScenesClassController.weaponManager.isSwitchingWeapon;
         }
 
         /// <summary>

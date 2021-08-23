@@ -25,7 +25,7 @@ namespace View
             id = _idContainer.id;
 
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(Controller.ModelClassController.enemyController, _normalEnemyData);
+                = new Model.EnemyDamageManager(Controller.BattleScenesClassController.enemyController, _normalEnemyData);
 
             _lastmaterialNumbers = new ObservableCollection<int>(enemyDamageManager.materialNumbers);
 

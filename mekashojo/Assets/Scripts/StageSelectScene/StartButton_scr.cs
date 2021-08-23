@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartButton_scr : ButtonBaseImp
+public class StartButton_scr : ButtonBase
 {
     private bool _hasNotSelected = true;
 
-    private SceneChangeManager_scr.SceneNames _selectingStageName;
-    public SceneChangeManager_scr.SceneNames selectingStageName
+    private Model.SceneChangeManager.SceneNames _selectingStageName;
+    public Model.SceneChangeManager.SceneNames selectingStageName
     {
         private get { return this._selectingStageName; }
         set
@@ -37,7 +37,7 @@ public class StartButton_scr : ButtonBaseImp
     {
         if (CanPush())
         {
-            SceneChangeManager_scr.sceneChangeManager.ChangeScene(selectingStageName);
+            Model.SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName);
         }
     }
 

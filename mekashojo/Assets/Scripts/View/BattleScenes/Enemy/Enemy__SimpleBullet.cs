@@ -19,9 +19,9 @@ namespace View
             //実行順序の関係でコンストラクタはStartに書かないといけない
             Model.Enemy__SimpleBullet enemy__SimpleBullet
                 = new Model.Enemy__SimpleBullet(
-                    Controller.ModelClassController.pauseController,
-                    Controller.ModelClassController.playerStatusController,
-                    Controller.ModelClassController.enemyController,
+                    Controller.BattleScenesClassController.pauseController,
+                    Controller.BattleScenesClassController.playerStatusController,
+                    Controller.BattleScenesClassController.enemyController,
                     _normalEnemyData
                     );
 

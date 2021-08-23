@@ -7,7 +7,7 @@ public class StageSelect__BossStage_scr : StageSelectButtonBaseImp
     private void Start()
     {
         _stageName = ProgressData_scr.stageName.lastStage;
-        _stageSceneName = SceneChangeManager_scr.SceneNames.LastStage;
+        _stageSceneName = Model.SceneChangeManager.SceneNames.LastStage;
         this.Initialize();
     }
 }

@@ -23,7 +23,7 @@ namespace View
         void Start()
         {
             Model.PlayerFire playerFire
-                = new Model.PlayerFire(Controller.ModelClassController.pauseController, true);
+                = new Model.PlayerFire(Controller.BattleScenesClassController.pauseController, true);
 
             playerFire.OnIsDestroyedChanged.AddListener((bool isDestroyed) =>
             {

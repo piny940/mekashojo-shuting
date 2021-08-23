@@ -28,9 +28,9 @@ namespace View
             //実行順序の関係でコンストラクタはStartに書かないといけない
             Model.Enemy__WideBeam enemy__WideBeam
                 = new Model.Enemy__WideBeam(
-                    Controller.ModelClassController.pauseController,
-                    Controller.ModelClassController.enemyController,
-                    Controller.ModelClassController.playerStatusController,
+                    Controller.BattleScenesClassController.pauseController,
+                    Controller.BattleScenesClassController.enemyController,
+                    Controller.BattleScenesClassController.playerStatusController,
                     _normalEnemyData
                     );
 

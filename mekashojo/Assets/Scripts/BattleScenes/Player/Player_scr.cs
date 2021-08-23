@@ -502,7 +502,7 @@ public class Player_scr : MonoBehaviour
     void Die()
     {
         //死んだ時の処理
-        SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageFailedScene);
+        Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.StageFailedScene);
     }
 
 

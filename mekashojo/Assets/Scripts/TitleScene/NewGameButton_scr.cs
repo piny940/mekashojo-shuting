@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewGameButton_scr : ButtonBaseImp
+public class NewGameButton_scr : ButtonBase
 {
     [SerializeField, Header("押したときになる音")] AudioClip _clickSound;
 
@@ -18,9 +18,9 @@ public class NewGameButton_scr : ButtonBaseImp
         {
             SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_clickSound);
 
-            SaveDataManager_scr.saveDataManager.Initialize();
+            Model.SaveDataManager.saveDataManager.Initialize();
 
-            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+            Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace View
 {
-    public class ReturnToStageButton : ButtonBaseImp
+    public class ReturnToStageButton : ButtonBase
     {
         [SerializeField, Header("QuitBattleCheckScreenを入れる")] QuitBattleCheckScreen _quitBattleCheckScreen;
 

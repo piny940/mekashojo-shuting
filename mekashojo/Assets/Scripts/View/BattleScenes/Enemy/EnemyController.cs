@@ -16,18 +16,18 @@ namespace View
         void Start()
         {
             //初期化
-            _lastEnemyNumbers = new ObservableCollection<int>(Controller.ModelClassController.enemyController.enemyNumbers);
+            _lastEnemyNumbers = new ObservableCollection<int>(Controller.BattleScenesClassController.enemyController.enemyNumbers);
 
-            Controller.ModelClassController.enemyController.enemyNumbers.CollectionChanged +=
+            Controller.BattleScenesClassController.enemyController.enemyNumbers.CollectionChanged +=
                 (object sender, NotifyCollectionChangedEventArgs e) =>
                 {
                     foreach (Model.NormalEnemyData.normalEnemyType type in System.Enum.GetValues(typeof(Model.NormalEnemyData.normalEnemyType)))
                     {
                         // この部分もうちょっと綺麗にしたい。
-                        if (_lastEnemyNumbers[(int)type] != Controller.ModelClassController.enemyController.enemyNumbers[(int)type])
+                        if (_lastEnemyNumbers[(int)type] != Controller.BattleScenesClassController.enemyController.enemyNumbers[(int)type])
                         {
                             ProduceEnemy(type);
-                            _lastEnemyNumbers[(int)type] = Controller.ModelClassController.enemyController.enemyNumbers[(int)type];
+                            _lastEnemyNumbers[(int)type] = Controller.BattleScenesClassController.enemyController.enemyNumbers[(int)type];
                             break;
                         }
                     }

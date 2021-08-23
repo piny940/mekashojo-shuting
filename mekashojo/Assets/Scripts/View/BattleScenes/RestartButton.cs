@@ -1,6 +1,6 @@
 namespace View
 {
-    public class RestartButton : ButtonBaseImp
+    public class RestartButton : ButtonBase
     {
         private void Update()
         {
@@ -11,7 +11,7 @@ namespace View
         {
             if (CanPush())
             {
-                Controller.ModelClassController.pauseController.isPauseScreenVisible = false;
+                Controller.BattleScenesClassController.pauseController.isPauseScreenVisible = false;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace View
 
         void Start()
         {
-            Controller.ModelClassController.missile__Player.OnMissileNumberChanged.AddListener(() =>
+            Controller.BattleScenesClassController.missile__Player.OnMissileNumberChanged.AddListener(() =>
             {
                 Vector3 bulletVelocity
                     = (Model.InputController.mousePosition - transform.position)

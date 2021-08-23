@@ -14,30 +14,30 @@ namespace View
             Model.EnemyDamageManager enemyDamageManager = Initialize();
 
             //実行順序の関係でコンストラクタはStartに書かないといけない
-            Model.Enemy__SpreadBullet enemy__SpreadBullet
-                = new Model.Enemy__SpreadBullet(
-                    Controller.ModelClassController.pauseController,
-                    Controller.ModelClassController.playerStatusController,
-                    Controller.ModelClassController.enemyController,
+            Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet
+                = new Model.Enemy__WideSpreadBullet(
+                    Controller.BattleScenesClassController.pauseController,
+                    Controller.BattleScenesClassController.playerStatusController,
+                    Controller.BattleScenesClassController.enemyController,
                     _normalEnemyData
                     );
 
             // Controllerのクラスにidやインスタンスの情報を渡す
             Controller.EnemyElements enemyElements = new Controller.EnemyElements()
             {
-                enemy__SpreadBullet = enemy__SpreadBullet,
+                enemy__WideSpreadBullet = enemy__WideSpreadBullet,
                 enemyObject = this.gameObject,
             };
-            Controller.EnemyClassController.enemyTable__SpreadBullet.Add(id, enemyElements);
+            Controller.EnemyClassController.enemyTable__WideSpreadBullet.Add(id, enemyElements);
             Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
 
 
-            enemy__SpreadBullet.OnVelocityChanged.AddListener((Vector3 velocity) =>
+            enemy__WideSpreadBullet.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__SpreadBullet.OnIsDestroyedChanged.AddListener((bool isDead) =>
+            enemy__WideSpreadBullet.OnIsDestroyedChanged.AddListener((bool isDead) =>
             {
                 this.isDead = isDead;
             });
@@ -47,14 +47,14 @@ namespace View
                 this.isDead = isDead;
             });
 
-            enemy__SpreadBullet.FireBullet = Fire;
+            enemy__WideSpreadBullet.FireBullet = Fire;
 
             // 当たり判定の処理
             playOnEnter += (collision) =>
             {
                 if (collision.tag == "BattleScenes/Player")
                 {
-                    enemy__SpreadBullet.DoDamage();
+                    enemy__WideSpreadBullet.DoDamage();
                 }
             };
         }
@@ -66,7 +66,7 @@ namespace View
 
         private void Die()
         {
-            Controller.EnemyClassController.enemyTable__SpreadBullet.Remove(id);
+            Controller.EnemyClassController.enemyTable__WideSpreadBullet.Remove(id);
             Destroy(this.gameObject);
         }
     }

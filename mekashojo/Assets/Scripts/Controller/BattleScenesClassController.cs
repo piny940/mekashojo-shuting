@@ -12,7 +12,7 @@ namespace Controller
         public Model.Missile__Player missile__Player;
     }
 
-    public class ModelClassController : MonoBehaviour
+    public class BattleScenesClassController : MonoBehaviour
     {
         [SerializeField, Header("EnemyControlDataを入れる")] private Model.EnemyControlData _enemyControlData;
 
@@ -36,19 +36,24 @@ namespace Controller
 
         public static Model.Bomb__Player bomb__Player;
 
+        public static Model.Shield__Player shield__Player;
+
         public static Model.WeaponManager weaponManager;
 
         public static Model.EnemyController enemyController;
+
+        public static Model.AcquiredEnhancementMaterialData acquiredEnhancementMaterialData;
 
         private void Awake()
         {
             pauseController = new Model.PauseController();
 
-            playerStatusController = new Model.PlayerStatusController(pauseController);
+            shield__Player = new Model.Shield__Player(pauseController);
 
-            playerPositionController = new Model.PlayerPositionController(pauseController);
+            playerStatusController = new Model.PlayerStatusController(shield__Player, pauseController);
 
-            //TODO:ここ選ばれてない武器のクラスの分メモリが無駄やからswitch文使って無駄をなくす！
+            playerPositionController = new Model.PlayerPositionController(shield__Player, pauseController);
+
             cannon__Player = new Model.Cannon__Player(playerStatusController);
 
             laser__Player = new Model.Laser__Player(playerStatusController);
@@ -59,7 +64,7 @@ namespace Controller
 
             missile__Player = new Model.Missile__Player(playerStatusController);
 
-            bomb__Player = new Model.Bomb__Player(playerStatusController, pauseController);
+            bomb__Player = new Model.Bomb__Player(playerStatusController, playerPositionController, pauseController);
 
             _weaponInstances = new WeaponInstances()
             {
@@ -73,26 +78,26 @@ namespace Controller
             weaponManager = new Model.WeaponManager(pauseController, playerPositionController, _weaponInstances);
 
             enemyController = new Model.EnemyController(pauseController, _enemyControlData);
+
+            acquiredEnhancementMaterialData = new Model.AcquiredEnhancementMaterialData();
         }
 
         // Update is called once per frame
         void Update()
         {
-            pauseController.CheckPausing();
+            pauseController.RunEveryFrame();
 
-            pauseController.StartCount();
+            shield__Player.RunEveryFrame();
 
-            playerStatusController.ChargeEnergyAutomatically();
+            playerStatusController.RunEveryFrame();
 
-            playerPositionController.ChangeVelocity();
+            playerPositionController.RunEveryFrame();
 
-            weaponManager.SwitchWeapon();
+            weaponManager.RunEveryFrame();
 
-            weaponManager.ProceedAttack();
+            bomb__Player.RunEveryFrame();
 
-            bomb__Player.ProceedBomb();
-
-            enemyController.CreateNewEnemy(_enemyControlData);
+            enemyController.RunEveryFrame(_enemyControlData);
         }
     }
 }

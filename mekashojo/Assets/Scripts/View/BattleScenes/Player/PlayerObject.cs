@@ -14,7 +14,7 @@ namespace View
         // Start is called before the first frame update
         void Start()
         {
-            Controller.ModelClassController.playerPositionController.OnVelocityChanged.AddListener(
+            Controller.BattleScenesClassController.playerPositionController.OnVelocityChanged.AddListener(
                 (Vector3 velocity) => { _rigidbody2D.velocity = velocity; });
         }
     }

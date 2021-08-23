@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonBaseImp : MonoBehaviour
+public class ButtonBase : MonoBehaviour
 {
     // 1度ボタンが押されてから、次に押下可能になるまでの時間(s)
     private const float BLOCK_TIME = 0.1f;

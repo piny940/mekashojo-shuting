@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace View
 {
-    public class QuitBattleButton : ButtonBaseImp
+    public class QuitBattleButton : ButtonBase
     {
         [SerializeField, Header("QuitBattleCheckScreenを入れる")] QuitBattleCheckScreen _quitBattleCheckScreen;
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 武器選択ボタン用の基底クラス
 /// </summary>
-public class EquipmentSelectButtonBaseImp : ButtonBaseImp
+public class EquipmentSelectButtonBaseImp : ButtonBase
 {
     [SerializeField, Header("SelectedWeaponManagerを入れる")] private SelectedWeaponManager_scr _selectedWeaponManager;
     [SerializeField, Header("Canvasを入れる")] private Canvas_scr _canvas;

@@ -8,12 +8,15 @@ namespace View
 
         void Start()
         {
-            Controller.ModelClassController.bomb__Player.OnIsBombActiveChanged.AddListener((bool isBombActive) =>
+            _bombFire.SetActive(Controller.BattleScenesClassController.bomb__Player.isBombActive);
+            _bombFire.transform.localScale = new Vector3(0, 0, 1);
+
+            Controller.BattleScenesClassController.bomb__Player.OnIsBombActiveChanged.AddListener((bool isBombActive) =>
             {
                 _bombFire.SetActive(isBombActive);
             });
 
-            Controller.ModelClassController.bomb__Player.OnBombSizeChanged.AddListener((float bombSize) =>
+            Controller.BattleScenesClassController.bomb__Player.OnBombSizeChanged.AddListener((float bombSize) =>
             {
                 _bombFire.transform.localScale = new Vector3(bombSize, bombSize, 1);
             });

@@ -21,8 +21,8 @@ namespace View
             Model.DropMaterialManager dropMaterialManager
                 = new Model.DropMaterialManager(
                     _type,
-                    Controller.ModelClassController.playerStatusController,
-                    Controller.ModelClassController.pauseController
+                    Controller.BattleScenesClassController.playerStatusController,
+                    Controller.BattleScenesClassController.pauseController
                     );
 
             dropMaterialManager.OnVelocityChanged.AddListener((Vector3 velocity) =>

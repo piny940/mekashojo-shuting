@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageSelectButtonBaseImp : ButtonBaseImp
+public class StageSelectButtonBaseImp : ButtonBase
 {
     [SerializeField, Header("StageDescriptionsを入れる")] private StageDescriptions_scr _stageDescriptions;
     [SerializeField, Header("StartButtonを入れる")] private StartButton_scr _startButton;
@@ -11,7 +11,7 @@ public class StageSelectButtonBaseImp : ButtonBaseImp
 
     protected ProgressData_scr.stageName _stageName;
     // ステージのシーン名
-    protected SceneChangeManager_scr.SceneNames _stageSceneName;
+    protected Model.SceneChangeManager.SceneNames _stageSceneName;
 
     protected void Initialize()
     {

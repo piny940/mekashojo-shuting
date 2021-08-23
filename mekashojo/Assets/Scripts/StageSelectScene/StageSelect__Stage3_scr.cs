@@ -7,7 +7,7 @@ public class StageSelect__Stage3_scr : StageSelectButtonBaseImp
     private void Start()
     {
         _stageName = ProgressData_scr.stageName.stage3;
-        _stageSceneName = SceneChangeManager_scr.SceneNames.Stage3;
+        _stageSceneName = Model.SceneChangeManager.SceneNames.Stage3;
         this.Initialize();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnhancementButton_scr : ButtonBaseImp
+public class EnhancementButton_scr : ButtonBase
 {
     /// <summary>
     /// ボタンが押下可能であるかどうかを示す

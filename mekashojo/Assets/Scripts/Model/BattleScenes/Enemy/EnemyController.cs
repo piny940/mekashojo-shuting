@@ -40,10 +40,15 @@ namespace Model
             totalEnemyAmount = enemyControlData.firstEnemyAmount;
         }
 
+        public void RunEveryFrame(EnemyControlData enemyControlData)
+        {
+            CreateNewEnemy(enemyControlData);
+        }
+
         /// <summary>
         /// 敵を生成する
         /// </summary>
-        public void CreateNewEnemy(EnemyControlData enemyControlData)
+        private void CreateNewEnemy(EnemyControlData enemyControlData)
         {
             //まだ始まってなかったら抜ける
             if (!_pauseController.isGameGoing)

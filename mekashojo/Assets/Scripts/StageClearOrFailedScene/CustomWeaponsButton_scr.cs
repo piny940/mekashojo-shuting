@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomWeaponsButton_scr : ButtonBaseImp
+public class CustomWeaponsButton_scr : ButtonBase
 {
     [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
 
@@ -11,7 +11,7 @@ public class CustomWeaponsButton_scr : ButtonBaseImp
         if (CanPush())
         {
             SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
-            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.EquipmentScene);
+            Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.EquipmentScene);
         }
     }
 

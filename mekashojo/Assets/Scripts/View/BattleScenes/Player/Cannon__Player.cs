@@ -6,9 +6,9 @@ namespace View
         {
             fire__Player.SetActive(false);
 
-            Controller.ModelClassController.cannon__Player.OnFiringTargetChanged.AddListener(RotateFire);
+            Controller.BattleScenesClassController.cannon__Player.OnFiringTargetChanged.AddListener(RotateFire);
 
-            Controller.ModelClassController.cannon__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
+            Controller.BattleScenesClassController.cannon__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
             {
                 fire__Player.SetActive(isFireVisible);
             });

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContinueButton_scr : ButtonBaseImp
+public class ContinueButton_scr : ButtonBase
 {
     [SerializeField, Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
     [SerializeField, Header("セーブデータがなかったときのボタンのサウンド")] AudioClip _noSaveDataSound;
@@ -24,7 +24,7 @@ public class ContinueButton_scr : ButtonBaseImp
         if (CanPush())
         {
             //セーブデータがなかった場合
-            if (!SaveDataManager_scr.saveDataManager.Load())
+            if (!Model.SaveDataManager.saveDataManager.Load())
             {
                 SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_noSaveDataSound);
                 _noSaveDataScreen.SetActive(true);
@@ -33,7 +33,7 @@ public class ContinueButton_scr : ButtonBaseImp
 
             //セーブデータがあった場合
             SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
-            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+            Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
         }
     }
 }

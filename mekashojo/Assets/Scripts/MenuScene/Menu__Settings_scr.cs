@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Menu__Settings_scr : ButtonBaseImp
+public class Menu__Settings_scr : ButtonBase
 {
     [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
 

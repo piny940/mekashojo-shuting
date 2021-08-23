@@ -8,7 +8,7 @@ namespace View
 
         void Start()
         {
-            Controller.ModelClassController.beamMachineGun__Player.OnBeamMachineGunNumberChanged.AddListener(() =>
+            Controller.BattleScenesClassController.beamMachineGun__Player.OnBeamMachineGunNumberChanged.AddListener(() =>
             {
                 Vector3 bulletVelocity
                     = (Model.InputController.mousePosition - transform.position)

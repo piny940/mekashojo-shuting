@@ -34,7 +34,14 @@ namespace Model
 
         public bool isGameGoing = false;
 
-        public void CheckPausing()
+        public void RunEveryFrame()
+        {
+            CheckPausing();
+            StartCount();
+        }
+
+
+        private void CheckPausing()
         {
             //escキーを押したら停止する
             if (InputController.isEscapeKey && isGameGoing)
@@ -44,7 +51,7 @@ namespace Model
             }
         }
 
-        public void StartCount()
+        private void StartCount()
         {
             //カウントダウンをする
             if (!isGameGoing && !isPauseScreenVisible || _isFirstTime)

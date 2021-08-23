@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageSelectButton_scr : ButtonBaseImp
+public class StageSelectButton_scr : ButtonBase
 {
     [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
 
@@ -11,7 +11,7 @@ public class StageSelectButton_scr : ButtonBaseImp
         if (CanPush())
         {
             SEPlayer_scr.sePlayer.audioSource.PlayOneShot(_pushSound);
-            SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.StageSelectScene);
+            Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.StageSelectScene);
         }
     }
 

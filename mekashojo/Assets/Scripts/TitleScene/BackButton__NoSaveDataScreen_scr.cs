@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackButton__NoSaveDataScreen_scr : ButtonBaseImp
+public class BackButton__NoSaveDataScreen_scr : ButtonBase
 {
     [SerializeField, Header("NoSaveDataScreenを入れる")] GameObject _noSaveDataScreen;
     [SerializeField, Header("ボタンを押した時のサウンド")] AudioClip _pushSound;

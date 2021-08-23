@@ -15,9 +15,9 @@ namespace View
         // Start is called before the first frame update
         void Start()
         {
-            Controller.ModelClassController.playerStatusController.OnMainEnergyChanged.AddListener((float mainEnergy) =>
+            Controller.BattleScenesClassController.playerStatusController.OnMainEnergyChanged.AddListener((float mainEnergy) =>
             {
-                _image.fillAmount = mainEnergy / Controller.ModelClassController.playerStatusController.maxMainEnergy;
+                _image.fillAmount = mainEnergy / Controller.BattleScenesClassController.playerStatusController.maxMainEnergy;
             });
         }
     }

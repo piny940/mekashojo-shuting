@@ -75,8 +75,13 @@ namespace Model
             }
         }
 
+        public void RunEveryFrame()
+        {
+            SwitchWeapon();
+            ProceedAttack();
+        }
 
-        public void SwitchWeapon()
+        private void SwitchWeapon()
         {
             //ゲームが進行中ではない　または　スタン中の時は武器の切り替えはできない
             if (!_pauseController.isGameGoing || _playerPositionController.isStunning)
@@ -116,7 +121,7 @@ namespace Model
 
 
         //攻撃関係の処理
-        public void ProceedAttack()
+        private void ProceedAttack()
         {
             //ゲームが進行中ではない　または　スタン中の時は攻撃できない
             if (!_pauseController.isGameGoing || _playerPositionController.isStunning) return;

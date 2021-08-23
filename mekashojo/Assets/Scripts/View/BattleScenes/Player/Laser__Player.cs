@@ -6,9 +6,9 @@ namespace View
         {
             fire__Player.SetActive(false);
 
-            Controller.ModelClassController.laser__Player.OnFiringTargetChanged.AddListener(RotateFire);
+            Controller.BattleScenesClassController.laser__Player.OnFiringTargetChanged.AddListener(RotateFire);
 
-            Controller.ModelClassController.laser__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
+            Controller.BattleScenesClassController.laser__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
             {
                 fire__Player.SetActive(isFireVisible);
             });

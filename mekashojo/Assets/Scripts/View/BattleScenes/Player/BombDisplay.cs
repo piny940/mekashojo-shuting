@@ -10,7 +10,11 @@ namespace View
 
         void Start()
         {
-            Controller.ModelClassController.playerStatusController.OnBombAmountChanged.AddListener((int bombAmount) =>
+            _bomb1.SetActive(Controller.BattleScenesClassController.playerStatusController.bombAmount >= 1);
+            _bomb2.SetActive(Controller.BattleScenesClassController.playerStatusController.bombAmount >= 2);
+            _bomb3.SetActive(Controller.BattleScenesClassController.playerStatusController.bombAmount >= 3);
+
+            Controller.BattleScenesClassController.playerStatusController.OnBombAmountChanged.AddListener((int bombAmount) =>
             {
                 _bomb1.SetActive(bombAmount >= 1);
                 _bomb2.SetActive(bombAmount >= 2);

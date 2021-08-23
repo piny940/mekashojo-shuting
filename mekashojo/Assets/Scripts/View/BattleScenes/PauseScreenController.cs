@@ -10,7 +10,7 @@ namespace View
         {
             _pauseScreen.SetActive(false);
 
-            Controller.ModelClassController.pauseController.OnPauseScreenVisibilityChanged.AddListener((bool isPauseScreenActive) =>
+            Controller.BattleScenesClassController.pauseController.OnPauseScreenVisibilityChanged.AddListener((bool isPauseScreenActive) =>
             {
                 _pauseScreen.SetActive(isPauseScreenActive);
             });

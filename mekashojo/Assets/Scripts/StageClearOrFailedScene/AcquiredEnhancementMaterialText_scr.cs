@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AcquiredEnhancementMaterialText_scr : MonoBehaviour
+public class AcquiredEnhancementMaterialText : MonoBehaviour
 {
+    /*
     // 入手した強化用素材の数
     private Dictionary<EquipmentData_scr.equipmentType, int> _acquiredEnhancementMaterialsCount;
 
@@ -37,4 +38,5 @@ public class AcquiredEnhancementMaterialText_scr : MonoBehaviour
 
         //Textの内容を更新する（未実装）
     }
+    */
 }

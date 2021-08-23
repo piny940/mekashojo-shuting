@@ -8,7 +8,7 @@ namespace View
 
         void Start()
         {
-            Controller.ModelClassController.balkan__Player.OnBalkanNumberChanged.AddListener(() =>
+            Controller.BattleScenesClassController.balkan__Player.OnBalkanNumberChanged.AddListener(() =>
             {
                 Vector3 bulletVelocity
                     = (Model.InputController.mousePosition - transform.position)

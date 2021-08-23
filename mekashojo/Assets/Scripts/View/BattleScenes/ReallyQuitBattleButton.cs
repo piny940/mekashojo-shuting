@@ -1,6 +1,6 @@
 namespace View
 {
-    public class ReallyQuitBattleButton : ButtonBaseImp
+    public class ReallyQuitBattleButton : ButtonBase
     {
         private void Update()
         {
@@ -11,7 +11,7 @@ namespace View
         {
             if (CanPush())
             {
-                SceneChangeManager_scr.sceneChangeManager.ChangeScene(SceneChangeManager_scr.SceneNames.MenuScene);
+                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
             }
         }
     }

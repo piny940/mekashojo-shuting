@@ -10,9 +10,9 @@ namespace View
         {
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 _normalEnemyData,
-                Controller.ModelClassController.playerStatusController,
-                Controller.ModelClassController.playerPositionController,
-                Controller.ModelClassController.pauseController
+                Controller.BattleScenesClassController.playerStatusController,
+                Controller.BattleScenesClassController.playerPositionController,
+                Controller.BattleScenesClassController.pauseController
                 );
 
             playOnEnter += (collision) =>

@@ -9,6 +9,7 @@ namespace Model
         private const float BOMB_EXPAND_SPEED = 3;
 
         private PlayerStatusController _playerStatusController;
+        private PlayerPositionController _playerPositionController;
         private PauseController _pauseController;
         private bool _isBombActive = false;
         private float _bombSize = 0;
@@ -37,19 +38,27 @@ namespace Model
             }
         }
 
-        public Bomb__Player(PlayerStatusController playerStatusController, PauseController pauseController)
+        public Bomb__Player(PlayerStatusController playerStatusController, PlayerPositionController playerPositionController, PauseController pauseController)
         {
             _playerStatusController = playerStatusController;
+            _playerPositionController = playerPositionController;
             _pauseController = pauseController;
         }
 
-        public void ProceedBomb()
+        public void RunEveryFrame()
+        {
+            ProceedBomb();
+        }
+
+        private void ProceedBomb()
         {
             if (!_pauseController.isGameGoing) return;
 
             // ボムを発射するキーが押されていて、かつボムを所持していたら、「ボムを使用中」にする
+            // スタンしているときはボムを使用できない
             if (InputController.bombKey > 0
                 && _playerStatusController.bombAmount != 0
+                && !_playerPositionController.isStunning
                 && !_isUsingBomb)
             {
                 _isUsingBomb = true;
