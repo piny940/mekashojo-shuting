@@ -11,7 +11,7 @@ namespace View
 
         protected Model.ProgressData.stageName _stageName;
         // ステージのシーン名
-        protected Model.SceneChangeManager.SceneNames _stageSceneName;
+        protected SceneChangeManager.SceneNames _stageSceneName;
 
         protected void Initialize()
         {

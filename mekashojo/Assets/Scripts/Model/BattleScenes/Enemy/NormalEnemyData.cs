@@ -26,9 +26,9 @@ namespace Model
         public float damageAmount;
         public int firintgAmount;
         public float firingInterval;
-        public int shortFiringIntervalFrameAmount;
+        public int shortFiringInterval_Frame;
         public float beamTime;
-        public float beamNoticingTime;
+        public float beamNotifyingTime;
         public float bulletSpeed;
     }
 }

@@ -11,7 +11,7 @@ namespace Model
      * ただしテーブルから対応する箇所を取り除く処理は、AddListenerの中に入れると
      * foreachのループの中で「ループに使っているテーブル」に変更を入れてしまい、
      * "Collection was modified; enumeration operation may not execute."
-     * と言われるため、isDestroyedなどのブール値を用意しておいて、Updateメソッドの中で行う。
+     * と言われるため、isBeingDestroyedなどのブール値を用意しておいて、Updateメソッドの中で行う。
      */
     public class IDManager
     {

@@ -5,7 +5,7 @@ namespace View
         private void Start()
         {
             _stageName = Model.ProgressData.stageName.stage1;
-            _stageSceneName = Model.SceneChangeManager.SceneNames.Stage1;
+            _stageSceneName = SceneChangeManager.SceneNames.Stage1;
             this.Initialize();
         }
     }

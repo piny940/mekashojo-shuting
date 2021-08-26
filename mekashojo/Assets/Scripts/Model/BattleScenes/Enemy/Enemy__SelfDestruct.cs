@@ -2,27 +2,23 @@ using UnityEngine;
 
 namespace Model
 {
-    public class Enemy__SelfDestruct : EnemyManager
+    public class Enemy__SelfDestruct : DamageFactorManager
     {
         private NormalEnemyData _normalEnemyData;
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__SelfDestruct(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData) : base(pauseController, enemyController, playerStatusController)
+        public Enemy__SelfDestruct(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData)
+                : base(pauseController, enemyController, playerStatusController)
         {
             _normalEnemyData = normalEnemyData;
+            factorType = DamageFactorData.damageFactorType.NormalEnemy__SelfDestruct;
         }
 
-        public void RunEveryFrame(Vector3 thisPosition)
+        public void RunEveryFrame(Vector3 position)
         {
             StopOnPausing();
-            DestroyLater(thisPosition);
-            StartAnimation();
+            DestroyLater(position);
             SetConstantVelocity(_normalEnemyData.movingSpeed);
-        }
-
-        public new void DoDamage()
-        {
-            DoDamageBase(_normalEnemyData.damageAmount);
-            isDestroyed = true;
         }
     }
 }

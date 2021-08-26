@@ -37,31 +37,34 @@ namespace View
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__SpreadBullet.OnIsDestroyedChanged.AddListener((bool isDead) =>
+            enemy__SpreadBullet.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                this.isDead = isDead;
+                this.isDying = isBeingDestroyed;
             });
 
-            enemyDamageManager.OnIsDeadChanged.AddListener((bool isDead) =>
+            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
             {
-                this.isDead = isDead;
+                this.isDying = isDying;
             });
 
-            enemy__SpreadBullet.FireBullet = Fire;
+            enemy__SpreadBullet.OnFiringBulletInfoChanged.AddListener((firingBulletInfo) =>
+            {
+                Fire(firingBulletInfo.bulletVelocity, firingBulletInfo.firePath);
+            });
 
             // 当たり判定の処理
             playOnEnter += (collision) =>
             {
                 if (collision.tag == "BattleScenes/Player")
                 {
-                    enemy__SpreadBullet.DoDamage();
+                    enemy__SpreadBullet.DealCollisionDamage();
                 }
             };
         }
 
         private void Update()
         {
-            if (isDead) Die();
+            if (isDying) Die();
         }
 
         private void Die()

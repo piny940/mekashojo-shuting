@@ -4,6 +4,20 @@ namespace Model
 {
     public class DropMaterialManager : MovingObjectBase
     {
+        private const float RISE_TIME = 0.1f; //上昇する時間
+        private const float FALL_TIME = 0.1f; //下降する時間
+        private const float RISING_SPEED = 2; //上昇するスピード
+        private const float FALLING_SPEED = 2; //下降するスピード
+        private const float MAIN_ENERGY_CHARGE_AMOUNT = 300; //メインエネルギー回復量
+        private const float SUB_ENERGY_CHARGE_AMOUNT = 300; //サブエネルギー回復量
+        private materialType _materialType;
+        private PlayerStatusController _playerStatusController;
+        private float _time = 0;
+        private bool _hasAppeared = false;
+        private bool _isRising = false;
+
+        protected override movingObjectType objectType { get; set; }
+
         public enum materialType
         {
             CannonEnhancementMaterial,
@@ -18,29 +32,18 @@ namespace Model
             BombChargeMaterial
         }
 
-        private const float RISE_TIME = 0.1f; //上昇する時間
-        private const float FALL_TIME = 0.1f; //下降する時間
-        private const float RISING_SPEED = 2; //上昇するスピード
-        private const float FALLING_SPEED = 2; //下降するスピード
-        private const float MAIN_ENERGY_CHARGE_AMOUNT = 300; //メインエネルギー回復量
-        private const float SUB_ENERGY_CHARGE_AMOUNT = 300; //サブエネルギー回復量
-        private materialType _materialType;
-        private PlayerStatusController _playerStatusController;
-        private float _time = 0;
-        private bool _hasAppeared = false;
-        private bool _isRising = false;
-
-        public DropMaterialManager(materialType type, PlayerStatusController playerStatusController, PauseController pauseController) : base(pauseController)
+        public DropMaterialManager(materialType type, EnemyController enemyController, PlayerStatusController playerStatusController, PauseController pauseController) : base(enemyController, pauseController)
         {
             _materialType = type;
             _playerStatusController = playerStatusController;
+            objectType = movingObjectType.DropItem;
         }
 
 
-        public void RunEveryFrame(Vector3 thisPosition)
+        public void RunEveryFrame(Vector3 position)
         {
             StopOnPausing();
-            DestroyLater(thisPosition);
+            DestroyLater(position);
             Emerge();
         }
 
@@ -135,7 +138,7 @@ namespace Model
                     break;
             }
 
-            isDestroyed = true;
+            isBeingDestroyed = true;
         }
     }
 }

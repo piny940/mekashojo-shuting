@@ -10,12 +10,12 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Enemy")
                 {
-                    DoDamage(collision);
+                    DealDamage(collision);
                 }
             };
         }
 
-        private void DoDamage(Collider2D collision)
+        private void DealDamage(Collider2D collision)
         {
             EnemyIDContainer enemyIDContainer = collision.GetComponent<EnemyIDContainer>();
 

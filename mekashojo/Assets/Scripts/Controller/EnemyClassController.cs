@@ -58,8 +58,8 @@ namespace Controller
             foreach (EnemyElements enemyElements in enemyTable__SimpleBullet.Values)
             {
                 enemyElements.enemy__SimpleBullet.RunEveryFrame(
-                    _player.transform.position,
-                    enemyElements.enemyObject.transform.position
+                    enemyElements.enemyObject.transform.position,
+                    _player.transform.position
                     );
             }
 

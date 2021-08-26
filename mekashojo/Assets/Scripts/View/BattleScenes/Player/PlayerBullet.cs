@@ -8,7 +8,7 @@ namespace View
         [SerializeField, Header("武器のタイプを選ぶ")] private Model.EquipmentData.equipmentType _type;
         private int _id;
         private float _power;
-        private bool _isDestroyed;
+        private bool _isBeingDestroyed;
         private Rigidbody2D _rigidbody2D;
 
         private void Awake()
@@ -23,11 +23,14 @@ namespace View
         void Start()
         {
             Model.PlayerFire playerFire
-                = new Model.PlayerFire(Controller.BattleScenesClassController.pauseController, true);
+                = new Model.PlayerFire(
+                    Controller.BattleScenesClassController.enemyController,
+                    Controller.BattleScenesClassController.pauseController,
+                    true);
 
-            playerFire.OnIsDestroyedChanged.AddListener((bool isDestroyed) =>
+            playerFire.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                _isDestroyed = isDestroyed;
+                _isBeingDestroyed = isBeingDestroyed;
             });
 
             playerFire.OnVelocityChanged.AddListener((Vector3 velocity) =>
@@ -47,17 +50,17 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Enemy")
                 {
-                    DoDamage(collision);
+                    DealDamage(collision);
                 }
             };
         }
 
         private void Update()
         {
-            if (_isDestroyed) Die();
+            if (_isBeingDestroyed) Die();
         }
 
-        private void DoDamage(Collider2D collision)
+        private void DealDamage(Collider2D collision)
         {
             EnemyIDContainer enemyIDContainer = collision.GetComponent<EnemyIDContainer>();
 
@@ -67,7 +70,7 @@ namespace View
                 = Controller.EnemyClassController.damageManagerTable[enemyIDContainer.id];
 
             Controller.PlayerClassController.playerBulletTable[_id]
-                .playerFire.DoDamage(enemyDamageManager, _power);
+                .playerFire.DealDamage(enemyDamageManager, _power);
         }
 
         private void Die()

@@ -50,9 +50,11 @@ namespace Controller
 
             shield__Player = new Model.Shield__Player(pauseController);
 
+            enemyController = new Model.EnemyController(pauseController, _enemyControlData);
+
             playerStatusController = new Model.PlayerStatusController(shield__Player, pauseController);
 
-            playerPositionController = new Model.PlayerPositionController(shield__Player, pauseController);
+            playerPositionController = new Model.PlayerPositionController(shield__Player, enemyController, pauseController);
 
             cannon__Player = new Model.Cannon__Player(playerStatusController);
 
@@ -77,7 +79,6 @@ namespace Controller
 
             weaponManager = new Model.WeaponManager(pauseController, playerPositionController, _weaponInstances);
 
-            enemyController = new Model.EnemyController(pauseController, _enemyControlData);
 
             acquiredEnhancementMaterialData = new Model.AcquiredEnhancementMaterialData();
         }

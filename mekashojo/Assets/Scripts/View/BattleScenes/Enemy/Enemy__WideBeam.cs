@@ -4,10 +4,10 @@ namespace View
 {
     public class Enemy__WideBeam : NormalEnemyBase
     {
+        private const float NOTIFYING_FIRE_TRANSPARENCY = 0.1f;
         private PolygonCollider2D _polygonCollier2D;
         private SpriteRenderer _spriteRenderer;
         [SerializeField, Header("EmemyFire__WideBeamを入れる")] private GameObject _enemyFire__WideBeam;
-        private const float NOTICING_FIRE_TRANSPARENCY = 0.1f;
 
         private void Awake()
         {
@@ -49,14 +49,14 @@ namespace View
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__WideBeam.OnIsDestroyedChanged.AddListener((bool isDead) =>
+            enemy__WideBeam.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                this.isDead = isDead;
+                this.isDying = isBeingDestroyed;
             });
 
-            enemyDamageManager.OnIsDeadChanged.AddListener((bool isDead) =>
+            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
             {
-                this.isDead = isDead;
+                this.isDying = isDying;
             });
 
             // 当たり判定の処理
@@ -64,16 +64,16 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Player")
                 {
-                    enemy__WideBeam.DoDamage();
+                    enemy__WideBeam.DealCollisionDamage();
                 }
             };
 
             enemy__WideBeam.OnBeamStatusChanged.AddListener(OnBeamStatusChanged);
         }
 
-        private void OnBeamStatusChanged(Model.EnemyManager.beamFiringProcesses beamStatus)
+        private void OnBeamStatusChanged(Model.DamageFactorManager.beamFiringProcesses beamStatus)
         {
-            if (beamStatus == Model.EnemyManager.beamFiringProcesses.IsNoticingBeamFiring)
+            if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring)
             {
                 // 攻撃の予告をする
 
@@ -83,9 +83,9 @@ namespace View
                 _polygonCollier2D.enabled = false;
 
                 //薄く表示させる
-                _spriteRenderer.color = new Color(1, 1, 1, NOTICING_FIRE_TRANSPARENCY);
+                _spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
             }
-            else if (beamStatus == Model.EnemyManager.beamFiringProcesses.IsFiringBeam)
+            else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam)
             {
                 //攻撃をする
                 //当たり判定をOnにする
@@ -94,7 +94,7 @@ namespace View
                 //ちゃんと表示する
                 _spriteRenderer.color = new Color(1, 1, 1, 1);
             }
-            else if (beamStatus == Model.EnemyManager.beamFiringProcesses.HasStoppedBeam)
+            else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam)
             {
                 _enemyFire__WideBeam.SetActive(false);
             }
@@ -102,7 +102,7 @@ namespace View
 
         private void Update()
         {
-            if (isDead) Die();
+            if (isDying) Die();
         }
 
         private void Die()

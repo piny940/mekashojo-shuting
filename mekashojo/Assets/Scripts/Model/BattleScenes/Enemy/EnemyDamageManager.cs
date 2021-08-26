@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Model
 
         private EnemyController _enemyController;
 
-        private bool _isDead = false;
+        private bool _isDying = false;
 
         public float hp { get; set; }
         public readonly int noBombDamageFrames = 3;
@@ -33,18 +33,18 @@ namespace Model
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
         public int frameCounterForPlayerBomb { get; private set; }
 
-        public UnityEvent<bool> OnIsDeadChanged = new UnityEvent<bool>();
+        public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
 
         public ObservableCollection<int> materialNumbers
             = new ObservableCollection<int>(new int[10]);
 
-        public bool isDead
+        public bool isDying
         {
-            get { return _isDead; }
+            get { return _isDying; }
             set
             {
-                _isDead = value;
-                OnIsDeadChanged?.Invoke(_isDead);
+                _isDying = value;
+                OnIsDyingChanged?.Invoke(_isDying);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Model
         {
             hp -= power;
 
-            if (hp <= 0 && !isDead)
+            if (hp <= 0 && !isDying)
             {
                 Die();
             }
@@ -84,7 +84,7 @@ namespace Model
             //消滅する
             _enemyController.totalEnemyAmount--;
 
-            isDead = true;
+            isDying = true;
         }
 
         /// <summary>

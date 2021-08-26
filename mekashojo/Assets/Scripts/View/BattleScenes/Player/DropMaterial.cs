@@ -7,7 +7,7 @@ namespace View
         [SerializeField, Header("タイプを選ぶ")] private Model.DropMaterialManager.materialType _type;
         private int _id;
         private Rigidbody2D _rigidbody2D;
-        private bool _isDestroyed;
+        private bool _isBeingDestroyed;
 
         private void Awake()
         {
@@ -21,6 +21,7 @@ namespace View
             Model.DropMaterialManager dropMaterialManager
                 = new Model.DropMaterialManager(
                     _type,
+                    Controller.BattleScenesClassController.enemyController,
                     Controller.BattleScenesClassController.playerStatusController,
                     Controller.BattleScenesClassController.pauseController
                     );
@@ -30,9 +31,9 @@ namespace View
                 _rigidbody2D.velocity = velocity;
             });
 
-            dropMaterialManager.OnIsDestroyedChanged.AddListener((bool isDestroyed) =>
+            dropMaterialManager.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                _isDestroyed = isDestroyed;
+                _isBeingDestroyed = isBeingDestroyed;
             });
 
             Controller.DropMaterialElements dropMaterialElements
@@ -56,7 +57,7 @@ namespace View
         // Update is called once per frame
         void Update()
         {
-            if (_isDestroyed) Die();
+            if (_isBeingDestroyed) Die();
         }
 
         private void Die()

@@ -39,9 +39,9 @@ namespace Controller
         void Start()
         {
             // 実行順序の関係でコンストラクタはStartに書かないといけない
-            cannonFire = new Model.PlayerFire(BattleScenesClassController.pauseController, false);
+            cannonFire = new Model.PlayerFire(BattleScenesClassController.enemyController, BattleScenesClassController.pauseController, false);
 
-            laserFire = new Model.PlayerFire(BattleScenesClassController.pauseController, false);
+            laserFire = new Model.PlayerFire(BattleScenesClassController.enemyController, BattleScenesClassController.pauseController, false);
 
             bombFire__Player = new Model.BombFire__Player();
         }

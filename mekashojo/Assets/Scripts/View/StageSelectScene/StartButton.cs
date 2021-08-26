@@ -6,8 +6,8 @@ namespace View
     {
         private bool _hasNotSelected = true;
 
-        private Model.SceneChangeManager.SceneNames _selectingStageName;
-        public Model.SceneChangeManager.SceneNames selectingStageName
+        private SceneChangeManager.SceneNames _selectingStageName;
+        public SceneChangeManager.SceneNames selectingStageName
         {
             private get { return this._selectingStageName; }
             set
@@ -36,7 +36,7 @@ namespace View
         {
             if (CanPush())
             {
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName);
+                SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName);
             }
         }
 

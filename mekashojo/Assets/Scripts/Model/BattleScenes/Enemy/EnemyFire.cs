@@ -4,28 +4,30 @@ namespace Model
 {
     public class EnemyFire : MovingObjectBase
     {
+        private const float STOP_CHASING_DISTANCE = 3;
+        private bool _hasApproached = false;
         private NormalEnemyData _normalEnemyData;
         private PlayerPositionController _playerPositionController;
         private PlayerStatusController _playerStatusController;
-        private const float STOP_CHASING_DISTANCE = 3;
-        private bool _hasApproached = false;
 
+        protected override movingObjectType objectType { get; set; }
 
-        public EnemyFire(NormalEnemyData normalEnemyData, PlayerStatusController playerStatusController, PlayerPositionController playerPositionController, PauseController pauseController) : base(pauseController)
+        public EnemyFire(NormalEnemyData normalEnemyData, EnemyController enemyController, PlayerStatusController playerStatusController, PlayerPositionController playerPositionController, PauseController pauseController) : base(enemyController, pauseController)
         {
             _normalEnemyData = normalEnemyData;
             _playerPositionController = playerPositionController;
             _playerStatusController = playerStatusController;
+            objectType = movingObjectType.EnemyFire;
         }
 
-        public void RunEveryFrame(Vector3 thisPosition, Vector3 playerPosition)
+        public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
             StopOnPausing();
-            DestroyLater(thisPosition);
+            DestroyLater(position);
 
             if (_normalEnemyData.type == NormalEnemyData.normalEnemyType.GuidedBullet)
             {
-                ChasePlayer(thisPosition, playerPosition);
+                ChasePlayer(position, playerPosition);
             }
         }
 
@@ -47,25 +49,24 @@ namespace Model
 
                 //それ以外ならプレイヤーに当たったら消滅する
                 default:
-                    isDestroyed = true;
+                    isBeingDestroyed = true;
                     break;
 
             }
         }
 
         // Playerを追跡する
-        private void ChasePlayer(Vector3 thisPosition, Vector3 playerPosition)
+        private void ChasePlayer(Vector3 position, Vector3 playerPosition)
         {
             if (!pauseController.isGameGoing) return;
 
-
             Vector3 adjustedPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyController.enemyPosition__z);
 
-            float distance = Vector3.Magnitude(adjustedPlayerPosition - thisPosition);
+            float distance = Vector3.Magnitude(adjustedPlayerPosition - position);
 
             if (!_hasApproached)
             {
-                velocity = (adjustedPlayerPosition - thisPosition) * _normalEnemyData.bulletSpeed / distance;
+                velocity = (adjustedPlayerPosition - position) * _normalEnemyData.bulletSpeed / distance;
             }
 
             if (distance < STOP_CHASING_DISTANCE)

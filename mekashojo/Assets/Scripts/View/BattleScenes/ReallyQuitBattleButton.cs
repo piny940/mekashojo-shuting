@@ -11,7 +11,7 @@ namespace View
         {
             if (CanPush())
             {
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
             }
         }
     }

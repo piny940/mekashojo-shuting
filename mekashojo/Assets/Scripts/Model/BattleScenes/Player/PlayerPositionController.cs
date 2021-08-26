@@ -4,13 +4,6 @@ namespace Model
 {
     public class PlayerPositionController : MovingObjectBase
     {
-        private Shield__Player _shield__Player;
-
-        private int _stunFrameCount = 0;
-        private Vector3 _shakingVector = Vector3.zero;
-        private float _stunTime = 0;
-        private float _reductedSpeedRate;
-
         private const int ONE_SHAKE_FRAME_AMOUNT = 2; //Stun時の振動をどれだけ細かくするか
         private const float SHAKING_SPEED = 5; //Stun時の振動の速さ
         private const float STUN_DURATION = 2; //Stunの長さ
@@ -18,11 +11,22 @@ namespace Model
         private const float REDUCTED_SPEED_RATE_LIGHT = 0.7f; //軽シールド使用中の移動速度の割合
         private const float SPEED = 3; //移動速度
 
+        private Shield__Player _shield__Player;
+
+        private int _stunFrameCount = 0;
+        private Vector3 _shakingVector = Vector3.zero;
+        private float _stunTime = 0;
+        private float _reductedSpeedRate;
+
+        protected override movingObjectType objectType { get; set; }
+
         public bool isStunning = false;
 
-        public PlayerPositionController(Shield__Player shield__Player, PauseController pauseController) : base(pauseController)
+        public PlayerPositionController(Shield__Player shield__Player, EnemyController enemyController, PauseController pauseController)
+                : base(enemyController, pauseController)
         {
             _shield__Player = shield__Player;
+            objectType = movingObjectType.Player;
 
             if (EquipmentData.equipmentData.selectedShieldName == EquipmentData.equipmentType.Shield__Heavy)
             {

@@ -18,7 +18,7 @@ namespace View
             if (CanPush())
             {
                 //セーブデータがなかった場合
-                if (!Model.SaveDataManager.saveDataManager.Load())
+                if (!SaveDataManager.saveDataManager.Load())
                 {
                     SEPlayer.sePlayer.audioSource.PlayOneShot(_noSaveDataSound);
                     _noSaveDataScreen.isVisible = true;
@@ -27,7 +27,7 @@ namespace View
 
                 //セーブデータがあった場合
                 SEPlayer.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
             }
         }
     }

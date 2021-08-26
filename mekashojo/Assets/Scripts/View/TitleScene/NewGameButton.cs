@@ -18,9 +18,9 @@ namespace View
             {
                 SEPlayer.sePlayer.audioSource.PlayOneShot(_clickSound);
 
-                Model.SaveDataManager.saveDataManager.Initialize();
+                SaveDataManager.saveDataManager.Initialize();
 
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.MenuScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
             }
         }
     }

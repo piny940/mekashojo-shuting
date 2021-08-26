@@ -8,7 +8,7 @@ namespace View
         [SerializeField, Header("NormalEnemyDataを入れる")] protected Model.NormalEnemyData _normalEnemyData;
         protected Rigidbody2D rigidbody2D;
         protected int id;
-        protected bool isDead;
+        protected bool isDying;
 
         private EnemyIDContainer _idContainer;
         private ObservableCollection<int> _lastmaterialNumbers;

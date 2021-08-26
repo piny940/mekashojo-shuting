@@ -3,27 +3,30 @@ using UnityEngine;
 
 namespace Model
 {
-    public class Enemy__WideSpreadBullet : EnemyManager
+    public class Enemy__WideSpreadBullet : DamageFactorManager
     {
+        private const int FIRE_AMOUNT_PER_ONCE = 8;
         private float _time;
         private bool _isAttacking = false;
-        private readonly NormalEnemyData _normalEnemyData;
-        private FiringBulletSettings _firingBulletSettings;
-        private const int FIRE_AMOUNT_PER_ONCE = 8;
+        private NormalEnemyData _normalEnemyData;
+        private BulletProcessInfo _firingBulletInfo;
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__WideSpreadBullet(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData) : base(pauseController, enemyController, playerStatusController)
+        public Enemy__WideSpreadBullet(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData)
+                : base(pauseController, enemyController, playerStatusController)
         {
             _normalEnemyData = normalEnemyData;
-            _firingBulletSettings.shortFiringIntervalFrameAmount = _normalEnemyData.shortFiringIntervalFrameAmount;
-            _firingBulletSettings.firePath = _normalEnemyData.type.ToString();
-            _firingBulletSettings.firingAmount = _normalEnemyData.firintgAmount;
+            _firingBulletInfo.shortInterval_Frame = _normalEnemyData.shortFiringInterval_Frame;
+            _firingBulletInfo.firePath = _normalEnemyData.type.ToString();
+            _firingBulletInfo.firingAmount = _normalEnemyData.firintgAmount;
             _time = Random.value * _normalEnemyData.firingInterval;
-            _firingBulletSettings.bulletVelocities = new List<Vector3>();
+            _firingBulletInfo.bulletVelocities = new List<Vector3>();
+            factorType = DamageFactorData.damageFactorType.FiringNormalEnemy;
 
             //弾を発射する方向を計算
             for (int i = 0; i < FIRE_AMOUNT_PER_ONCE; i++)
             {
-                _firingBulletSettings.bulletVelocities.Add(
+                _firingBulletInfo.bulletVelocities.Add(
                     _normalEnemyData.bulletSpeed
                     * new Vector3(
                         Mathf.Cos(2 * Mathf.PI * i / FIRE_AMOUNT_PER_ONCE),
@@ -33,10 +36,10 @@ namespace Model
             }
         }
 
-        public void RunEveryFrame(Vector3 thisPosition)
+        public void RunEveryFrame(Vector3 position)
         {
             AttackProcess();
-            DestroyLater(thisPosition);
+            DestroyLater(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
@@ -54,7 +57,7 @@ namespace Model
                 _time = 0;
             }
 
-            if (_isAttacking) _isAttacking = IsBulletsProcessRunning(_firingBulletSettings);
+            if (_isAttacking) _isAttacking = ProceedBulletFiring(_firingBulletInfo);
         }
     }
 }

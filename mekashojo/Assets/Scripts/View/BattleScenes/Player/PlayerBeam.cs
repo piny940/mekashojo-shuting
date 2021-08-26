@@ -13,13 +13,13 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Enemy")
                 {
-                    DoDamage(collision);
+                    DealDamage(collision);
                 }
             };
         }
 
 
-        private void DoDamage(Collider2D collision)
+        private void DealDamage(Collider2D collision)
         {
             EnemyIDContainer enemyIDContainer = collision.GetComponent<EnemyIDContainer>();
 
@@ -36,11 +36,11 @@ namespace View
             switch (_type)
             {
                 case Model.EquipmentData.equipmentType.MainWeapon__Cannon:
-                    Controller.PlayerClassController.cannonFire.DoDamage(enemyDamageManager, damageAmount);
+                    Controller.PlayerClassController.cannonFire.DealDamage(enemyDamageManager, damageAmount);
                     break;
 
                 case Model.EquipmentData.equipmentType.MainWeapon__Laser:
-                    Controller.PlayerClassController.laserFire.DoDamage(enemyDamageManager, damageAmount);
+                    Controller.PlayerClassController.laserFire.DealDamage(enemyDamageManager, damageAmount);
                     break;
 
                 default:

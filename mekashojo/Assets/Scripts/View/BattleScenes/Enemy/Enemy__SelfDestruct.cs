@@ -40,9 +40,9 @@ namespace View
                 rigidbody2D.velocity = velocity;
             });
 
-            enemy__SelfDestruct.OnIsAnimationPlayingChanged.AddListener((bool isAnimationPlaying) =>
+            enemy__SelfDestruct.OnIsMovingChanged.AddListener((bool isMoving) =>
             {
-                if (isAnimationPlaying)
+                if (isMoving)
                 {
                     _animator.SetFloat("speed", 1);
                 }
@@ -52,14 +52,14 @@ namespace View
                 }
             });
 
-            enemy__SelfDestruct.OnIsDestroyedChanged.AddListener((bool isDead) =>
+            enemy__SelfDestruct.OnIsBeingDestroyedChanged.AddListener((bool isDying) =>
             {
-                this.isDead = isDead;
+                this.isDying = isDying;
             });
 
-            enemyDamageManager.OnIsDeadChanged.AddListener((bool isDead) =>
+            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
             {
-                this.isDead = isDead;
+                this.isDying = isDying;
             });
 
             // 当たり判定の処理
@@ -67,14 +67,14 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Player")
                 {
-                    enemy__SelfDestruct.DoDamage();
+                    enemy__SelfDestruct.DealCollisionDamage();
                 }
             };
         }
 
         private void Update()
         {
-            if (isDead) Die();
+            if (isDying) Die();
         }
 
         private void Die()

@@ -1,12 +1,12 @@
 using UnityEngine.SceneManagement;
 
-namespace Model
+namespace View
 {
     public class SceneChangeManager
     {
         public static SceneChangeManager sceneChangeManager = new SceneChangeManager();
         private SceneNames _currentSceneName;
-        public SceneNames previousSceneName { get; private set; }
+        private SceneNames _previousSceneName;
 
         public enum SceneNames
         {
@@ -28,13 +28,13 @@ namespace Model
         private SceneChangeManager()
         {
             _currentSceneName = SceneNames.TitleScene;
-            previousSceneName = SceneNames.TitleScene;
+            _previousSceneName = SceneNames.TitleScene;
         }
 
         public void ChangeScene(SceneNames nextSceneName)
         {
             //シーンの移動情報の更新
-            previousSceneName = _currentSceneName;
+            _previousSceneName = _currentSceneName;
             _currentSceneName = nextSceneName;
 
             //セーブデータの保存
@@ -42,6 +42,14 @@ namespace Model
 
             //シーンの移動
             SceneManager.LoadScene(nextSceneName.ToString());
+        }
+
+        /// <summary>
+        /// 一つ前のシーンに戻る。このメソッドは今後の仕様によって変更が加わると思われる
+        /// </summary>
+        public void ReturnScene()
+        {
+            ChangeScene(_previousSceneName);
         }
     }
 }

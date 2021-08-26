@@ -11,7 +11,7 @@ namespace View
             if (CanPush())
             {
                 SEPlayer.sePlayer.audioSource.PlayOneShot(_pushSound);
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.SceneNames.TitleScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.TitleScene);
             }
         }
 

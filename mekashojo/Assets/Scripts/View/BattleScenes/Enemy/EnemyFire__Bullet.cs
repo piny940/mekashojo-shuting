@@ -7,7 +7,7 @@ namespace View
         [SerializeField, Header("NormalEnemyDataを入れる")] Model.NormalEnemyData _normalEnemyData;
         private int _id;
         private Rigidbody2D _rigidbody2D;
-        private bool _isDestroyed;
+        private bool _isBeingDestroyed;
 
         private void Awake()
         {
@@ -19,14 +19,15 @@ namespace View
         {
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 _normalEnemyData,
+                Controller.BattleScenesClassController.enemyController,
                 Controller.BattleScenesClassController.playerStatusController,
                 Controller.BattleScenesClassController.playerPositionController,
                 Controller.BattleScenesClassController.pauseController
                 );
 
-            enemyFire.OnIsDestroyedChanged.AddListener((bool isDestroyed) =>
+            enemyFire.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                _isDestroyed = isDestroyed;
+                _isBeingDestroyed = isBeingDestroyed;
             });
 
             enemyFire.OnVelocityChanged.AddListener((Vector3 velocity) =>
@@ -54,7 +55,7 @@ namespace View
 
         private void Update()
         {
-            if (_isDestroyed) Die();
+            if (_isBeingDestroyed) Die();
         }
 
         private void Die()

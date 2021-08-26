@@ -6,7 +6,7 @@ namespace View
         {
             if (CanPush())
             {
-                Model.SceneChangeManager.sceneChangeManager.ChangeScene(Model.SceneChangeManager.sceneChangeManager.previousSceneName);
+                SceneChangeManager.sceneChangeManager.ReturnScene();
             }
         }
 

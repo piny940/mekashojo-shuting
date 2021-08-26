@@ -6,34 +6,37 @@ namespace Model
     // プレイヤーの方に向かって弾を飛ばす敵、すなわち
     // FastBullet, SlowBullet, SingleBullet, Missile,
     // RepeatedBullet, StunBullet, GuidedBulletはこのクラスを用いる
-    public class Enemy__SimpleBullet : EnemyManager
+    public class Enemy__SimpleBullet : DamageFactorManager
     {
+        private readonly float _enemyPosition__z = EnemyController.enemyPosition__z;
         private float _time;
         private bool _isAttacking = false;
         private Vector3 _newPlayerPosition;
-        private readonly NormalEnemyData _normalEnemyData;
-        private FiringBulletSettings _firingBulletSettings;
-        private readonly float _enemyPosition__z = EnemyController.enemyPosition__z;
+        private NormalEnemyData _normalEnemyData;
+        private BulletProcessInfo _firingBulletInfo;
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__SimpleBullet(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData) : base(pauseController, enemyController, playerStatusController)
+        public Enemy__SimpleBullet(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData)
+                : base(pauseController, enemyController, playerStatusController)
         {
             _normalEnemyData = normalEnemyData;
-            _firingBulletSettings.shortFiringIntervalFrameAmount = _normalEnemyData.shortFiringIntervalFrameAmount;
-            _firingBulletSettings.firePath = _normalEnemyData.type.ToString();
-            _firingBulletSettings.firingAmount = _normalEnemyData.firintgAmount;
+            _firingBulletInfo.shortInterval_Frame = _normalEnemyData.shortFiringInterval_Frame;
+            _firingBulletInfo.firePath = _normalEnemyData.type.ToString();
+            _firingBulletInfo.firingAmount = _normalEnemyData.firintgAmount;
             _time = Random.value * _normalEnemyData.firingInterval;
+            factorType = DamageFactorData.damageFactorType.FiringNormalEnemy;
         }
 
-        public void RunEveryFrame(Vector3 playerPosition, Vector3 thisPosition)
+        public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
-            AttackProcess(playerPosition, thisPosition);
-            DestroyLater(thisPosition);
+            AttackProcess(position, playerPosition);
+            DestroyLater(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
         //一定間隔で攻撃をする処理
-        private void AttackProcess(Vector3 playerPosition, Vector3 thisPosition)
+        private void AttackProcess(Vector3 position, Vector3 playerPosition)
         {
             if (!pauseController.isGameGoing) return;
 
@@ -44,14 +47,14 @@ namespace Model
                 _isAttacking = true;
                 _newPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, _enemyPosition__z);
 
-                _firingBulletSettings.bulletVelocities
+                _firingBulletInfo.bulletVelocities
                     = new List<Vector3>()
-                    { (_newPlayerPosition - thisPosition) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(_newPlayerPosition - thisPosition) };
+                    { (_newPlayerPosition - position) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(_newPlayerPosition - position) };
 
                 _time = 0;
             }
 
-            if (_isAttacking) _isAttacking = IsBulletsProcessRunning(_firingBulletSettings);
+            if (_isAttacking) _isAttacking = ProceedBulletFiring(_firingBulletInfo);
         }
     }
 }

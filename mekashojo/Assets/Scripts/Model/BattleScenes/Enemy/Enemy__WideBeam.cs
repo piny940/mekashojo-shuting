@@ -2,23 +2,25 @@ using UnityEngine;
 
 namespace Model
 {
-    public class Enemy__WideBeam : EnemyManager
+    public class Enemy__WideBeam : DamageFactorManager
     {
-        float _time = 0;
-        bool _isAttacking = false;
+        private float _time = 0;
+        private bool _isAttacking = false;
+        private NormalEnemyData _normalEnemyData;
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        NormalEnemyData _normalEnemyData;
-
-        public Enemy__WideBeam(PauseController pauseController, EnemyController enemyController, PlayerStatusController playerStatusController, NormalEnemyData normalEnemyData) : base(pauseController, enemyController, playerStatusController)
+        public Enemy__WideBeam(PauseController pauseController, EnemyController enemyController, PlayerStatusController playerStatusController, NormalEnemyData normalEnemyData)
+                : base(pauseController, enemyController, playerStatusController)
         {
             _normalEnemyData = normalEnemyData;
             _time = Random.value * _normalEnemyData.firingInterval;
+            factorType = DamageFactorData.damageFactorType.FiringNormalEnemy;
         }
 
-        public void RunEveryFrame(Vector3 thisPosition)
+        public void RunEveryFrame(Vector3 position)
         {
             AttackProcess();
-            DestroyLater(thisPosition);
+            DestroyLater(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
@@ -36,7 +38,7 @@ namespace Model
             }
 
             if (_isAttacking)
-                _isAttacking = IsBeamsProcessRunning(_normalEnemyData.beamNoticingTime, _normalEnemyData.beamTime);
+                _isAttacking = ProceedBeamFiring(_normalEnemyData.beamNotifyingTime, _normalEnemyData.beamTime);
         }
     }
 }

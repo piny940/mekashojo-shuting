@@ -7,10 +7,10 @@ namespace View
     // このクラス、横長なコードが多いんやけどどこで改行するのが正しいんかわからん
     public class EnemyController : MonoBehaviour
     {
-        private ObservableCollection<int> _lastEnemyNumbers;
-
         private const float SCREEN_FRAME_WIDTH = 1;
         private const float UI_WIDTH = 1.5f;
+
+        private ObservableCollection<int> _lastEnemyNumbers;
 
         // Start is called before the first frame update
         void Start()
