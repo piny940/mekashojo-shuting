@@ -15,7 +15,7 @@ namespace Controller
         public GameObject materialObject;
     }
 
-    public class PlayerClassController : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         public static Model.PlayerFire cannonFire;
 
@@ -39,9 +39,19 @@ namespace Controller
         void Start()
         {
             // 実行順序の関係でコンストラクタはStartに書かないといけない
-            cannonFire = new Model.PlayerFire(BattleScenesClassController.enemyController, BattleScenesClassController.pauseController, false);
+            cannonFire
+                = new Model.PlayerFire(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.pauseManager,
+                    Model.EquipmentData.equipmentType.MainWeapon__Cannon
+                    );
 
-            laserFire = new Model.PlayerFire(BattleScenesClassController.enemyController, BattleScenesClassController.pauseController, false);
+            laserFire
+                = new Model.PlayerFire(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.pauseManager,
+                    Model.EquipmentData.equipmentType.MainWeapon__Laser
+                    );
 
             bombFire__Player = new Model.BombFire__Player();
         }

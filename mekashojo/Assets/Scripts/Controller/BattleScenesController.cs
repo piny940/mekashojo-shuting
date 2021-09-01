@@ -12,17 +12,17 @@ namespace Controller
         public Model.Missile__Player missile__Player;
     }
 
-    public class BattleScenesClassController : MonoBehaviour
+    public class BattleScenesController : MonoBehaviour
     {
-        [SerializeField, Header("EnemyControlDataを入れる")] private Model.EnemyControlData _enemyControlData;
+        [SerializeField, Header("EnemyControlDataを入れる")] private EnemyControlData _enemyControlData;
 
         private WeaponInstances _weaponInstances;
 
-        public static Model.PauseController pauseController;
+        public static Model.PauseManager pauseManager;
 
-        public static Model.PlayerStatusController playerStatusController;
+        public static Model.PlayerStatusManager playerStatusManager;
 
-        public static Model.PlayerPositionController playerPositionController;
+        public static Model.PlayerPositionManager playerPositionManager;
 
         public static Model.Cannon__Player cannon__Player;
 
@@ -40,33 +40,33 @@ namespace Controller
 
         public static Model.WeaponManager weaponManager;
 
-        public static Model.EnemyController enemyController;
+        public static Model.EnemyManager enemyManager;
 
         public static Model.AcquiredEnhancementMaterialData acquiredEnhancementMaterialData;
 
         private void Awake()
         {
-            pauseController = new Model.PauseController();
+            pauseManager = new Model.PauseManager();
 
-            shield__Player = new Model.Shield__Player(pauseController);
+            shield__Player = new Model.Shield__Player(pauseManager);
 
-            enemyController = new Model.EnemyController(pauseController, _enemyControlData);
+            enemyManager = new Model.EnemyManager(pauseManager, _enemyControlData);
 
-            playerStatusController = new Model.PlayerStatusController(shield__Player, pauseController);
+            playerStatusManager = new Model.PlayerStatusManager(shield__Player, pauseManager);
 
-            playerPositionController = new Model.PlayerPositionController(shield__Player, enemyController, pauseController);
+            playerPositionManager = new Model.PlayerPositionManager(shield__Player, enemyManager, pauseManager);
 
-            cannon__Player = new Model.Cannon__Player(playerStatusController);
+            cannon__Player = new Model.Cannon__Player(playerStatusManager);
 
-            laser__Player = new Model.Laser__Player(playerStatusController);
+            laser__Player = new Model.Laser__Player(playerStatusManager);
 
-            beamMachineGun__Player = new Model.BeamMachineGun__Player(playerStatusController);
+            beamMachineGun__Player = new Model.BeamMachineGun__Player(playerStatusManager);
 
-            balkan__Player = new Model.Balkan__Player(playerStatusController);
+            balkan__Player = new Model.Balkan__Player(playerStatusManager);
 
-            missile__Player = new Model.Missile__Player(playerStatusController);
+            missile__Player = new Model.Missile__Player(playerStatusManager);
 
-            bomb__Player = new Model.Bomb__Player(playerStatusController, playerPositionController, pauseController);
+            bomb__Player = new Model.Bomb__Player(playerStatusManager, playerPositionManager, pauseManager);
 
             _weaponInstances = new WeaponInstances()
             {
@@ -77,8 +77,7 @@ namespace Controller
                 missile__Player = missile__Player,
             };
 
-            weaponManager = new Model.WeaponManager(pauseController, playerPositionController, _weaponInstances);
-
+            weaponManager = new Model.WeaponManager(pauseManager, playerPositionManager, _weaponInstances);
 
             acquiredEnhancementMaterialData = new Model.AcquiredEnhancementMaterialData();
         }
@@ -86,19 +85,19 @@ namespace Controller
         // Update is called once per frame
         void Update()
         {
-            pauseController.RunEveryFrame();
+            pauseManager.RunEveryFrame();
 
             shield__Player.RunEveryFrame();
 
-            playerStatusController.RunEveryFrame();
+            playerStatusManager.RunEveryFrame();
 
-            playerPositionController.RunEveryFrame();
+            playerPositionManager.RunEveryFrame();
 
             weaponManager.RunEveryFrame();
 
             bomb__Player.RunEveryFrame();
 
-            enemyController.RunEveryFrame(_enemyControlData);
+            enemyManager.RunEveryFrame(_enemyControlData);
         }
     }
 }

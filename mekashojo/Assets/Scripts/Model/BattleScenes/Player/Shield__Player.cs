@@ -12,11 +12,11 @@ namespace Model
 
         private bool _isUsingShield = false;
         private float _shieldSize = 1;
-        private PauseController _pauseController;
+        private PauseManager _pauseManager;
         private float _shrinkSpeed;
         private float _recoverSpeed;
 
-        public UnityEvent<bool> OnisUsingShieldChanged = new UnityEvent<bool>();
+        public UnityEvent<bool> OnIsUsingShieldChanged = new UnityEvent<bool>();
         public UnityEvent<float> OnShieldSizeChanged = new UnityEvent<float>();
 
         public bool isUsingShield
@@ -25,7 +25,7 @@ namespace Model
             set
             {
                 _isUsingShield = value;
-                OnisUsingShieldChanged?.Invoke(value);
+                OnIsUsingShieldChanged?.Invoke(value);
             }
         }
 
@@ -39,9 +39,9 @@ namespace Model
             }
         }
 
-        public Shield__Player(PauseController pauseController)
+        public Shield__Player(PauseManager pauseManager)
         {
-            _pauseController = pauseController;
+            _pauseManager = pauseManager;
 
             if (EquipmentData.equipmentData.selectedShieldName == EquipmentData.equipmentType.Shield__Heavy)
             {
@@ -64,10 +64,10 @@ namespace Model
 
         private void ProceedShield()
         {
-            if (!_pauseController.isGameGoing) return;
+            if (!_pauseManager.isGameGoing) return;
 
             // 使用を始める/やめる処理
-            if (InputController.isMouseRight && shieldSize > 0)
+            if (InputManager.isMouseRight && shieldSize > 0)
             {
                 if (!isUsingShield) isUsingShield = true;
                 shieldSize -= _shrinkSpeed * Time.deltaTime;
@@ -78,7 +78,7 @@ namespace Model
             }
 
             //右クリックを離したらシールドが回復する
-            if (!InputController.isMouseRight && shieldSize < 1)
+            if (!InputManager.isMouseRight && shieldSize < 1)
             {
                 shieldSize += _recoverSpeed * Time.deltaTime;
             }

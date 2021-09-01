@@ -9,7 +9,7 @@ namespace Model
 
         public Action SubProceedAttack;
 
-        public UnityEvent<bool> OnWeaponSwitched = new UnityEvent<bool>();
+        public UnityEvent<bool> OnIsMainSelectedChanged = new UnityEvent<bool>();
 
         private bool _isMainSelected = true;
 
@@ -21,18 +21,18 @@ namespace Model
             set
             {
                 _isMainSelected = value;
-                OnWeaponSwitched?.Invoke(_isMainSelected);
+                OnIsMainSelectedChanged?.Invoke(_isMainSelected);
             }
         }
 
-        private PauseController _pauseController;
-        private PlayerPositionController _playerPositionController;
+        private PauseManager _pauseManager;
+        private PlayerPositionManager _playerPositionManager;
         private Controller.WeaponInstances _weaponInstances;
 
-        public WeaponManager(PauseController pauseController, PlayerPositionController playerPositionController, Controller.WeaponInstances weaponInstances)
+        public WeaponManager(PauseManager pauseManager, PlayerPositionManager playerPositionManager, Controller.WeaponInstances weaponInstances)
         {
-            _pauseController = pauseController;
-            _playerPositionController = playerPositionController;
+            _pauseManager = pauseManager;
+            _playerPositionManager = playerPositionManager;
             _weaponInstances = weaponInstances;
 
             SetWeapons();
@@ -84,18 +84,18 @@ namespace Model
         private void SwitchWeapon()
         {
             //ゲームが進行中ではない　または　スタン中の時は武器の切り替えはできない
-            if (!_pauseController.isGameGoing || _playerPositionController.isStunning)
+            if (!_pauseManager.isGameGoing || _playerPositionManager.isStunning)
             {
                 return;
             }
 
             //メイン・サブの切り替え
-            if (InputController.mouseWheel > 0 && !isMainSelected)
+            if (InputManager.mouseWheel > 0 && !isMainSelected)
             {
                 isMainSelected = true;
                 isSwitchingWeapon = true;
             }
-            else if (InputController.mouseWheel < 0 && isMainSelected)
+            else if (InputManager.mouseWheel < 0 && isMainSelected)
             {
                 isMainSelected = false;
                 isSwitchingWeapon = true;
@@ -113,7 +113,7 @@ namespace Model
             }
 
             //左クリックを離すまで「切り替え中」にする
-            if (isSwitchingWeapon && !InputController.isMouseLeft)
+            if (isSwitchingWeapon && !InputManager.isMouseLeft)
             {
                 isSwitchingWeapon = false;
             }
@@ -124,7 +124,7 @@ namespace Model
         private void ProceedAttack()
         {
             //ゲームが進行中ではない　または　スタン中の時は攻撃できない
-            if (!_pauseController.isGameGoing || _playerPositionController.isStunning) return;
+            if (!_pauseManager.isGameGoing || _playerPositionManager.isStunning) return;
 
             if (isMainSelected)
             {

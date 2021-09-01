@@ -1,4 +1,4 @@
- using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
@@ -23,11 +23,11 @@ namespace Model
                 { DropMaterialManager.materialType.BombChargeMaterial, 0.1f },
             };
 
-        private EnemyController _enemyController;
+        private EnemyManager _enemyManager;
 
         private bool _isDying = false;
 
-        public float hp { get; set; }
+        public float hp { get; private set; }
         public readonly int noBombDamageFrames = 3;
 
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
@@ -48,9 +48,9 @@ namespace Model
             }
         }
 
-        public EnemyDamageManager(EnemyController enemyController, NormalEnemyData normalEnemyData)
+        public EnemyDamageManager(EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
         {
-            _enemyController = enemyController;
+            _enemyManager = enemyManager;
             hp = normalEnemyData.hp;
         }
 
@@ -68,7 +68,10 @@ namespace Model
             }
         }
 
-        public void RunEveryFrame() { CountFrameForPlayerBomb(); }
+        public void RunEveryFrame()
+        {
+            CountFrameForPlayerBomb();
+        }
 
         /// <summary>
         /// 死ぬ
@@ -82,14 +85,14 @@ namespace Model
             }
 
             //消滅する
-            _enemyController.totalEnemyAmount--;
+            _enemyManager.totalEnemyAmount--;
 
             isDying = true;
         }
 
         /// <summary>
-        /// プレイヤーのボムの内側にスポーンした時はボムをダメージを受けないようにするためのフレームカウンター
-        /// 「frameCounterForPlayerBomb」をマイフレームincrementする<br></br>
+        /// プレイヤーのボムの内側にスポーンした時はボムをダメージを受けないようにするためのフレームカウンター<br></br>
+        /// 「frameCounterForPlayerBomb」をマイフレームincrementする
         /// </summary>
         private void CountFrameForPlayerBomb()
         {

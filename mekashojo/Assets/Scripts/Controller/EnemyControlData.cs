@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Model
+namespace Controller
 {
     [CreateAssetMenu(menuName = "ScriptableObject/EnemyControlData")]
     public class EnemyControlData : ScriptableObject

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public class PlayerPositionController : MovingObjectBase
+    public class PlayerPositionManager : MovingObjectBase
     {
         private const int ONE_SHAKE_FRAME_AMOUNT = 2; //Stun時の振動をどれだけ細かくするか
         private const float SHAKING_SPEED = 5; //Stun時の振動の速さ
@@ -22,8 +22,8 @@ namespace Model
 
         public bool isStunning = false;
 
-        public PlayerPositionController(Shield__Player shield__Player, EnemyController enemyController, PauseController pauseController)
-                : base(enemyController, pauseController)
+        public PlayerPositionManager(Shield__Player shield__Player, EnemyManager enemyManager, PauseManager pauseManager)
+                : base(enemyManager, pauseManager)
         {
             _shield__Player = shield__Player;
             objectType = movingObjectType.Player;
@@ -40,12 +40,12 @@ namespace Model
 
         public void RunEveryFrame()
         {
-            ChangeVelocity();
+            SetVelocity();
         }
 
-        private void ChangeVelocity()
+        private void SetVelocity()
         {
-            if (!pauseController.isGameGoing)
+            if (!pauseManager.isGameGoing)
             {
                 velocity = Vector3.zero;
                 return;
@@ -62,15 +62,15 @@ namespace Model
             {
                 // シールドを使用中の場合
                 velocity = new Vector3(
-                    InputController.horizontalKey * SPEED * _reductedSpeedRate,
-                    InputController.verticalKey * SPEED * _reductedSpeedRate,
+                    InputManager.horizontalKey * SPEED * _reductedSpeedRate,
+                    InputManager.verticalKey * SPEED * _reductedSpeedRate,
                     0);
             }
             else
             {
                 velocity = new Vector3(
-                    InputController.horizontalKey * SPEED,
-                    InputController.verticalKey * SPEED,
+                    InputManager.horizontalKey * SPEED,
+                    InputManager.verticalKey * SPEED,
                     0);
             }
         }
@@ -78,15 +78,14 @@ namespace Model
         private void Stun()
         {
             //微小振動させる
-            if (_stunFrameCount % ONE_SHAKE_FRAME_AMOUNT * 2 == 0)
+            if (_stunFrameCount % (ONE_SHAKE_FRAME_AMOUNT * 2) == 0)
             {
                 _shakingVector = new Vector3(Random.value * SHAKING_SPEED, Random.value * SHAKING_SPEED, 0);
                 velocity = -_shakingVector;
                 _stunFrameCount = 0;
             }
-            else if (_stunFrameCount % ONE_SHAKE_FRAME_AMOUNT * 2 == ONE_SHAKE_FRAME_AMOUNT)
+            else if (_stunFrameCount % (ONE_SHAKE_FRAME_AMOUNT * 2) == ONE_SHAKE_FRAME_AMOUNT)
             {
-
                 velocity = _shakingVector;
             }
 

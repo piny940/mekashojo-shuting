@@ -14,9 +14,9 @@ namespace View
         void Start()
         {
             // 初期化
-            ChangeTextTransparncy(Controller.BattleScenesClassController.weaponManager.isMainSelected);
+            ChangeTextTransparncy(Controller.BattleScenesController.weaponManager.isMainSelected);
 
-            Controller.BattleScenesClassController.weaponManager.OnWeaponSwitched.AddListener(ChangeTextTransparncy);
+            Controller.BattleScenesController.weaponManager.OnIsMainSelectedChanged.AddListener(ChangeTextTransparncy);
         }
 
         private void ChangeTextTransparncy(bool isMainSelected)

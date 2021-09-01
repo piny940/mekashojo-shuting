@@ -25,22 +25,17 @@ namespace View
 
             if (enemyIDContainer == null) throw new System.Exception();
 
-            float damageAmount
-                = Model.EquipmentData.equipmentData.equipmentStatus[_type]
-                    [Model.EquipmentData.equipmentData.equipmentLevel[_type]]
-                    [Model.EquipmentData.equipmentParameter.Power] * Time.deltaTime;
-
             Model.EnemyDamageManager enemyDamageManager
-                = Controller.EnemyClassController.damageManagerTable[enemyIDContainer.id];
+                = Controller.EnemyController.damageManagerTable[enemyIDContainer.id];
 
             switch (_type)
             {
                 case Model.EquipmentData.equipmentType.MainWeapon__Cannon:
-                    Controller.PlayerClassController.cannonFire.DealDamage(enemyDamageManager, damageAmount);
+                    Controller.PlayerController.cannonFire.DealDamage(enemyDamageManager);
                     break;
 
                 case Model.EquipmentData.equipmentType.MainWeapon__Laser:
-                    Controller.PlayerClassController.laserFire.DealDamage(enemyDamageManager, damageAmount);
+                    Controller.PlayerController.laserFire.DealDamage(enemyDamageManager);
                     break;
 
                 default:

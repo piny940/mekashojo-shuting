@@ -11,10 +11,10 @@ namespace Model
         private bool _isFirstTime = true;
         private bool _isMoving = false;
         private bool _isBeingDestroyed = false;
-        private EnemyController _enemyController;
+        private EnemyManager _enemyManager;
 
         protected abstract movingObjectType objectType { get; set; }
-        protected PauseController pauseController;
+        protected PauseManager pauseManager;
 
         public UnityEvent<Vector3> OnVelocityChanged = new UnityEvent<Vector3>();
         public UnityEvent<bool> OnIsMovingChanged = new UnityEvent<bool>();
@@ -59,10 +59,10 @@ namespace Model
             }
         }
 
-        public MovingObjectBase(EnemyController enemyController, PauseController pauseController)
+        public MovingObjectBase(EnemyManager enemyManager, PauseManager pauseManager)
         {
-            _enemyController = enemyController;
-            this.pauseController = pauseController;
+            _enemyManager = enemyManager;
+            this.pauseManager = pauseManager;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Model
         protected void StopOnPausing()
         {
             //ポーズし始めた時
-            if (!pauseController.isGameGoing && isMoving)
+            if (!pauseManager.isGameGoing && isMoving)
             {
                 //速度の保存
                 _savedVelocity = velocity;
@@ -85,7 +85,7 @@ namespace Model
             }
 
             //ポーズし終わった時
-            if (pauseController.isGameGoing && !isMoving)
+            if (pauseManager.isGameGoing && !isMoving)
             {
                 isMoving = true;
 
@@ -120,7 +120,7 @@ namespace Model
 
                 if (objectType == movingObjectType.Enemy)
                 {
-                    _enemyController.totalEnemyAmount--;
+                    _enemyManager.totalEnemyAmount--;
                 }
             }
         }

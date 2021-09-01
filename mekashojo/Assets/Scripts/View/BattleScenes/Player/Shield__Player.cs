@@ -26,12 +26,12 @@ namespace View
             _lightShield.SetActive(false);
             transform.localScale = new Vector3(1, 1, 0);
 
-            Controller.BattleScenesClassController.shield__Player.OnisUsingShieldChanged.AddListener((bool isUsingShield) =>
+            Controller.BattleScenesController.shield__Player.OnIsUsingShieldChanged.AddListener((bool isUsingShield) =>
             {
                 _shield.SetActive(isUsingShield);
             });
 
-            Controller.BattleScenesClassController.shield__Player.OnShieldSizeChanged.AddListener((float shieldSize) =>
+            Controller.BattleScenesController.shield__Player.OnShieldSizeChanged.AddListener((float shieldSize) =>
             {
                 transform.localScale = new Vector3(shieldSize, shieldSize, 1);
             });

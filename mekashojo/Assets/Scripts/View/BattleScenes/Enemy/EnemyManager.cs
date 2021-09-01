@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace View
 {
-    // このクラス、横長なコードが多いんやけどどこで改行するのが正しいんかわからん
-    public class EnemyController : MonoBehaviour
+    public class EnemyManager : MonoBehaviour
     {
         private const float SCREEN_FRAME_WIDTH = 1;
         private const float UI_WIDTH = 1.5f;
@@ -16,25 +15,24 @@ namespace View
         void Start()
         {
             //初期化
-            _lastEnemyNumbers = new ObservableCollection<int>(Controller.BattleScenesClassController.enemyController.enemyNumbers);
+            _lastEnemyNumbers = new ObservableCollection<int>(Controller.BattleScenesController.enemyManager.enemyNumbers);
 
-            Controller.BattleScenesClassController.enemyController.enemyNumbers.CollectionChanged +=
+            Controller.BattleScenesController.enemyManager.enemyNumbers.CollectionChanged +=
                 (object sender, NotifyCollectionChangedEventArgs e) =>
                 {
-                    foreach (Model.NormalEnemyData.normalEnemyType type in System.Enum.GetValues(typeof(Model.NormalEnemyData.normalEnemyType)))
+                    foreach (Controller.NormalEnemyData.normalEnemyType type in System.Enum.GetValues(typeof(Controller.NormalEnemyData.normalEnemyType)))
                     {
-                        // この部分もうちょっと綺麗にしたい。
-                        if (_lastEnemyNumbers[(int)type] != Controller.BattleScenesClassController.enemyController.enemyNumbers[(int)type])
+                        if (_lastEnemyNumbers[(int)type] != Controller.BattleScenesController.enemyManager.enemyNumbers[(int)type])
                         {
                             ProduceEnemy(type);
-                            _lastEnemyNumbers[(int)type] = Controller.BattleScenesClassController.enemyController.enemyNumbers[(int)type];
+                            _lastEnemyNumbers[(int)type] = Controller.BattleScenesController.enemyManager.enemyNumbers[(int)type];
                             break;
                         }
                     }
                 };
         }
 
-        private void ProduceEnemy(Model.NormalEnemyData.normalEnemyType type)
+        private void ProduceEnemy(Controller.NormalEnemyData.normalEnemyType type)
         {
             //画面左下と右上の座標の取得
             Vector3 cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -45,7 +43,7 @@ namespace View
             Vector3 producePosition = new Vector3(
                 Random.Range((cornerPosition__LeftBottom.x + cornerPosition__RightTop.x) / 2, cornerPosition__RightTop.x - SCREEN_FRAME_WIDTH),
                 Random.Range(cornerPosition__LeftBottom.y + SCREEN_FRAME_WIDTH, cornerPosition__RightTop.y - SCREEN_FRAME_WIDTH - UI_WIDTH),
-                Model.EnemyController.enemyPosition__z);
+                Model.EnemyManager.enemyPosition__z);
 
             //指定された敵の生成
             Instantiate((GameObject)Resources.Load(

@@ -14,7 +14,7 @@ namespace View
 
         protected void Update()
         {
-            if (!Controller.BattleScenesClassController.pauseController.isGameGoing) return;
+            if (!Controller.BattleScenesController.pauseManager.isGameGoing) return;
 
             _time += Time.deltaTime;
             if (_time > _disappearTime)

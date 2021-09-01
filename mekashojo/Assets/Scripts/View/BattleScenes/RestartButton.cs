@@ -11,7 +11,7 @@ namespace View
         {
             if (CanPush())
             {
-                Controller.BattleScenesClassController.pauseController.isPauseScreenVisible = false;
+                Controller.BattleScenesController.pauseManager.isPausing = false;
             }
         }
     }

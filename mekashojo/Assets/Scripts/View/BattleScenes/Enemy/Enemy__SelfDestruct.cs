@@ -5,6 +5,7 @@ namespace View
     public class Enemy__SelfDestruct : NormalEnemyBase
     {
         private Animator _animator;
+        private int _id;
 
         private void Awake()
         {
@@ -14,32 +15,21 @@ namespace View
 
         void Start()
         {
-            Model.EnemyDamageManager enemyDamageManager = Initialize();
+            _id = Controller.EnemyController.EmergeEnemy__SelfDestruct(normalEnemyData, this.gameObject);
 
-            //実行順序の関係でコンストラクタはStartに書かないといけない
+            // ControllerからModelクラスのインスタンスを取得
             Model.Enemy__SelfDestruct enemy__SelfDestruct
-                = new Model.Enemy__SelfDestruct(
-                    Controller.BattleScenesClassController.pauseController,
-                    Controller.BattleScenesClassController.playerStatusController,
-                    Controller.BattleScenesClassController.enemyController,
-                    _normalEnemyData
-                    );
+                = Controller.EnemyController.enemyTable
+                    [Controller.EnemyController.enemyType__Rough.SelfDestruct]
+                        [_id].enemy__SelfDestruct;
 
-            // Controllerのクラスにidやインスタンスの情報を渡す
-            Controller.EnemyElements enemyElements = new Controller.EnemyElements()
-            {
-                enemy__SelfDestruct = enemy__SelfDestruct,
-                enemyObject = this.gameObject,
-            };
-            Controller.EnemyClassController.enemyTable__SelfDestruct.Add(id, enemyElements);
-            Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
-
-
+            // 速度の監視
             enemy__SelfDestruct.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
+            // アニメーションの開始/停止の監視
             enemy__SelfDestruct.OnIsMovingChanged.AddListener((bool isMoving) =>
             {
                 if (isMoving)
@@ -52,14 +42,10 @@ namespace View
                 }
             });
 
+            // 消滅の監視
             enemy__SelfDestruct.OnIsBeingDestroyedChanged.AddListener((bool isDying) =>
             {
-                this.isDying = isDying;
-            });
-
-            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
-            {
-                this.isDying = isDying;
+                this.isBeingDestroyed = isDying;
             });
 
             // 当たり判定の処理
@@ -72,14 +58,18 @@ namespace View
             };
         }
 
+        // AddListenerにDie()を書くとforeachのループの中で「ループに使っているテーブル」に変更を入れてしまい、
+        // "Collection was modified; enumeration operation may not execute."と言われるので
+        // Updateで死ぬ処理を行う
         private void Update()
         {
-            if (isDying) Die();
+            if (isBeingDestroyed) Die();
         }
 
         private void Die()
         {
-            Controller.EnemyClassController.enemyTable__SelfDestruct.Remove(id);
+            Controller.EnemyController.enemyTable
+                [Controller.EnemyController.enemyType__Rough.SimpleBullet].Remove(_id);
             Destroy(this.gameObject);
         }
     }

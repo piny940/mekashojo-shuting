@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Model
 {
-    public class PlayerStatusController
+    public class PlayerStatusManager
     {
         private const float MAIN_ENERGY_AUTO_CHARGE_AMOUNT = 10;
         private const float SUB_ENERGY_AUTO_CHARGE_AMOUNT = 10;
@@ -11,7 +11,6 @@ namespace Model
 
         //この3つの定数はView側でも使うからpublicにしておく
         //constにできないからhpとかの初期化がコンストラクタの中で行われてる
-        //もっと綺麗なやり方があったら教えて欲しい
         public readonly float maxHP = 300;
         public readonly float maxMainEnergy = 1000;
         public readonly float maxSubEnergy = 1000;
@@ -22,7 +21,7 @@ namespace Model
         private int _bombAmount = 0;
         private float _damageReductionRate_Percent;
 
-        private PauseController _pauseController;
+        private PauseManager _pauseManager;
         private Shield__Player _shield__Player;
 
         public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
@@ -70,9 +69,9 @@ namespace Model
             }
         }
 
-        public PlayerStatusController(Shield__Player shield__Player, PauseController pauseController)
+        public PlayerStatusManager(Shield__Player shield__Player, PauseManager pauseManager)
         {
-            _pauseController = pauseController;
+            _pauseManager = pauseManager;
             _shield__Player = shield__Player;
             hp = maxHP;
             mainEnergyAmount = maxMainEnergy;
@@ -92,8 +91,7 @@ namespace Model
                 _damageReductionRate_Percent
                     = EquipmentData.equipmentData.equipmentStatus
                     [EquipmentData.equipmentType.Shield__Light]
-                    [EquipmentData.equipmentData.equipmentLevel
-                    [EquipmentData.equipmentType.Shield__Light]]
+                    [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentType.Shield__Light]]
                     [EquipmentData.equipmentParameter.DamageReductionRate];
             }
         }
@@ -118,7 +116,7 @@ namespace Model
 
         private void ChargeEnergyAutomatically()
         {
-            if (!_pauseController.isGameGoing)
+            if (!_pauseManager.isGameGoing)
             {
                 return;
             }
@@ -140,7 +138,7 @@ namespace Model
 
         public void ChargeBomb()
         {
-            if (bombAmount != MAX_BOMB_AMOUNT)
+            if (bombAmount < MAX_BOMB_AMOUNT)
             {
                 bombAmount++;
             }

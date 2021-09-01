@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Model
 {
-    public class InputController
+    public static class InputManager
     {
         public static float horizontalKey { get { return Input.GetAxis("Horizontal"); } }
 

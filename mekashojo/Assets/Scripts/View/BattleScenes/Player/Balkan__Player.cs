@@ -8,12 +8,12 @@ namespace View
 
         void Start()
         {
-            Controller.BattleScenesClassController.balkan__Player.OnBalkanNumberChanged.AddListener(() =>
+            Controller.BattleScenesController.balkan__Player.OnBalkanNumberChanged.AddListener(() =>
             {
                 Vector3 bulletVelocity
-                    = (Model.InputController.mousePosition - transform.position)
+                    = (Model.InputManager.mousePosition - transform.position)
                         * BULLET_SPEED
-                        / Vector3.Magnitude(Model.InputController.mousePosition - transform.position);
+                        / Vector3.Magnitude(Model.InputManager.mousePosition - transform.position);
 
                 Fire(bulletVelocity, "BalkanFire__Player");
             });

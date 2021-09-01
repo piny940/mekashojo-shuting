@@ -11,7 +11,7 @@ namespace View
 
         private void Awake()
         {
-            _id = ++Model.IDManager.lastMaterialID;
+            _id = Controller.IDManager.GetMaterialID();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
@@ -21,9 +21,9 @@ namespace View
             Model.DropMaterialManager dropMaterialManager
                 = new Model.DropMaterialManager(
                     _type,
-                    Controller.BattleScenesClassController.enemyController,
-                    Controller.BattleScenesClassController.playerStatusController,
-                    Controller.BattleScenesClassController.pauseController
+                    Controller.BattleScenesController.enemyManager,
+                    Controller.BattleScenesController.playerStatusManager,
+                    Controller.BattleScenesController.pauseManager
                     );
 
             dropMaterialManager.OnVelocityChanged.AddListener((Vector3 velocity) =>
@@ -43,7 +43,7 @@ namespace View
                     materialObject = this.gameObject,
                 };
 
-            Controller.PlayerClassController.dropMaterialTable.Add(_id, dropMaterialElements);
+            Controller.PlayerController.dropMaterialTable.Add(_id, dropMaterialElements);
 
             playOnEnter += (collision) =>
             {
@@ -62,7 +62,7 @@ namespace View
 
         private void Die()
         {
-            Controller.PlayerClassController.dropMaterialTable.Remove(_id);
+            Controller.PlayerController.dropMaterialTable.Remove(_id);
             Destroy(this.gameObject);
         }
     }

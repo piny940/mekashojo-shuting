@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace Model
@@ -21,39 +20,37 @@ namespace Model
             }
         }
 
-        protected override void ProceedFirst() { }
-        protected override void ProceedLast() { }
-        protected override void RunEveryFrame() { }
-
-        public BeamMachineGun__Player(PlayerStatusController playerStatusController) : base(playerStatusController) { }
-
-        /// <summary>
-        /// 攻撃できるかどうか
-        /// </summary>
-        /// <param name="playerStatusController"></param>
-        /// <param name="weaponManager"></param>
-        /// <returns></returns>
-        protected override bool CanAttack()
+        protected override bool canAttack
         {
-            _count++;
-            return _count > 60 / FIRE_PER_SECOND && InputController.isMouseLeft && playerStatusController.mainEnergyAmount > 0;
+            get
+            {
+                return _count > 60 / FIRE_PER_SECOND
+                        && InputManager.isMouseLeft
+                        && playerStatusManager.mainEnergyAmount > 0;
+            }
         }
 
-        /// <summary>
-        /// 攻撃そのもの
-        /// </summary>
-        /// <param name="playerStatusController"></param>
+        protected override void ProceedFirst() { }
+        protected override void ProceedLast() { }
+
+        public BeamMachineGun__Player(PlayerStatusManager playerStatusManager)
+                : base(playerStatusManager) { }
+
+        protected override void RunEveryFrame()
+        {
+            _count++;
+        }
+
         protected override void Attack()
         {
             beamMachineGunNumber++;
 
             _count = 0;
 
-            playerStatusController.mainEnergyAmount
+            playerStatusManager.mainEnergyAmount
                 -= EquipmentData.equipmentData.equipmentStatus
                 [EquipmentData.equipmentData.selectedMainWeaponName]
-                [EquipmentData.equipmentData.equipmentLevel
-                [EquipmentData.equipmentData.selectedMainWeaponName]]
+                [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentData.selectedMainWeaponName]]
                 [EquipmentData.equipmentParameter.Cost];
         }
     }

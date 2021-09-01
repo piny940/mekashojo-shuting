@@ -19,47 +19,42 @@ namespace Model
             }
         }
 
+        // 攻撃できるかどうか
+        protected override bool canAttack
+        {
+            get
+            {
+                return !_hasAttacked && InputManager.isMouseLeft
+                        && playerStatusManager.subEnergyAmount > 0
+                        && !Controller.BattleScenesController.weaponManager.isSwitchingWeapon;
+            }
+        }
+
         protected override void ProceedFirst() { }
         protected override void ProceedLast() { }
-        protected override void RunEveryFrame() { }
 
-        public Missile__Player(PlayerStatusController playerStatusController) : base(playerStatusController) { }
+        public Missile__Player(PlayerStatusManager playerStatusManager)
+                : base(playerStatusManager) { }
 
-        /// <summary>
-        /// 攻撃できるかどうか
-        /// </summary>
-        /// <param name="playerStatusController"></param>
-        /// <param name="weaponManager"></param>
-        /// <returns></returns>
-        protected override bool CanAttack()
+        protected override void RunEveryFrame()
         {
             //左クリックを離した瞬間の処理
-            if (_hasAttacked && !InputController.isMouseLeft)
+            if (_hasAttacked && !InputManager.isMouseLeft)
             {
                 _hasAttacked = false;
             }
-
-            return
-                !_hasAttacked && InputController.isMouseLeft
-                && playerStatusController.subEnergyAmount > 0
-                && !Controller.BattleScenesClassController.weaponManager.isSwitchingWeapon;
         }
 
-        /// <summary>
-        /// 攻撃そのもの
-        /// </summary>
-        /// <param name="playerStatusController"></param>
         protected override void Attack()
         {
             _hasAttacked = true;
 
             missileNumber++;
 
-            playerStatusController.subEnergyAmount
+            playerStatusManager.subEnergyAmount
                 -= EquipmentData.equipmentData.equipmentStatus
                 [EquipmentData.equipmentData.selectedSubWeaponName]
-                [EquipmentData.equipmentData.equipmentLevel
-                [EquipmentData.equipmentData.selectedSubWeaponName]]
+                [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentData.selectedSubWeaponName]]
                 [EquipmentData.equipmentParameter.Cost];
         }
     }

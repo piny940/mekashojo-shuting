@@ -1,8 +1,6 @@
-using UnityEngine;
-
 namespace Model
 {
-    public class BombFire__Player : MonoBehaviour
+    public class BombFire__Player
     {
         public void Attack(EnemyDamageManager enemyDamageManager)
         {
@@ -11,16 +9,13 @@ namespace Model
             {
                 return;
             }
-            else
-            {
-                enemyDamageManager.GetDamage(
-                    EquipmentData.equipmentData.equipmentStatus
-                    [EquipmentData.equipmentType.Bomb]
-                    [EquipmentData.equipmentData.equipmentLevel[
-                    EquipmentData.equipmentType.Bomb]]
-                    [EquipmentData.equipmentParameter.Power]
-                    );
-            }
+
+            enemyDamageManager.GetDamage(
+                EquipmentData.equipmentData.equipmentStatus
+                [EquipmentData.equipmentType.Bomb]
+                [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentType.Bomb]]
+                [EquipmentData.equipmentParameter.Power]
+                );
         }
     }
 }

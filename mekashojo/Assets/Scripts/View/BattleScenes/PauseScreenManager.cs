@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace View
 {
-    public class PauseScreenController : MonoBehaviour
+    public class PauseScreenManager : MonoBehaviour
     {
         [SerializeField, Header("PauseScreenを入れる")] private GameObject _pauseScreen;
 
@@ -10,7 +10,7 @@ namespace View
         {
             _pauseScreen.SetActive(false);
 
-            Controller.BattleScenesClassController.pauseController.OnPauseScreenVisibilityChanged.AddListener((bool isPauseScreenActive) =>
+            Controller.BattleScenesController.pauseManager.OnIsPausingChanged.AddListener((bool isPauseScreenActive) =>
             {
                 _pauseScreen.SetActive(isPauseScreenActive);
             });

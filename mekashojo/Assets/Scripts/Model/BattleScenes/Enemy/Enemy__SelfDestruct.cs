@@ -4,11 +4,11 @@ namespace Model
 {
     public class Enemy__SelfDestruct : DamageFactorManager
     {
-        private NormalEnemyData _normalEnemyData;
+        private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__SelfDestruct(PauseController pauseController, PlayerStatusController playerStatusController, EnemyController enemyController, NormalEnemyData normalEnemyData)
-                : base(pauseController, enemyController, playerStatusController)
+        public Enemy__SelfDestruct(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(pauseManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
             factorType = DamageFactorData.damageFactorType.NormalEnemy__SelfDestruct;

@@ -25,7 +25,7 @@ namespace View
         {
             _displayingNumber = 0;
 
-            Controller.BattleScenesClassController.pauseController.OnStartTimeCounterChanged.AddListener((float startTimeCounter) =>
+            Controller.BattleScenesController.pauseManager.OnStartTimeCounterChanged.AddListener((float startTimeCounter) =>
             {
                 //カウントダウンを表示する
                 if (startTimeCounter > 0 && startTimeCounter <= 1 && _displayingNumber != 3)

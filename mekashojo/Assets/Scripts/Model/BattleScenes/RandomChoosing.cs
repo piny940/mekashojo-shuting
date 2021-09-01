@@ -11,6 +11,8 @@ namespace Model
         /// </summary>
         public static T ChooseRandomly<T>(Dictionary<T, float> probabilities)
         {
+            if (probabilities.Count == 0) throw new System.Exception();
+
             // 確率比の和
             float totalProbability = probabilities.Values.Sum();
 
@@ -26,8 +28,10 @@ namespace Model
                     return pair.Key;
                 }
             }
-            //エラー、ここに来た時はプログラムが間違っている
-            throw new System.Exception();
+
+            // 数値の誤差等によりforeach内でreturnできなかった場合、
+            // 最初の要素を返す
+            return probabilities.First().Key;
         }
     }
 }

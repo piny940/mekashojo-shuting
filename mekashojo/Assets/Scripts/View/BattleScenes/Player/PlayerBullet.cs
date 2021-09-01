@@ -7,16 +7,12 @@ namespace View
     {
         [SerializeField, Header("武器のタイプを選ぶ")] private Model.EquipmentData.equipmentType _type;
         private int _id;
-        private float _power;
         private bool _isBeingDestroyed;
         private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
-            _id = ++Model.IDManager.lastPlayerBulletID;
-            _power = Model.EquipmentData.equipmentData.equipmentStatus[_type]
-                    [Model.EquipmentData.equipmentData.equipmentLevel[_type]]
-                    [Model.EquipmentData.equipmentParameter.Power];
+            _id = Controller.IDManager.GetPlayerBulletID();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
@@ -24,9 +20,10 @@ namespace View
         {
             Model.PlayerFire playerFire
                 = new Model.PlayerFire(
-                    Controller.BattleScenesClassController.enemyController,
-                    Controller.BattleScenesClassController.pauseController,
-                    true);
+                    Controller.BattleScenesController.enemyManager,
+                    Controller.BattleScenesController.pauseManager,
+                    _type
+                    );
 
             playerFire.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
@@ -44,7 +41,7 @@ namespace View
                 bulletObject = this.gameObject,
             };
 
-            Controller.PlayerClassController.playerBulletTable.Add(_id, playerBulletElements);
+            Controller.PlayerController.playerBulletTable.Add(_id, playerBulletElements);
 
             playWhileIn += (collision) =>
             {
@@ -67,15 +64,15 @@ namespace View
             if (enemyIDContainer == null) throw new System.Exception();
 
             Model.EnemyDamageManager enemyDamageManager
-                = Controller.EnemyClassController.damageManagerTable[enemyIDContainer.id];
+                = Controller.EnemyController.damageManagerTable[enemyIDContainer.id];
 
-            Controller.PlayerClassController.playerBulletTable[_id]
-                .playerFire.DealDamage(enemyDamageManager, _power);
+            Controller.PlayerController.playerBulletTable[_id]
+                .playerFire.DealDamage(enemyDamageManager);
         }
 
         private void Die()
         {
-            Controller.PlayerClassController.playerBulletTable.Remove(_id);
+            Controller.PlayerController.playerBulletTable.Remove(_id);
             Destroy(this.gameObject);
         }
     }

@@ -1,27 +1,55 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Model
 {
+    // ObservableCollection<object>とFiringBulletInfoの変換をこのクラスのメソッドで行う
+    public static class FiringInfoConverter
+    {
+        // 引数で与えられた値をObservableCollectionにまとめて返す
+        public static ObservableCollection<object> MakeCollection(Vector3 vector3, string str)
+        {
+            return
+                new ObservableCollection<object>()
+                {
+                        new object[]{ vector3, str }
+                };
+        }
+
+        // 引数で与えられたObservableCollectionから弾の速度、
+        // 弾のPrefabのパスを取り出して構造体として返す
+        public static DamageFactorManager.FiringBulletInfo MakeStruct(ObservableCollection<object> collection)
+        {
+            return
+                new DamageFactorManager.FiringBulletInfo()
+                {
+                    bulletVelocity = (Vector3)collection[0],
+                    firePath = (string)collection[1],
+                };
+        }
+    }
+
     // 雑魚敵、ステージボス、触れたらダメージを受ける壁など、プレイヤーにダメージを
     // 与えるオブジェクトのクラスはこのクラスを継承する
     public abstract class DamageFactorManager : MovingObjectBase
     {
+        protected const int EXTRA_FRAME_AMOUNT = 2;
         private bool _hasVelocitySet = false;
         private int _frameCount = 0;
         private int _firingCount = 0;
         private float _firingTime = 0;
 
-        private FiringBulletInfo _firingBulletInfo;
+        private readonly PlayerStatusManager _playerStatusManager;
         private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
-        private PlayerStatusController _playerStatusController;
-        protected EnemyController enemyController;
+        private ObservableCollection<object> _firingBulletInfo;
+        protected EnemyManager enemyManager;
         protected override movingObjectType objectType { get; set; }
         protected abstract DamageFactorData.damageFactorType factorType { get; set; }
 
         public UnityEvent<beamFiringProcesses> OnBeamStatusChanged = new UnityEvent<beamFiringProcesses>();
-        public UnityEvent<FiringBulletInfo> OnFiringBulletInfoChanged = new UnityEvent<FiringBulletInfo>();
+        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged = new UnityEvent<ObservableCollection<object>>();
 
         public beamFiringProcesses beamStatus
         {
@@ -33,7 +61,7 @@ namespace Model
             }
         }
 
-        public FiringBulletInfo firingBulletInfo
+        public ObservableCollection<object> firingBulletInfo
         {
             get { return _firingBulletInfo; }
             set
@@ -67,20 +95,20 @@ namespace Model
             public int firingAmount;
         }
 
-        protected DamageFactorManager(PauseController pauseController, EnemyController enemyController, PlayerStatusController playerStatusController)
-                : base(enemyController, pauseController)
+        protected DamageFactorManager(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(enemyManager, pauseManager)
         {
-            _playerStatusController = playerStatusController;
+            _playerStatusManager = playerStatusManager;
             objectType = movingObjectType.Enemy;
         }
 
         /// <summary>
         /// 弾を発射するタイプの敵はこのメソッドを呼ぶ
         /// </summary>
-        protected bool ProceedBulletFiring(BulletProcessInfo firingBulletInfo)
+        protected bool ProceedBulletFiring(BulletProcessInfo bulletProcessInfo)
         {
             //一定数発射したら発射を終了する
-            if (_firingCount > firingBulletInfo.firingAmount)
+            if (_firingCount > bulletProcessInfo.firingAmount)
             {
                 _firingCount = 0;
                 return false;
@@ -89,18 +117,14 @@ namespace Model
             _frameCount++;
 
             //一定小時間ごとに発射する
-            if (_frameCount > firingBulletInfo.shortInterval_Frame)
+            if (_frameCount > bulletProcessInfo.shortInterval_Frame)
             {
                 _frameCount = 0;
 
-                foreach (Vector3 bulletVelocity in firingBulletInfo.bulletVelocities)
+                foreach (Vector3 bulletVelocity in bulletProcessInfo.bulletVelocities)
                 {
-                    Debug.Log("FiringBulletInfo was newed.");
-                    _firingBulletInfo = new FiringBulletInfo()
-                    {
-                        bulletVelocity = bulletVelocity,
-                        firePath = "Enemy/EnemyFire__" + firingBulletInfo.firePath,
-                    };
+                    firingBulletInfo
+                        = FiringInfoConverter.MakeCollection(bulletVelocity, "Enemy/EnemyFire__" + bulletProcessInfo.firePath);
                 }
 
                 _firingCount++;
@@ -144,12 +168,27 @@ namespace Model
         }
 
         /// <summary>
+        /// 弾の発射処理およびビームの発射処理に使っている情報を初期化する
+        /// 子クラスで攻撃処理を強制終了する時に呼ぶ
+        /// </summary>
+        protected void ResetAttacking()
+        {
+            // 弾の方の処理
+            _frameCount = 0;
+            _firingCount = 0;
+
+            // ビームの方の処理
+            _firingTime = 0;
+            beamStatus = beamFiringProcesses.HasStoppedBeam;
+        }
+
+        /// <summary>
         /// 移動速度の設定(移動速度が一定の場合)
         /// </summary>
         protected void SetConstantVelocity(float movingSpeed)
         {
             //まだ始まってなかったら抜ける
-            if (!pauseController.isGameGoing) return;
+            if (!pauseManager.isGameGoing) return;
 
             if (!_hasVelocitySet)
             {
@@ -163,7 +202,7 @@ namespace Model
         /// </summary>
         public void DealCollisionDamage()
         {
-            _playerStatusController.ChangeHP(
+            _playerStatusManager.ChangeHP(
                 DamageFactorData.damageFactorData.collisionDamage[factorType]
                 );
 

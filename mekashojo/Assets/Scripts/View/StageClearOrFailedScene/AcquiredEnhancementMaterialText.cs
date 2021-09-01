@@ -12,7 +12,7 @@ namespace View
         // Start is called before the first frame update
         void Start()
         {
-            _acquiredEnhancementMaterialsCount = Controller.BattleScenesClassController.acquiredEnhancementMaterialData.acquiredEnhancementMaterialsCount;
+            _acquiredEnhancementMaterialsCount = Controller.BattleScenesController.acquiredEnhancementMaterialData.acquiredEnhancementMaterialsCount;
 
             //Textの内容を更新する（未実装）
         }

@@ -3,24 +3,14 @@ using UnityEngine.Events;
 
 namespace Model
 {
-    public class PauseController
+    public class PauseManager
     {
         private bool _isFirstTime = true;
-        private bool _isPauseScreenVisible = false;
+        private bool _isPausing = false;
         private float _startTimeCounter = 0;
 
-        public UnityEvent<bool> OnPauseScreenVisibilityChanged = new UnityEvent<bool>();
         public UnityEvent<float> OnStartTimeCounterChanged = new UnityEvent<float>();
-
-        public bool isPauseScreenVisible
-        {
-            get { return _isPauseScreenVisible; }
-            set
-            {
-                _isPauseScreenVisible = value;
-                OnPauseScreenVisibilityChanged?.Invoke(_isPauseScreenVisible);
-            }
-        }
+        public UnityEvent<bool> OnIsPausingChanged = new UnityEvent<bool>();
 
         public float startTimeCounter
         {
@@ -29,6 +19,18 @@ namespace Model
             {
                 _startTimeCounter = value;
                 OnStartTimeCounterChanged?.Invoke(_startTimeCounter);
+            }
+        }
+
+        // isPausingはポーズ画面が表示されていることと同値
+        // escapeキーが押されたらtrueになり、Returnボタンが押されたらfalseになる
+        public bool isPausing
+        {
+            get { return _isPausing; }
+            set
+            {
+                _isPausing = value;
+                OnIsPausingChanged?.Invoke(_isPausing);
             }
         }
 
@@ -44,17 +46,17 @@ namespace Model
         private void CheckPausing()
         {
             //escキーを押したら停止する
-            if (InputController.isEscapeKey && isGameGoing)
+            if (InputManager.isEscapeKey && isGameGoing)
             {
                 isGameGoing = false;
-                isPauseScreenVisible = true;
+                isPausing = true;
             }
         }
 
         private void StartCount()
         {
             //カウントダウンをする
-            if (!isGameGoing && !isPauseScreenVisible || _isFirstTime)
+            if (!isGameGoing && !isPausing || _isFirstTime)
             {
                 startTimeCounter += Time.deltaTime;
 

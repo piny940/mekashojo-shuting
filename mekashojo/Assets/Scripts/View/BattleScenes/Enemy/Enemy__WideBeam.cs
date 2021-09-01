@@ -5,6 +5,7 @@ namespace View
     public class Enemy__WideBeam : NormalEnemyBase
     {
         private const float NOTIFYING_FIRE_TRANSPARENCY = 0.1f;
+        private int _id;
         private PolygonCollider2D _polygonCollier2D;
         private SpriteRenderer _spriteRenderer;
         [SerializeField, Header("EmemyFire__WideBeamを入れる")] private GameObject _enemyFire__WideBeam;
@@ -23,40 +24,26 @@ namespace View
         // Start is called before the first frame update
         void Start()
         {
-            Model.EnemyDamageManager enemyDamageManager = Initialize();
+            _id = Controller.EnemyController.EmergeEnemy__WideBeam(normalEnemyData, this.gameObject);
 
-            //実行順序の関係でコンストラクタはStartに書かないといけない
+            Initialize(_id);
+
+            // ControllerからModelクラスのインスタンスを取得
             Model.Enemy__WideBeam enemy__WideBeam
-                = new Model.Enemy__WideBeam(
-                    Controller.BattleScenesClassController.pauseController,
-                    Controller.BattleScenesClassController.enemyController,
-                    Controller.BattleScenesClassController.playerStatusController,
-                    _normalEnemyData
-                    );
+                = Controller.EnemyController.enemyTable
+                    [Controller.EnemyController.enemyType__Rough.WideBeam]
+                        [_id].enemy__WideBeam;
 
-            // Controllerのクラスにidやインスタンスの情報を渡す
-            Controller.EnemyElements enemyElements = new Controller.EnemyElements()
-            {
-                enemy__WideBeam = enemy__WideBeam,
-                enemyObject = this.gameObject,
-            };
-            Controller.EnemyClassController.enemyTable__WideBeam.Add(id, enemyElements);
-            Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
-
-
+            // 速度の監視
             enemy__WideBeam.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
+            // 消滅の監視
             enemy__WideBeam.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                this.isDying = isBeingDestroyed;
-            });
-
-            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
-            {
-                this.isDying = isDying;
+                this.isBeingDestroyed = isBeingDestroyed;
             });
 
             // 当たり判定の処理
@@ -68,6 +55,7 @@ namespace View
                 }
             };
 
+            // ビームの状態変化の監視
             enemy__WideBeam.OnBeamStatusChanged.AddListener(OnBeamStatusChanged);
         }
 
@@ -100,14 +88,18 @@ namespace View
             }
         }
 
+        // AddListenerにDie()を書くとforeachのループの中で「ループに使っているテーブル」に変更を入れてしまい、
+        // "Collection was modified; enumeration operation may not execute."と言われるので
+        // Updateで死ぬ処理を行う
         private void Update()
         {
-            if (isDying) Die();
+            if (isBeingDestroyed) Die();
         }
 
         private void Die()
         {
-            Controller.EnemyClassController.enemyTable__WideBeam.Remove(id);
+            Controller.EnemyController.enemyTable
+                [Controller.EnemyController.enemyType__Rough.WideBeam].Remove(_id);
             Destroy(this.gameObject);
         }
     }

@@ -20,39 +20,37 @@ namespace Model
             }
         }
 
-        protected override void ProceedFirst() { }
-        protected override void ProceedLast() { }
-        protected override void RunEveryFrame() { }
-
-        public Balkan__Player(PlayerStatusController playerStatusController) : base(playerStatusController) { }
-
-        /// <summary>
-        /// 攻撃できるかどうか
-        /// </summary>
-        /// <param name="playerStatusController"></param>
-        /// <param name="weaponManager"></param>
-        /// <returns></returns>
-        protected override bool CanAttack()
+        protected override bool canAttack
         {
-            _count++;
-            return _count > 60 / FIRE_PER_SECOND && InputController.isMouseLeft && playerStatusController.subEnergyAmount > 0;
+            get
+            {
+                return _count > 60 / FIRE_PER_SECOND
+                        && InputManager.isMouseLeft
+                        && playerStatusManager.subEnergyAmount > 0;
+            }
         }
 
-        /// <summary>
-        /// 攻撃そのもの
-        /// </summary>
-        /// <param name="playerStatusController"></param>
+        protected override void ProceedFirst() { }
+        protected override void ProceedLast() { }
+
+        public Balkan__Player(PlayerStatusManager playerStatusManager)
+                : base(playerStatusManager) { }
+
+        protected override void RunEveryFrame()
+        {
+            _count++;
+        }
+
         protected override void Attack()
         {
             balkanNumber++;
 
             _count = 0;
 
-            playerStatusController.subEnergyAmount
+            playerStatusManager.subEnergyAmount
                 -= EquipmentData.equipmentData.equipmentStatus
                 [EquipmentData.equipmentData.selectedSubWeaponName]
-                [EquipmentData.equipmentData.equipmentLevel
-                [EquipmentData.equipmentData.selectedSubWeaponName]]
+                [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentData.selectedSubWeaponName]]
                 [EquipmentData.equipmentParameter.Cost];
         }
     }

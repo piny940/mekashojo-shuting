@@ -5,11 +5,9 @@ namespace View
 {
     public class NormalEnemyBase : FiringBulletBase
     {
-        [SerializeField, Header("NormalEnemyDataを入れる")] protected Model.NormalEnemyData _normalEnemyData;
+        [SerializeField, Header("NormalEnemyDataを入れる")] protected Controller.NormalEnemyData normalEnemyData;
         protected Rigidbody2D rigidbody2D;
-        protected int id;
-        protected bool isDying;
-
+        protected bool isBeingDestroyed;
         private EnemyIDContainer _idContainer;
         private ObservableCollection<int> _lastmaterialNumbers;
 
@@ -19,14 +17,16 @@ namespace View
             _idContainer = GetComponent<EnemyIDContainer>();
         }
 
-        protected Model.EnemyDamageManager Initialize()
+        // このメソッドは子クラスでIDを取得した後に呼ばれることを保証するために
+        // あえてIDを引数で渡してる(蛇足？)
+        protected void Initialize(int id)
         {
-            //IDの取得
-            id = _idContainer.id;
+            // IDContainerにIDを渡す
+            _idContainer.id = id;
 
-            Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(Controller.BattleScenesClassController.enemyController, _normalEnemyData);
+            Model.EnemyDamageManager enemyDamageManager = Controller.EnemyController.damageManagerTable[id];
 
+            // lastmaterialNumbersの初期化
             _lastmaterialNumbers = new ObservableCollection<int>(enemyDamageManager.materialNumbers);
 
             //ドロップアイテムの生成
@@ -35,7 +35,11 @@ namespace View
                 OnMaterialNumbersChanged(enemyDamageManager);
             };
 
-            return enemyDamageManager;
+            // 消滅の監視
+            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
+            {
+                isBeingDestroyed = isDying;
+            });
         }
 
         /// <summary>

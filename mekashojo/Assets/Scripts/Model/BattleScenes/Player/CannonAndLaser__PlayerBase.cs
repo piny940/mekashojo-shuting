@@ -8,8 +8,8 @@ namespace Model
     public class CannonAndLase__PlayerBase : PlayerWeaponBase
     {
         private bool _isEnergyScarce;
-        private Vector3 _firingTarget = Vector3.zero;
         private bool _isFireVisible = false;
+        private Vector3 _firingTarget = Vector3.zero;
 
         public UnityEvent<Vector3> OnFiringTargetChanged = new UnityEvent<Vector3>();
         public UnityEvent<bool> OnFireVisibilityChanged = new UnityEvent<bool>();
@@ -34,10 +34,23 @@ namespace Model
             }
         }
 
-        public CannonAndLase__PlayerBase(PlayerStatusController playerStatusController) : base(playerStatusController) { }
+        protected override bool canAttack
+        {
+            get
+            {
+                return InputManager.isMouseLeft
+                        && playerStatusManager.mainEnergyAmount > 0
+                        && !_isEnergyScarce;
+            }
+        }
+
+        public CannonAndLase__PlayerBase(PlayerStatusManager playerStatusManager)
+                : base(playerStatusManager) { }
 
         /// <summary>
-        /// 使用をやめる
+        /// WeaponManagerで武器を切り替える際に、「使用をやめる」処理を行わないと
+        /// キャノン/レーザーが使われたままになってしまうため、
+        /// 武器をメインからサブに切り替えるタイミングでこのメソッドを呼ぶ
         /// </summary>
         public void StopUsing()
         {
@@ -50,27 +63,24 @@ namespace Model
         //_isEnergyScarceをtrueにしてビームが出ないようにする
         protected override void RunEveryFrame()
         {
-            if (playerStatusController.mainEnergyAmount <= 0)
+            if (playerStatusManager.mainEnergyAmount <= 0)
                 _isEnergyScarce = true;
-            else if (!InputController.isMouseLeft && _isEnergyScarce)
+            else if (!InputManager.isMouseLeft && _isEnergyScarce)
                 _isEnergyScarce = false;
         }
 
-        /// <summary>
-        /// 攻撃そのもの
-        /// </summary>
         protected override void Attack()
         {
             //ミサイルの向きを変える
-            firingTarget = InputController.mousePosition;
+            firingTarget = InputManager.mousePosition;
 
             //エネルギーを減らす
-            playerStatusController.mainEnergyAmount
+            playerStatusManager.mainEnergyAmount
                 -= EquipmentData.equipmentData.equipmentStatus
                 [EquipmentData.equipmentData.selectedMainWeaponName]
-                [EquipmentData.equipmentData.equipmentLevel
-                [EquipmentData.equipmentData.selectedMainWeaponName]]
-                [EquipmentData.equipmentParameter.Cost] * Time.deltaTime;
+                [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentData.selectedMainWeaponName]]
+                [EquipmentData.equipmentParameter.Cost]
+                * Time.deltaTime;
         }
 
         /// <summary>
@@ -88,14 +98,5 @@ namespace Model
         {
             isFireVisible = false;
         }
-
-        /// <summary>
-        /// 攻撃し続けることができるか
-        /// </summary>
-        /// <returns></returns>
-        protected override bool CanAttack()
-            => InputController.isMouseLeft
-                && playerStatusController.mainEnergyAmount > 0
-                && !_isEnergyScarce;
     }
 }

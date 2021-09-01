@@ -22,9 +22,9 @@ namespace View
             if (enemyIDContainer == null) throw new System.Exception();
 
             Model.EnemyDamageManager enemyDamageManager
-                = Controller.EnemyClassController.damageManagerTable[enemyIDContainer.id];
+                = Controller.EnemyController.damageManagerTable[enemyIDContainer.id];
 
-            Controller.PlayerClassController.bombFire__Player.Attack(enemyDamageManager);
+            Controller.PlayerController.bombFire__Player.Attack(enemyDamageManager);
         }
     }
 }

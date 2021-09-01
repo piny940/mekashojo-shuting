@@ -4,16 +4,16 @@ namespace View
 {
     public class EnemyFire__WideBeam : CollisionBase
     {
-        [SerializeField, Header("NormalEnemyDataを入れる")] private Model.NormalEnemyData _normalEnemyData;
+        [SerializeField, Header("NormalEnemyDataを入れる")] private Controller.NormalEnemyData _normalEnemyData;
 
         private void Start()
         {
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 _normalEnemyData,
-                Controller.BattleScenesClassController.enemyController,
-                Controller.BattleScenesClassController.playerStatusController,
-                Controller.BattleScenesClassController.playerPositionController,
-                Controller.BattleScenesClassController.pauseController
+                Controller.BattleScenesController.enemyManager,
+                Controller.BattleScenesController.playerStatusManager,
+                Controller.BattleScenesController.playerPositionManager,
+                Controller.BattleScenesController.pauseManager
                 );
 
             playOnEnter += (collision) =>

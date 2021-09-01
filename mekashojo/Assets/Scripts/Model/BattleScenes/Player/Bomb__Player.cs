@@ -5,26 +5,25 @@ namespace Model
 {
     public class Bomb__Player
     {
-        private const float MAX_BOBM_SIZE = 4.5f;
+        private const float MAX_BOMB_SIZE = 4.5f;
         private const float BOMB_EXPAND_SPEED = 3;
 
-        private PlayerStatusController _playerStatusController;
-        private PlayerPositionController _playerPositionController;
-        private PauseController _pauseController;
-        private bool _isBombActive = false;
-        private float _bombSize = 0;
+        private PlayerStatusManager _playerStatusManager;
+        private PlayerPositionManager _playerPositionManager;
+        private PauseManager _pauseManager;
         private bool _isUsingBomb = false;
+        private float _bombSize = 0;
 
-        public UnityEvent<bool> OnIsBombActiveChanged = new UnityEvent<bool>();
+        public UnityEvent<bool> OnIsUsingBombChanged = new UnityEvent<bool>();
         public UnityEvent<float> OnBombSizeChanged = new UnityEvent<float>();
 
-        public bool isBombActive
+        public bool isUsingBomb
         {
-            get { return _isBombActive; }
+            get { return _isUsingBomb; }
             set
             {
-                _isBombActive = value;
-                OnIsBombActiveChanged?.Invoke(value);
+                _isUsingBomb = value;
+                OnIsUsingBombChanged?.Invoke(value);
             }
         }
 
@@ -38,11 +37,11 @@ namespace Model
             }
         }
 
-        public Bomb__Player(PlayerStatusController playerStatusController, PlayerPositionController playerPositionController, PauseController pauseController)
+        public Bomb__Player(PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager)
         {
-            _playerStatusController = playerStatusController;
-            _playerPositionController = playerPositionController;
-            _pauseController = pauseController;
+            _playerStatusManager = playerStatusManager;
+            _playerPositionManager = playerPositionManager;
+            _pauseManager = pauseManager;
         }
 
         public void RunEveryFrame()
@@ -52,23 +51,22 @@ namespace Model
 
         private void ProceedBomb()
         {
-            if (!_pauseController.isGameGoing) return;
+            if (!_pauseManager.isGameGoing) return;
 
             // ボムを発射するキーが押されていて、かつボムを所持していたら、「ボムを使用中」にする
             // スタンしているときはボムを使用できない
-            if (InputController.bombKey > 0
-                && _playerStatusController.bombAmount != 0
-                && !_playerPositionController.isStunning
-                && !_isUsingBomb)
+            if (InputManager.bombKey > 0
+                && _playerStatusManager.bombAmount != 0
+                && !_playerPositionManager.isStunning
+                && !isUsingBomb)
             {
-                _isUsingBomb = true;
-                isBombActive = true;
-                _playerStatusController.bombAmount--;
+                isUsingBomb = true;
+                _playerStatusManager.bombAmount--;
             }
 
-            if (!_isUsingBomb) return;
+            if (!isUsingBomb) return;
 
-            if (bombSize < MAX_BOBM_SIZE)
+            if (bombSize < MAX_BOMB_SIZE)
             {
                 //ボムを大きくしていく
                 bombSize += BOMB_EXPAND_SPEED * Time.deltaTime;
@@ -76,8 +74,7 @@ namespace Model
             else
             {
                 bombSize = 0;
-                isBombActive = false;
-                _isUsingBomb = false;
+                isUsingBomb = false;
             }
         }
     }

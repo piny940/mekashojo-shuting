@@ -4,6 +4,8 @@ namespace View
 {
     public class Enemy__WideSpreadBullet : NormalEnemyBase
     {
+        private int _id;
+
         private void Awake()
         {
             CallAtAwake();
@@ -11,45 +13,35 @@ namespace View
 
         void Start()
         {
-            Model.EnemyDamageManager enemyDamageManager = Initialize();
+            _id = Controller.EnemyController.EmergeEnemy__WideSpreadBullet(normalEnemyData, this.gameObject);
 
-            //実行順序の関係でコンストラクタはStartに書かないといけない
+            Initialize(_id);
+
+            // ControllerからModelクラスのインスタンスを取得
             Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet
-                = new Model.Enemy__WideSpreadBullet(
-                    Controller.BattleScenesClassController.pauseController,
-                    Controller.BattleScenesClassController.playerStatusController,
-                    Controller.BattleScenesClassController.enemyController,
-                    _normalEnemyData
-                    );
+                = Controller.EnemyController.enemyTable
+                    [Controller.EnemyController.enemyType__Rough.WideSpreadBullet]
+                        [_id].enemy__WideSpreadBullet;
 
-            // Controllerのクラスにidやインスタンスの情報を渡す
-            Controller.EnemyElements enemyElements = new Controller.EnemyElements()
-            {
-                enemy__WideSpreadBullet = enemy__WideSpreadBullet,
-                enemyObject = this.gameObject,
-            };
-            Controller.EnemyClassController.enemyTable__WideSpreadBullet.Add(id, enemyElements);
-            Controller.EnemyClassController.damageManagerTable.Add(id, enemyDamageManager);
-
-
+            // 速度の監視
             enemy__WideSpreadBullet.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 rigidbody2D.velocity = velocity;
             });
 
+            // 消滅の監視
             enemy__WideSpreadBullet.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
-                this.isDying = isBeingDestroyed;
+                this.isBeingDestroyed = isBeingDestroyed;
             });
 
-            enemyDamageManager.OnIsDyingChanged.AddListener((bool isDying) =>
+            // 弾の発射の監視
+            enemy__WideSpreadBullet.OnFiringBulletInfoChanged.AddListener((firingBulletInfo__Collection) =>
             {
-                this.isDying = isDying;
-            });
+                Model.DamageFactorManager.FiringBulletInfo info
+                     = Model.FiringInfoConverter.MakeStruct(firingBulletInfo__Collection);
 
-            enemy__WideSpreadBullet.OnFiringBulletInfoChanged.AddListener((firingBulletInfo) =>
-            {
-                Fire(firingBulletInfo.bulletVelocity, firingBulletInfo.firePath);
+                Fire(info.bulletVelocity, info.firePath);
             });
 
             // 当たり判定の処理
@@ -62,14 +54,18 @@ namespace View
             };
         }
 
+        // AddListenerにDie()を書くとforeachのループの中で「ループに使っているテーブル」に変更を入れてしまい、
+        // "Collection was modified; enumeration operation may not execute."と言われるので
+        // Updateで死ぬ処理を行う
         private void Update()
         {
-            if (isDying) Die();
+            if (isBeingDestroyed) Die();
         }
 
         private void Die()
         {
-            Controller.EnemyClassController.enemyTable__WideSpreadBullet.Remove(id);
+            Controller.EnemyController.enemyTable
+                [Controller.EnemyController.enemyType__Rough.WideSpreadBullet].Remove(_id);
             Destroy(this.gameObject);
         }
     }
