@@ -33,7 +33,7 @@ namespace Model
 
         public void Attack()
         {
-            _playerStatusManager.ChangeHP(_normalEnemyData.damageAmount);
+            _playerStatusManager.GetDamage(_normalEnemyData.damageAmount);
 
             switch (_normalEnemyData.type)
             {

@@ -46,11 +46,7 @@ namespace View
                 Model.EnemyManager.enemyPosition__z);
 
             //指定された敵の生成
-            Instantiate((GameObject)Resources.Load(
-                "Prefab/BattleScenes/Enemy/Enemy__" + type.ToString()),
-                producePosition,
-                Quaternion.identity
-                );
+            _ = PrefabManager.ProduceEnemy(type, producePosition);
         }
     }
 }

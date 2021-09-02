@@ -19,6 +19,7 @@ namespace Model
         private float _mainEnergyAmount;
         private float _subEnergyAmount;
         private int _bombAmount = 0;
+        private bool _isDying = false;
         private float _damageReductionRate_Percent;
 
         private PauseManager _pauseManager;
@@ -28,6 +29,7 @@ namespace Model
         public UnityEvent<float> OnMainEnergyChanged = new UnityEvent<float>();
         public UnityEvent<float> OnSubEnergyChanged = new UnityEvent<float>();
         public UnityEvent<int> OnBombAmountChanged = new UnityEvent<int>();
+        public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
 
         public float hp
         {
@@ -69,6 +71,16 @@ namespace Model
             }
         }
 
+        public bool isDying
+        {
+            get { return _isDying; }
+            set
+            {
+                _isDying = value;
+                OnIsDyingChanged?.Invoke(value);
+            }
+        }
+
         public PlayerStatusManager(Shield__Player shield__Player, PauseManager pauseManager)
         {
             _pauseManager = pauseManager;
@@ -96,7 +108,7 @@ namespace Model
             }
         }
 
-        public void ChangeHP(float amount)
+        public void GetDamage(float amount)
         {
             if (_shield__Player.isUsingShield)
             {
@@ -106,6 +118,11 @@ namespace Model
             else
             {
                 hp -= amount;
+            }
+
+            if (hp < 0)
+            {
+                isDying = true;
             }
         }
 

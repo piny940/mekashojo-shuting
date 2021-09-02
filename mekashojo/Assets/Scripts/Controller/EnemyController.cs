@@ -42,7 +42,14 @@ namespace Controller
             _player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
-            enemyTable = new Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>>();
+            enemyTable = new Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>>()
+            {
+                { enemyType__Rough.SimpleBullet, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.SpreadBullet, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.WideSpreadBullet, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.WideBeam, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.SelfDestruct, new Dictionary<int, EnemyElements>() },
+            };
             fireTable__Bullet = new Dictionary<int, EnemyFireElements>();
         }
 
@@ -216,7 +223,7 @@ namespace Controller
 
             int id = IDManager.GetEnemyID();
 
-            enemyTable[enemyType__Rough.SpreadBullet].Add(id, enemyElements);
+            enemyTable[enemyType__Rough.WideSpreadBullet].Add(id, enemyElements);
             damageManagerTable.Add(id, enemyDamageManager);
 
             return id;

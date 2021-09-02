@@ -14,7 +14,8 @@ namespace Model
             return
                 new ObservableCollection<object>()
                 {
-                        new object[]{ vector3, str }
+                    vector3,
+                    str,
                 };
         }
 
@@ -35,7 +36,7 @@ namespace Model
     // 与えるオブジェクトのクラスはこのクラスを継承する
     public abstract class DamageFactorManager : MovingObjectBase
     {
-        protected const int EXTRA_FRAME_AMOUNT = 2;
+        protected const int EXTRA_FRAME_AMOUNT = 3; //なんか知らんけどこの値は3以上じゃないとうまくいかんかった
         private bool _hasVelocitySet = false;
         private int _frameCount = 0;
         private int _firingCount = 0;
@@ -108,7 +109,7 @@ namespace Model
         protected bool ProceedBulletFiring(BulletProcessInfo bulletProcessInfo)
         {
             //一定数発射したら発射を終了する
-            if (_firingCount > bulletProcessInfo.firingAmount)
+            if (_firingCount >= bulletProcessInfo.firingAmount)
             {
                 _firingCount = 0;
                 return false;
@@ -202,7 +203,7 @@ namespace Model
         /// </summary>
         public void DealCollisionDamage()
         {
-            _playerStatusManager.ChangeHP(
+            _playerStatusManager.GetDamage(
                 DamageFactorData.damageFactorData.collisionDamage[factorType]
                 );
 

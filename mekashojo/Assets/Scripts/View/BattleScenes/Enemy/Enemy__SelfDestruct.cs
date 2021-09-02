@@ -17,6 +17,8 @@ namespace View
         {
             _id = Controller.EnemyController.EmergeEnemy__SelfDestruct(normalEnemyData, this.gameObject);
 
+            Initialize(_id);
+
             // ControllerからModelクラスのインスタンスを取得
             Model.Enemy__SelfDestruct enemy__SelfDestruct
                 = Controller.EnemyController.enemyTable
@@ -53,6 +55,11 @@ namespace View
             {
                 if (collision.tag == "BattleScenes/Player")
                 {
+                    PrefabManager.ProduceEnemyExplodeEffect(
+                        Controller.NormalEnemyData.normalEnemyType.SelfDestruct,
+                        transform.position
+                        );
+
                     enemy__SelfDestruct.DealCollisionDamage();
                 }
             };
@@ -69,7 +76,7 @@ namespace View
         private void Die()
         {
             Controller.EnemyController.enemyTable
-                [Controller.EnemyController.enemyType__Rough.SimpleBullet].Remove(_id);
+                [Controller.EnemyController.enemyType__Rough.SelfDestruct].Remove(_id);
             Destroy(this.gameObject);
         }
     }

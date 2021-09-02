@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b155527ed6a5d455db585ab7ce875a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _normalEnemyData: {fileID: 11400000, guid: dbe8ba681b0604c65b7dee6009daca89, type: 2}
+  normalEnemyData: {fileID: 11400000, guid: dbe8ba681b0604c65b7dee6009daca89, type: 2}
   _enemyFire__WideBeam: {fileID: 4244420683451221508}
 --- !u!1 &4244420683451221508
 GameObject:

@@ -59,6 +59,10 @@ namespace View
 
         private void DealDamage(Collider2D collision)
         {
+            // (なぜか)弾が消滅してからも当たり判定が検知されてこのメソッドが呼ばれることがあったため、
+            // 死んでたら何もしないようにする
+            if (_isBeingDestroyed) return;
+
             EnemyIDContainer enemyIDContainer = collision.GetComponent<EnemyIDContainer>();
 
             if (enemyIDContainer == null) throw new System.Exception();

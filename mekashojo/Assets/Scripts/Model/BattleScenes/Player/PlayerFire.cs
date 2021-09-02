@@ -18,7 +18,7 @@ namespace Model
                     [EquipmentData.equipmentData.equipmentLevel[_type]]
                     [EquipmentData.equipmentParameter.Power];
 
-            // キャノン/レーザーの場合、マイフレーム攻撃がされるため、
+            // キャノン/レーザーの場合、毎フレーム攻撃がされるため、
             // _powerにTime.deltaTimeをかけておく必要がある
             if (_type == EquipmentData.equipmentType.MainWeapon__Cannon
                 || _type == EquipmentData.equipmentType.MainWeapon__Laser)

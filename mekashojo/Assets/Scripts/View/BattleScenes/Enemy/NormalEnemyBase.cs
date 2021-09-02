@@ -52,10 +52,7 @@ namespace View
             {
                 if (_lastmaterialNumbers[(int)type] != enemyDamageManager.materialNumbers[(int)type])
                 {
-                    Instantiate(
-                        (GameObject)Resources.Load("Prefab/BattleScenes/DropMaterial/" + type.ToString()),
-                        transform.position,
-                        Quaternion.identity);
+                    PrefabManager.ProduceDropItem(type, transform.position);
 
                     _lastmaterialNumbers[(int)type] = enemyDamageManager.materialNumbers[(int)type];
 

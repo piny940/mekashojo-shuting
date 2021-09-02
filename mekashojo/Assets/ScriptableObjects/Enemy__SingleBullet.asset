@@ -18,7 +18,7 @@ MonoBehaviour:
   damageAmount: 10
   firintgAmount: 1
   firingInterval: 3
-  shortFiringIntervalFrameAmount: 0
+  shortFiringInterval_Frame: 0
   beamTime: 0
-  beamNoticingTime: 0
+  beamNotifyingTime: 0
   bulletSpeed: 10

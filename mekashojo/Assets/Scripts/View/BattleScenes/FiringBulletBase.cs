@@ -11,7 +11,7 @@ namespace View
         protected void Fire(Vector3 bulletVelocity, string path)
         {
             //弾の生成
-            GameObject bullet = Instantiate((GameObject)Resources.Load("Prefab/BattleScenes/" + path), transform.position, Quaternion.identity);
+            GameObject bullet = PrefabManager.ProduceObject(path, transform.position);
 
             //コンポーネントの取得
             Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();

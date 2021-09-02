@@ -4,7 +4,7 @@ namespace View
 {
     public class Balkan__Player : FiringBulletBase
     {
-        private const float BULLET_SPEED = 80;
+        private const float BULLET_SPEED = 30;
 
         void Start()
         {

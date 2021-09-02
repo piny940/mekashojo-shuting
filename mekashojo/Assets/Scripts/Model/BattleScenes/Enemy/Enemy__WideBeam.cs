@@ -5,7 +5,7 @@ namespace Model
     public class Enemy__WideBeam : DamageFactorManager
     {
         private float _time = 0;
-        private int _attackingFrameCount = 0;
+        private float _attackingTime = 0;
         private bool _isAttacking = false;
         private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
@@ -33,9 +33,9 @@ namespace Model
             _time += Time.deltaTime;
 
             // 攻撃をやめる処理
-            if (!_isAttacking && _attackingFrameCount > 0)
+            if (!_isAttacking && _attackingTime > 0)
             {
-                _attackingFrameCount = 0;
+                _attackingTime = 0;
                 return;
             }
 
@@ -50,13 +50,13 @@ namespace Model
             if (_isAttacking)
             {
                 _isAttacking = ProceedBeamFiring(_normalEnemyData.beamNotifyingTime, _normalEnemyData.beamTime);
-                _attackingFrameCount++;
+                _attackingTime += Time.deltaTime;
             }
 
             // ProceedBeamFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
             // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
             // 強制的に攻撃を終了するプログラムを書いておく
-            if (_attackingFrameCount > _normalEnemyData.beamNotifyingTime
+            if (_attackingTime > _normalEnemyData.beamNotifyingTime
                                             + _normalEnemyData.beamTime
                                             + EXTRA_FRAME_AMOUNT)
             {

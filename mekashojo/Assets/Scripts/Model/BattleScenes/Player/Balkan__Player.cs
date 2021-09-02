@@ -4,7 +4,7 @@ namespace Model
 {
     public class Balkan__Player : PlayerWeaponBase
     {
-        private const int FIRE_PER_SECOND = 15;
+        private const int FIRE_PER_SECOND = 5;
         private int _balkanNumber = 0;
         private int _count = 0;
 
