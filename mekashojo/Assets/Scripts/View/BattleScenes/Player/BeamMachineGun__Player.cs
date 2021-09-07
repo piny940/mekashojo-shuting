@@ -15,7 +15,7 @@ namespace View
                         * BULLET_SPEED
                         / Vector3.Magnitude(Model.InputManager.mousePosition - transform.position);
 
-                Fire(bulletVelocity, "BeamMachineGunFire__Player");
+                Fire(bulletVelocity, Model.EquipmentData.equipmentFireNames.BeamMachineGunFire__Player.ToString());
             });
         }
     }

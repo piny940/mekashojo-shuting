@@ -6,7 +6,7 @@ namespace View
 {
     public class EnemyManager : MonoBehaviour
     {
-        private const float SCREEN_FRAME_WIDTH = 1;
+        private const float SCREEN_FRAME_WIDTH = 1.5f;
         private const float UI_WIDTH = 1.5f;
 
         private ObservableCollection<int> _lastEnemyNumbers;

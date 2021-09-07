@@ -15,7 +15,7 @@ namespace View
                         * BULLET_SPEED
                         / Vector3.Magnitude(Model.InputManager.mousePosition - transform.position);
 
-                Fire(bulletVelocity, "BalkanFire__Player");
+                Fire(bulletVelocity, Model.EquipmentData.equipmentFireNames.BalkanFire__Player.ToString());
             });
         }
     }

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using UnityEngine;
-
 
 namespace Model
 {
@@ -52,6 +50,16 @@ namespace Model
             Bomb,
             Shield__Heavy,
             Shield__Light,
+        }
+
+        public enum equipmentFireNames
+        {
+            CannonFire__Player,
+            LaserFire__Player,
+            BeamMachineGunFire__Player,
+            BalkanFire__Player,
+            MissileFire__Player,
+            BombFire__Player,
         }
 
         public enum level

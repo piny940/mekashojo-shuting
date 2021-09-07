@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1689552764664421899}
   - component: {fileID: 2207845491350881517}
   m_Layer: 0
-  m_Name: ExplodeEffect__SelfDestruct__Enemy
+  m_Name: ExplodeEffect__Enemy__SelfDestruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

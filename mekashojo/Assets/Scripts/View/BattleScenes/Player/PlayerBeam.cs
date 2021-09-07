@@ -11,7 +11,7 @@ namespace View
         {
             playWhileIn += (collision) =>
             {
-                if (collision.tag == "BattleScenes/Enemy")
+                if (collision.tag == TagManager.TagNames.BattleScenes__Enemy.ToString())
                 {
                     DealDamage(collision);
                 }

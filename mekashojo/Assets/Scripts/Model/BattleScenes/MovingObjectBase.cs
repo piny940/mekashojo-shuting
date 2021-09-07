@@ -8,8 +8,8 @@ namespace Model
         private const float SCREEN_FRAME = 1;
         private Vector3 _savedVelocity;
         private Vector3 _velocity;
-        private bool _isFirstTime = true;
-        private bool _isMoving = false;
+        private bool _wasBornWhilePausing;
+        private bool _isMoving = true;
         private bool _isBeingDestroyed = false;
         private EnemyManager _enemyManager;
 
@@ -63,6 +63,7 @@ namespace Model
         {
             _enemyManager = enemyManager;
             this.pauseManager = pauseManager;
+            _wasBornWhilePausing = !pauseManager.isGameGoing;
         }
 
         /// <summary>
@@ -89,12 +90,15 @@ namespace Model
             {
                 isMoving = true;
 
-                if (_isFirstTime)
-                {
-                    //ゲーム開始時は速度はセットしない
-                    _isFirstTime = false;
-                    return;
-                }
+                //if (_wasBornWhilePausing)
+                //{
+                //    // インスタンスが生成された時にポーズ中だった場合(想定としては
+                //    // ゲームが始まる前からステージ上にスタンバイされている雑魚敵の場合)、
+                //    // _savedVelocityが(0, 0, 0)なので速度の設定はここでは行わない
+                //    // (速度を設定するメソッドが別で用意されている)
+                //    _wasBornWhilePausing = false;
+                //    return;
+                //}
 
                 velocity = _savedVelocity;
             }

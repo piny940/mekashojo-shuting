@@ -14,12 +14,12 @@ namespace View
         void Start()
         {
             // 初期化
-            ChangeTextTransparncy(Controller.BattleScenesController.weaponManager.isMainSelected);
+            ChangeTextTransparency(Controller.BattleScenesController.weaponManager.isMainSelected);
 
-            Controller.BattleScenesController.weaponManager.OnIsMainSelectedChanged.AddListener(ChangeTextTransparncy);
+            Controller.BattleScenesController.weaponManager.OnIsMainSelectedChanged.AddListener(ChangeTextTransparency);
         }
 
-        private void ChangeTextTransparncy(bool isMainSelected)
+        private void ChangeTextTransparency(bool isMainSelected)
         {
             if (isMainSelected)
             {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 327709620599035875}
   m_Layer: 0
   m_Name: Enemy__SlowBullet
-  m_TagString: BattleScenes/Enemy
+  m_TagString: BattleScenes__Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

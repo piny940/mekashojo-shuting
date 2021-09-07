@@ -50,7 +50,7 @@ namespace View
             // 当たり判定の処理
             playOnEnter += (collision) =>
             {
-                if (collision.tag == "BattleScenes/Player")
+                if (collision.tag == TagManager.TagNames.BattleScenes__Player.ToString())
                 {
                     enemy__SimpleBullet.DealCollisionDamage();
                 }

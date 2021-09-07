@@ -11,7 +11,7 @@ namespace View
 
         private void Awake()
         {
-            _player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
+            _player = GameObject.FindGameObjectWithTag(TagManager.TagNames.BattleScenes__Player.ToString());
         }
 
         private void Start()

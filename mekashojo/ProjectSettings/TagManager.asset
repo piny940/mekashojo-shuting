@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - BattleScenes/Player
-  - BattleScenes/Enemy
+  - BattleScenes__Player
+  - BattleScenes__Enemy
   layers:
   - Default
   - TransparentFX

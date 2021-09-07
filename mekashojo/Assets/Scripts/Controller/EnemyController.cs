@@ -39,7 +39,7 @@ namespace Controller
 
         private void Awake()
         {
-            _player = GameObject.FindGameObjectWithTag("BattleScenes/Player");
+            _player = GameObject.FindGameObjectWithTag(View.TagManager.TagNames.BattleScenes__Player.ToString());
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
             enemyTable = new Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>>()

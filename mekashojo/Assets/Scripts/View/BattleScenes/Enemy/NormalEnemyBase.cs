@@ -32,7 +32,7 @@ namespace View
             //ドロップアイテムの生成
             enemyDamageManager.materialNumbers.CollectionChanged += (sender, e) =>
             {
-                OnMaterialNumbersChanged(enemyDamageManager);
+                ProduceDropItem(enemyDamageManager);
             };
 
             // 消滅の監視
@@ -46,7 +46,7 @@ namespace View
         /// materialNumbersに変更が加わった時の処理
         /// ドロップアイテムを落とす
         /// </summary>
-        private void OnMaterialNumbersChanged(Model.EnemyDamageManager enemyDamageManager)
+        private void ProduceDropItem(Model.EnemyDamageManager enemyDamageManager)
         {
             foreach (Model.DropMaterialManager.materialType type in System.Enum.GetValues(typeof(Model.DropMaterialManager.materialType)))
             {

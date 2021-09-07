@@ -47,7 +47,7 @@ namespace View
 
             playOnEnter += (collision) =>
             {
-                if (collision.tag == "BattleScenes/Player")
+                if (collision.tag == TagManager.TagNames.BattleScenes__Player.ToString())
                 {
                     dropMaterialManager.PickedUp();
                 }

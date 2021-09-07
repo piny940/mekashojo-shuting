@@ -976,9 +976,10 @@ GameObject:
   - component: {fileID: 409409998}
   - component: {fileID: 409409997}
   - component: {fileID: 409409994}
+  - component: {fileID: 409409996}
   m_Layer: 0
   m_Name: Player
-  m_TagString: BattleScenes/Player
+  m_TagString: BattleScenes__Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1021,6 +1022,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &409409996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409409993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d48fe4903a4479e8933c28108f0418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!70 &409409997
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
