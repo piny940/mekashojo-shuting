@@ -4,16 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy__BattleScene
-  - PauseController__BattleScene
-  - StartCount__BattleScene
-  - GetInput__BattleScene
-  - Player__BattleScene
-  - EnemyController__BattleScene
-  - PlayerFire__BattleScene
-  - EnemyFire__BattleScene
-  - CommonForBattleScenes__BattleScene
-  - AcquiredEnhancementMaterialData__BattleScene
+  - BattleScenes__Player
+  - BattleScenes__Enemy
   layers:
   - Default
   - TransparentFX
