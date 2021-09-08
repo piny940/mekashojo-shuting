@@ -43,7 +43,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position)
         {
             StopOnPausing();
-            DestroyLater(position);
+            DestroyIfOutside(position);
             ProceedEmergingMotion();
         }
 

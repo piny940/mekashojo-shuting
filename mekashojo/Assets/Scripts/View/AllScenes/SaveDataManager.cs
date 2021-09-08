@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace View
 {
+    [System.Serializable]
     public class SavedData
     {
         //選択中の装備のデータ

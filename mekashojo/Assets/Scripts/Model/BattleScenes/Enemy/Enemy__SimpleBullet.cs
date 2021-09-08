@@ -39,7 +39,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
             AttackProcess(position, playerPosition);
-            DestroyLater(position);
+            DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }

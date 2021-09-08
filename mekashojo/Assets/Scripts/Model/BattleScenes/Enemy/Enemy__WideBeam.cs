@@ -21,7 +21,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position)
         {
             AttackProcess();
-            DestroyLater(position);
+            DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }

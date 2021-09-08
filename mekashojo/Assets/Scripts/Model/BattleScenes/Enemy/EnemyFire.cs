@@ -23,7 +23,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
             StopOnPausing();
-            DestroyLater(position);
+            DestroyIfOutside(position);
 
             if (_normalEnemyData.type == Controller.NormalEnemyData.normalEnemyType.GuidedBullet)
             {
