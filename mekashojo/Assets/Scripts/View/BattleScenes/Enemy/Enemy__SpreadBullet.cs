@@ -39,7 +39,7 @@ namespace View
             enemy__SpreadBullet.OnFiringBulletInfoChanged.AddListener((firingBulletInfo__Collection) =>
             {
                 Model.DamageFactorManager.FiringBulletInfo info
-                     = Model.FiringInfoConverter.MakeStruct(firingBulletInfo__Collection);
+                    = Model.FiringInfoConverter.MakeStruct(firingBulletInfo__Collection);
 
                 Fire(info.bulletVelocity, info.firePath);
             });

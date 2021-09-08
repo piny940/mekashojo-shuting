@@ -8,7 +8,7 @@ namespace View
         private int _id;
         private PolygonCollider2D _polygonCollier2D;
         private SpriteRenderer _spriteRenderer;
-        [SerializeField, Header("EmemyFire__WideBeamを入れる")] private GameObject _enemyFire__WideBeam;
+        [SerializeField, Header("EnemyFire__WideBeamを入れる")] private GameObject _enemyFire__WideBeam;
 
         private void Awake()
         {
