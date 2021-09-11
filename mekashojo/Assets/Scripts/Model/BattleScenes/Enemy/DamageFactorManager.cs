@@ -44,13 +44,15 @@ namespace Model
 
         private readonly PlayerStatusManager _playerStatusManager;
         private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
-        private ObservableCollection<object> _firingBulletInfo;
         protected EnemyManager enemyManager;
         protected override movingObjectType objectType { get; set; }
         protected abstract DamageFactorData.damageFactorType factorType { get; set; }
 
+        // ステージボスは一口に「弾を発射する」と言ってもミサイルとか誘導弾とかいろんな種類の
+        // 弾を発射する。その実装を書くために、弾を発射するメソッドを抽象メソッドで用意しておく
+        protected abstract void FireBullet(ObservableCollection<object> firingBulletInfo);
+
         public UnityEvent<beamFiringProcesses> OnBeamStatusChanged = new UnityEvent<beamFiringProcesses>();
-        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged = new UnityEvent<ObservableCollection<object>>();
 
         public beamFiringProcesses beamStatus
         {
@@ -59,16 +61,6 @@ namespace Model
             {
                 _beamStatus = value;
                 OnBeamStatusChanged?.Invoke(_beamStatus);
-            }
-        }
-
-        public ObservableCollection<object> firingBulletInfo
-        {
-            get { return _firingBulletInfo; }
-            set
-            {
-                _firingBulletInfo = value;
-                OnFiringBulletInfoChanged?.Invoke(value);
             }
         }
 
@@ -90,7 +82,7 @@ namespace Model
         // 弾を(しばしば複数)発射する処理をするときに必要な情報
         public struct BulletProcessInfo
         {
-            public float shortInterval_Frame;
+            public int shortInterval_Frame;
             public List<Vector3> bulletVelocities;
             public string firePath;
             public int firingAmount;
@@ -124,8 +116,10 @@ namespace Model
 
                 foreach (Vector3 bulletVelocity in bulletProcessInfo.bulletVelocities)
                 {
-                    firingBulletInfo
+                    ObservableCollection<object> info
                         = FiringInfoConverter.MakeCollection(bulletVelocity, "Enemy/EnemyFire__" + bulletProcessInfo.firePath);
+
+                    FireBullet(info);
                 }
 
                 _firingCount++;

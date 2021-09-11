@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Model
@@ -9,6 +10,7 @@ namespace Model
         private bool _isAttacking = false;
         private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
+        protected override void FireBullet(ObservableCollection<object> firingBulletInfo) { }
 
         public Enemy__WideBeam(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -20,13 +22,13 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position)
         {
-            AttackProcess();
+            ProceedAttack();
             DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
-        private void AttackProcess()
+        private void ProceedAttack()
         {
             if (!pauseManager.isGameGoing) return;
 

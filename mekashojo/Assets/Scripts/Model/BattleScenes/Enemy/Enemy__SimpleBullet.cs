@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -12,9 +14,23 @@ namespace Model
         private float _time;
         private bool _isAttacking = false;
         private int _attackingFrameCount = 0;
-        private Vector3 _newPlayerPosition;
         private BulletProcessInfo _bulletProcessInfo;
+        private ObservableCollection<object> _firingBulletInfo;
+
         protected override DamageFactorData.damageFactorType factorType { get; set; }
+
+        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged
+            = new UnityEvent<ObservableCollection<object>>();
+
+        public ObservableCollection<object> firingBulletInfo
+        {
+            get { return _firingBulletInfo; }
+            set
+            {
+                _firingBulletInfo = value;
+                OnFiringBulletInfoChanged?.Invoke(value);
+            }
+        }
 
         public Enemy__SimpleBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -38,14 +54,14 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
-            AttackProcess(position, playerPosition);
+            ProceedAttack(position, playerPosition);
             DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
         //一定間隔で攻撃をする処理
-        private void AttackProcess(Vector3 position, Vector3 playerPosition)
+        private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
             if (!pauseManager.isGameGoing) return;
 
@@ -62,11 +78,11 @@ namespace Model
             if (_time > _normalEnemyData.firingInterval && !_isAttacking)
             {
                 _isAttacking = true;
-                _newPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
+                Vector3 newPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
 
                 _bulletProcessInfo.bulletVelocities
                     = new List<Vector3>()
-                    { (_newPlayerPosition - position) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(_newPlayerPosition - position) };
+                    { (newPlayerPosition - position) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(newPlayerPosition - position) };
 
                 _time = 0;
             }
@@ -88,6 +104,11 @@ namespace Model
                 _isAttacking = false;
                 ResetAttacking();
             }
+        }
+
+        protected override void FireBullet(ObservableCollection<object> firingBulletInfo)
+        {
+            this.firingBulletInfo = firingBulletInfo;
         }
     }
 }

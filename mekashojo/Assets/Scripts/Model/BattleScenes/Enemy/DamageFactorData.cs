@@ -13,8 +13,9 @@ namespace Model
 
         public enum damageFactorType
         {
-            FiringNormalEnemy, //自爆型以外の雑魚敵
-            NormalEnemy__SelfDestruct, //自爆型の敵
+            FiringNormalEnemy, // 自爆型以外の雑魚敵
+            NormalEnemy__SelfDestruct, // 自爆型の敵
+            Boss, // ボス
         }
 
         private DamageFactorData()

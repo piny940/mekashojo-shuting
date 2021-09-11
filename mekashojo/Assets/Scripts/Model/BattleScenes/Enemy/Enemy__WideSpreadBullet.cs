@@ -1,17 +1,34 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
     public class Enemy__WideSpreadBullet : DamageFactorManager
     {
-        private const int FIRE_AMOUNT_PER_ONCE = 8;
+        private const int FIRING_AMOUNT_PER_ONCE = 8;
         private readonly Controller.NormalEnemyData _normalEnemyData;
         private int _attackingFrameCount = 0;
         private float _time;
         private bool _isAttacking = false;
         private BulletProcessInfo _bulletProcessInfo;
+        private ObservableCollection<object> _firingBulletInfo;
+
         protected override DamageFactorData.damageFactorType factorType { get; set; }
+
+        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged
+            = new UnityEvent<ObservableCollection<object>>();
+
+        public ObservableCollection<object> firingBulletInfo
+        {
+            get { return _firingBulletInfo; }
+            set
+            {
+                _firingBulletInfo = value;
+                OnFiringBulletInfoChanged?.Invoke(value);
+            }
+        }
 
         public Enemy__WideSpreadBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -27,13 +44,13 @@ namespace Model
             };
 
             //弾を発射する方向を計算
-            for (int i = 0; i < FIRE_AMOUNT_PER_ONCE; i++)
+            for (int i = 0; i < FIRING_AMOUNT_PER_ONCE; i++)
             {
                 _bulletProcessInfo.bulletVelocities.Add(
                     _normalEnemyData.bulletSpeed
                     * new Vector3(
-                        Mathf.Cos(2 * Mathf.PI * i / FIRE_AMOUNT_PER_ONCE),
-                        Mathf.Sin(2 * Mathf.PI * i / FIRE_AMOUNT_PER_ONCE),
+                        Mathf.Cos(2 * Mathf.PI * i / FIRING_AMOUNT_PER_ONCE),
+                        Mathf.Sin(2 * Mathf.PI * i / FIRING_AMOUNT_PER_ONCE),
                         0)
                     );
             }
@@ -44,14 +61,14 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position)
         {
-            AttackProcess();
+            ProceedAttack();
             DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
         //一定間隔で攻撃をする処理
-        private void AttackProcess()
+        private void ProceedAttack()
         {
             if (!pauseManager.isGameGoing) return;
 
@@ -88,6 +105,11 @@ namespace Model
                 _isAttacking = false;
                 ResetAttacking();
             }
+        }
+
+        protected override void FireBullet(ObservableCollection<object> firingBulletInfo)
+        {
+            this.firingBulletInfo = firingBulletInfo;
         }
     }
 }
