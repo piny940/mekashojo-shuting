@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Model
 {
@@ -15,22 +13,9 @@ namespace Model
         private bool _isAttacking = false;
         private int _attackingFrameCount = 0;
         private BulletProcessInfo _bulletProcessInfo;
-        private ObservableCollection<object> _firingBulletInfo;
 
         protected override DamageFactorData.damageFactorType factorType { get; set; }
-
-        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged
-            = new UnityEvent<ObservableCollection<object>>();
-
-        public ObservableCollection<object> firingBulletInfo
-        {
-            get { return _firingBulletInfo; }
-            set
-            {
-                _firingBulletInfo = value;
-                OnFiringBulletInfoChanged?.Invoke(value);
-            }
-        }
+        protected override void ChangeBeamStatus(beamFiringProcesses process) { }
 
         public Enemy__SimpleBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -104,11 +89,6 @@ namespace Model
                 _isAttacking = false;
                 ResetAttacking();
             }
-        }
-
-        protected override void FireBullet(ObservableCollection<object> firingBulletInfo)
-        {
-            this.firingBulletInfo = firingBulletInfo;
         }
     }
 }

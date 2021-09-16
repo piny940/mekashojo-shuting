@@ -1,5 +1,5 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -8,9 +8,22 @@ namespace Model
         private float _time = 0;
         private float _attackingTime = 0;
         private bool _isAttacking = false;
+        private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
         private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
-        protected override void FireBullet(ObservableCollection<object> firingBulletInfo) { }
+
+        public UnityEvent<beamFiringProcesses> OnBeamStatusChanged
+            = new UnityEvent<beamFiringProcesses>();
+
+        public beamFiringProcesses beamStatus
+        {
+            get { return _beamStatus; }
+            set
+            {
+                _beamStatus = value;
+                OnBeamStatusChanged?.Invoke(_beamStatus);
+            }
+        }
 
         public Enemy__WideBeam(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -26,6 +39,11 @@ namespace Model
             DestroyIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
+        }
+
+        protected override void ChangeBeamStatus(beamFiringProcesses status)
+        {
+            beamStatus = status;
         }
 
         private void ProceedAttack()

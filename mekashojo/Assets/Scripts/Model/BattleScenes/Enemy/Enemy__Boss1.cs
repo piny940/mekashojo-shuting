@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -39,6 +37,8 @@ namespace Model
         private const float SPREAD_BEAM_NOTIFYING_TIME = 1;
         private const float SPREAD_BEAM_TIME = 5;
 
+        public readonly int maxHP = 2000;
+
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
@@ -55,50 +55,53 @@ namespace Model
         private float _time = 0;
         private float _attackingFrameCount = 0;
 
+        // 各ビームの状態
+        private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
+        private beamFiringProcesses _wideBeamStatus = beamFiringProcesses.HasStoppedBeam;
+        private beamFiringProcesses _spreadBeamStatus = beamFiringProcesses.HasStoppedBeam;
+
         private BulletProcessInfo _missileProcessInfo;
         private BulletProcessInfo _spreadBulletProcessInfo;
         private BulletProcessInfo _guidedBulletProcessInfo;
 
-        private ObservableCollection<object> _firingMissileInfo;
-        private ObservableCollection<object> _firingNormalBulletInfo;
-        private ObservableCollection<object> _firingGuidedBulletInfo;
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public UnityEvent<ObservableCollection<object>> OnFiringMissileInfoChanged
-            = new UnityEvent<ObservableCollection<object>>();
+        public UnityEvent<beamFiringProcesses> OnBeamStatusChanged
+            = new UnityEvent<beamFiringProcesses>();
 
-        public UnityEvent<ObservableCollection<object>> OnFiringNormalBulletInfoChanged
-            = new UnityEvent<ObservableCollection<object>>();
+        public UnityEvent<beamFiringProcesses> OnWideBeamStatusChanged
+            = new UnityEvent<beamFiringProcesses>();
 
-        public UnityEvent<ObservableCollection<object>> OnFiringGuidedBulletInfoChanged
-            = new UnityEvent<ObservableCollection<object>>();
+        public UnityEvent<beamFiringProcesses> OnSpreadBeamStatusChanged
+            = new UnityEvent<beamFiringProcesses>();
 
-        public ObservableCollection<object> firingMissileInfo
+        public beamFiringProcesses beamStatus
         {
-            get { return _firingMissileInfo; }
+            get { return _beamStatus; }
             set
             {
-                _firingMissileInfo = value;
-                OnFiringMissileInfoChanged?.Invoke(value);
+                _beamStatus = value;
+                OnBeamStatusChanged?.Invoke(value);
             }
         }
 
-        public ObservableCollection<object> firingNormalBulletInfo
+        public beamFiringProcesses wideBeamStatus
         {
-            get { return _firingNormalBulletInfo; }
+            get { return _wideBeamStatus; }
             set
             {
-                _firingNormalBulletInfo = value;
-                OnFiringNormalBulletInfoChanged?.Invoke(value);
+                _wideBeamStatus = value;
+                OnWideBeamStatusChanged?.Invoke(value);
             }
         }
 
-        public ObservableCollection<object> firingGuidedBulletInfo
+        public beamFiringProcesses spreadBeamStatus
         {
-            get { return _firingGuidedBulletInfo; }
+            get { return _spreadBeamStatus; }
             set
             {
-                _firingGuidedBulletInfo = value;
-                OnFiringGuidedBulletInfoChanged?.Invoke(value);
+                _spreadBeamStatus = value;
+                OnSpreadBeamStatusChanged?.Invoke(value);
             }
         }
 
@@ -113,8 +116,6 @@ namespace Model
             GuidedBullet,
             SpreadBeam,
         }
-
-        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
         public Enemy__Boss1(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
                 : base(pauseManager, enemyManager, playerStatusManager)
@@ -179,20 +180,25 @@ namespace Model
             ProceedAttack(position, playerPosition);
         }
 
-        protected override void FireBullet(ObservableCollection<object> firingBulletInfo)
+        // ビームの状態を変える処理
+        // 呼び出すタイミングは親クラスに管理されている
+        protected override void ChangeBeamStatus(beamFiringProcesses status)
         {
             switch (_proceedingAttackTypeName)
             {
-                case attackType.Missile:
-                    firingMissileInfo = firingBulletInfo;
+                case attackType.Beam:
+                    beamStatus = status;
                     break;
 
-                case attackType.SpreadBullet:
-                    firingNormalBulletInfo = firingBulletInfo;
+                case attackType.WideBeam:
+                    wideBeamStatus = status;
                     break;
 
-                case attackType.GuidedBullet:
-                    firingGuidedBulletInfo = firingBulletInfo;
+                case attackType.SpreadBeam:
+                    spreadBeamStatus = status;
+                    break;
+
+                default:
                     break;
             }
         }

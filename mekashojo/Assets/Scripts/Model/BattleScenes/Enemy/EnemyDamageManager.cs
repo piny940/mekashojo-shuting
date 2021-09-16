@@ -48,10 +48,10 @@ namespace Model
             }
         }
 
-        public EnemyDamageManager(EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+        public EnemyDamageManager(EnemyManager enemyManager, float hp)
         {
             _enemyManager = enemyManager;
-            hp = normalEnemyData.hp;
+            this.hp = hp;
         }
 
         /// <summary>

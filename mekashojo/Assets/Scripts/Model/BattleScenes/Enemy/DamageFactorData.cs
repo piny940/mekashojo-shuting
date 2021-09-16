@@ -24,6 +24,7 @@ namespace Model
             {
                 { damageFactorType.FiringNormalEnemy, 10 },
                 { damageFactorType.NormalEnemy__SelfDestruct, 80 },
+                { damageFactorType.Boss, 200 },
             };
 
             collisionDamage = new ReadOnlyDictionary<damageFactorType, float>(_collisionDamage);

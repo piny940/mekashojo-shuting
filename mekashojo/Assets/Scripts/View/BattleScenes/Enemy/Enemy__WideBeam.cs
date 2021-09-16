@@ -56,10 +56,10 @@ namespace View
             };
 
             // ビームの状態変化の監視
-            enemy__WideBeam.OnBeamStatusChanged.AddListener(OnBeamStatusChanged);
+            enemy__WideBeam.OnBeamStatusChanged.AddListener(ChangeBeamStatus);
         }
 
-        private void OnBeamStatusChanged(Model.DamageFactorManager.beamFiringProcesses beamStatus)
+        private void ChangeBeamStatus(Model.DamageFactorManager.beamFiringProcesses beamStatus)
         {
             if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring)
             {

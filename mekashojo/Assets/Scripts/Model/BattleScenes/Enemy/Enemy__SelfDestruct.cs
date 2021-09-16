@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Model
@@ -7,7 +6,7 @@ namespace Model
     {
         private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
-        protected override void FireBullet(ObservableCollection<object> firingBulletInfo) { }
+        protected override void ChangeBeamStatus(beamFiringProcesses process) { }
 
         public Enemy__SelfDestruct(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
                 : base(pauseManager, enemyManager, playerStatusManager)

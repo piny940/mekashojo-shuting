@@ -14,6 +14,13 @@ namespace Controller
         public GameObject enemyObject;
     }
 
+    public struct BossElements
+    {
+        public Model.Enemy__Boss1 enemy__Boss1;
+
+        public GameObject bossObject;
+    }
+
     public struct EnemyFireElements
     {
         public Model.EnemyFire enemyFire;
@@ -22,9 +29,12 @@ namespace Controller
 
     public class EnemyController : MonoBehaviour
     {
+        [SerializeField, Header("ステージ名を選ぶ")] private Model.ProgressData.stageName _stageName;
         public static Dictionary<int, Model.EnemyDamageManager> damageManagerTable;
         public static Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>> enemyTable;
         public static Dictionary<int, EnemyFireElements> fireTable__Bullet;
+        public static Dictionary<Model.ProgressData.stageName, BossElements> bossTable;
+        public static Dictionary<Model.ProgressData.stageName, Model.EnemyDamageManager> bossDamageManagerTable;
 
         private GameObject _player;
 
@@ -35,6 +45,7 @@ namespace Controller
             WideSpreadBullet,
             WideBeam,
             SelfDestruct,
+            Boss1,
         }
 
         private void Awake()
@@ -42,6 +53,7 @@ namespace Controller
             _player = GameObject.FindGameObjectWithTag(View.TagManager.TagNames.BattleScenes__Player.ToString());
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
+
             enemyTable = new Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>>()
             {
                 { enemyType__Rough.SimpleBullet, new Dictionary<int, EnemyElements>() },
@@ -49,8 +61,14 @@ namespace Controller
                 { enemyType__Rough.WideSpreadBullet, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.WideBeam, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.SelfDestruct, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss1, new Dictionary<int, EnemyElements>() },
             };
+
             fireTable__Bullet = new Dictionary<int, EnemyFireElements>();
+
+            bossTable = new Dictionary<Model.ProgressData.stageName, BossElements>();
+
+            bossDamageManagerTable = new Dictionary<Model.ProgressData.stageName, Model.EnemyDamageManager>();
         }
 
         // Update is called once per frame
@@ -128,6 +146,21 @@ namespace Controller
                     _player.transform.position
                     );
             }
+
+            // ステージボスの処理
+            BossElements bossElements = bossTable[_stageName];
+            switch (_stageName)
+            {
+                case Model.ProgressData.stageName.stage1:
+                    bossElements.enemy__Boss1.RunEveryFrame(
+                        bossElements.bossObject.transform.position,
+                        _player.transform.position
+                        );
+                    break;
+            }
+
+            // ステージボスのダメージ処理
+            bossDamageManagerTable[_stageName].RunEveryFrame();
         }
 
         /// <summary>
@@ -139,7 +172,7 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
 
             Model.Enemy__SimpleBullet enemy__SimpleBullet
                 = new Model.Enemy__SimpleBullet(
@@ -172,7 +205,7 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
 
             Model.Enemy__SpreadBullet enemy__SpreadBullet
                 = new Model.Enemy__SpreadBullet(
@@ -205,7 +238,7 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
 
             Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet
                 = new Model.Enemy__WideSpreadBullet(
@@ -238,7 +271,7 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
 
             Model.Enemy__WideBeam enemy__WideBeam
                 = new Model.Enemy__WideBeam(
@@ -271,7 +304,7 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
 
             Model.Enemy__SelfDestruct enemy__SelfDestruct
                 = new Model.Enemy__SelfDestruct(
@@ -293,6 +326,33 @@ namespace Controller
             damageManagerTable.Add(id, enemyDamageManager);
 
             return id;
+        }
+
+        /// <summary>
+        /// View.Enemy__Stage1のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss1(GameObject bossObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss1 enemy__Boss1
+                = new Model.Enemy__Boss1(
+                    BattleScenesController.pauseManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager damageManager
+                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, enemy__Boss1.maxHP);
+
+            BossElements bossElements = new BossElements()
+            {
+                bossObject = bossObject,
+                enemy__Boss1 = enemy__Boss1,
+            };
+
+            bossTable.Add(Model.ProgressData.stageName.stage1, bossElements);
+            bossDamageManagerTable.Add(Model.ProgressData.stageName.stage1, damageManager);
         }
 
         /// <summary>

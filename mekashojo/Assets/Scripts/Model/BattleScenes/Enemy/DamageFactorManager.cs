@@ -41,26 +41,37 @@ namespace Model
         private int _frameCount = 0;
         private int _firingCount = 0;
         private float _firingTime = 0;
+        private beamFiringProcesses __beamStatus;
+        private beamFiringProcesses _beamStatus
+        {
+            get { return __beamStatus; }
+            set
+            {
+                __beamStatus = value;
+                ChangeBeamStatus(value);
+            }
+        }
 
         private readonly PlayerStatusManager _playerStatusManager;
-        private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
+        private ObservableCollection<object> _firingBulletInfo;
         protected EnemyManager enemyManager;
         protected override movingObjectType objectType { get; set; }
         protected abstract DamageFactorData.damageFactorType factorType { get; set; }
 
-        // ステージボスは一口に「弾を発射する」と言ってもミサイルとか誘導弾とかいろんな種類の
-        // 弾を発射する。その実装を書くために、弾を発射するメソッドを抽象メソッドで用意しておく
-        protected abstract void FireBullet(ObservableCollection<object> firingBulletInfo);
+        // ステージボスでは広範囲ビームと拡散ビームの2通りがあって、その切り替え処理を行わないと
+        // いけないため、実装は子クラスで行う
+        protected abstract void ChangeBeamStatus(beamFiringProcesses process);
 
-        public UnityEvent<beamFiringProcesses> OnBeamStatusChanged = new UnityEvent<beamFiringProcesses>();
+        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged
+            = new UnityEvent<ObservableCollection<object>>();
 
-        public beamFiringProcesses beamStatus
+        public ObservableCollection<object> firingBulletInfo
         {
-            get { return _beamStatus; }
+            get { return _firingBulletInfo; }
             set
             {
-                _beamStatus = value;
-                OnBeamStatusChanged?.Invoke(_beamStatus);
+                _firingBulletInfo = value;
+                OnFiringBulletInfoChanged?.Invoke(value);
             }
         }
 
@@ -116,10 +127,11 @@ namespace Model
 
                 foreach (Vector3 bulletVelocity in bulletProcessInfo.bulletVelocities)
                 {
-                    ObservableCollection<object> info
-                        = FiringInfoConverter.MakeCollection(bulletVelocity, "Enemy/EnemyFire__" + bulletProcessInfo.firePath);
-
-                    FireBullet(info);
+                    firingBulletInfo
+                        = FiringInfoConverter.MakeCollection(
+                            bulletVelocity,
+                            "Enemy/EnemyFire__" + bulletProcessInfo.firePath
+                            );
                 }
 
                 _firingCount++;
@@ -138,21 +150,21 @@ namespace Model
             _firingTime += Time.deltaTime;
 
             //攻撃の予告
-            if (_firingTime <= beamNotifyingTime && beamStatus != beamFiringProcesses.IsNotifyingBeamFiring)
+            if (_firingTime <= beamNotifyingTime && _beamStatus != beamFiringProcesses.IsNotifyingBeamFiring)
             {
-                beamStatus = beamFiringProcesses.IsNotifyingBeamFiring;
+                _beamStatus = beamFiringProcesses.IsNotifyingBeamFiring;
             }
 
             //攻撃時
-            if (_firingTime > beamNotifyingTime && _firingTime <= beamNotifyingTime + beamTime && beamStatus != beamFiringProcesses.IsFiringBeam)
+            if (_firingTime > beamNotifyingTime && _firingTime <= beamNotifyingTime + beamTime && _beamStatus != beamFiringProcesses.IsFiringBeam)
             {
-                beamStatus = beamFiringProcesses.IsFiringBeam;
+                _beamStatus = beamFiringProcesses.IsFiringBeam;
             }
 
             //攻撃終了時
             if (_firingTime > beamNotifyingTime + beamTime)
             {
-                beamStatus = beamFiringProcesses.HasStoppedBeam;
+                _beamStatus = beamFiringProcesses.HasStoppedBeam;
 
                 _firingTime = 0;
 
@@ -174,7 +186,7 @@ namespace Model
 
             // ビームの方の処理
             _firingTime = 0;
-            beamStatus = beamFiringProcesses.HasStoppedBeam;
+            _beamStatus = beamFiringProcesses.HasStoppedBeam;
         }
 
         /// <summary>
