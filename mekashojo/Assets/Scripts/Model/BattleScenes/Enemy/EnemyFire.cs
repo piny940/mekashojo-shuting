@@ -4,55 +4,74 @@ namespace Model
 {
     public class EnemyFire : MovingObjectBase
     {
-        private const float STOP_CHASING_DISTANCE = 3;
+        private const float STOP_CHASING_DISTANCE = 10;
+        private const float CHASING_RATE = 0.001f;
+        private const float BARRAGE_TIME = 0.2f;
         private bool _hasApproached = false;
-        private Controller.NormalEnemyData _normalEnemyData;
+        private FireInfo _fireInfo;
         private PlayerPositionManager _playerPositionManager;
         private PlayerStatusManager _playerStatusManager;
 
         protected override movingObjectType objectType { get; set; }
 
-        public EnemyFire(Controller.NormalEnemyData normalEnemyData, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager) : base(enemyManager, pauseManager)
+        public enum fireType
         {
-            _normalEnemyData = normalEnemyData;
+            NormalBullet,
+            StunBullet,
+            GuidedBullet,
+            Beam,
+            Barrage, // 弾幕
+        }
+
+        public struct FireInfo
+        {
+            public fireType type;
+            public float damageAmount;
+            public float bulletSpeed;
+        }
+
+        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager) : base(enemyManager, pauseManager)
+        {
+            _fireInfo = fireInfo;
             _playerPositionManager = playerPositionManager;
             _playerStatusManager = playerStatusManager;
             objectType = movingObjectType.EnemyFire;
+            disappearTime = BARRAGE_TIME;
         }
 
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
             StopOnPausing();
-            DestroyIfOutside(position);
+            DisappearIfOutside(position);
 
-            if (_normalEnemyData.type == Controller.NormalEnemyData.normalEnemyType.GuidedBullet)
-            {
+            if (_fireInfo.type == fireType.GuidedBullet)
                 ChasePlayer(position, playerPosition);
-            }
+
+            if (_fireInfo.type == fireType.Barrage)
+                DisappearLater();
         }
 
         public void Attack()
         {
-            _playerStatusManager.GetDamage(_normalEnemyData.damageAmount);
+            _playerStatusManager.GetDamage(_fireInfo.damageAmount);
 
-            switch (_normalEnemyData.type)
+            switch (_fireInfo.type)
             {
                 //スタン型の場合は
-                case Controller.NormalEnemyData.normalEnemyType.StunBullet:
+                case fireType.StunBullet:
                     //スタンさせる
                     _playerPositionManager.isStunning = true;
                     isBeingDestroyed = true;
                     break;
 
-                //全方位ビームの場合は何もしない
-                case Controller.NormalEnemyData.normalEnemyType.WideBeam:
+                //ビームの場合は何もしない
+                case fireType.Beam:
                     break;
 
                 //それ以外ならプレイヤーに当たったら消滅する
                 default:
                     isBeingDestroyed = true;
                     break;
-
             }
         }
 
@@ -65,11 +84,14 @@ namespace Model
 
             float distance = Vector3.Magnitude(adjustedPlayerPosition - position);
 
+            Vector3 direction = (adjustedPlayerPosition - position) / distance * CHASING_RATE + velocity;
+
             if (!_hasApproached)
             {
-                velocity = (adjustedPlayerPosition - position) * _normalEnemyData.bulletSpeed / distance;
+                velocity = direction * _fireInfo.bulletSpeed / Vector3.Magnitude(direction);
             }
 
+            // 一定距離まで近づいたら追跡をやめる
             if (distance < STOP_CHASING_DISTANCE)
             {
                 _hasApproached = true;

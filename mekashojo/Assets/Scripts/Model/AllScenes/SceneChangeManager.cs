@@ -51,5 +51,17 @@ namespace View
         {
             ChangeScene(_previousSceneName);
         }
+
+        public static SceneNames ReturnSceneEnum(string sceneName)
+        {
+            foreach (SceneNames scene in System.Enum.GetValues(typeof(SceneNames)))
+            {
+                if (scene.ToString() == sceneName)
+                    return scene;
+            }
+
+            // ここまできた場合は引数の名前がタイポ
+            throw new System.Exception();
+        }
     }
 }

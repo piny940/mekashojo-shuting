@@ -26,6 +26,7 @@ namespace View
                 }
 
                 //セーブデータがあった場合
+                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.MenuScene);
                 SEPlayer.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
             }

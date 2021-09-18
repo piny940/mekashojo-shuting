@@ -12,6 +12,7 @@ namespace View
                 if (isDying)
                 {
                     // ここは後々死んだ時の演出を追加していくと思われる
+                    BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageFailedScene);
                     SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageFailedScene);
                 }
             });

@@ -142,8 +142,6 @@ namespace Model
 
         /// <summary>
         /// ビームを発射する敵はこのメソッドを呼ぶ
-        /// 攻撃中かどうかを戻り値で返すようにしたんやけど、
-        /// このメソッド、使い方が特殊すぎて属人性が高そう。改善案求む。
         /// </summary>
         protected bool ProceedBeamFiring(float beamNotifyingTime, float beamTime)
         {
@@ -172,21 +170,6 @@ namespace Model
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// 弾の発射処理およびビームの発射処理に使っている情報を初期化する
-        /// 子クラスで攻撃処理を強制終了する時に呼ぶ
-        /// </summary>
-        protected void ResetAttacking()
-        {
-            // 弾の方の処理
-            _frameCount = 0;
-            _firingCount = 0;
-
-            // ビームの方の処理
-            _firingTime = 0;
-            _beamStatus = beamFiringProcesses.HasStoppedBeam;
         }
 
         /// <summary>

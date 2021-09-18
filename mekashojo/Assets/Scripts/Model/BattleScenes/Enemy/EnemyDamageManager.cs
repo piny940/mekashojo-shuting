@@ -27,13 +27,15 @@ namespace Model
 
         private bool _isDying = false;
 
-        public float hp { get; private set; }
+        private float _hp;
+
         public readonly int noBombDamageFrames = 3;
 
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
         public int frameCounterForPlayerBomb { get; private set; }
 
         public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
+        public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
 
         public ObservableCollection<int> materialNumbers
             = new ObservableCollection<int>(new int[10]);
@@ -45,6 +47,16 @@ namespace Model
             {
                 _isDying = value;
                 OnIsDyingChanged?.Invoke(_isDying);
+            }
+        }
+
+        public float hp
+        {
+            get { return _hp; }
+            set
+            {
+                _hp = value;
+                OnHPChanged?.Invoke(value);
             }
         }
 

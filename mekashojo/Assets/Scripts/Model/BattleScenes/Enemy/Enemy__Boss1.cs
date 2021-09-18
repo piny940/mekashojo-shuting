@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,13 +16,11 @@ namespace Model
         // ミサイル用の定数
         private const int MISSILE_SHORT_INTERVAL = 0; // 一発しか撃たないから0でいい
         private const int MISSILE_FIRING_AMOUNT = 1;
-        private const float MISSILE_SPEED = 5;
 
         // 拡散弾用の定数
-        private const int SPREAD_BULLET_SHORT_INTERVAL = 20;
-        private const int SPREAD_BULLET_FIRING_AMOUNT = 15; // 攻撃が仕様書通り5秒間続くよう調整
+        private const int SPREAD_BULLET_SHORT_INTERVAL = 5;
+        private const int SPREAD_BULLET_FIRING_AMOUNT = 60; // 攻撃が仕様書通り5秒間続くよう調整
         private const int SPREAD_BULLET_FIRING_AMOUNT_PER_ONCE = 15;
-        private const float SPREAD_BULLET_SPREAD = 12;
 
         // 広範囲ビーム用の定数
         private const float WIDE_BEAM_NOTIFYING_TIME = 1;
@@ -30,14 +29,13 @@ namespace Model
         // 誘導弾用の定数
         private const int GUIDED_BULLET_SHORT_INTERVAL = 20;
         private const int GUIDED_BULLET_FIRING_AMOUNT = 45; // 攻撃が仕様書通り15秒間続くよう調整
-        private const int GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE = 10;
-        private const float GUIDED_BULLET_SPREAD = 3;
+        // TODO:GuidedBulletの挙動を調整しないとうまく動作しないため、
+        // それまで仮に1としておく。↓仕様書通りにするなら10にすべきところ
+        private const int GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE = 1;
 
         // 拡散ビーム用の定数
         private const float SPREAD_BEAM_NOTIFYING_TIME = 1;
         private const float SPREAD_BEAM_TIME = 5;
-
-        public readonly int maxHP = 2000;
 
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
@@ -52,6 +50,8 @@ namespace Model
             };
 
         private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
+        private Dictionary<attackType, float> _damageAmounts { get; set; }
+        private Dictionary<attackType, float> _bulletSpeeds { get; set; }
         private float _time = 0;
         private float _attackingFrameCount = 0;
 
@@ -65,6 +65,10 @@ namespace Model
         private BulletProcessInfo _guidedBulletProcessInfo;
 
         protected override DamageFactorData.damageFactorType factorType { get; set; }
+
+        public static float maxHP = 2000;
+        public static IReadOnlyDictionary<attackType, float> damageAmounts { get; private set; }
+        public static IReadOnlyDictionary<attackType, float> bulletSpeeds { get; private set; }
 
         public UnityEvent<beamFiringProcesses> OnBeamStatusChanged
             = new UnityEvent<beamFiringProcesses>();
@@ -106,7 +110,7 @@ namespace Model
         }
 
         // ステージ1のボスがする攻撃の種類
-        private enum attackType
+        public enum attackType
         {
             _none,
             Beam,
@@ -120,6 +124,27 @@ namespace Model
         public Enemy__Boss1(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
                 : base(pauseManager, enemyManager, playerStatusManager)
         {
+            _damageAmounts = new Dictionary<attackType, float>()
+            {
+                { attackType.Beam, 40 },
+                { attackType.Missile, 60 },
+                { attackType.SpreadBullet, 20 },
+                { attackType.WideBeam, 80 },
+                { attackType.GuidedBullet, 60 },
+                { attackType.SpreadBeam, 80 },
+            };
+
+            damageAmounts = new ReadOnlyDictionary<attackType, float>(_damageAmounts);
+
+            _bulletSpeeds = new Dictionary<attackType, float>()
+            {
+                { attackType.GuidedBullet, 10 },
+                { attackType.Missile, 6 },
+                { attackType.SpreadBullet, 10 },
+            };
+
+            bulletSpeeds = new ReadOnlyDictionary<attackType, float>(_bulletSpeeds);
+
             factorType = DamageFactorData.damageFactorType.Boss;
 
             // ミサイル発射の設定
@@ -144,7 +169,7 @@ namespace Model
             {
                 //弾を発射する方向を計算
                 _spreadBulletProcessInfo.bulletVelocities.Add(
-                    SPREAD_BULLET_SPREAD
+                    bulletSpeeds[attackType.SpreadBullet]
                     * new Vector3(
                         Mathf.Cos(Mathf.PI / 2 + Mathf.PI * i / SPREAD_BULLET_FIRING_AMOUNT_PER_ONCE),
                         Mathf.Sin(Mathf.PI / 2 + Mathf.PI * i / SPREAD_BULLET_FIRING_AMOUNT_PER_ONCE),
@@ -165,7 +190,7 @@ namespace Model
             {
                 //弾を発射する方向を計算
                 _guidedBulletProcessInfo.bulletVelocities.Add(
-                    GUIDED_BULLET_SPREAD
+                    bulletSpeeds[attackType.GuidedBullet]
                     * new Vector3(
                         Mathf.Cos(Mathf.PI / 2 + Mathf.PI * i / GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE),
                         Mathf.Sin(Mathf.PI / 2 + Mathf.PI * i / GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE),
@@ -205,8 +230,6 @@ namespace Model
 
         private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
-            _time += Time.deltaTime;
-
             // 攻撃をやめる処理
             if (_proceedingAttackTypeName == attackType._none && _attackingFrameCount > 0)
             {
@@ -227,8 +250,14 @@ namespace Model
                 }
             }
 
-            // 攻撃中でない場合はここで終了
-            if (_proceedingAttackTypeName == attackType._none) return;
+            // 攻撃中でない場合は時間をカウントする
+            if (_proceedingAttackTypeName == attackType._none)
+            {
+                _time += Time.deltaTime;
+                return;
+            }
+
+            // =======以下攻撃中の処理=======
 
             _attackingFrameCount++;
 
@@ -266,17 +295,6 @@ namespace Model
         {
             bool isAttacking = ProceedBeamFiring(beamNotifyingTime, beamTime);
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
-
-            // ProceedBeamFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
-            // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
-            // 強制的に攻撃を終了するプログラムを書いておく(以下同)
-            if (_attackingFrameCount * Time.deltaTime > beamNotifyingTime
-                                    + beamTime
-                                    + EXTRA_FRAME_AMOUNT)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                ResetAttacking();
-            }
         }
 
         // ビーム攻撃の処理
@@ -293,7 +311,7 @@ namespace Model
             // 発射方向をプレイヤがいる向きに設定
             _missileProcessInfo.bulletVelocities
                 = new List<Vector3>()
-                { (newPlayerPosition - position) * MISSILE_SPEED / Vector3.Magnitude(newPlayerPosition - position) };
+                { (newPlayerPosition - position) * bulletSpeeds[attackType.Missile] / Vector3.Magnitude(newPlayerPosition - position) };
 
             _attackingFrameCount++;
         }
@@ -310,14 +328,6 @@ namespace Model
                 _proceedingAttackTypeName = attackType._none;
                 return;
             }
-
-            if (_attackingFrameCount > MISSILE_FIRING_AMOUNT
-                                            * MISSILE_SHORT_INTERVAL
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                ResetAttacking();
-            }
         }
 
         // 拡散弾の攻撃
@@ -331,14 +341,6 @@ namespace Model
             {
                 _proceedingAttackTypeName = attackType._none;
                 return;
-            }
-
-            if (_attackingFrameCount > SPREAD_BULLET_FIRING_AMOUNT
-                                            * SPREAD_BULLET_SHORT_INTERVAL
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                ResetAttacking();
             }
         }
 
@@ -359,14 +361,6 @@ namespace Model
             {
                 _proceedingAttackTypeName = attackType._none;
                 return;
-            }
-
-            if (_attackingFrameCount > GUIDED_BULLET_FIRING_AMOUNT
-                                            * GUIDED_BULLET_SHORT_INTERVAL
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                ResetAttacking();
             }
         }
 

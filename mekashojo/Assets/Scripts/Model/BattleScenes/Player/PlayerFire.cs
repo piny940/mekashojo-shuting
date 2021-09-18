@@ -30,7 +30,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position)
         {
             StopOnPausing();
-            DestroyIfOutside(position);
+            DisappearIfOutside(position);
         }
 
         public void DealDamage(EnemyDamageManager enemyDamageManager)

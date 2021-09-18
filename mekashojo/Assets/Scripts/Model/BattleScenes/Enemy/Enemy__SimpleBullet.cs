@@ -40,7 +40,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
             ProceedAttack(position, playerPosition);
-            DestroyIfOutside(position);
+            DisappearIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
@@ -77,17 +77,6 @@ namespace Model
             {
                 _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
                 _attackingFrameCount++;
-            }
-
-            // ProceedBulletFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
-            // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
-            // 強制的に攻撃を終了するプログラムを書いておく
-            if (_attackingFrameCount > _bulletProcessInfo.firingAmount
-                                            * _bulletProcessInfo.shortInterval_Frame
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _isAttacking = false;
-                ResetAttacking();
             }
         }
     }

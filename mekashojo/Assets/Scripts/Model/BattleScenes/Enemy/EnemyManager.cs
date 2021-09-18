@@ -53,11 +53,14 @@ namespace Model
         /// </summary>
         private void CreateNewEnemy(Controller.EnemyControlData enemyControlData)
         {
-            //まだ始まってなかったら抜ける
-            if (!_pauseManager.isGameGoing)
-                return;
+            // 敵の数の上限が0だったら抜ける
+            if (enemyControlData.maxEnemyAmount == 0) return;
 
-            //敵を生成するかどうかを確率で決める
+            // まだ始まってなかったら抜ける
+            if (!_pauseManager.isGameGoing) return;
+
+            // 敵を生成するかどうかを確率で決める
+            // (この部分単体だと、敵の数の上限が0の時うまく動作しない)
             if (Random.value > enemyControlData.enemyProduceProbabilityCurve.Evaluate(
                                 (float)totalEnemyAmount / (float)enemyControlData.maxEnemyAmount) * Time.deltaTime)
                 return;

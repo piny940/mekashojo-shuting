@@ -11,7 +11,7 @@ namespace Model
 
         //この3つの定数はView側でも使うからpublicにしておく
         //constにできないからhpとかの初期化がコンストラクタの中で行われてる
-        public readonly float maxHP = 300;
+        public readonly float maxHP = 3000;
         public readonly float maxMainEnergy = 1000;
         public readonly float maxSubEnergy = 1000;
 

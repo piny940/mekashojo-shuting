@@ -16,6 +16,8 @@ namespace View
         {
             if (CanPush())
             {
+                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.MenuScene);
+
                 SEPlayer.sePlayer.audioSource.PlayOneShot(_clickSound);
 
                 SaveDataManager.saveDataManager.Initialize();

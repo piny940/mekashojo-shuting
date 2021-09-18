@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace View
 {
@@ -16,9 +17,11 @@ namespace View
         [SerializeField, Header("Boss1Fire__Beamを入れる")] private GameObject _boss1Fire__Beam;
         [SerializeField, Header("Boss1Fire__WideBeamを入れる")] private GameObject _boss1Fire__WideBeam;
         [SerializeField, Header("Boss1Fire__SpreadBeamを入れる")] private GameObject _boss1Fire__SpreadBeam;
+        [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
 
         private Rigidbody2D _rigidbody2D;
         private bool _isBeingDestroyed = false;
+        private EnemyIDContainer _enemyIDContainer;
         private BeamElements _beamElements;
         private BeamElements _wideBeamElements;
         private BeamElements _spreadBeamElements;
@@ -26,6 +29,7 @@ namespace View
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _enemyIDContainer = GetComponent<EnemyIDContainer>();
 
             _boss1Fire__Beam.SetActive(false);
             _boss1Fire__WideBeam.SetActive(false);
@@ -62,10 +66,14 @@ namespace View
             Controller.EnemyController.EmergeEnemy__Boss1(this.gameObject);
 
             Model.Enemy__Boss1 enemy__Boss1
-                = Controller.EnemyController.bossTable[Model.ProgressData.stageName.stage1].enemy__Boss1;
+                = Controller.EnemyController.enemyTable
+                    [Controller.EnemyController.enemyType__Rough.Boss1]
+                    [Controller.EnemyController.bossID].enemy__Boss1;
 
             Model.EnemyDamageManager enemyDamageManager
-                = Controller.EnemyController.bossDamageManagerTable[Model.ProgressData.stageName.stage1];
+                = Controller.EnemyController.damageManagerTable[Controller.EnemyController.bossID];
+
+            _enemyIDContainer.id = Controller.EnemyController.bossID;
 
             // 速度の監視
             enemy__Boss1.OnVelocityChanged.AddListener((Vector3 velocity) =>
@@ -110,6 +118,12 @@ namespace View
             {
                 _isBeingDestroyed = isBeingDestroyed;
             });
+
+            // HPの監視
+            enemyDamageManager.OnHPChanged.AddListener((float hp) =>
+            {
+                _bossHPBarContent.fillAmount = hp / Model.Enemy__Boss1.maxHP;
+            });
         }
 
         private void Update()
@@ -121,35 +135,38 @@ namespace View
         {
             //TODO:死亡モーション
 
+            BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
             SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
         }
 
         private void ChangeBeamStatus(BeamElements elements, Model.DamageFactorManager.beamFiringProcesses beamStatus)
         {
-            if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring)
+            switch (beamStatus)
             {
-                // 攻撃の予告をする
+                case Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring:
+                    // 攻撃の予告をする
 
-                elements.beamObject.SetActive(true);
+                    elements.beamObject.SetActive(true);
 
-                //当たり判定はなくしておく
-                elements.polygonCollider2D.enabled = false;
+                    //当たり判定はなくしておく
+                    elements.polygonCollider2D.enabled = false;
 
-                //薄く表示させる
-                elements.spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
-            }
-            else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam)
-            {
-                //攻撃をする
-                //当たり判定をOnにする
-                elements.polygonCollider2D.enabled = true;
+                    //薄く表示させる
+                    elements.spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
+                    break;
 
-                //ちゃんと表示する
-                elements.spriteRenderer.color = new Color(1, 1, 1, 1);
-            }
-            else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam)
-            {
-                elements.beamObject.SetActive(false);
+                case Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam:
+                    //攻撃をする
+                    //当たり判定をOnにする
+                    elements.polygonCollider2D.enabled = true;
+
+                    //ちゃんと表示する
+                    elements.spriteRenderer.color = new Color(1, 1, 1, 1);
+                    break;
+
+                case Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam:
+                    elements.beamObject.SetActive(false);
+                    break;
             }
         }
     }

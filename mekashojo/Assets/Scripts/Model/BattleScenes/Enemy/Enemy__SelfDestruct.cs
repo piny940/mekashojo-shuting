@@ -18,7 +18,7 @@ namespace Model
         public void RunEveryFrame(Vector3 position)
         {
             StopOnPausing();
-            DestroyIfOutside(position);
+            DisappearIfOutside(position);
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
     }
