@@ -1445,6 +1445,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7228726888808547699, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 60248a396435d4b7fb38a6c348426b83, type: 3}
     - target: {fileID: 7228726888808547700, guid: 9da954520be524a979e3e40d2ab816fe, type: 3}
       propertyPath: m_RootOrder
       value: 2

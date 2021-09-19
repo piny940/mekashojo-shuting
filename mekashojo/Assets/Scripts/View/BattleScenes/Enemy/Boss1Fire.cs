@@ -86,6 +86,7 @@ namespace View
 
                 case Model.Enemy__Boss1.attackType.SpreadBullet:
                     fireInfo.type = Model.EnemyFire.fireType.Barrage;
+                    fireInfo.disappearTime = Model.Enemy__Boss1.spreadBulletDisappearTime;
                     break;
 
                 default:

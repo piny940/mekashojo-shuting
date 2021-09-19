@@ -36,6 +36,7 @@ namespace View
         {
             if (CanPush())
             {
+                BGMPlayer.bgmPlayer.ChangeBGM(selectingStageName);
                 SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName);
             }
         }

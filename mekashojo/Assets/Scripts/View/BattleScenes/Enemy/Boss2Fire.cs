@@ -74,6 +74,17 @@ namespace View
 
             fireInfo.type = Model.EnemyFire.fireType.Barrage;
 
+            switch (type)
+            {
+                case Model.Enemy__Boss2.attackType.SpreadMissile:
+                    fireInfo.disappearTime = Model.Enemy__Boss2.spreadMissileDisappearTime;
+                    break;
+
+                case Model.Enemy__Boss2.attackType.SpreadBalkan:
+                    fireInfo.disappearTime = Model.Enemy__Boss2.spreadBalkanDisappearTime;
+                    break;
+            }
+
             _id = Controller.EnemyController.EmergeEnemyBullet(fireInfo, this.gameObject);
 
             // ControllerからModelクラスのインスタンスを取得

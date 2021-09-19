@@ -6,7 +6,6 @@ namespace Model
     {
         private const float STOP_CHASING_DISTANCE = 10;
         private const float CHASING_RATE = 0.001f;
-        private const float BARRAGE_TIME = 0.4f;
         private bool _hasApproached = false;
         private FireInfo _fireInfo;
         private PlayerPositionManager _playerPositionManager;
@@ -28,6 +27,7 @@ namespace Model
             public fireType type;
             public float damageAmount;
             public float bulletSpeed;
+            public float disappearTime;
         }
 
         public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager) : base(enemyManager, pauseManager)
@@ -36,7 +36,7 @@ namespace Model
             _playerPositionManager = playerPositionManager;
             _playerStatusManager = playerStatusManager;
             objectType = movingObjectType.EnemyFire;
-            disappearTime = BARRAGE_TIME;
+            disappearTime = _fireInfo.disappearTime;
         }
 
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
