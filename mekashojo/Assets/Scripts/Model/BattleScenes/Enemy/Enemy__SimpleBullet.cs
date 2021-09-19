@@ -11,7 +11,6 @@ namespace Model
         private readonly Controller.NormalEnemyData _normalEnemyData;
         private float _time;
         private bool _isAttacking = false;
-        private int _attackingFrameCount = 0;
         private BulletProcessInfo _bulletProcessInfo;
 
         protected override DamageFactorData.damageFactorType factorType { get; set; }
@@ -52,13 +51,6 @@ namespace Model
 
             _time += Time.deltaTime;
 
-            // 攻撃をやめる処理
-            if (!_isAttacking && _attackingFrameCount > 0)
-            {
-                _attackingFrameCount = 0;
-                return;
-            }
-
             // 攻撃を始める処理
             if (_time > _normalEnemyData.firingInterval && !_isAttacking)
             {
@@ -76,7 +68,6 @@ namespace Model
             if (_isAttacking)
             {
                 _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
-                _attackingFrameCount++;
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Controller
         public Model.Enemy__WideBeam enemy__WideBeam;
         public Model.Enemy__SelfDestruct enemy__SelfDestruct;
         public Model.Enemy__Boss1 enemy__Boss1;
+        public Model.Enemy__Boss2 enemy__Boss2;
 
         public GameObject enemyObject;
     }
@@ -23,8 +24,6 @@ namespace Controller
 
     public class EnemyController : MonoBehaviour
     {
-        [SerializeField, Header("ステージ名を選ぶ")] private Model.ProgressData.stageName _stageName;
-        public static Model.ProgressData.stageName stageName;
         public static Dictionary<int, Model.EnemyDamageManager> damageManagerTable;
         public static Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>> enemyTable;
         public static Dictionary<int, EnemyFireElements> fireTable__Bullet;
@@ -40,12 +39,14 @@ namespace Controller
             WideBeam,
             SelfDestruct,
             Boss1,
+            Boss2,
+            Boss3,
+            Boss4,
+            LastBoss,
         }
 
         private void Awake()
         {
-            stageName = _stageName;
-
             _player = GameObject.FindGameObjectWithTag(View.TagManager.TagNames.BattleScenes__Player.ToString());
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
@@ -58,6 +59,10 @@ namespace Controller
                 { enemyType__Rough.WideBeam, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.SelfDestruct, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.Boss1, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss2, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss3, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss4, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.LastBoss, new Dictionary<int, EnemyElements>() },
             };
 
             fireTable__Bullet = new Dictionary<int, EnemyFireElements>();
@@ -136,6 +141,14 @@ namespace Controller
                                 enemyElements.enemyObject.transform.position,
                                 _player.transform.position
                                 );
+                        }
+                        break;
+
+                    // Enemy__Boss2の処理
+                    case enemyType__Rough.Boss2:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss2.RunEveryFrame();
                         }
                         break;
                 }
@@ -317,7 +330,7 @@ namespace Controller
         }
 
         /// <summary>
-        /// View.Enemy__Stage1のStartメソッドで呼ぶ<br></br>
+        /// View.Enemy__Boss1のStartメソッドで呼ぶ<br></br>
         /// モデルクラスのインスタンスを作成<br></br>
         /// </summary>
         public static void EmergeEnemy__Boss1(GameObject enemyObject)
@@ -345,6 +358,38 @@ namespace Controller
             bossID = IDManager.GetEnemyID();
 
             enemyTable[enemyType__Rough.Boss1].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// View.Enemy__Boss2のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss2(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss2 enemy__Boss2
+                = new Model.Enemy__Boss2(
+                    BattleScenesController.pauseManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    Model.Enemy__Boss2.maxHP
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss2 = enemy__Boss2,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss2].Add(bossID, enemyElements);
             damageManagerTable.Add(bossID, enemyDamageManager);
         }
 

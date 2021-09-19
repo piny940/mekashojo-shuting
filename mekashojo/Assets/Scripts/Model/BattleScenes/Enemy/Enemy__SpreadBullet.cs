@@ -8,7 +8,6 @@ namespace Model
         private const int FIRE_AMOUNT_PER_ONCE = 5;
         private readonly Controller.NormalEnemyData _normalEnemyData;
         private float _time;
-        private int _attackingFrameCount = 0;
         private bool _isAttacking = false;
         private BulletProcessInfo _bulletProcessInfo;
 
@@ -59,13 +58,6 @@ namespace Model
 
             _time += Time.deltaTime;
 
-            // 攻撃をやめる処理
-            if (!_isAttacking && _attackingFrameCount > 0)
-            {
-                _attackingFrameCount = 0;
-                return;
-            }
-
             // 攻撃を始める処理
             if (_time > _normalEnemyData.firingInterval && !_isAttacking)
             {
@@ -74,11 +66,7 @@ namespace Model
             }
 
             // 攻撃本体
-            if (_isAttacking)
-            {
-                _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
-                _attackingFrameCount++;
-            }
+            if (_isAttacking) _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
         }
     }
 }

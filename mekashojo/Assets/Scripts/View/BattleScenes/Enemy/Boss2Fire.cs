@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace View
 {
-    public class Boss1Fire : CollisionBase
+    public class Boss2Fire : CollisionBase
     {
-        [SerializeField, Header("攻撃のタイプを選ぶ")] private Model.Enemy__Boss1.attackType _type;
+        [SerializeField, Header("攻撃のタイプを選ぶ")] private Model.Enemy__Boss2.attackType _type;
         private int _id;
         private Rigidbody2D _rigidbody2D;
         private bool _isBeingDestroyed;
@@ -16,10 +16,8 @@ namespace View
 
         private void Start()
         {
-            if (_type == Model.Enemy__Boss1.attackType.Beam
-                || _type == Model.Enemy__Boss1.attackType.WideBeam
-                || _type == Model.Enemy__Boss1.attackType.SpreadBeam)
-                // タイプがビーム系の場合
+            if (_type == Model.Enemy__Boss2.attackType.SpreadLaser)
+                // タイプがレーザー系の場合
                 EmergeBeam(_type);
             //タイプが弾丸系の場合
             else EmergeBullet(_type);
@@ -40,11 +38,11 @@ namespace View
         }
 
         // タイプがビーム系の場合にStartメソッドで呼ぶ
-        private void EmergeBeam(Model.Enemy__Boss1.attackType type)
+        private void EmergeBeam(Model.Enemy__Boss2.attackType type)
         {
             Model.EnemyFire.FireInfo fireInfo = new Model.EnemyFire.FireInfo()
             {
-                damageAmount = Model.Enemy__Boss1.damageAmounts[type],
+                damageAmount = Model.Enemy__Boss2.damageAmounts[type],
                 type = Model.EnemyFire.fireType.Beam,
             };
 
@@ -66,31 +64,15 @@ namespace View
         }
 
         // タイプが弾丸系の場合にStartメソッドで呼ぶ
-        private void EmergeBullet(Model.Enemy__Boss1.attackType type)
+        private void EmergeBullet(Model.Enemy__Boss2.attackType type)
         {
             Model.EnemyFire.FireInfo fireInfo = new Model.EnemyFire.FireInfo()
             {
-                bulletSpeed = Model.Enemy__Boss1.bulletSpeeds[type],
-                damageAmount = Model.Enemy__Boss1.damageAmounts[type],
+                bulletSpeed = Model.Enemy__Boss2.bulletSpeeds[type],
+                damageAmount = Model.Enemy__Boss2.damageAmounts[type],
             };
 
-            switch (type)
-            {
-                case Model.Enemy__Boss1.attackType.GuidedBullet:
-                    fireInfo.type = Model.EnemyFire.fireType.GuidedBullet;
-                    break;
-
-                case Model.Enemy__Boss1.attackType.Missile:
-                    fireInfo.type = Model.EnemyFire.fireType.NormalBullet;
-                    break;
-
-                case Model.Enemy__Boss1.attackType.SpreadBullet:
-                    fireInfo.type = Model.EnemyFire.fireType.Barrage;
-                    break;
-
-                default:
-                    throw new System.Exception();
-            }
+            fireInfo.type = Model.EnemyFire.fireType.Barrage;
 
             _id = Controller.EnemyController.EmergeEnemyBullet(fireInfo, this.gameObject);
 

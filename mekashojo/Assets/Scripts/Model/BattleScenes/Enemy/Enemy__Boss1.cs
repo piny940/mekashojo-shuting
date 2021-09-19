@@ -53,7 +53,6 @@ namespace Model
         private Dictionary<attackType, float> _damageAmounts { get; set; }
         private Dictionary<attackType, float> _bulletSpeeds { get; set; }
         private float _time = 0;
-        private float _attackingFrameCount = 0;
 
         // 各ビームの状態
         private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
@@ -230,13 +229,6 @@ namespace Model
 
         private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
-            // 攻撃をやめる処理
-            if (_proceedingAttackTypeName == attackType._none && _attackingFrameCount > 0)
-            {
-                _attackingFrameCount = 0;
-                return;
-            }
-
             // 攻撃を始める処理
             if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
             {
@@ -256,10 +248,6 @@ namespace Model
                 _time += Time.deltaTime;
                 return;
             }
-
-            // =======以下攻撃中の処理=======
-
-            _attackingFrameCount++;
 
             // 攻撃本体
             switch (_proceedingAttackTypeName)
@@ -312,8 +300,6 @@ namespace Model
             _missileProcessInfo.bulletVelocities
                 = new List<Vector3>()
                 { (newPlayerPosition - position) * bulletSpeeds[attackType.Missile] / Vector3.Magnitude(newPlayerPosition - position) };
-
-            _attackingFrameCount++;
         }
 
         // ミサイル攻撃の処理
@@ -323,11 +309,7 @@ namespace Model
             bool isAttacking = ProceedBulletFiring(_missileProcessInfo);
 
             // 攻撃終了時の処理
-            if (!isAttacking)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                return;
-            }
+            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
         // 拡散弾の攻撃
@@ -337,11 +319,7 @@ namespace Model
             bool isAttacking = ProceedBulletFiring(_spreadBulletProcessInfo);
 
             // 攻撃終了時の処理
-            if (!isAttacking)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                return;
-            }
+            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
         // 広範囲ビームの処理
@@ -357,11 +335,7 @@ namespace Model
             bool isAttacking = ProceedBulletFiring(_guidedBulletProcessInfo);
 
             // 攻撃終了時の処理
-            if (!isAttacking)
-            {
-                _proceedingAttackTypeName = attackType._none;
-                return;
-            }
+            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
         // 拡散ビームの処理

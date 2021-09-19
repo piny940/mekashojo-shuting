@@ -6,7 +6,7 @@ namespace Model
     {
         private const float STOP_CHASING_DISTANCE = 10;
         private const float CHASING_RATE = 0.001f;
-        private const float BARRAGE_TIME = 0.2f;
+        private const float BARRAGE_TIME = 0.4f;
         private bool _hasApproached = false;
         private FireInfo _fireInfo;
         private PlayerPositionManager _playerPositionManager;
