@@ -20,6 +20,10 @@ namespace Controller
 
         public static Model.PauseManager pauseManager;
 
+        public static Model.PlayerDebuffManager playerDebuffManager;
+
+        public static Model.Shield__Player shield__Player;
+
         public static Model.PlayerStatusManager playerStatusManager;
 
         public static Model.PlayerPositionManager playerPositionManager;
@@ -36,8 +40,6 @@ namespace Controller
 
         public static Model.Bomb__Player bomb__Player;
 
-        public static Model.Shield__Player shield__Player;
-
         public static Model.WeaponManager weaponManager;
 
         public static Model.EnemyManager enemyManager;
@@ -48,13 +50,15 @@ namespace Controller
         {
             pauseManager = new Model.PauseManager();
 
+            playerDebuffManager = new Model.PlayerDebuffManager(pauseManager);
+
             shield__Player = new Model.Shield__Player(pauseManager);
 
             enemyManager = new Model.EnemyManager(pauseManager, _enemyControlData);
 
-            playerStatusManager = new Model.PlayerStatusManager(shield__Player, pauseManager);
+            playerStatusManager = new Model.PlayerStatusManager(playerDebuffManager, shield__Player, pauseManager);
 
-            playerPositionManager = new Model.PlayerPositionManager(shield__Player, enemyManager, pauseManager);
+            playerPositionManager = new Model.PlayerPositionManager(shield__Player, playerDebuffManager, enemyManager, pauseManager);
 
             cannon__Player = new Model.Cannon__Player(playerStatusManager);
 
@@ -66,7 +70,7 @@ namespace Controller
 
             missile__Player = new Model.Missile__Player(playerStatusManager);
 
-            bomb__Player = new Model.Bomb__Player(playerStatusManager, playerPositionManager, pauseManager);
+            bomb__Player = new Model.Bomb__Player(playerDebuffManager, playerStatusManager, pauseManager);
 
             _weaponInstances = new WeaponInstances()
             {
@@ -77,7 +81,7 @@ namespace Controller
                 missile__Player = missile__Player,
             };
 
-            weaponManager = new Model.WeaponManager(pauseManager, playerPositionManager, _weaponInstances);
+            weaponManager = new Model.WeaponManager(pauseManager, playerDebuffManager, _weaponInstances);
 
             acquiredEnhancementMaterialData = new Model.AcquiredEnhancementMaterialData();
         }
@@ -86,6 +90,8 @@ namespace Controller
         void Update()
         {
             pauseManager.RunEveryFrame();
+
+            playerDebuffManager.RunEveryFrame();
 
             shield__Player.RunEveryFrame();
 

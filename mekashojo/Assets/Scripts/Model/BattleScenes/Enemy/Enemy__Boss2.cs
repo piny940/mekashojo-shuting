@@ -154,6 +154,8 @@ namespace Model
 
         private void ProceedAttack()
         {
+            if (!pauseManager.isGameGoing) return;
+
             // 攻撃を始める処理
             if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
             {
@@ -169,25 +171,18 @@ namespace Model
             }
 
             // 攻撃本体
-            switch (_proceedingAttackTypeName)
-            {
-                case attackType.SpreadBalkan:
-                    ProceedSpreadBalkan();
-                    break;
+            ProceedSpreadBalkan();
 
-                case attackType.SpreadMissile:
-                    ProceedSpreadMissile();
-                    break;
+            ProceedSpreadMissile();
 
-                case attackType.SpreadLaser:
-                    ProceedSpreadLaser();
-                    break;
-            }
+            ProceedSpreadLaser();
         }
 
         // 拡散バルカン攻撃の処理
         private void ProceedSpreadBalkan()
         {
+            if (_proceedingAttackTypeName != attackType.SpreadBalkan) return;
+
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(_spreadBalkanProcessInfo);
 
@@ -198,6 +193,8 @@ namespace Model
         // 拡散ミサイルの攻撃
         private void ProceedSpreadMissile()
         {
+            if (_proceedingAttackTypeName != attackType.SpreadMissile) return;
+
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(_spreadMissileProcessInfo);
 
@@ -208,6 +205,8 @@ namespace Model
         // 拡散レーザー攻撃の処理
         private void ProceedSpreadLaser()
         {
+            if (_proceedingAttackTypeName != attackType.SpreadLaser) return;
+
             bool isAttacking = ProceedBeamFiring(BEAM_NOTIFYING_TIME, BEAM_TIME);
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }

@@ -5,11 +5,12 @@ namespace Model
     public class EnemyFire : MovingObjectBase
     {
         private const float STOP_CHASING_DISTANCE = 10;
+        private const float STUN_DURATION = 2;
         private const float CHASING_RATE = 0.001f;
         private bool _hasApproached = false;
         private FireInfo _fireInfo;
-        private PlayerPositionManager _playerPositionManager;
         private PlayerStatusManager _playerStatusManager;
+        private PlayerDebuffManager _playerDebuffManager;
 
         protected override movingObjectType objectType { get; set; }
 
@@ -30,10 +31,11 @@ namespace Model
             public float disappearTime;
         }
 
-        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager) : base(enemyManager, pauseManager)
+        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, PauseManager pauseManager)
+                : base(enemyManager, pauseManager)
         {
             _fireInfo = fireInfo;
-            _playerPositionManager = playerPositionManager;
+            _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
             objectType = movingObjectType.EnemyFire;
             disappearTime = _fireInfo.disappearTime;
@@ -60,7 +62,7 @@ namespace Model
                 //スタン型の場合は
                 case fireType.StunBullet:
                     //スタンさせる
-                    _playerPositionManager.isStunning = true;
+                    _ = _playerDebuffManager.AddDebuff(PlayerDebuffManager.debuffTypes.Stun, STUN_DURATION);
                     isBeingDestroyed = true;
                     break;
 

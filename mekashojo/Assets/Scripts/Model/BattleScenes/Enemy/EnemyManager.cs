@@ -45,13 +45,13 @@ namespace Model
 
         public void RunEveryFrame(Controller.EnemyControlData enemyControlData)
         {
-            CreateNewEnemy(enemyControlData);
+            ProceedCreatingNormalEnemy(enemyControlData);
         }
 
         /// <summary>
         /// 敵を生成する
         /// </summary>
-        private void CreateNewEnemy(Controller.EnemyControlData enemyControlData)
+        private void ProceedCreatingNormalEnemy(Controller.EnemyControlData enemyControlData)
         {
             // 敵の数の上限が0だったら抜ける
             if (enemyControlData.maxEnemyAmount == 0) return;
@@ -66,9 +66,15 @@ namespace Model
                 return;
 
             // 生成する敵をランダムに選んで、対応する辞書の値を変更する
-            enemyNumbers[(int)RandomChoosing.ChooseRandomly(_produceProbabilityRatios)]++;
+            CreateNormalEnemy(RandomChoosing.ChooseRandomly(_produceProbabilityRatios));
 
             totalEnemyAmount++;
+        }
+
+        // 敵を生成する
+        public void CreateNormalEnemy(Controller.NormalEnemyData.normalEnemyType type)
+        {
+            enemyNumbers[(int)type]++;
         }
     }
 }

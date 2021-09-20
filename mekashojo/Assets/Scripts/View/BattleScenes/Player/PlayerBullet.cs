@@ -20,6 +20,7 @@ namespace View
         {
             Model.PlayerFire playerFire
                 = new Model.PlayerFire(
+                    Controller.BattleScenesController.playerDebuffManager,
                     Controller.BattleScenesController.enemyManager,
                     Controller.BattleScenesController.pauseManager,
                     _type

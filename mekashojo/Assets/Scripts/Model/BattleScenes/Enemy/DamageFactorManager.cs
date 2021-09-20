@@ -41,6 +41,8 @@ namespace Model
         private int _frameCount = 0;
         private int _firingCount = 0;
         private float _firingTime = 0;
+        private float _producingEnemyTime = 0;
+        private float _producingEnemyCount = 0;
         private beamFiringProcesses __beamStatus;
         private beamFiringProcesses _beamStatus
         {
@@ -52,9 +54,8 @@ namespace Model
             }
         }
 
-        private readonly PlayerStatusManager _playerStatusManager;
+        protected readonly PlayerStatusManager playerStatusManager;
         private ObservableCollection<object> _firingBulletInfo;
-        protected EnemyManager enemyManager;
         protected override movingObjectType objectType { get; set; }
         protected abstract DamageFactorData.damageFactorType factorType { get; set; }
 
@@ -102,7 +103,7 @@ namespace Model
         protected DamageFactorManager(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
                 : base(enemyManager, pauseManager)
         {
-            _playerStatusManager = playerStatusManager;
+            this.playerStatusManager = playerStatusManager;
             objectType = movingObjectType.Enemy;
         }
 
@@ -172,6 +173,28 @@ namespace Model
             return true;
         }
 
+        // 敵を生成する間隔と敵の生成比の辞書を引数で与え、敵を生成する処理を行う
+        protected bool ProceedEnemyCreating(float shortInterval__Time, float amount, Dictionary<Controller.NormalEnemyData.normalEnemyType, float> probabilityRatios)
+        {
+            // 攻撃終了時
+            if (_producingEnemyCount > amount)
+            {
+                _producingEnemyCount = 0;
+                return false;
+            }
+
+            _producingEnemyTime += Time.deltaTime;
+
+            if (_producingEnemyTime > shortInterval__Time)
+            {
+                _producingEnemyTime = 0;
+                _producingEnemyCount++;
+                enemyManager.CreateNormalEnemy(RandomChoosing.ChooseRandomly(probabilityRatios));
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// 移動速度の設定(移動速度が一定の場合)
         /// </summary>
@@ -192,7 +215,7 @@ namespace Model
         /// </summary>
         public void DealCollisionDamage()
         {
-            _playerStatusManager.GetDamage(
+            playerStatusManager.GetDamage(
                 DamageFactorData.damageFactorData.collisionDamage[factorType]
                 );
 

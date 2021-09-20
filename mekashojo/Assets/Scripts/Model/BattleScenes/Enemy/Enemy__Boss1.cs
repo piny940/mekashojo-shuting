@@ -230,6 +230,8 @@ namespace Model
 
         private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
+            if (!pauseManager.isGameGoing) return;
+
             // 攻撃を始める処理
             if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
             {
@@ -251,32 +253,17 @@ namespace Model
             }
 
             // 攻撃本体
-            switch (_proceedingAttackTypeName)
-            {
-                case attackType.Beam:
-                    ProceedBeam();
-                    break;
+            ProceedBeam();
 
-                case attackType.Missile:
-                    ProceedMissile();
-                    break;
+            ProceedMissile();
 
-                case attackType.SpreadBullet:
-                    ProceedSpreadBullet();
-                    break;
+            ProceedSpreadBullet();
 
-                case attackType.WideBeam:
-                    ProceedWideBeam();
-                    break;
+            ProceedWideBeam();
 
-                case attackType.GuidedBullet:
-                    ProceedGuidedBullet();
-                    break;
+            ProceedGuidedBullet();
 
-                case attackType.SpreadBeam:
-                    ProceedSpreadBeam();
-                    break;
-            }
+            ProceedSpreadBeam();
         }
 
         // ビーム攻撃の処理はどれもほぼ同じなので、まとめられるところはまとめてしまう
@@ -289,6 +276,8 @@ namespace Model
         // ビーム攻撃の処理
         private void ProceedBeam()
         {
+            if (_proceedingAttackTypeName != attackType.Beam) return;
+
             ProceedBeamBase(BEAM_NOTIFYING_TIME, BEAM_TIME);
         }
 
@@ -306,6 +295,8 @@ namespace Model
         // ミサイル攻撃の処理
         private void ProceedMissile()
         {
+            if (_proceedingAttackTypeName != attackType.Missile) return;
+
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(_missileProcessInfo);
 
@@ -316,6 +307,8 @@ namespace Model
         // 拡散弾の攻撃
         private void ProceedSpreadBullet()
         {
+            if (_proceedingAttackTypeName != attackType.SpreadBullet) return;
+
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(_spreadBulletProcessInfo);
 
@@ -326,12 +319,16 @@ namespace Model
         // 広範囲ビームの処理
         private void ProceedWideBeam()
         {
+            if (_proceedingAttackTypeName != attackType.WideBeam) return;
+
             ProceedBeamBase(WIDE_BEAM_NOTIFYING_TIME, WIDE_BEAM_TIME);
         }
 
         // 誘導弾の処理
         private void ProceedGuidedBullet()
         {
+            if (_proceedingAttackTypeName != attackType.GuidedBullet) return;
+
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(_guidedBulletProcessInfo);
 
@@ -342,6 +339,8 @@ namespace Model
         // 拡散ビームの処理
         private void ProceedSpreadBeam()
         {
+            if (_proceedingAttackTypeName != attackType.SpreadBeam) return;
+
             ProceedBeamBase(SPREAD_BEAM_NOTIFYING_TIME, SPREAD_BEAM_TIME);
         }
     }

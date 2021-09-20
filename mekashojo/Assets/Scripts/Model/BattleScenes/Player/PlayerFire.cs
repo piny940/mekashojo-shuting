@@ -6,12 +6,15 @@ namespace Model
     {
         private readonly EquipmentData.equipmentType _type;
         private float _power;
+        private PlayerDebuffManager _playerDebuffManager;
         protected override movingObjectType objectType { get; set; }
 
-        public PlayerFire(EnemyManager enemyManager, PauseManager pauseManager, EquipmentData.equipmentType type)
+        public PlayerFire(PlayerDebuffManager playerDebuffManager, EnemyManager enemyManager, PauseManager pauseManager, EquipmentData.equipmentType type)
                 : base(enemyManager, pauseManager)
         {
             objectType = movingObjectType.PlayerFire;
+
+            _playerDebuffManager = playerDebuffManager;
 
             _type = type;
             _power = EquipmentData.equipmentData.equipmentStatus[_type]
@@ -38,7 +41,7 @@ namespace Model
             float temporaryHP = enemyDamageManager.hp;
 
             //ダメージを与える
-            enemyDamageManager.GetDamage(_power);
+            enemyDamageManager.GetDamage(_power * _playerDebuffManager.powerReductionRate);
 
             // タイプがキャノン・レーザー以外の場合、
             //　弾は敵に当たったら敵のHP分だけ攻撃力が小さくなり、

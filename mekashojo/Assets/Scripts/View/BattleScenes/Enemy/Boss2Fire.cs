@@ -49,8 +49,8 @@ namespace View
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 fireInfo,
                 Controller.BattleScenesController.enemyManager,
+                Controller.BattleScenesController.playerDebuffManager,
                 Controller.BattleScenesController.playerStatusManager,
-                Controller.BattleScenesController.playerPositionManager,
                 Controller.BattleScenesController.pauseManager
                 );
 

@@ -23,6 +23,7 @@ namespace Model
         private float _damageReductionRate_Percent;
 
         private PauseManager _pauseManager;
+        private PlayerDebuffManager _playerDebuffManager;
         private Shield__Player _shield__Player;
 
         public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
@@ -81,9 +82,10 @@ namespace Model
             }
         }
 
-        public PlayerStatusManager(Shield__Player shield__Player, PauseManager pauseManager)
+        public PlayerStatusManager(PlayerDebuffManager playerDebuffManager, Shield__Player shield__Player, PauseManager pauseManager)
         {
             _pauseManager = pauseManager;
+            _playerDebuffManager = playerDebuffManager;
             _shield__Player = shield__Player;
             hp = maxHP;
             mainEnergyAmount = maxMainEnergy;
@@ -113,7 +115,7 @@ namespace Model
             if (_shield__Player.isUsingShield)
             {
                 // シールドを使用中の場合
-                hp -= amount * (100 - _damageReductionRate_Percent) * 0.01f;
+                hp -= amount * (100 - _damageReductionRate_Percent * _playerDebuffManager.shieldReductionRate) * 0.01f;
             }
             else
             {
@@ -133,10 +135,7 @@ namespace Model
 
         private void ChargeEnergyAutomatically()
         {
-            if (!_pauseManager.isGameGoing)
-            {
-                return;
-            }
+            if (!_pauseManager.isGameGoing) return;
 
             ChargeMainEnergy(MAIN_ENERGY_AUTO_CHARGE_AMOUNT * Time.deltaTime);
 

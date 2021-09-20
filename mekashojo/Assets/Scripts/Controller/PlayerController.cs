@@ -41,6 +41,7 @@ namespace Controller
             // 実行順序の関係でコンストラクタはStartに書かないといけない
             cannonFire
                 = new Model.PlayerFire(
+                    BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.pauseManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Cannon
@@ -48,12 +49,16 @@ namespace Controller
 
             laserFire
                 = new Model.PlayerFire(
+                    BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.pauseManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Laser
                     );
 
-            bombFire__Player = new Model.BombFire__Player();
+            bombFire__Player
+                = new Model.BombFire__Player(
+                    BattleScenesController.playerDebuffManager
+                    );
         }
 
         // Update is called once per frame

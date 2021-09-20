@@ -11,7 +11,7 @@ namespace Model
         private bool _isMoving = true;
         private bool _isBeingDestroyed = false;
         private float _time = 0;
-        private EnemyManager _enemyManager;
+        protected EnemyManager enemyManager;
 
         protected abstract movingObjectType objectType { get; set; }
         protected PauseManager pauseManager;
@@ -57,7 +57,7 @@ namespace Model
             {
                 if (objectType == movingObjectType.Enemy)
                 {
-                    _enemyManager.totalEnemyAmount--;
+                    enemyManager.totalEnemyAmount--;
                 }
 
                 _isBeingDestroyed = value;
@@ -67,7 +67,7 @@ namespace Model
 
         public MovingObjectBase(EnemyManager enemyManager, PauseManager pauseManager)
         {
-            _enemyManager = enemyManager;
+            this.enemyManager = enemyManager;
             this.pauseManager = pauseManager;
         }
 

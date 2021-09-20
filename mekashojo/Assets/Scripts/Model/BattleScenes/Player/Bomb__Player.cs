@@ -9,7 +9,7 @@ namespace Model
         private const float BOMB_EXPAND_SPEED = 3;
 
         private PlayerStatusManager _playerStatusManager;
-        private PlayerPositionManager _playerPositionManager;
+        private PlayerDebuffManager _playerDebuffManager;
         private PauseManager _pauseManager;
         private bool _isUsingBomb = false;
         private float _bombSize = 0;
@@ -37,10 +37,10 @@ namespace Model
             }
         }
 
-        public Bomb__Player(PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager)
+        public Bomb__Player(PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, PauseManager pauseManager)
         {
+            _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
-            _playerPositionManager = playerPositionManager;
             _pauseManager = pauseManager;
         }
 
@@ -57,7 +57,7 @@ namespace Model
             // スタンしているときはボムを使用できない
             if (InputManager.bombKey > 0
                 && _playerStatusManager.bombAmount != 0
-                && !_playerPositionManager.isStunning
+                && !_playerDebuffManager.isStunned
                 && !isUsingBomb)
             {
                 isUsingBomb = true;
