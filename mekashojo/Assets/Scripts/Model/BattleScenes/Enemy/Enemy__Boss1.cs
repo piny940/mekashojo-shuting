@@ -66,7 +66,7 @@ namespace Model
         protected override DamageFactorData.damageFactorType factorType { get; set; }
 
         public static readonly float maxHP = 2000;
-        public static readonly float spreadBulletDisappearTime = 0.4f;
+        public static readonly float spreadBulletDisappearTime = 0.8f;
         public static IReadOnlyDictionary<attackType, float> damageAmounts { get; private set; }
         public static IReadOnlyDictionary<attackType, float> bulletSpeeds { get; private set; }
 
