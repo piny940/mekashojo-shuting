@@ -48,4 +48,4 @@ MonoBehaviour:
   wideBeamEnemyProduceProbabilityRatio: 1
   guidedBulletEnemyProduceProbabilityRatio: 1
   wideSpreadBulletEnemyProduceProbabilityRatio: 1
-  selfDestructEnemyProduceProbabilityRatio: 0
+  selfDestructEnemyProduceProbabilityRatio: 1

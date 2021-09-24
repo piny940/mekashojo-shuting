@@ -38,14 +38,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spreadBulletEnemyProduceProbabilityRatio: 0
-  singleBulletEnemyProduceProbabilityRatio: 0
+  spreadBulletEnemyProduceProbabilityRatio: 1
+  singleBulletEnemyProduceProbabilityRatio: 1
   stunBulletEnemyProduceProbabilityRatio: 1
-  fastBulletEnemyProduceProbabilityRatio: 0
-  slowBulletEnemyProduceProbabilityRatio: 0
-  missileEnemyProduceProbabilityRatio: 0
-  repeatedEnemyProduceProbabilityRatio: 0
-  wideBeamEnemyProduceProbabilityRatio: 0
-  guidedBulletEnemyProduceProbabilityRatio: 0
-  wideSpreadBulletEnemyProduceProbabilityRatio: 0
-  selfDestructEnemyProduceProbabilityRatio: 0
+  fastBulletEnemyProduceProbabilityRatio: 1
+  slowBulletEnemyProduceProbabilityRatio: 1
+  missileEnemyProduceProbabilityRatio: 1
+  repeatedEnemyProduceProbabilityRatio: 1
+  wideBeamEnemyProduceProbabilityRatio: 1
+  guidedBulletEnemyProduceProbabilityRatio: 1
+  wideSpreadBulletEnemyProduceProbabilityRatio: 1
+  selfDestructEnemyProduceProbabilityRatio: 1

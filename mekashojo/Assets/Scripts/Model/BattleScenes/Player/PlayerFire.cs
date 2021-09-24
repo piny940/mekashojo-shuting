@@ -20,14 +20,6 @@ namespace Model
             _power = EquipmentData.equipmentData.equipmentStatus[_type]
                     [EquipmentData.equipmentData.equipmentLevel[_type]]
                     [EquipmentData.equipmentParameter.Power];
-
-            // キャノン/レーザーの場合、毎フレーム攻撃がされるため、
-            // _powerにTime.deltaTimeをかけておく必要がある
-            if (_type == EquipmentData.equipmentType.MainWeapon__Cannon
-                || _type == EquipmentData.equipmentType.MainWeapon__Laser)
-            {
-                _power *= Time.deltaTime;
-            }
         }
 
         public void RunEveryFrame(Vector3 position)
@@ -41,7 +33,17 @@ namespace Model
             float temporaryHP = enemyDamageManager.hp;
 
             //ダメージを与える
-            enemyDamageManager.GetDamage(_power * _playerDebuffManager.powerReductionRate);
+            // キャノン/レーザーの場合、毎フレーム攻撃がされるため、
+            // _powerにTime.deltaTimeをかけておく必要がある
+            if (_type == EquipmentData.equipmentType.MainWeapon__Cannon
+                || _type == EquipmentData.equipmentType.MainWeapon__Laser)
+            {
+                enemyDamageManager.GetDamage(_power * _playerDebuffManager.powerReductionRate * Time.deltaTime);
+            }
+            else
+            {
+                enemyDamageManager.GetDamage(_power * _playerDebuffManager.powerReductionRate);
+            }
 
             // タイプがキャノン・レーザー以外の場合、
             //　弾は敵に当たったら敵のHP分だけ攻撃力が小さくなり、

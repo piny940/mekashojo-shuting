@@ -5,8 +5,8 @@ namespace View
     public class MainCamera : MonoBehaviour
     {
         [SerializeField, Header("定位置との距離に応じた、定位置に近づく速さ")] private AnimationCurve _speed;
-        private const float LEFT_LIMIT = -11.2f;
-        private const float RIGHT_LIMIT = 417;
+        [SerializeField, Header("左端の位置")] private float leftLimit;
+        [SerializeField, Header("右端の位置")] private float rightLimit;
         private const float APPROACHING_SPEED = 3;
         private Vector3 _fromPlayerToCamera;
         private GameObject _player;
@@ -20,6 +20,7 @@ namespace View
         {
             _fromPlayerToCamera = transform.position - _player.transform.position;
         }
+
         void Update()
         {
             float distance
@@ -34,8 +35,8 @@ namespace View
                     APPROACHING_SPEED * _speed.Evaluate(distance) * Time.deltaTime
                     ).x;
 
-            if (newPosition.x < LEFT_LIMIT) newPosition.x = LEFT_LIMIT;
-            if (newPosition.x > RIGHT_LIMIT) newPosition.x = RIGHT_LIMIT;
+            if (newPosition.x < leftLimit) newPosition.x = leftLimit;
+            if (newPosition.x > rightLimit) newPosition.x = rightLimit;
 
             newPosition.y = transform.position.y;
             newPosition.z = transform.position.z;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -26,11 +27,15 @@ namespace Model
         // スタン用の定数
         private const float STUN_DURATION = 2;
 
-        private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
-        private float _time = 0;
-        private PlayerDebuffManager _playerDebuffManager;
+        // 無敵シールドの使用時間
+        public readonly float shieldLimitTime = 10;
 
         public static readonly float maxHP = 10000;
+
+        private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
+        private float _time = 0;
+        private float _shieldRestedTime = 0;
+        private PlayerDebuffManager _playerDebuffManager;
 
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
@@ -64,7 +69,19 @@ namespace Model
 
         protected override void ChangeBeamStatus(beamFiringProcesses process) { }
 
-        // ステージ1のボスがする攻撃の種類
+        public UnityEvent<float> OnShieldRestedTimeChanged = new UnityEvent<float>();
+
+        public float shieldRestedTime // シールドをあと何秒使い続けることができるか
+        {
+            get { return _shieldRestedTime; }
+            set
+            {
+                _shieldRestedTime = value;
+                OnShieldRestedTimeChanged?.Invoke(value);
+            }
+        }
+
+        // ステージ4のボスがする攻撃の種類
         public enum attackType
         {
             _none,
@@ -94,7 +111,7 @@ namespace Model
             if (!pauseManager.isGameGoing) return;
 
             // 攻撃を始める処理
-            if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
+            if (_time >= FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
             {
                 _time = 0;
                 _proceedingAttackTypeName = RandomChoosing.ChooseRandomly(_attackProbabilityRatios);
@@ -192,9 +209,18 @@ namespace Model
         // 無敵シールドの処理
         private void ProceedInvincibleShield()
         {
-            if (_proceedingAttackTypeName != attackType.InvincibleShield) return;
+            // 抽選で無敵シールドの使用が選ばれたら、シールドを使い始める
+            if (_proceedingAttackTypeName == attackType.InvincibleShield)
+            {
+                _proceedingAttackTypeName = attackType._none;
 
-            _proceedingAttackTypeName = attackType._none;
+                // シールド使用中に再度抽選で無敵シールドが選ばれた場合、即座に他の攻撃に移るようにしてある
+                // (_timeをFIRING_INTERVALにすれば次のフレームで再度抽選が行われる)
+                if (shieldRestedTime > 0) _time = FIRING_INTERVAL;
+                else shieldRestedTime = shieldLimitTime;
+            }
+
+            if (shieldRestedTime > 0) shieldRestedTime -= Time.deltaTime;
         }
     }
 }

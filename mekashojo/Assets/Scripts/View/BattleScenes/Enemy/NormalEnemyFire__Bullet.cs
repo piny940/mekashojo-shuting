@@ -52,8 +52,11 @@ namespace View
                 _rigidbody2D.velocity = velocity;
 
                 //弾の回転
-                float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(velocity.x, velocity.y, 0), new Vector3(0, 0, 1));
-                transform.localEulerAngles = new Vector3(0, 0, theta);
+                if (velocity != Vector3.zero)
+                {
+                    float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(velocity.x, velocity.y, 0), new Vector3(0, 0, 1));
+                    transform.localEulerAngles = new Vector3(0, 0, theta);
+                }
             });
 
             // 消滅の監視

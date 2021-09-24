@@ -12,7 +12,9 @@ namespace Controller
         public Model.Enemy__SelfDestruct enemy__SelfDestruct;
         public Model.Enemy__Boss1 enemy__Boss1;
         public Model.Enemy__Boss2 enemy__Boss2;
+        public Model.Enemy__Boss3 enemy__Boss3;
         public Model.Enemy__Boss4 enemy__Boss4;
+        public Model.Enemy__LastBoss enemy__LastBoss;
 
         public GameObject enemyObject;
     }
@@ -153,11 +155,28 @@ namespace Controller
                         }
                         break;
 
+                    // Enemy__Boss3の処理
+                    case enemyType__Rough.Boss3:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss3.RunEveryFrame();
+                        }
+                        break;
+
+
                     // Enemy__Boss4の処理
                     case enemyType__Rough.Boss4:
                         foreach (EnemyElements enemyElements in pair.Value.Values)
                         {
                             enemyElements.enemy__Boss4.RunEveryFrame();
+                        }
+                        break;
+
+                    // Enemy__LastBossの処理
+                    case enemyType__Rough.LastBoss:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__LastBoss.RunEveryFrame();
                         }
                         break;
                 }
@@ -403,6 +422,38 @@ namespace Controller
         }
 
         /// <summary>
+        /// View.Enemy__Boss3のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss3(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss3 enemy__Boss3
+                = new Model.Enemy__Boss3(
+                    BattleScenesController.pauseManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    Model.Enemy__Boss3.maxHP
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss3 = enemy__Boss3,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss3].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
         /// View.Enemy__Boss4のStartメソッドで呼ぶ<br></br>
         /// モデルクラスのインスタンスを作成<br></br>
         /// </summary>
@@ -436,6 +487,38 @@ namespace Controller
         }
 
         /// <summary>
+        /// View.Enemy__LastBossのStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__LastBoss(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__LastBoss enemy__LastBoss
+                = new Model.Enemy__LastBoss(
+                    BattleScenesController.pauseManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    Model.Enemy__LastBoss.maxHP
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__LastBoss = enemy__LastBoss,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.LastBoss].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
         /// 敵の弾のビュークラスのStartメソッドで呼ぶ<br></br>
         /// モデルクラスのインスタンスを作成<br></br>
         /// IDを取得して返す
@@ -448,6 +531,7 @@ namespace Controller
                 BattleScenesController.enemyManager,
                 BattleScenesController.playerDebuffManager,
                 BattleScenesController.playerStatusManager,
+                BattleScenesController.shield__Player,
                 BattleScenesController.pauseManager
                 );
 

@@ -20,8 +20,8 @@ namespace Model
         private const int SPREAD_MISSILE_FIRING_AMOUNT_PER_ONCE = 15;
 
         // 拡散レーザー用の定数
-        private const float BEAM_NOTIFYING_TIME = 1;
-        private const float BEAM_TIME = 5;
+        private const float SPREAD_LASER_NOTIFYING_TIME = 1;
+        private const float SPREAD_LASER_TIME = 5;
 
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
@@ -64,7 +64,7 @@ namespace Model
             }
         }
 
-        // ステージ1のボスがする攻撃の種類
+        // ステージ2のボスがする攻撃の種類
         public enum attackType
         {
             _none,
@@ -171,43 +171,32 @@ namespace Model
             }
 
             // 攻撃本体
-            ProceedSpreadBalkan();
+            ProceedBulletAttack(attackType.SpreadBalkan, _spreadBalkanProcessInfo);
 
-            ProceedSpreadMissile();
+            ProceedBulletAttack(attackType.SpreadMissile, _spreadMissileProcessInfo);
 
-            ProceedSpreadLaser();
+            ProceedBeamAttack(attackType.SpreadLaser, SPREAD_LASER_NOTIFYING_TIME, SPREAD_LASER_TIME);
         }
 
-        // 拡散バルカン攻撃の処理
-        private void ProceedSpreadBalkan()
+        // ビーム系の攻撃の処理
+        private void ProceedBeamAttack(attackType type, float beamNotifyingTime, float beamTime)
         {
-            if (_proceedingAttackTypeName != attackType.SpreadBalkan) return;
+            if (_proceedingAttackTypeName != type) return;
 
-            // 攻撃本体
-            bool isAttacking = ProceedBulletFiring(_spreadBalkanProcessInfo);
+            bool isAttacking = ProceedBeamFiring(beamNotifyingTime, beamTime);
 
-            // 攻撃終了時の処理
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
-        // 拡散ミサイルの攻撃
-        private void ProceedSpreadMissile()
+        // 弾丸系の攻撃の処理
+        private void ProceedBulletAttack(attackType type, BulletProcessInfo info)
         {
-            if (_proceedingAttackTypeName != attackType.SpreadMissile) return;
+            if (_proceedingAttackTypeName != type) return;
 
             // 攻撃本体
-            bool isAttacking = ProceedBulletFiring(_spreadMissileProcessInfo);
+            bool isAttacking = ProceedBulletFiring(info);
 
             // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
-        }
-
-        // 拡散レーザー攻撃の処理
-        private void ProceedSpreadLaser()
-        {
-            if (_proceedingAttackTypeName != attackType.SpreadLaser) return;
-
-            bool isAttacking = ProceedBeamFiring(BEAM_NOTIFYING_TIME, BEAM_TIME);
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
     }

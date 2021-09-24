@@ -6,11 +6,12 @@ namespace Model
     {
         private const float STOP_CHASING_DISTANCE = 10;
         private const float STUN_DURATION = 2;
-        private const float CHASING_RATE = 0.001f;
+        private const float CHASING_RATE = 0.1f;
         private bool _hasApproached = false;
         private FireInfo _fireInfo;
         private PlayerStatusManager _playerStatusManager;
         private PlayerDebuffManager _playerDebuffManager;
+        private Shield__Player _shield__Player;
 
         protected override movingObjectType objectType { get; set; }
 
@@ -31,12 +32,13 @@ namespace Model
             public float disappearTime;
         }
 
-        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, PauseManager pauseManager)
+        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, Shield__Player shield__Player, PauseManager pauseManager)
                 : base(enemyManager, pauseManager)
         {
             _fireInfo = fireInfo;
             _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
+            _shield__Player = shield__Player;
             objectType = movingObjectType.EnemyFire;
             disappearTime = _fireInfo.disappearTime;
         }
@@ -61,9 +63,10 @@ namespace Model
             {
                 //スタン型の場合は
                 case fireType.StunBullet:
-                    //スタンさせる
-                    _ = _playerDebuffManager.AddDebuff(PlayerDebuffManager.debuffTypes.Stun, STUN_DURATION);
                     isBeingDestroyed = true;
+                    //盾を使用していなかったらスタンさせる
+                    if (!_shield__Player.isUsingShield)
+                        _ = _playerDebuffManager.AddDebuff(PlayerDebuffManager.debuffTypes.Stun, STUN_DURATION);
                     break;
 
                 //ビームの場合は何もしない

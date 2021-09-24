@@ -34,6 +34,13 @@ namespace View
             playerFire.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 _rigidbody2D.velocity = velocity;
+
+                //弾の回転
+                if (velocity != Vector3.zero)
+                {
+                    float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(velocity.x, velocity.y, 0), new Vector3(0, 0, 1));
+                    transform.localEulerAngles = new Vector3(0, 0, theta);
+                }
             });
 
             Controller.PlayerBulletElements playerBulletElements = new Controller.PlayerBulletElements()

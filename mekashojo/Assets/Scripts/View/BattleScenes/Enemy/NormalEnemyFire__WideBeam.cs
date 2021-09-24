@@ -19,6 +19,7 @@ namespace View
                 Controller.BattleScenesController.enemyManager,
                 Controller.BattleScenesController.playerDebuffManager,
                 Controller.BattleScenesController.playerStatusManager,
+                Controller.BattleScenesController.shield__Player,
                 Controller.BattleScenesController.pauseManager
                 );
 

@@ -253,32 +253,39 @@ namespace Model
             }
 
             // 攻撃本体
-            ProceedBeam();
+            ProceedBeamAttack(attackType.Beam, BEAM_NOTIFYING_TIME, BEAM_TIME);
 
-            ProceedMissile();
+            ProceedBulletAttack(attackType.Missile, _missileProcessInfo);
 
-            ProceedSpreadBullet();
+            ProceedBulletAttack(attackType.SpreadBullet, _spreadBulletProcessInfo);
 
-            ProceedWideBeam();
+            ProceedBeamAttack(attackType.WideBeam, WIDE_BEAM_NOTIFYING_TIME, WIDE_BEAM_TIME);
 
-            ProceedGuidedBullet();
+            ProceedBulletAttack(attackType.GuidedBullet, _guidedBulletProcessInfo);
 
-            ProceedSpreadBeam();
+            ProceedBeamAttack(attackType.SpreadBeam, SPREAD_BEAM_NOTIFYING_TIME, SPREAD_BEAM_TIME);
         }
 
-        // ビーム攻撃の処理はどれもほぼ同じなので、まとめられるところはまとめてしまう
-        private void ProceedBeamBase(float beamNotifyingTime, float beamTime)
+        // ビーム系の攻撃の処理
+        private void ProceedBeamAttack(attackType type, float beamNotifyingTime, float beamTime)
         {
+            if (_proceedingAttackTypeName != type) return;
+
             bool isAttacking = ProceedBeamFiring(beamNotifyingTime, beamTime);
+
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
-        // ビーム攻撃の処理
-        private void ProceedBeam()
+        // 弾丸系の攻撃の処理
+        private void ProceedBulletAttack(attackType type, BulletProcessInfo info)
         {
-            if (_proceedingAttackTypeName != attackType.Beam) return;
+            if (_proceedingAttackTypeName != type) return;
 
-            ProceedBeamBase(BEAM_NOTIFYING_TIME, BEAM_TIME);
+            // 攻撃本体
+            bool isAttacking = ProceedBulletFiring(info);
+
+            // 攻撃終了時の処理
+            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
 
         // ミサイル攻撃を始める処理
@@ -290,58 +297,6 @@ namespace Model
             _missileProcessInfo.bulletVelocities
                 = new List<Vector3>()
                 { (newPlayerPosition - position) * bulletSpeeds[attackType.Missile] / Vector3.Magnitude(newPlayerPosition - position) };
-        }
-
-        // ミサイル攻撃の処理
-        private void ProceedMissile()
-        {
-            if (_proceedingAttackTypeName != attackType.Missile) return;
-
-            // 攻撃本体
-            bool isAttacking = ProceedBulletFiring(_missileProcessInfo);
-
-            // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
-        }
-
-        // 拡散弾の攻撃
-        private void ProceedSpreadBullet()
-        {
-            if (_proceedingAttackTypeName != attackType.SpreadBullet) return;
-
-            // 攻撃本体
-            bool isAttacking = ProceedBulletFiring(_spreadBulletProcessInfo);
-
-            // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
-        }
-
-        // 広範囲ビームの処理
-        private void ProceedWideBeam()
-        {
-            if (_proceedingAttackTypeName != attackType.WideBeam) return;
-
-            ProceedBeamBase(WIDE_BEAM_NOTIFYING_TIME, WIDE_BEAM_TIME);
-        }
-
-        // 誘導弾の処理
-        private void ProceedGuidedBullet()
-        {
-            if (_proceedingAttackTypeName != attackType.GuidedBullet) return;
-
-            // 攻撃本体
-            bool isAttacking = ProceedBulletFiring(_guidedBulletProcessInfo);
-
-            // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
-        }
-
-        // 拡散ビームの処理
-        private void ProceedSpreadBeam()
-        {
-            if (_proceedingAttackTypeName != attackType.SpreadBeam) return;
-
-            ProceedBeamBase(SPREAD_BEAM_NOTIFYING_TIME, SPREAD_BEAM_TIME);
         }
     }
 }
