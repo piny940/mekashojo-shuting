@@ -28,6 +28,7 @@ namespace Model
         private const float STUN_DURATION = 2;
 
         // 無敵シールドの使用時間
+        private const float DAMAGE_REDUCTION_RATE = 1;
         public readonly float shieldLimitTime = 10;
 
         public static readonly float maxHP = 10000;
@@ -35,13 +36,14 @@ namespace Model
         private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
         private float _time = 0;
         private float _shieldRestedTime = 0;
+        private EnemyDamageManager _enemyDamageManager;
         private PlayerDebuffManager _playerDebuffManager;
 
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.CreateEnemy, 10 },
+                { attackType.CreateEnemy, 0 },
                 { attackType.PowerReduction, 1 },
                 { attackType.SpeedReduction, 1 },
                 { attackType.ShieldReduction, 1 },
@@ -93,10 +95,11 @@ namespace Model
             InvincibleShield,
         }
 
-        public Enemy__Boss4(PlayerDebuffManager playerDebuffManager, PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+        public Enemy__Boss4(EnemyDamageManager enemyDamageManager, PlayerDebuffManager playerDebuffManager, PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
                 : base(pauseManager, enemyManager, playerStatusManager)
         {
             factorType = DamageFactorData.damageFactorType.Boss;
+            _enemyDamageManager = enemyDamageManager;
             _playerDebuffManager = playerDebuffManager;
         }
 
@@ -121,7 +124,6 @@ namespace Model
             if (_proceedingAttackTypeName == attackType._none)
             {
                 _time += Time.deltaTime;
-                return;
             }
 
             // 攻撃本体
@@ -217,10 +219,22 @@ namespace Model
                 // シールド使用中に再度抽選で無敵シールドが選ばれた場合、即座に他の攻撃に移るようにしてある
                 // (_timeをFIRING_INTERVALにすれば次のフレームで再度抽選が行われる)
                 if (shieldRestedTime > 0) _time = FIRING_INTERVAL;
-                else shieldRestedTime = shieldLimitTime;
+                else
+                {
+                    shieldRestedTime = shieldLimitTime;
+                    _enemyDamageManager.damageReductionRate = DAMAGE_REDUCTION_RATE;
+                }
             }
 
+            // シールド使用中の処理
             if (shieldRestedTime > 0) shieldRestedTime -= Time.deltaTime;
+
+            // シールド使用終了時の処理
+            if (shieldRestedTime < 0
+                && _enemyDamageManager.damageReductionRate == DAMAGE_REDUCTION_RATE)
+            {
+                _enemyDamageManager.damageReductionRate = 0;
+            }
         }
     }
 }

@@ -460,18 +460,19 @@ namespace Controller
         public static void EmergeEnemy__Boss4(GameObject enemyObject)
         {
             // Modelクラスのインスタンスを作成
-            Model.Enemy__Boss4 enemy__Boss4
-                = new Model.Enemy__Boss4(
-                    BattleScenesController.playerDebuffManager,
-                    BattleScenesController.pauseManager,
-                    BattleScenesController.enemyManager,
-                    BattleScenesController.playerStatusManager
-                    );
-
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
                     Model.Enemy__Boss4.maxHP
+                    );
+
+            Model.Enemy__Boss4 enemy__Boss4
+                = new Model.Enemy__Boss4(
+                    enemyDamageManager,
+                    BattleScenesController.playerDebuffManager,
+                    BattleScenesController.pauseManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
                     );
 
             EnemyElements enemyElements = new EnemyElements()

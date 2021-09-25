@@ -34,6 +34,8 @@ namespace Model
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
         public int frameCounterForPlayerBomb { get; private set; }
 
+        public float damageReductionRate { get; set; }
+
         public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
         public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
 
@@ -72,7 +74,7 @@ namespace Model
         /// <param name="power"></param>
         public void GetDamage(float power)
         {
-            hp -= power;
+            hp -= power * (1 - damageReductionRate);
 
             if (hp <= 0 && !isDying)
             {
