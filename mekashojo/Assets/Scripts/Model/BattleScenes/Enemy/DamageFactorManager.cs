@@ -100,8 +100,8 @@ namespace Model
             public int firingAmount;
         }
 
-        protected DamageFactorManager(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
-                : base(enemyManager, pauseManager)
+        protected DamageFactorManager(StageStatusManager stageStatusManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(enemyManager, stageStatusManager)
         {
             this.playerStatusManager = playerStatusManager;
             objectType = movingObjectType.Enemy;
@@ -201,7 +201,7 @@ namespace Model
         protected void SetConstantVelocity(float movingSpeed)
         {
             //まだ始まってなかったら抜ける
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing) return;
 
             if (!_hasVelocitySet)
             {

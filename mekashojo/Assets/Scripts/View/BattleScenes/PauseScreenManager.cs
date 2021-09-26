@@ -10,9 +10,10 @@ namespace View
         {
             _pauseScreen.SetActive(false);
 
-            Controller.BattleScenesController.pauseManager.OnIsPausingChanged.AddListener((bool isPauseScreenActive) =>
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
             {
-                _pauseScreen.SetActive(isPauseScreenActive);
+                bool isScreenVisible = status == Model.StageStatusManager.stageStatus.IsPausing;
+                _pauseScreen.SetActive(isScreenVisible);
             });
         }
     }

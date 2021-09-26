@@ -32,8 +32,8 @@ namespace Model
             public float disappearTime;
         }
 
-        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, Shield__Player shield__Player, PauseManager pauseManager)
-                : base(enemyManager, pauseManager)
+        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, Shield__Player shield__Player, StageStatusManager stageStatusManager)
+                : base(enemyManager, stageStatusManager)
         {
             _fireInfo = fireInfo;
             _playerDebuffManager = playerDebuffManager;
@@ -83,7 +83,7 @@ namespace Model
         // Playerを追跡する
         private void ChasePlayer(Vector3 position, Vector3 playerPosition)
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing) return;
 
             Vector3 adjustedPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
 

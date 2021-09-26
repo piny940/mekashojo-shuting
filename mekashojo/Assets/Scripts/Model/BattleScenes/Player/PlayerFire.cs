@@ -9,8 +9,8 @@ namespace Model
         private PlayerDebuffManager _playerDebuffManager;
         protected override movingObjectType objectType { get; set; }
 
-        public PlayerFire(PlayerDebuffManager playerDebuffManager, EnemyManager enemyManager, PauseManager pauseManager, EquipmentData.equipmentType type)
-                : base(enemyManager, pauseManager)
+        public PlayerFire(PlayerDebuffManager playerDebuffManager, EnemyManager enemyManager, StageStatusManager stageStatusManager, EquipmentData.equipmentType type)
+                : base(enemyManager, stageStatusManager)
         {
             objectType = movingObjectType.PlayerFire;
 

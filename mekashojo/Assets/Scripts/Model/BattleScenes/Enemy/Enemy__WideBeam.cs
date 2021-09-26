@@ -25,8 +25,8 @@ namespace Model
             }
         }
 
-        public Enemy__WideBeam(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__WideBeam(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
             _time = Random.value * _normalEnemyData.firingInterval;
@@ -48,7 +48,7 @@ namespace Model
 
         private void ProceedAttack()
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing) return;
 
             _time += Time.deltaTime;
 

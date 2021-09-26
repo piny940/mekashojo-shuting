@@ -23,7 +23,7 @@ namespace View
                     _type,
                     Controller.BattleScenesController.enemyManager,
                     Controller.BattleScenesController.playerStatusManager,
-                    Controller.BattleScenesController.pauseManager
+                    Controller.BattleScenesController.stageStatusManager
                     );
 
             dropMaterialManager.OnVelocityChanged.AddListener((Vector3 velocity) =>

@@ -11,7 +11,6 @@ namespace View
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
 
         private Rigidbody2D _rigidbody2D;
-        private bool _isBeingDestroyed = false;
         private EnemyIDContainer _enemyIDContainer;
         private PolygonCollider2D _polygonCollider2D;
         private SpriteRenderer _spriteRenderer;
@@ -88,35 +87,11 @@ namespace View
                 }
             });
 
-            // 消滅の監視
-            enemy__Boss2.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
-            {
-                _isBeingDestroyed = isBeingDestroyed;
-            });
-
-            enemyDamageManager.OnIsDyingChanged.AddListener((bool isBeingDestroyed) =>
-            {
-                _isBeingDestroyed = isBeingDestroyed;
-            });
-
             // HPの監視
             enemyDamageManager.OnHPChanged.AddListener((float hp) =>
             {
                 _bossHPBarContent.fillAmount = hp / Model.Enemy__Boss2.maxHP;
             });
-        }
-
-        private void Update()
-        {
-            if (_isBeingDestroyed) Die();
-        }
-
-        private void Die()
-        {
-            //TODO:死亡モーション
-
-            BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
-            SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
         }
     }
 }

@@ -14,11 +14,13 @@ namespace Controller
 
     public class BattleScenesController : MonoBehaviour
     {
-        [SerializeField, Header("EnemyControlDataを入れる")] private EnemyControlData _enemyControlData;
+        [SerializeField, Header("EnemyControlDataを入れる")] private StageSettings _stageSettings;
 
         private WeaponInstances _weaponInstances;
 
-        public static Model.PauseManager pauseManager;
+        public static StageSettings stageSettings;
+
+        public static Model.StageStatusManager stageStatusManager;
 
         public static Model.PlayerDebuffManager playerDebuffManager;
 
@@ -48,17 +50,19 @@ namespace Controller
 
         private void Awake()
         {
-            pauseManager = new Model.PauseManager();
+            stageSettings = _stageSettings;
 
-            playerDebuffManager = new Model.PlayerDebuffManager(pauseManager);
+            stageStatusManager = new Model.StageStatusManager();
 
-            shield__Player = new Model.Shield__Player(pauseManager);
+            playerDebuffManager = new Model.PlayerDebuffManager(stageStatusManager);
 
-            enemyManager = new Model.EnemyManager(pauseManager, _enemyControlData);
+            shield__Player = new Model.Shield__Player(stageStatusManager);
 
-            playerStatusManager = new Model.PlayerStatusManager(playerDebuffManager, shield__Player, pauseManager);
+            enemyManager = new Model.EnemyManager(stageStatusManager, _stageSettings);
 
-            playerPositionManager = new Model.PlayerPositionManager(shield__Player, playerDebuffManager, enemyManager, pauseManager);
+            playerStatusManager = new Model.PlayerStatusManager(playerDebuffManager, shield__Player, stageStatusManager);
+
+            playerPositionManager = new Model.PlayerPositionManager(shield__Player, playerDebuffManager, enemyManager, stageStatusManager);
 
             cannon__Player = new Model.Cannon__Player(playerStatusManager);
 
@@ -70,7 +74,7 @@ namespace Controller
 
             missile__Player = new Model.Missile__Player(playerStatusManager);
 
-            bomb__Player = new Model.Bomb__Player(playerDebuffManager, playerStatusManager, pauseManager);
+            bomb__Player = new Model.Bomb__Player(playerDebuffManager, playerStatusManager, stageStatusManager);
 
             _weaponInstances = new WeaponInstances()
             {
@@ -81,7 +85,7 @@ namespace Controller
                 missile__Player = missile__Player,
             };
 
-            weaponManager = new Model.WeaponManager(pauseManager, playerDebuffManager, _weaponInstances);
+            weaponManager = new Model.WeaponManager(stageStatusManager, playerDebuffManager, _weaponInstances);
 
             acquiredEnhancementMaterialData = new Model.AcquiredEnhancementMaterialData();
         }
@@ -89,7 +93,7 @@ namespace Controller
         // Update is called once per frame
         void Update()
         {
-            pauseManager.RunEveryFrame();
+            stageStatusManager.RunEveryFrame();
 
             playerDebuffManager.RunEveryFrame();
 
@@ -103,7 +107,7 @@ namespace Controller
 
             bomb__Player.RunEveryFrame();
 
-            enemyManager.RunEveryFrame(_enemyControlData);
+            enemyManager.RunEveryFrame(_stageSettings);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Model
 
         private PlayerStatusManager _playerStatusManager;
         private PlayerDebuffManager _playerDebuffManager;
-        private PauseManager _pauseManager;
+        private StageStatusManager _stageStatusManager;
         private bool _isUsingBomb = false;
         private float _bombSize = 0;
 
@@ -37,11 +37,11 @@ namespace Model
             }
         }
 
-        public Bomb__Player(PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, PauseManager pauseManager)
+        public Bomb__Player(PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, StageStatusManager stageStatusManager)
         {
             _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
         }
 
         public void RunEveryFrame()
@@ -51,7 +51,7 @@ namespace Model
 
         private void ProceedBomb()
         {
-            if (!_pauseManager.isGameGoing) return;
+            if (!_stageStatusManager.isGameGoing) return;
 
             // ボムを発射するキーが押されていて、かつボムを所持していたら、「ボムを使用中」にする
             // スタンしているときはボムを使用できない

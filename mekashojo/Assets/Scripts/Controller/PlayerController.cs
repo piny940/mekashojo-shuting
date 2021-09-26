@@ -43,7 +43,7 @@ namespace Controller
                 = new Model.PlayerFire(
                     BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Cannon
                     );
 
@@ -51,7 +51,7 @@ namespace Controller
                 = new Model.PlayerFire(
                     BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Laser
                     );
 

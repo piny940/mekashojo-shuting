@@ -201,11 +201,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SimpleBullet enemy__SimpleBullet
                 = new Model.Enemy__SimpleBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -234,11 +238,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SpreadBullet enemy__SpreadBullet
                 = new Model.Enemy__SpreadBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -267,11 +275,14 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp);
 
             Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet
                 = new Model.Enemy__WideSpreadBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -300,11 +311,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__WideBeam enemy__WideBeam
                 = new Model.Enemy__WideBeam(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -333,11 +348,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData.hp);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SelfDestruct enemy__SelfDestruct
                 = new Model.Enemy__SelfDestruct(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -366,7 +385,7 @@ namespace Controller
             // Modelクラスのインスタンスを作成
             Model.Enemy__Boss1 enemy__Boss1
                 = new Model.Enemy__Boss1(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.playerStatusManager
                     );
@@ -374,7 +393,9 @@ namespace Controller
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
-                    Model.Enemy__Boss1.maxHP
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss1.maxHP,
+                    true
                     );
 
             EnemyElements enemyElements = new EnemyElements()
@@ -398,7 +419,7 @@ namespace Controller
             // Modelクラスのインスタンスを作成
             Model.Enemy__Boss2 enemy__Boss2
                 = new Model.Enemy__Boss2(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.playerStatusManager
                     );
@@ -406,7 +427,9 @@ namespace Controller
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
-                    Model.Enemy__Boss2.maxHP
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss2.maxHP,
+                    true
                     );
 
             EnemyElements enemyElements = new EnemyElements()
@@ -430,7 +453,7 @@ namespace Controller
             // Modelクラスのインスタンスを作成
             Model.Enemy__Boss3 enemy__Boss3
                 = new Model.Enemy__Boss3(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.playerStatusManager
                     );
@@ -438,7 +461,9 @@ namespace Controller
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
-                    Model.Enemy__Boss3.maxHP
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss3.maxHP,
+                    true
                     );
 
             EnemyElements enemyElements = new EnemyElements()
@@ -463,14 +488,16 @@ namespace Controller
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
-                    Model.Enemy__Boss4.maxHP
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss4.maxHP,
+                    true
                     );
 
             Model.Enemy__Boss4 enemy__Boss4
                 = new Model.Enemy__Boss4(
                     enemyDamageManager,
                     BattleScenesController.playerDebuffManager,
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.playerStatusManager
                     );
@@ -496,7 +523,7 @@ namespace Controller
             // Modelクラスのインスタンスを作成
             Model.Enemy__LastBoss enemy__LastBoss
                 = new Model.Enemy__LastBoss(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.playerStatusManager
                     );
@@ -504,7 +531,9 @@ namespace Controller
             Model.EnemyDamageManager enemyDamageManager
                 = new Model.EnemyDamageManager(
                     BattleScenesController.enemyManager,
-                    Model.Enemy__LastBoss.maxHP
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__LastBoss.maxHP,
+                    true
                     );
 
             EnemyElements enemyElements = new EnemyElements()
@@ -533,7 +562,7 @@ namespace Controller
                 BattleScenesController.playerDebuffManager,
                 BattleScenesController.playerStatusManager,
                 BattleScenesController.shield__Player,
-                BattleScenesController.pauseManager
+                BattleScenesController.stageStatusManager
                 );
 
             EnemyFireElements enemyFireElements

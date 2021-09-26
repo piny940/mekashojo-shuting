@@ -22,7 +22,7 @@ namespace View
                 = new Model.PlayerFire(
                     Controller.BattleScenesController.playerDebuffManager,
                     Controller.BattleScenesController.enemyManager,
-                    Controller.BattleScenesController.pauseManager,
+                    Controller.BattleScenesController.stageStatusManager,
                     _type
                     );
 

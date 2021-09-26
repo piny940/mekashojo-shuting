@@ -11,7 +11,7 @@ namespace Model
 
         //この3つの定数はView側でも使うからpublicにしておく
         //constにできないからhpとかの初期化がコンストラクタの中で行われてる
-        public readonly float maxHP = 3000;
+        public readonly float maxHP = 300;
         public readonly float maxMainEnergy = 1000;
         public readonly float maxSubEnergy = 1000;
 
@@ -19,10 +19,9 @@ namespace Model
         private float _mainEnergyAmount;
         private float _subEnergyAmount;
         private int _bombAmount = 0;
-        private bool _isDying = false;
         private float _damageReductionRate_Percent;
 
-        private PauseManager _pauseManager;
+        private StageStatusManager _stageStatusManager;
         private PlayerDebuffManager _playerDebuffManager;
         private Shield__Player _shield__Player;
 
@@ -30,7 +29,6 @@ namespace Model
         public UnityEvent<float> OnMainEnergyChanged = new UnityEvent<float>();
         public UnityEvent<float> OnSubEnergyChanged = new UnityEvent<float>();
         public UnityEvent<int> OnBombAmountChanged = new UnityEvent<int>();
-        public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
 
         public float hp
         {
@@ -72,19 +70,9 @@ namespace Model
             }
         }
 
-        public bool isDying
+        public PlayerStatusManager(PlayerDebuffManager playerDebuffManager, Shield__Player shield__Player, StageStatusManager stageStatusManager)
         {
-            get { return _isDying; }
-            set
-            {
-                _isDying = value;
-                OnIsDyingChanged?.Invoke(value);
-            }
-        }
-
-        public PlayerStatusManager(PlayerDebuffManager playerDebuffManager, Shield__Player shield__Player, PauseManager pauseManager)
-        {
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
             _playerDebuffManager = playerDebuffManager;
             _shield__Player = shield__Player;
             hp = maxHP;
@@ -124,7 +112,7 @@ namespace Model
 
             if (hp < 0)
             {
-                isDying = true;
+                _stageStatusManager.ChangeStatus(StageStatusManager.stageStatus.PlayerDying);
             }
         }
 
@@ -135,7 +123,7 @@ namespace Model
 
         private void ChargeEnergyAutomatically()
         {
-            if (!_pauseManager.isGameGoing) return;
+            if (!_stageStatusManager.isGameGoing) return;
 
             ChargeMainEnergy(MAIN_ENERGY_AUTO_CHARGE_AMOUNT * Time.deltaTime);
 

@@ -16,8 +16,8 @@ namespace Model
         protected override DamageFactorData.damageFactorType factorType { get; set; }
         protected override void ChangeBeamStatus(beamFiringProcesses process) { }
 
-        public Enemy__SimpleBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__SimpleBullet(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
 
@@ -47,7 +47,7 @@ namespace Model
         //一定間隔で攻撃をする処理
         private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing) return;
 
             _time += Time.deltaTime;
 

@@ -14,7 +14,7 @@ namespace Model
         protected EnemyManager enemyManager;
 
         protected abstract movingObjectType objectType { get; set; }
-        protected PauseManager pauseManager;
+        protected StageStatusManager stageStatusManager;
         protected float disappearTime = 0;
 
         public UnityEvent<Vector3> OnVelocityChanged = new UnityEvent<Vector3>();
@@ -65,10 +65,10 @@ namespace Model
             }
         }
 
-        public MovingObjectBase(EnemyManager enemyManager, PauseManager pauseManager)
+        public MovingObjectBase(EnemyManager enemyManager, StageStatusManager stageStatusManager)
         {
             this.enemyManager = enemyManager;
-            this.pauseManager = pauseManager;
+            this.stageStatusManager = stageStatusManager;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Model
         protected void StopOnPausing()
         {
             //ポーズし始めた時
-            if (!pauseManager.isGameGoing && isMoving)
+            if (!stageStatusManager.isGameGoing && isMoving)
             {
                 //速度の保存
                 _savedVelocity = velocity;
@@ -91,10 +91,9 @@ namespace Model
             }
 
             //ポーズし終わった時
-            if (pauseManager.isGameGoing && !isMoving)
+            if (stageStatusManager.isGameGoing && !isMoving)
             {
                 isMoving = true;
-
                 velocity = _savedVelocity;
             }
         }

@@ -8,7 +8,6 @@ namespace View
         [SerializeField, Header("Shieldを入れる")] private GameObject _shield;
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
         private Rigidbody2D _rigidbody2D;
-        private bool _isBeingDestroyed = false;
         private EnemyIDContainer _enemyIDContainer;
         private float _maxShieldScale;
 
@@ -57,35 +56,11 @@ namespace View
                 _shield.transform.localScale = new Vector3(scale, scale, 1);
             });
 
-            // 消滅の監視
-            enemy__Boss4.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
-            {
-                _isBeingDestroyed = isBeingDestroyed;
-            });
-
-            enemyDamageManager.OnIsDyingChanged.AddListener((bool isBeingDestroyed) =>
-            {
-                _isBeingDestroyed = isBeingDestroyed;
-            });
-
             // HPの監視
             enemyDamageManager.OnHPChanged.AddListener((float hp) =>
             {
                 _bossHPBarContent.fillAmount = hp / Model.Enemy__Boss4.maxHP;
             });
-        }
-
-        private void Update()
-        {
-            if (_isBeingDestroyed) Die();
-        }
-
-        private void Die()
-        {
-            //TODO:死亡モーション
-
-            BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
-            SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
         }
     }
 }

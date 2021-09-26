@@ -13,7 +13,7 @@ namespace Model
         private float _shieldReductionRate = 1;
         private int _lastDebuffID = 0;
 
-        private PauseManager _pauseManager;
+        private StageStatusManager _stageStatusManager;
 
         private Dictionary<debuffTypes, Dictionary<int, float>> _debuffs
             = new Dictionary<debuffTypes, Dictionary<int, float>>()
@@ -86,9 +86,9 @@ namespace Model
             ShieldReduction,
         }
 
-        public PlayerDebuffManager(PauseManager pauseManager)
+        public PlayerDebuffManager(StageStatusManager stageStatusManager)
         {
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
         }
 
         public void RunEveryFrame()
@@ -98,7 +98,7 @@ namespace Model
 
         private void ProceedDebuff()
         {
-            if (!_pauseManager.isGameGoing) return;
+            if (!_stageStatusManager.isGameGoing) return;
 
             // 各デバフに対して経過時間を測り、その経過時間が効果時間より大きくなったら解除する
             foreach (debuffTypes type in System.Enum.GetValues(typeof(debuffTypes)))

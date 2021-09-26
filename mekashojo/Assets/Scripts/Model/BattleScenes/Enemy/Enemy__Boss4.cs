@@ -95,8 +95,8 @@ namespace Model
             InvincibleShield,
         }
 
-        public Enemy__Boss4(EnemyDamageManager enemyDamageManager, PlayerDebuffManager playerDebuffManager, PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__Boss4(EnemyDamageManager enemyDamageManager, PlayerDebuffManager playerDebuffManager, StageStatusManager stageStatusManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             factorType = DamageFactorData.damageFactorType.Boss;
             _enemyDamageManager = enemyDamageManager;
@@ -111,7 +111,9 @@ namespace Model
 
         private void ProceedAttack()
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus != StageStatusManager.stageStatus.BossBattle)
+                return;
 
             // 攻撃を始める処理
             if (_time >= FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)

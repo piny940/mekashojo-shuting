@@ -52,7 +52,7 @@ namespace View
                 Controller.BattleScenesController.playerDebuffManager,
                 Controller.BattleScenesController.playerStatusManager,
                 Controller.BattleScenesController.shield__Player,
-                Controller.BattleScenesController.pauseManager
+                Controller.BattleScenesController.stageStatusManager
                 );
 
             playOnEnter += (collision) =>

@@ -8,8 +8,8 @@ namespace Model
         protected override DamageFactorData.damageFactorType factorType { get; set; }
         protected override void ChangeBeamStatus(beamFiringProcesses process) { }
 
-        public Enemy__SelfDestruct(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__SelfDestruct(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
             factorType = DamageFactorData.damageFactorType.NormalEnemy__SelfDestruct;

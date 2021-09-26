@@ -25,13 +25,13 @@ namespace Model
             }
         }
 
-        private PauseManager _pauseManager;
+        private StageStatusManager _stageStatusManager;
         private PlayerDebuffManager _playerDebuffManager;
         private Controller.WeaponInstances _weaponInstances;
 
-        public WeaponManager(PauseManager pauseManager, PlayerDebuffManager playerDebuffManager, Controller.WeaponInstances weaponInstances)
+        public WeaponManager(StageStatusManager stageStatusManager, PlayerDebuffManager playerDebuffManager, Controller.WeaponInstances weaponInstances)
         {
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
             _playerDebuffManager = playerDebuffManager;
             _weaponInstances = weaponInstances;
 
@@ -84,7 +84,7 @@ namespace Model
         private void SwitchWeapon()
         {
             //ゲームが進行中ではない　または　スタン中の時は武器の切り替えはできない
-            if (!_pauseManager.isGameGoing || _playerDebuffManager.isStunned)
+            if (!_stageStatusManager.isGameGoing || _playerDebuffManager.isStunned)
             {
                 return;
             }
@@ -123,7 +123,7 @@ namespace Model
         private void ProceedAttack()
         {
             //ゲームが進行中ではない　または　スタン中の時は攻撃できない
-            if (!_pauseManager.isGameGoing || _playerDebuffManager.isStunned) return;
+            if (!_stageStatusManager.isGameGoing || _playerDebuffManager.isStunned) return;
 
             if (isMainSelected)
             {

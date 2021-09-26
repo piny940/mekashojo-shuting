@@ -24,8 +24,11 @@ namespace Model
             };
 
         private EnemyManager _enemyManager;
+        private StageStatusManager _stageStatusManager;
 
         private bool _isDying = false;
+
+        private bool _isBoss = false;
 
         private float _hp;
 
@@ -62,10 +65,12 @@ namespace Model
             }
         }
 
-        public EnemyDamageManager(EnemyManager enemyManager, float hp)
+        public EnemyDamageManager(EnemyManager enemyManager, StageStatusManager stageStatusManager, float hp, bool isBoss = false)
         {
             _enemyManager = enemyManager;
+            _stageStatusManager = stageStatusManager;
             this.hp = hp;
+            _isBoss = isBoss;
         }
 
         /// <summary>
@@ -92,6 +97,12 @@ namespace Model
         /// </summary>
         private void Die()
         {
+            if (_isBoss)
+            {
+                _stageStatusManager.ChangeStatus(StageStatusManager.stageStatus.BossDying);
+                return;
+            }
+
             //ドロップアイテムを落とす
             if (Random.value < _droppingProbabilities.Values.Sum())
             {

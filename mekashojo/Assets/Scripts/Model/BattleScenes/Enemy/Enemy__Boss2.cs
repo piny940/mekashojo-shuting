@@ -73,8 +73,8 @@ namespace Model
             SpreadLaser,
         }
 
-        public Enemy__Boss2(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__Boss2(StageStatusManager stageStatusManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _damageAmounts = new Dictionary<attackType, float>()
             {
@@ -154,7 +154,9 @@ namespace Model
 
         private void ProceedAttack()
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus != StageStatusManager.stageStatus.BossBattle)
+                return;
 
             // 攻撃を始める処理
             if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
@@ -167,7 +169,6 @@ namespace Model
             if (_proceedingAttackTypeName == attackType._none)
             {
                 _time += Time.deltaTime;
-                return;
             }
 
             // 攻撃本体

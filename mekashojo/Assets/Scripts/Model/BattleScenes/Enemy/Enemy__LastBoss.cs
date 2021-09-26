@@ -197,8 +197,8 @@ namespace Model
             SpreadLaserWithStun,
         }
 
-        public Enemy__LastBoss(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public Enemy__LastBoss(StageStatusManager stageStatusManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _damageAmounts = new Dictionary<attackType, float>()
             {
@@ -344,7 +344,9 @@ namespace Model
 
         private void ProceedAttack()
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus != StageStatusManager.stageStatus.BossBattle)
+                return;
 
             // 攻撃を始める処理
             if (_time > FIRING_INTERVAL && _proceedingAttackGourpName == attackGroups._none)
@@ -358,7 +360,6 @@ namespace Model
             if (_proceedingAttackGourpName == attackGroups._none)
             {
                 _time += Time.deltaTime;
-                return;
             }
 
             // 攻撃本体
