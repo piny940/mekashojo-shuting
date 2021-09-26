@@ -64,8 +64,8 @@ namespace View
         private SpriteRenderer _bossDieExplotionRenderer;
         private Image _whiteFlashImage;
         private Dictionary<keepOutLineType, List<GameObject>> _keepOutLines;
-        private Dictionary<keepOutLineType, List<SpriteRenderer>> _lineSpriteRenderers
-            = new Dictionary<keepOutLineType, List<SpriteRenderer>>();
+        private Dictionary<keepOutLineType, List<RectTransform>> _lineRectTransforms
+            = new Dictionary<keepOutLineType, List<RectTransform>>();
 
         private Dictionary<keepOutLineType, float> _lineLengths
             = new Dictionary<keepOutLineType, float>();
@@ -131,6 +131,7 @@ namespace View
                     case Model.StageStatusManager.stageStatus.BossAppearing:
                         //Application.targetFrameRate = FPS_WHILE_BOSS_APPEARING;
                         _isBossAppearing = true;
+                        BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossAppearing);
                         break;
 
                     case Model.StageStatusManager.stageStatus.PlayerDying:
@@ -142,6 +143,7 @@ namespace View
                         Vector3 v = _boss.transform.position;
                         v.z = _bossDieDirection.transform.position.z;
                         _bossDieDirection.transform.position = v;
+                        BGMPlayer.bgmPlayer.StopBGM();
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDead:
@@ -169,7 +171,7 @@ namespace View
                 return;
 
             // ボスにある程度近づいたらボスの出現演出に移る
-            if (Controller.BattleScenesController.stageSettings.bossPosition.x - _player.transform.position.x < BOSS_APPEAR_DISTANCE
+            if (_boss.transform.position.x - _player.transform.position.x < BOSS_APPEAR_DISTANCE
                 && !_hasBossAppeared)
             {
                 Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossAppearing);
@@ -245,6 +247,7 @@ namespace View
 
                 Application.targetFrameRate = -1;
                 _whiteFlash.SetActive(false);
+                BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossBattle);
             }
         }
 
@@ -277,18 +280,18 @@ namespace View
             // KeepOutLineを全てに対する操作
             foreach (keepOutLineType type in System.Enum.GetValues(typeof(keepOutLineType)))
             {
-                _lineSpriteRenderers.Add(type, new List<SpriteRenderer>());
+                _lineRectTransforms.Add(type, new List<RectTransform>());
 
                 for (int i = 0; i < _keepOutLines[type].Count; i++)
                 {
                     // 全て非アクティブにする
                     _keepOutLines[type][i].SetActive(false);
 
-                    // SpriteRendererを取得・辞書に格納
-                    SpriteRenderer spriteRenderer
-                        = _keepOutLines[type][i].GetComponent<SpriteRenderer>();
+                    // RectTransformを取得・辞書に格納
+                    RectTransform rectTransform
+                        = _keepOutLines[type][i].GetComponent<RectTransform>();
 
-                    _lineSpriteRenderers[type].Add(spriteRenderer);
+                    _lineRectTransforms[type].Add(rectTransform);
                 }
 
                 // 前側にある方のラインのx座標を定位置として保存
@@ -313,7 +316,7 @@ namespace View
                 _defaultPositions__x.Add(type, x);
 
                 // 2つのKeepOutLineの大きさは等しくないといけないのでサイズのチェックを行う
-                if (_lineSpriteRenderers[type][1].size != _lineSpriteRenderers[type][0].size)
+                if (_lineRectTransforms[type][1].sizeDelta != _lineRectTransforms[type][0].sizeDelta)
                     throw new System.Exception();
 
                 // KeepOutLineの大きさが等しいことが確認できたので、その長さは2つの

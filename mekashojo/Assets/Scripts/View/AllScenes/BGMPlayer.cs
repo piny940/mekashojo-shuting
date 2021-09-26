@@ -16,6 +16,22 @@ namespace View
         [SerializeField, Header("StageClear画面のBGMを入れる")] private AudioClip _bgm__StageClearScene;
         [SerializeField, Header("StageFailed画面のBGMを入れる")] private AudioClip _bgm__StageFailed;
 
+        public enum bgmNames
+        {
+            _none,
+            Title,
+            Menu,
+            Stage1,
+            Stage2,
+            Stage3,
+            Stage4,
+            LastStage,
+            StageClear,
+            StageFailed,
+            BossAppearing,
+            BossBattle,
+        }
+
         private void Awake()
         {
             if (bgmPlayer == null)
@@ -32,6 +48,7 @@ namespace View
         }
 
         // BGMを切り替えるか、初めから再生し直す場合によぶ
+        // ステージ名から変える場合
         public void ChangeBGM(SceneChangeManager.SceneNames sceneName)
         {
             switch (sceneName)
@@ -78,6 +95,18 @@ namespace View
             }
 
             _bgmAudioSource.Play();
+        }
+
+        // ファイル名から変える場合
+        public void ChangeBGM(bgmNames name)
+        {
+            _bgmAudioSource.clip = (AudioClip)Resources.Load($"BGM/{name}");
+            _bgmAudioSource.Play();
+        }
+
+        public void StopBGM()
+        {
+            _bgmAudioSource.Stop();
         }
     }
 }
