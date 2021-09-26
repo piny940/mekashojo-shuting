@@ -51,6 +51,7 @@ namespace View
 
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 fireInfo,
+                Vector3.zero,
                 Controller.BattleScenesController.enemyManager,
                 Controller.BattleScenesController.playerDebuffManager,
                 Controller.BattleScenesController.playerStatusManager,
@@ -65,6 +66,15 @@ namespace View
                     enemyFire.Attack();
                 }
             };
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    this.gameObject.SetActive(false);
+                }
+            });
         }
 
         // タイプが弾丸系の場合にStartメソッドで呼ぶ
@@ -100,7 +110,11 @@ namespace View
                     throw new System.Exception();
             }
 
-            _id = Controller.EnemyController.EmergeEnemyBullet(fireInfo, this.gameObject);
+            _id = Controller.EnemyController.EmergeEnemyBullet(
+                fireInfo,
+                _rigidbody2D.velocity,
+                this.gameObject
+                );
 
             // ControllerからModelクラスのインスタンスを取得
             Model.EnemyFire enemyFire = Controller.EnemyController.fireTable__Bullet[_id].enemyFire;
@@ -132,6 +146,15 @@ namespace View
                     enemyFire.Attack();
                 }
             };
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    _isBeingDestroyed = true;
+                }
+            });
         }
     }
 }

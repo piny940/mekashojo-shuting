@@ -513,7 +513,6 @@ GameObject:
   - component: {fileID: 5493281918046423885}
   - component: {fileID: 5493281918046423886}
   - component: {fileID: 5493281918046423881}
-  - component: {fileID: 5493281918046423887}
   m_Layer: 0
   m_Name: Player
   m_TagString: BattleScenes__Player
@@ -594,18 +593,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d056e5aa5aabe41f89a169055bb9d214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5493281918046423887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5493281918046423882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70d48fe4903a4479e8933c28108f0418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5493281918079383075

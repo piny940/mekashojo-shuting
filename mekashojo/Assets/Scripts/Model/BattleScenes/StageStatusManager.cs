@@ -6,10 +6,10 @@ namespace Model
     public class StageStatusManager
     {
         private const float COUNT_DOWN_TIME = 3;
-        private bool _isFirstTime = true;
         private float _startTimeCounter = 0;
+        private stageStatus _secondPreviousStageStatus = stageStatus.Normal;
         private stageStatus _previousStageStatus = stageStatus.Normal;
-        private stageStatus _currentStageStatus = stageStatus.Normal;
+        private stageStatus _currentStageStatus = stageStatus.CountDown;
 
         public UnityEvent<float> OnStartTimeCounterChanged = new UnityEvent<float>();
         public UnityEvent<stageStatus> OnCurrentStageStatusChanged = new UnityEvent<stageStatus>();
@@ -42,8 +42,10 @@ namespace Model
             BossAppearing,
             BossBattle,
             BossDying,
+            BossDead,
             PlayerDying,
             IsPausing, // IsPausingはポーズ画面が表示されていることと同値
+            CountDown,
         }
 
         public void RunEveryFrame()
@@ -68,16 +70,15 @@ namespace Model
         private void StartCount()
         {
             //カウントダウンをする
-            if ((!isGameGoing && currentStageStatus != stageStatus.IsPausing)
-                || _isFirstTime)
+            if (currentStageStatus == stageStatus.CountDown)
             {
                 startTimeCounter += Time.deltaTime;
 
                 if (startTimeCounter > COUNT_DOWN_TIME)
                 {
-                    _isFirstTime = false;
-
                     startTimeCounter = 0;
+
+                    ChangeStatus(_secondPreviousStageStatus);
 
                     isGameGoing = true;
                 }
@@ -87,6 +88,7 @@ namespace Model
         // ステージの状態を変えるときに呼ぶ
         public void ChangeStatus(stageStatus status)
         {
+            _secondPreviousStageStatus = _previousStageStatus;
             _previousStageStatus = currentStageStatus;
             currentStageStatus = status;
         }
@@ -94,10 +96,7 @@ namespace Model
         // Restartボタンを押したときに呼ばれる
         public void Restart()
         {
-            // currentStageStatusと_previousStageStatusのswap
-            stageStatus tmp = currentStageStatus;
-            currentStageStatus = _previousStageStatus;
-            _previousStageStatus = tmp;
+            ChangeStatus(stageStatus.CountDown);
         }
     }
 }

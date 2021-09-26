@@ -129,6 +129,15 @@ namespace View
             {
                 _bossHPBarContent.fillAmount = hp / Model.Enemy__LastBoss.maxHP;
             });
+
+            // 消滅の監視
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDead)
+                {
+                    this.gameObject.SetActive(false);
+                }
+            });
         }
 
         private void ChangeBeamStatus(BeamElements elements, Model.DamageFactorManager.beamFiringProcesses beamStatus)

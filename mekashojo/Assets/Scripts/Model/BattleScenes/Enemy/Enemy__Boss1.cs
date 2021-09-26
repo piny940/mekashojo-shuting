@@ -31,7 +31,7 @@ namespace Model
         private const int GUIDED_BULLET_FIRING_AMOUNT = 45; // 攻撃が仕様書通り15秒間続くよう調整
         // TODO:GuidedBulletの挙動を調整しないとうまく動作しないため、
         // それまで仮に1としておく。↓仕様書通りにするなら10にすべきところ
-        private const int GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE = 1;
+        private const int GUIDED_BULLET_FIRING_AMOUNT_PER_ONCE = 10;
 
         // 拡散ビーム用の定数
         private const float SPREAD_BEAM_NOTIFYING_TIME = 1;
@@ -130,7 +130,7 @@ namespace Model
                 { attackType.Missile, 60 },
                 { attackType.SpreadBullet, 20 },
                 { attackType.WideBeam, 80 },
-                { attackType.GuidedBullet, 60 },
+                { attackType.GuidedBullet, 20 },
                 { attackType.SpreadBeam, 80 },
             };
 
@@ -138,7 +138,7 @@ namespace Model
 
             _bulletSpeeds = new Dictionary<attackType, float>()
             {
-                { attackType.GuidedBullet, 10 },
+                { attackType.GuidedBullet, 5  },
                 { attackType.Missile, 6 },
                 { attackType.SpreadBullet, 10 },
             };

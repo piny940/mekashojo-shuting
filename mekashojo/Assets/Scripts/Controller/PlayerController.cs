@@ -41,6 +41,7 @@ namespace Controller
             // 実行順序の関係でコンストラクタはStartに書かないといけない
             cannonFire
                 = new Model.PlayerFire(
+                    Vector3.zero,
                     BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.stageStatusManager,
@@ -49,6 +50,7 @@ namespace Controller
 
             laserFire
                 = new Model.PlayerFire(
+                    Vector3.zero,
                     BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
                     BattleScenesController.stageStatusManager,
@@ -75,6 +77,30 @@ namespace Controller
                 dropMaterialElements.dropMaterialManager.RunEveryFrame(
                     dropMaterialElements.materialObject.transform.position);
             }
+        }
+
+        public static int EmergePlayerBullet(Model.EquipmentData.equipmentType type, GameObject bulletObject, Vector3 initialVelocity)
+        {
+            Model.PlayerFire playerFire
+                = new Model.PlayerFire(
+                    initialVelocity,
+                    BattleScenesController.playerDebuffManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    type
+                    );
+
+            PlayerBulletElements playerBulletElements = new PlayerBulletElements()
+            {
+                playerFire = playerFire,
+                bulletObject = bulletObject,
+            };
+
+            int id = IDManager.GetPlayerBulletID();
+
+            playerBulletTable.Add(id, playerBulletElements);
+
+            return id;
         }
     }
 }

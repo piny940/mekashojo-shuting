@@ -56,9 +56,12 @@ namespace Model
             // 敵の数の上限が0だったら抜ける
             // まだ始まってなかったら抜ける
             // ボス出現演出中だったら抜ける
+            // ボスが死んだら抜ける
             if (stageSettings.maxEnemyAmount == 0
                 || !_stageStatusManager.isGameGoing
-                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossDying
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossDead)
                 return;
 
             // 敵を生成するかどうかを確率で決める

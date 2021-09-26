@@ -16,6 +16,7 @@ namespace View
 
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 fireInfo,
+                Vector3.zero,
                 Controller.BattleScenesController.enemyManager,
                 Controller.BattleScenesController.playerDebuffManager,
                 Controller.BattleScenesController.playerStatusManager,
@@ -30,6 +31,15 @@ namespace View
                     enemyFire.Attack();
                 }
             };
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    Destroy(this.gameObject);
+                }
+            });
         }
     }
 }

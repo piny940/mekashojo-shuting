@@ -553,11 +553,12 @@ namespace Controller
         /// モデルクラスのインスタンスを作成<br></br>
         /// IDを取得して返す
         /// </summary>
-        public static int EmergeEnemyBullet(Model.EnemyFire.FireInfo fireInfo, GameObject enemyFireObject)
+        public static int EmergeEnemyBullet(Model.EnemyFire.FireInfo fireInfo, Vector3 initialVelocity, GameObject enemyFireObject)
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyFire enemyFire = new Model.EnemyFire(
                 fireInfo,
+                initialVelocity,
                 BattleScenesController.enemyManager,
                 BattleScenesController.playerDebuffManager,
                 BattleScenesController.playerStatusManager,

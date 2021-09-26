@@ -12,19 +12,18 @@ namespace View
 
         private void Awake()
         {
-            _id = Controller.IDManager.GetPlayerBulletID();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         void Start()
         {
-            Model.PlayerFire playerFire
-                = new Model.PlayerFire(
-                    Controller.BattleScenesController.playerDebuffManager,
-                    Controller.BattleScenesController.enemyManager,
-                    Controller.BattleScenesController.stageStatusManager,
-                    _type
-                    );
+            _id = Controller.PlayerController.EmergePlayerBullet(
+                _type,
+                this.gameObject,
+                _rigidbody2D.velocity
+                );
+
+            Model.PlayerFire playerFire = Controller.PlayerController.playerBulletTable[_id].playerFire;
 
             playerFire.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
@@ -42,14 +41,6 @@ namespace View
                     transform.localEulerAngles = new Vector3(0, 0, theta);
                 }
             });
-
-            Controller.PlayerBulletElements playerBulletElements = new Controller.PlayerBulletElements()
-            {
-                playerFire = playerFire,
-                bulletObject = this.gameObject,
-            };
-
-            Controller.PlayerController.playerBulletTable.Add(_id, playerBulletElements);
 
             playWhileIn += (collision) =>
             {

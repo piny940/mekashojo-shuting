@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,17 +17,26 @@ namespace View
         // (ボス出現演出中は意図的にフレームレートを下げる)
         private const int FPS_WHILE_BOSS_APPEARING = 10;
 
+        // ボス死亡時の爆発エフェクト用の定数
+        private const float BOSS_DIE_EXPLOTION_SPEED = 20; // 大きくなっていく速さ
+        private const float BOSS_DIE_EXPLOTION_TIME = 1; // 薄くなり始めるまでの時間
+        private const float BOSS_DIE_EXPLOTION_FADE_TIME = 1.2f; // 薄くなっていく時間
+        private const float BOSS_DIE_EXPLOTION_FADE_SPEED = 0.5f; // 薄くなっていく速さ
+
+
         // KeepOutLineの符号付きの速さ
         private readonly Dictionary<keepOutLineType, float> _lineSpeed
             = new Dictionary<keepOutLineType, float>()
             {
-                {keepOutLineType.Top, 5 },
-                {keepOutLineType.MiddleTop, -10 },
-                {keepOutLineType.MiddleBottom, -10 },
-                {keepOutLineType.Bottom, 5 },
+                {keepOutLineType.Top, -5 },
+                {keepOutLineType.MiddleTop, 10 },
+                {keepOutLineType.MiddleBottom, 10 },
+                {keepOutLineType.Bottom, -5 },
             };
 
         // プログラム上、1番と2番のラインの長さは同じにしないといけない
+        [SerializeField, Header("Bossを入れる")] private GameObject _boss;
+        [SerializeField, Header("BossDieDirectionを入れる")] private GameObject _bossDieDirection;
         [SerializeField, Header("WhiteFlashを入れる")] private GameObject _whiteFlash;
         [SerializeField, Header("KeepOutLine__Top1を入れる")] private GameObject _keepOutLine__Top1;
         [SerializeField, Header("KeepOutLine__Top2を入れる")] private GameObject _keepOutLine__Top2;
@@ -36,6 +46,12 @@ namespace View
         [SerializeField, Header("KeepOutLine__MiddleBottom2を入れる")] private GameObject _keepOutLine__MiddleBottom2;
         [SerializeField, Header("KeepOutLine__Bottom1を入れる")] private GameObject _keepOutLine__Bottom1;
         [SerializeField, Header("KeepOutLine__Bottom2を入れる")] private GameObject _keepOutLine__Bottom2;
+        [SerializeField, Header("BossDieBeam1を入れる")] private GameObject _bossDieBeam1;
+        [SerializeField, Header("BossDieBeam2を入れる")] private GameObject _bossDieBeam2;
+        [SerializeField, Header("BossDieBeam3を入れる")] private GameObject _bossDieBeam3;
+        [SerializeField, Header("BossDieBeam4を入れる")] private GameObject _bossDieBeam4;
+        [SerializeField, Header("BossDieBeam5を入れる")] private GameObject _bossDieBeam5;
+        [SerializeField, Header("BossDieExplotionを入れる")] private GameObject _bossDieExplotion;
 
         private GameObject _player;
         private bool _isBossAppearing = false;
@@ -43,6 +59,9 @@ namespace View
         private bool _isBossDying = false;
         private bool _hasBossAppeared = false;
         private float _bossAppearTimer = 0;
+        private float _bossDieTimer = 0;
+        private bool _hasBossDied = false;
+        private SpriteRenderer _bossDieExplotionRenderer;
         private Image _whiteFlashImage;
         private Dictionary<keepOutLineType, List<GameObject>> _keepOutLines;
         private Dictionary<keepOutLineType, List<SpriteRenderer>> _lineSpriteRenderers
@@ -53,6 +72,12 @@ namespace View
 
         private Dictionary<keepOutLineType, float> _defaultPositions__x
             = new Dictionary<keepOutLineType, float>();
+
+        private List<GameObject> _bossDieBeams;
+
+        // ボスが死ぬ時、ビームが1つ出てから次のビームが出るまでの時間
+        private readonly List<float> _bossDieBeamTimes
+            = new List<float>() { 1, 1, 1, 1, 1 };
 
         private enum keepOutLineType
         {
@@ -66,14 +91,32 @@ namespace View
         {
             _player = GameObject.FindGameObjectWithTag(TagManager.TagNames.BattleScenes__Player.ToString());
             _whiteFlashImage = _whiteFlash.GetComponent<Image>();
+
+            SetLineDictionary();
+
+            _bossDieBeams = new List<GameObject>()
+            {
+                _bossDieBeam1,
+                _bossDieBeam2,
+                _bossDieBeam3,
+                _bossDieBeam4,
+                _bossDieBeam5,
+            };
+
+            _whiteFlash.SetActive(false);
+
+            for (int i = 0; i < _bossDieBeams.Count; i++)
+            {
+                _bossDieBeams[i].SetActive(false);
+            }
+
+            _bossDieExplotion.SetActive(false);
+
+            _bossDieExplotionRenderer = _bossDieExplotion.GetComponent<SpriteRenderer>();
         }
 
         void Start()
         {
-            _whiteFlash.SetActive(false);
-
-            SetLineDictionary();
-
             SetLineConfig();
 
             Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
@@ -86,7 +129,7 @@ namespace View
                 switch (status)
                 {
                     case Model.StageStatusManager.stageStatus.BossAppearing:
-                        Application.targetFrameRate = FPS_WHILE_BOSS_APPEARING;
+                        //Application.targetFrameRate = FPS_WHILE_BOSS_APPEARING;
                         _isBossAppearing = true;
                         break;
 
@@ -95,6 +138,13 @@ namespace View
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDying:
+                        _isBossDying = true;
+                        Vector3 v = _boss.transform.position;
+                        v.z = _bossDieDirection.transform.position.z;
+                        _bossDieDirection.transform.position = v;
+                        break;
+
+                    case Model.StageStatusManager.stageStatus.BossDead:
                         _isBossDying = true;
                         break;
                 }
@@ -159,8 +209,8 @@ namespace View
                 bool isLine0Right
                     = _keepOutLines[type][0].transform.position.x
                         > _keepOutLines[type][1].transform.position.x;
-                bool isGoingLeft = _lineSpeed[type] > 0; // 左に向かって進んでいるか
-                int frontLineIndex = isLine0Right ^ isGoingLeft ? 0 : 1;
+                bool isGoingRight = _lineSpeed[type] > 0; // 右に向かって進んでいるか
+                int frontLineIndex = isLine0Right ^ !isGoingRight ? 0 : 1;
 
                 // KeepOutLine一つ分だけ移動したら元の位置に戻る
                 // 左に向かって進んでいる場合は、KeepOutLineのx座標が初めの位置よりも
@@ -168,10 +218,10 @@ namespace View
                 // 右に向かって進んでいる場合は、右にライン２本分進んだら処理する
                 if ((_keepOutLines[type][frontLineIndex].transform.position.x
                         > _defaultPositions__x[type] + _lineLengths[type] * 2
-                    && isGoingLeft)
+                    && isGoingRight)
                     || (_keepOutLines[type][frontLineIndex].transform.position.x
-                        > _defaultPositions__x[type] - _lineLengths[type] * 2
-                        && !isGoingLeft))
+                        < _defaultPositions__x[type] - _lineLengths[type] * 2
+                        && !isGoingRight))
                 {
                     Vector3 v = _keepOutLines[type][frontLineIndex].transform.position;
                     v.x = _defaultPositions__x[type];
@@ -241,11 +291,25 @@ namespace View
                     _lineSpriteRenderers[type].Add(spriteRenderer);
                 }
 
-                // 左側のラインの初めのx座標
-                float x = Mathf.Min(
+                // 前側にある方のラインのx座標を定位置として保存
+                bool isGoingRight = _lineSpeed[type] > 0;
+
+                float x = 0;
+                if (isGoingRight)
+                {
+                    x = Mathf.Min(
                         _keepOutLines[type][0].transform.position.x,
                         _keepOutLines[type][1].transform.position.x
                         );
+                }
+                else
+                {
+                    x = Mathf.Max(
+                        _keepOutLines[type][0].transform.position.x,
+                        _keepOutLines[type][1].transform.position.x
+                        );
+                }
+
                 _defaultPositions__x.Add(type, x);
 
                 // 2つのKeepOutLineの大きさは等しくないといけないのでサイズのチェックを行う
@@ -269,14 +333,62 @@ namespace View
             BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageFailedScene);
         }
 
+        // ボスの死亡モーション
         private void DirectBossDying()
         {
             if (!_isBossDying) return;
 
-            // TODOボスの死亡モーション
+            _bossDieTimer += Time.deltaTime;
 
-            BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
-            SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
+            // 放射ビームの処理
+            if (_bossDieTimer < _bossDieBeamTimes.Sum())
+            {
+                for (int i = 0; i < _bossDieBeams.Count; i++)
+                {
+                    if (_bossDieTimer > _bossDieBeamTimes.GetRange(0, i + 1).Sum())
+                        _bossDieBeams[i].SetActive(true);
+                }
+            }
+
+            // 爆発エフェクトの処理
+            if (_bossDieTimer > _bossDieBeamTimes.Sum()
+                && _bossDieTimer < _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME)
+            {
+                if (!_bossDieExplotion.activeSelf)
+                {
+                    _bossDieExplotion.SetActive(true);
+                    _bossDieExplotion.transform.localScale = new Vector3(0, 0, 1);
+                }
+
+                // 爆発エフェクトを少しずつ大きくしていく
+                Vector3 v = _bossDieExplotion.transform.localScale;
+                v += BOSS_DIE_EXPLOTION_SPEED * Time.deltaTime * new Vector3(1, 1, 0);
+                _bossDieExplotion.transform.localScale = v;
+            }
+
+            // 爆発エフェクトが薄くなっていく処理
+            if (_bossDieTimer > _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME)
+            {
+                if (!_hasBossDied)
+                {
+                    Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossDead);
+                    for (int i = 0; i < _bossDieBeams.Count; i++)
+                    {
+                        _bossDieBeams[i].SetActive(false);
+                    }
+                }
+
+                Color color = _bossDieExplotionRenderer.color;
+                color.a -= BOSS_DIE_EXPLOTION_FADE_SPEED * Time.deltaTime;
+                _bossDieExplotionRenderer.color = color;
+            }
+
+            // ボス死亡演出の終了
+            if (_bossDieTimer > _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME + BOSS_DIE_EXPLOTION_FADE_TIME)
+            {
+                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
+            }
         }
     }
 }

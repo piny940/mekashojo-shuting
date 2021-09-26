@@ -44,7 +44,11 @@ namespace View
 
             fireInfo.type = Model.EnemyFire.fireType.NormalBullet;
 
-            _id = Controller.EnemyController.EmergeEnemyBullet(fireInfo, this.gameObject);
+            _id = Controller.EnemyController.EmergeEnemyBullet(
+                fireInfo,
+                _rigidbody2D.velocity,
+                this.gameObject
+                );
 
             // ControllerからModelクラスのインスタンスを取得
             Model.EnemyFire enemyFire = Controller.EnemyController.fireTable__Bullet[_id].enemyFire;
@@ -76,6 +80,15 @@ namespace View
                     enemyFire.Attack();
                 }
             };
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    _isBeingDestroyed = true;
+                }
+            });
         }
     }
 }

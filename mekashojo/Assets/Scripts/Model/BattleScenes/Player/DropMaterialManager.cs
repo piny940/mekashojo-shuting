@@ -32,7 +32,8 @@ namespace Model
             BombChargeMaterial
         }
 
-        public DropMaterialManager(materialType type, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, StageStatusManager stageStatusManager) : base(enemyManager, stageStatusManager)
+        public DropMaterialManager(materialType type, EnemyManager enemyManager, PlayerStatusManager playerStatusManager, StageStatusManager stageStatusManager)
+                : base(enemyManager, stageStatusManager)
         {
             _materialType = type;
             _playerStatusManager = playerStatusManager;

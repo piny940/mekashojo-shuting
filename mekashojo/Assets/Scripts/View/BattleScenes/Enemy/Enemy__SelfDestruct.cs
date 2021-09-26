@@ -63,6 +63,15 @@ namespace View
                     enemy__SelfDestruct.DealCollisionDamage();
                 }
             };
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    isBeingDestroyed = true;
+                }
+            });
         }
 
         // AddListenerにDie()を書くとforeachのループの中で「ループに使っているテーブル」に変更を入れてしまい、

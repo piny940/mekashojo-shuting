@@ -4,10 +4,12 @@ namespace Model
 {
     public class EnemyFire : MovingObjectBase
     {
-        private const float STOP_CHASING_DISTANCE = 10;
+        private const float STOP_CHASING_DISTANCE = 8;
+        private const float START_CHASING_TIME = 0.5f;
         private const float STUN_DURATION = 2;
-        private const float CHASING_RATE = 0.1f;
+        private const float CHASING_RATE = 1;
         private bool _hasApproached = false;
+        private float _chasingTime = 0;
         private FireInfo _fireInfo;
         private PlayerStatusManager _playerStatusManager;
         private PlayerDebuffManager _playerDebuffManager;
@@ -32,10 +34,11 @@ namespace Model
             public float disappearTime;
         }
 
-        public EnemyFire(FireInfo fireInfo, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, Shield__Player shield__Player, StageStatusManager stageStatusManager)
+        public EnemyFire(FireInfo fireInfo, Vector3 initialVelocity, EnemyManager enemyManager, PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, Shield__Player shield__Player, StageStatusManager stageStatusManager)
                 : base(enemyManager, stageStatusManager)
         {
             _fireInfo = fireInfo;
+            velocity = initialVelocity;
             _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
             _shield__Player = shield__Player;
@@ -84,6 +87,12 @@ namespace Model
         private void ChasePlayer(Vector3 position, Vector3 playerPosition)
         {
             if (!stageStatusManager.isGameGoing) return;
+
+            if (_chasingTime < START_CHASING_TIME)
+            {
+                _chasingTime += Time.deltaTime;
+                return;
+            }
 
             Vector3 adjustedPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
 

@@ -127,6 +127,8 @@ namespace Model
             // disappearTimeの設定がされていなければ、このメソッドでは何もしない
             if (disappearTime == 0) return;
 
+            if (!stageStatusManager.isGameGoing) return;
+
             _time += Time.deltaTime;
 
             if (_time > disappearTime)
