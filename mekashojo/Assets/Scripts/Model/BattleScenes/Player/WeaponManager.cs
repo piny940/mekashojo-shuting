@@ -83,11 +83,11 @@ namespace Model
 
         private void SwitchWeapon()
         {
-            //ゲームが進行中ではない　または　スタン中の時は武器の切り替えはできない
-            if (!_stageStatusManager.isGameGoing || _playerDebuffManager.isStunned)
-            {
+            //ゲームが進行中ではない　または　スタン中の時　またはボス出現演出中は武器の切り替えができない
+            if (!_stageStatusManager.isGameGoing
+                || _playerDebuffManager.isStunned
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
                 return;
-            }
 
             //メイン・サブの切り替え
             if (InputManager.mouseWheel > 0 && !isMainSelected)
@@ -122,8 +122,11 @@ namespace Model
         //攻撃関係の処理
         private void ProceedAttack()
         {
-            //ゲームが進行中ではない　または　スタン中の時は攻撃できない
-            if (!_stageStatusManager.isGameGoing || _playerDebuffManager.isStunned) return;
+            //ゲームが進行中ではない　または　スタン中の時　またはボス出現演出中は攻撃できない　
+            if (!_stageStatusManager.isGameGoing
+                || _playerDebuffManager.isStunned
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                return;
 
             if (isMainSelected)
             {

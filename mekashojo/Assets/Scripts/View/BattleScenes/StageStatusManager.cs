@@ -12,6 +12,10 @@ namespace View
         // ボス出現演出の長さ
         private const float BOSS_APPEAR_TIME = 3;
 
+        // ボス出現演出中のフレームレート
+        // (ボス出現演出中は意図的にフレームレートを下げる)
+        private const int FPS_WHILE_BOSS_APPEARING = 10;
+
         // KeepOutLineの符号付きの速さ
         private readonly Dictionary<keepOutLineType, float> _lineSpeed
             = new Dictionary<keepOutLineType, float>()
@@ -82,6 +86,7 @@ namespace View
                 switch (status)
                 {
                     case Model.StageStatusManager.stageStatus.BossAppearing:
+                        Application.targetFrameRate = FPS_WHILE_BOSS_APPEARING;
                         _isBossAppearing = true;
                         break;
 
@@ -188,6 +193,7 @@ namespace View
                     _keepOutLines[type][1].SetActive(false);
                 }
 
+                Application.targetFrameRate = -1;
                 _whiteFlash.SetActive(false);
             }
         }

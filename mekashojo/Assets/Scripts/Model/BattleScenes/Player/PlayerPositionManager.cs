@@ -9,7 +9,6 @@ namespace Model
         private const float REDUCTED_SPEED_RATE_HEAVY = 0.4f; //重シールド使用中の移動速度の割合
         private const float REDUCTED_SPEED_RATE_LIGHT = 0.7f; //軽シールド使用中の移動速度の割合
         private const float SPEED = 3; //移動速度
-        private const float SPEED_RATE_WHILE_BOSS_APPEARING = 0.1f;
 
         private Shield__Player _shield__Player;
         private PlayerDebuffManager _playerDebuffManager;
@@ -63,12 +62,6 @@ namespace Model
             {
                 // シールドを使用中の場合
                 speed *= _reductedSpeedRate__Shield;
-            }
-
-            if (stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
-            {
-                // ボス出現演出の途中の場合
-                speed *= SPEED_RATE_WHILE_BOSS_APPEARING;
             }
 
             velocity = speed

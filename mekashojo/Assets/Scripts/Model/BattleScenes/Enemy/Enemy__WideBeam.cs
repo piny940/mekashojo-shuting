@@ -48,7 +48,9 @@ namespace Model
 
         private void ProceedAttack()
         {
-            if (!stageStatusManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                return;
 
             _time += Time.deltaTime;
 
