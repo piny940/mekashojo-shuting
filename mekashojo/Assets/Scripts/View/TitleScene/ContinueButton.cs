@@ -20,14 +20,14 @@ namespace View
                 //セーブデータがなかった場合
                 if (!SaveDataManager.saveDataManager.Load())
                 {
-                    SEPlayer.sePlayer.audioSource.PlayOneShot(_noSaveDataSound);
+                    SEPlayer.sePlayer.PlayOneShot(_noSaveDataSound);
                     _noSaveDataScreen.isVisible = true;
                     return;
                 }
 
                 //セーブデータがあった場合
                 BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.MenuScene);
-                SEPlayer.sePlayer.audioSource.PlayOneShot(_existSaveDataSound);
+                SEPlayer.sePlayer.PlayOneShot(_existSaveDataSound);
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
             }
         }

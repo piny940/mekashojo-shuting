@@ -696,7 +696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5493281918265036262
 Transform:
   m_ObjectHideFlags: 0
@@ -856,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fire__Player: {fileID: 5493281917639726814}
+  _cannonSound: {fileID: 8300000, guid: a7fdc7cbcf3b94f5285e9714b229f75f, type: 3}
 --- !u!1 &5493281918413360562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fire__Player: {fileID: 5493281917001663868}
+  _laserSound: {fileID: 8300000, guid: e193736c793a049d888dc619ae91bde8, type: 3}
 --- !u!1 &5493281918777811381
 GameObject:
   m_ObjectHideFlags: 0

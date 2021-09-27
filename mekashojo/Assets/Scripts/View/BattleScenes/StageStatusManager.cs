@@ -13,15 +13,12 @@ namespace View
         // ボス出現演出の長さ
         private const float BOSS_APPEAR_TIME = 3;
 
-        // ボス出現演出中のフレームレート
-        // (ボス出現演出中は意図的にフレームレートを下げる)
-        private const int FPS_WHILE_BOSS_APPEARING = 10;
-
         // ボス死亡時の爆発エフェクト用の定数
         private const float BOSS_DIE_EXPLOTION_SPEED = 20; // 大きくなっていく速さ
         private const float BOSS_DIE_EXPLOTION_TIME = 1; // 薄くなり始めるまでの時間
         private const float BOSS_DIE_EXPLOTION_FADE_TIME = 1.2f; // 薄くなっていく時間
         private const float BOSS_DIE_EXPLOTION_FADE_SPEED = 0.5f; // 薄くなっていく速さ
+        private const float BOSS_DIE_BGM_VOLUME_RATE = 0.5f;
 
 
         // KeepOutLineの符号付きの速さ
@@ -52,6 +49,8 @@ namespace View
         [SerializeField, Header("BossDieBeam4を入れる")] private GameObject _bossDieBeam4;
         [SerializeField, Header("BossDieBeam5を入れる")] private GameObject _bossDieBeam5;
         [SerializeField, Header("BossDieExplotionを入れる")] private GameObject _bossDieExplotion;
+        [SerializeField, Header("ボスの小さい爆発音を入れる")] private AudioClip _bossDieExplotionSound__Small;
+        [SerializeField, Header("ボスの大きい爆発音を入れる")] private AudioClip _bossDieExplotionSound__Large;
 
         private GameObject _player;
         private bool _isBossAppearing = false;
@@ -129,7 +128,6 @@ namespace View
                 switch (status)
                 {
                     case Model.StageStatusManager.stageStatus.BossAppearing:
-                        //Application.targetFrameRate = FPS_WHILE_BOSS_APPEARING;
                         _isBossAppearing = true;
                         BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossAppearing);
                         break;
@@ -139,11 +137,11 @@ namespace View
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDying:
+                        BGMPlayer.bgmPlayer.ChangeBGMVolume(BOSS_DIE_BGM_VOLUME_RATE);
                         _isBossDying = true;
                         Vector3 v = _boss.transform.position;
                         v.z = _bossDieDirection.transform.position.z;
                         _bossDieDirection.transform.position = v;
-                        BGMPlayer.bgmPlayer.StopBGM();
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDead:
@@ -190,8 +188,33 @@ namespace View
                 _whiteFlash.SetActive(true);
 
                 foreach (keepOutLineType type in System.Enum.GetValues(typeof(keepOutLineType)))
+                {
                     for (int i = 0; i < _keepOutLines[type].Count; i++)
+                    {
                         _keepOutLines[type][i].SetActive(true);
+                    }
+
+                    // 前側にある方のラインのx座標を定位置として保存
+                    bool isGoingRight = _lineSpeed[type] > 0;
+
+                    float x;
+                    if (isGoingRight)
+                    {
+                        x = Mathf.Min(
+                            _keepOutLines[type][0].transform.position.x,
+                            _keepOutLines[type][1].transform.position.x
+                            );
+                    }
+                    else
+                    {
+                        x = Mathf.Max(
+                            _keepOutLines[type][0].transform.position.x,
+                            _keepOutLines[type][1].transform.position.x
+                            );
+                    }
+
+                    _defaultPositions__x.Add(type, x);
+                }
             }
 
             _bossAppearTimer += Time.deltaTime;
@@ -245,7 +268,6 @@ namespace View
                     _keepOutLines[type][1].SetActive(false);
                 }
 
-                Application.targetFrameRate = -1;
                 _whiteFlash.SetActive(false);
                 BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossBattle);
             }
@@ -294,27 +316,6 @@ namespace View
                     _lineRectTransforms[type].Add(rectTransform);
                 }
 
-                // 前側にある方のラインのx座標を定位置として保存
-                bool isGoingRight = _lineSpeed[type] > 0;
-
-                float x = 0;
-                if (isGoingRight)
-                {
-                    x = Mathf.Min(
-                        _keepOutLines[type][0].transform.position.x,
-                        _keepOutLines[type][1].transform.position.x
-                        );
-                }
-                else
-                {
-                    x = Mathf.Max(
-                        _keepOutLines[type][0].transform.position.x,
-                        _keepOutLines[type][1].transform.position.x
-                        );
-                }
-
-                _defaultPositions__x.Add(type, x);
-
                 // 2つのKeepOutLineの大きさは等しくないといけないのでサイズのチェックを行う
                 if (_lineRectTransforms[type][1].sizeDelta != _lineRectTransforms[type][0].sizeDelta)
                     throw new System.Exception();
@@ -348,8 +349,12 @@ namespace View
             {
                 for (int i = 0; i < _bossDieBeams.Count; i++)
                 {
-                    if (_bossDieTimer > _bossDieBeamTimes.GetRange(0, i + 1).Sum())
+                    if (_bossDieTimer > _bossDieBeamTimes.GetRange(0, i + 1).Sum()
+                        && !_bossDieBeams[i].activeSelf)
+                    {
                         _bossDieBeams[i].SetActive(true);
+                        SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Small);
+                    }
                 }
             }
 
@@ -361,6 +366,7 @@ namespace View
                 {
                     _bossDieExplotion.SetActive(true);
                     _bossDieExplotion.transform.localScale = new Vector3(0, 0, 1);
+                    SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Large);
                 }
 
                 // 爆発エフェクトを少しずつ大きくしていく
@@ -389,6 +395,8 @@ namespace View
             // ボス死亡演出の終了
             if (_bossDieTimer > _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME + BOSS_DIE_EXPLOTION_FADE_TIME)
             {
+                // TODO:BGMの大きさの変更の仕方は、設定画面ができてからまた調整する
+                BGMPlayer.bgmPlayer.ChangeBGMVolume(1 / BOSS_DIE_BGM_VOLUME_RATE);
                 BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
             }

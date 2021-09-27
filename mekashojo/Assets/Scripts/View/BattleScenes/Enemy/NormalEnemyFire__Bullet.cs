@@ -5,6 +5,7 @@ namespace View
     public class NormalEnemyFire__Bullet : CollisionBase
     {
         [SerializeField, Header("NormalEnemyDataを入れる")] Controller.NormalEnemyData _normalEnemyData;
+        [SerializeField, Header("発射された時に鳴らす音を入れる")] private AudioClip _fireSound;
         private int _id;
         private Rigidbody2D _rigidbody2D;
         private bool _isBeingDestroyed;
@@ -16,6 +17,8 @@ namespace View
 
         private void Start()
         {
+            SEPlayer.sePlayer.PlayOneShot(_fireSound);
+
             Model.EnemyFire.FireInfo fireInfo = new Model.EnemyFire.FireInfo()
             {
                 bulletSpeed = _normalEnemyData.bulletSpeed,

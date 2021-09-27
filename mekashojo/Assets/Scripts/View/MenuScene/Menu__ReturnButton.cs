@@ -11,7 +11,7 @@ namespace View
             if (CanPush())
             {
                 BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.TitleScene);
-                SEPlayer.sePlayer.audioSource.PlayOneShot(_pushSound);
+                SEPlayer.sePlayer.PlayOneShot(_pushSound);
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.TitleScene);
             }
         }

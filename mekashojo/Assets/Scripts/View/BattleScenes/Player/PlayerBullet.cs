@@ -6,6 +6,7 @@ namespace View
     public class PlayerBullet : CollisionBase
     {
         [SerializeField, Header("武器のタイプを選ぶ")] private Model.EquipmentData.equipmentType _type;
+        [SerializeField, Header("発射された時に鳴らす音を入れる")] private AudioClip _fireSound;
         private int _id;
         private bool _isBeingDestroyed;
         private Rigidbody2D _rigidbody2D;
@@ -17,6 +18,8 @@ namespace View
 
         void Start()
         {
+            SEPlayer.sePlayer.PlayOneShot(_fireSound);
+
             _id = Controller.PlayerController.EmergePlayerBullet(
                 _type,
                 this.gameObject,

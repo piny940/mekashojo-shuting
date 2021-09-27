@@ -37,7 +37,7 @@ namespace Model
         {
             _materialType = type;
             _playerStatusManager = playerStatusManager;
-            objectType = movingObjectType.DropItem;
+            objectType = movingObjectType.DropMaterial;
         }
 
 

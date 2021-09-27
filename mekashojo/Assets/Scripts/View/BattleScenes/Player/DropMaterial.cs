@@ -5,6 +5,7 @@ namespace View
     public class DropMaterial : CollisionBase
     {
         [SerializeField, Header("タイプを選ぶ")] private Model.DropMaterialManager.materialType _type;
+        [SerializeField, Header("拾った時になる音を入れる")] private AudioClip _pickUpSound;
         private int _id;
         private Rigidbody2D _rigidbody2D;
         private bool _isBeingDestroyed;
@@ -49,6 +50,7 @@ namespace View
             {
                 if (collision.tag == TagManager.TagNames.BattleScenes__Player.ToString())
                 {
+                    SEPlayer.sePlayer.PlayOneShot(_pickUpSound);
                     dropMaterialManager.PickedUp();
                 }
             };

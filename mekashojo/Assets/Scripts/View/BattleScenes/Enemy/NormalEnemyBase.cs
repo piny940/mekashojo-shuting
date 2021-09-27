@@ -52,7 +52,7 @@ namespace View
             {
                 if (_lastmaterialNumbers[(int)type] != enemyDamageManager.materialNumbers[(int)type])
                 {
-                    PrefabManager.ProduceDropItem(type, transform.position);
+                    PrefabManager.ProduceDropMaterial(type, transform.position);
 
                     _lastmaterialNumbers[(int)type] = enemyDamageManager.materialNumbers[(int)type];
 

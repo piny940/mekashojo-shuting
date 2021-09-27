@@ -27,7 +27,7 @@ namespace Model
             PlayerFire,
             Enemy,
             EnemyFire,
-            DropItem,
+            DropMaterial,
         }
 
         public Vector3 velocity

@@ -698,6 +698,8 @@ MonoBehaviour:
   _bossDieBeam4: {fileID: 9650603397945233}
   _bossDieBeam5: {fileID: 2071509006303543162}
   _bossDieExplotion: {fileID: 5610201708420715451}
+  _bossDieExplotionSound__Small: {fileID: 8300000, guid: 6fd9070c5dd5d4acf87a73e6c26b79a9, type: 3}
+  _bossDieExplotionSound__Large: {fileID: 8300000, guid: ca504fd5087a0458ea894e69bebb3f5d, type: 3}
 --- !u!1 &8730930205625009983
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +870,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeepOutLine__MiddleTop2
       objectReference: {fileID: 0}
+    - target: {fileID: 6566579161801334065, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
 --- !u!1 &4703222432032764828 stripped
@@ -890,6 +896,10 @@ PrefabInstance:
     - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Name
       value: KeepOutLine__Bottom1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159732184055057345, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Pivot.x
@@ -1082,6 +1092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeepOutLine__MiddleBottom1
       objectReference: {fileID: 0}
+    - target: {fileID: 6566579161801334065, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
 --- !u!1 &6964812438338773173 stripped
@@ -1189,6 +1203,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeepOutLine__MiddleTop1
       objectReference: {fileID: 0}
+    - target: {fileID: 6566579161801334065, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
 --- !u!1 &1305135218196234225 stripped
@@ -1211,6 +1229,10 @@ PrefabInstance:
     - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Name
       value: KeepOutLine__Bottom2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159732184055057345, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Pivot.x
@@ -1403,6 +1425,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeepOutLine__MiddleBottom2
       objectReference: {fileID: 0}
+    - target: {fileID: 6566579161801334065, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ae687b40df0d4f55a6f10bddfc4ca43, type: 3}
 --- !u!1 &4434535337774514762 stripped
@@ -1425,6 +1451,10 @@ PrefabInstance:
     - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Name
       value: KeepOutLine__Top1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159732184055057345, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Pivot.x
@@ -1532,6 +1562,10 @@ PrefabInstance:
     - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Name
       value: KeepOutLine__Top2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953940267986939760, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159732184055057345, guid: e5013eaaa432041d68a6199aa012e3f7, type: 3}
       propertyPath: m_Pivot.x

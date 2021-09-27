@@ -108,5 +108,10 @@ namespace View
         {
             _bgmAudioSource.Stop();
         }
+
+        public void ChangeBGMVolume(float rate)
+        {
+            _bgmAudioSource.volume *= rate;
+        }
     }
 }

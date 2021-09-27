@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normalEnemyData: {fileID: 11400000, guid: 1dbbf228c49644ef9bdb2f75cfe5cfe5, type: 2}
+  _fireSound: {fileID: 8300000, guid: 70348da6cc9654b3f8eb0eb9d6ff03c5, type: 3}
