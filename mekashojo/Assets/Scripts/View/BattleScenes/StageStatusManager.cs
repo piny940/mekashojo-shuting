@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +13,9 @@ namespace View
         private const float BOSS_APPEAR_TIME = 3;
 
         // ボス死亡時の爆発エフェクト用の定数
-        private const float BOSS_DIE_EXPLOTION_SPEED = 20; // 大きくなっていく速さ
-        private const float BOSS_DIE_EXPLOTION_TIME = 1; // 薄くなり始めるまでの時間
-        private const float BOSS_DIE_EXPLOTION_FADE_TIME = 1.2f; // 薄くなっていく時間
-        private const float BOSS_DIE_EXPLOTION_FADE_SPEED = 0.5f; // 薄くなっていく速さ
-        private const float BOSS_DIE_BGM_VOLUME_RATE = 0.5f;
-
+        private const float BOSS_DIE_EXPLOTION_TIME = 5;
+        private const float BOSS_DIE_EXPLOTION_FADE_TIME = 2;
+        private const int EXPLOTION_AMOUNT = 4;
 
         // KeepOutLineの符号付きの速さ
         private readonly Dictionary<keepOutLineType, float> _lineSpeed
@@ -43,12 +39,8 @@ namespace View
         [SerializeField, Header("KeepOutLine__MiddleBottom2を入れる")] private GameObject _keepOutLine__MiddleBottom2;
         [SerializeField, Header("KeepOutLine__Bottom1を入れる")] private GameObject _keepOutLine__Bottom1;
         [SerializeField, Header("KeepOutLine__Bottom2を入れる")] private GameObject _keepOutLine__Bottom2;
-        [SerializeField, Header("BossDieBeam1を入れる")] private GameObject _bossDieBeam1;
-        [SerializeField, Header("BossDieBeam2を入れる")] private GameObject _bossDieBeam2;
-        [SerializeField, Header("BossDieBeam3を入れる")] private GameObject _bossDieBeam3;
-        [SerializeField, Header("BossDieBeam4を入れる")] private GameObject _bossDieBeam4;
-        [SerializeField, Header("BossDieBeam5を入れる")] private GameObject _bossDieBeam5;
         [SerializeField, Header("BossDieExplotionを入れる")] private GameObject _bossDieExplotion;
+        [SerializeField, Header("ボスが死んだ後に落ちるひらひらを入れる")] private GameObject _bossDieShower;
         [SerializeField, Header("ボスの小さい爆発音を入れる")] private AudioClip _bossDieExplotionSound__Small;
         [SerializeField, Header("ボスの大きい爆発音を入れる")] private AudioClip _bossDieExplotionSound__Large;
 
@@ -60,7 +52,8 @@ namespace View
         private float _bossAppearTimer = 0;
         private float _bossDieTimer = 0;
         private bool _hasBossDied = false;
-        private SpriteRenderer _bossDieExplotionRenderer;
+        private bool _hasExploded = false;
+        private int _explotionNumber = 1;
         private Image _whiteFlashImage;
         private Dictionary<keepOutLineType, List<GameObject>> _keepOutLines;
         private Dictionary<keepOutLineType, List<RectTransform>> _lineRectTransforms
@@ -71,12 +64,6 @@ namespace View
 
         private Dictionary<keepOutLineType, float> _defaultPositions__x
             = new Dictionary<keepOutLineType, float>();
-
-        private List<GameObject> _bossDieBeams;
-
-        // ボスが死ぬ時、ビームが1つ出てから次のビームが出るまでの時間
-        private readonly List<float> _bossDieBeamTimes
-            = new List<float>() { 1, 1, 1, 1, 1 };
 
         private enum keepOutLineType
         {
@@ -93,25 +80,9 @@ namespace View
 
             SetLineDictionary();
 
-            _bossDieBeams = new List<GameObject>()
-            {
-                _bossDieBeam1,
-                _bossDieBeam2,
-                _bossDieBeam3,
-                _bossDieBeam4,
-                _bossDieBeam5,
-            };
-
             _whiteFlash.SetActive(false);
-
-            for (int i = 0; i < _bossDieBeams.Count; i++)
-            {
-                _bossDieBeams[i].SetActive(false);
-            }
-
             _bossDieExplotion.SetActive(false);
-
-            _bossDieExplotionRenderer = _bossDieExplotion.GetComponent<SpriteRenderer>();
+            _bossDieShower.SetActive(false);
         }
 
         void Start()
@@ -137,7 +108,6 @@ namespace View
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDying:
-                        BGMPlayer.bgmPlayer.ChangeBGMVolume(BOSS_DIE_BGM_VOLUME_RATE);
                         _isBossDying = true;
                         Vector3 v = _boss.transform.position;
                         v.z = _bossDieDirection.transform.position.z;
@@ -333,8 +303,7 @@ namespace View
 
             // TODOプレイヤーの死亡モーション
 
-            SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageFailedScene);
-            BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageFailedScene);
+            SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageFailedScene, true);
         }
 
         // ボスの死亡モーション
@@ -344,61 +313,34 @@ namespace View
 
             _bossDieTimer += Time.deltaTime;
 
-            // 放射ビームの処理
-            if (_bossDieTimer < _bossDieBeamTimes.Sum())
+            // EXPLOTION_AMOUNTの数だけ小さい爆発音を鳴らす(1秒おき)
+            if (_bossDieTimer > _explotionNumber && _explotionNumber < EXPLOTION_AMOUNT + 2)
             {
-                for (int i = 0; i < _bossDieBeams.Count; i++)
-                {
-                    if (_bossDieTimer > _bossDieBeamTimes.GetRange(0, i + 1).Sum()
-                        && !_bossDieBeams[i].activeSelf)
-                    {
-                        _bossDieBeams[i].SetActive(true);
-                        SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Small);
-                    }
-                }
+                _explotionNumber++;
+                SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Small);
             }
 
             // 爆発エフェクトの処理
-            if (_bossDieTimer > _bossDieBeamTimes.Sum()
-                && _bossDieTimer < _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME)
+            if (!_hasExploded)
             {
-                if (!_bossDieExplotion.activeSelf)
-                {
-                    _bossDieExplotion.SetActive(true);
-                    _bossDieExplotion.transform.localScale = new Vector3(0, 0, 1);
-                    SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Large);
-                }
-
-                // 爆発エフェクトを少しずつ大きくしていく
-                Vector3 v = _bossDieExplotion.transform.localScale;
-                v += BOSS_DIE_EXPLOTION_SPEED * Time.deltaTime * new Vector3(1, 1, 0);
-                _bossDieExplotion.transform.localScale = v;
+                _hasExploded = true;
+                _bossDieExplotion.SetActive(true);
+                _bossDieExplotion.transform.position = _boss.transform.position;
+                _bossDieShower.transform.position = _boss.transform.position;
             }
 
-            // 爆発エフェクトが薄くなっていく処理
-            if (_bossDieTimer > _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME)
+            if (_bossDieTimer > BOSS_DIE_EXPLOTION_TIME && !_hasBossDied)
             {
-                if (!_hasBossDied)
-                {
-                    Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossDead);
-                    for (int i = 0; i < _bossDieBeams.Count; i++)
-                    {
-                        _bossDieBeams[i].SetActive(false);
-                    }
-                }
-
-                Color color = _bossDieExplotionRenderer.color;
-                color.a -= BOSS_DIE_EXPLOTION_FADE_SPEED * Time.deltaTime;
-                _bossDieExplotionRenderer.color = color;
+                _hasBossDied = true;
+                _bossDieShower.SetActive(true);
+                SEPlayer.sePlayer.PlayOneShot(_bossDieExplotionSound__Large);
+                Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossDead);
             }
 
             // ボス死亡演出の終了
-            if (_bossDieTimer > _bossDieBeamTimes.Sum() + BOSS_DIE_EXPLOTION_TIME + BOSS_DIE_EXPLOTION_FADE_TIME)
+            if (_bossDieTimer > BOSS_DIE_EXPLOTION_TIME + BOSS_DIE_EXPLOTION_FADE_TIME)
             {
-                // TODO:BGMの大きさの変更の仕方は、設定画面ができてからまた調整する
-                BGMPlayer.bgmPlayer.ChangeBGMVolume(1 / BOSS_DIE_BGM_VOLUME_RATE);
-                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.StageClearScene);
-                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene, true);
             }
         }
     }

@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 1
+  _fireSound: {fileID: 0}
 --- !u!1 &291507061
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,6 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
+  _fireSound: {fileID: 0}
 --- !u!1 &764183415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 6
+  _fireSound: {fileID: 0}
 --- !u!82 &60215952408231328
 AudioSource:
   m_ObjectHideFlags: 0

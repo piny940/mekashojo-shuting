@@ -31,15 +31,6 @@ namespace View
                     enemyFire.Attack();
                 }
             };
-
-            // ゲーム終了時
-            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
-            {
-                if (status == Model.StageStatusManager.stageStatus.BossDying)
-                {
-                    Destroy(this.gameObject);
-                }
-            });
         }
     }
 }

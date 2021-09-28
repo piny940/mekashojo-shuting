@@ -31,8 +31,10 @@ namespace View
             _previousSceneName = SceneNames.TitleScene;
         }
 
-        public void ChangeScene(SceneNames nextSceneName)
+        public void ChangeScene(SceneNames nextSceneName, bool willChangeBGM = false)
         {
+            if (willChangeBGM) BGMPlayer.bgmPlayer.ChangeBGM(nextSceneName);
+
             //シーンの移動情報の更新
             _previousSceneName = _currentSceneName;
             _currentSceneName = nextSceneName;
@@ -47,8 +49,9 @@ namespace View
         /// <summary>
         /// 一つ前のシーンに戻る。このメソッドは今後の仕様によって変更が加わると思われる
         /// </summary>
-        public void ReturnScene()
+        public void ReturnScene(bool willChangeBGM = false)
         {
+            if (willChangeBGM) BGMPlayer.bgmPlayer.ChangeBGM(_previousSceneName);
             ChangeScene(_previousSceneName);
         }
 

@@ -10,9 +10,8 @@ namespace View
         {
             if (CanPush())
             {
-                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.TitleScene);
                 SEPlayer.sePlayer.PlayOneShot(_pushSound);
-                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.TitleScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.TitleScene, true);
             }
         }
 

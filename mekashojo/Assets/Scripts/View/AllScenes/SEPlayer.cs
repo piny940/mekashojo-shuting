@@ -32,12 +32,15 @@ namespace View
         // 一度だけ鳴らす
         public void PlayOneShot(AudioClip clip)
         {
+            if (clip == null) return;
             audioSource.PlayOneShot(clip);
         }
 
         // 止めるまで鳴らし続ける
-        public int Play(AudioClip clip)
+        public int Play(AudioClip clip, bool willLoop = true)
         {
+            if (clip == null) return -1;
+
             // IDを取得
             _latestID++;
             int id = _latestID;
@@ -45,7 +48,7 @@ namespace View
             // 音源のコンポーネントを追加してそこからSEを鳴らす
             AudioSource audioSource = this.gameObject.AddComponent<AudioSource>();
             audioSource.clip = clip;
-            audioSource.loop = true;
+            audioSource.loop = willLoop;
             audioSource.Play();
 
             _audioSources.Add(id, audioSource);

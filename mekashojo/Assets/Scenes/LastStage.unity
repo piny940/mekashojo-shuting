@@ -276,10 +276,6 @@ PrefabInstance:
       propertyPath: _boss
       value: 
       objectReference: {fileID: 459037528}
-    - target: {fileID: 8167148523092490154, guid: 5dbc8a5b4b7924ae9908da846f0206b1, type: 3}
-      propertyPath: _whiteFlash
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8167148523092490155, guid: 5dbc8a5b4b7924ae9908da846f0206b1, type: 3}
       propertyPath: m_RootOrder
       value: 15

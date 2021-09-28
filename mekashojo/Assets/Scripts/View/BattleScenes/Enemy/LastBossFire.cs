@@ -5,6 +5,7 @@ namespace View
     public class LastBossFire : CollisionBase
     {
         [SerializeField, Header("攻撃のタイプを選ぶ")] private Model.Enemy__LastBoss.attackType _type;
+        [SerializeField, Header("攻撃時になる音を入れる")] private AudioClip _fireSound;
         private int _id;
         private Rigidbody2D _rigidbody2D;
         private bool _isBeingDestroyed;
@@ -24,6 +25,8 @@ namespace View
                 EmergeBeam(_type);
             //タイプが弾丸系の場合
             else EmergeBullet(_type);
+
+            SEPlayer.sePlayer.PlayOneShot(_fireSound);
         }
 
         // AddListenerにDie()を書くとforeachのループの中で「ループに使っているテーブル」に変更を入れてしまい、
