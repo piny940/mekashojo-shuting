@@ -29,7 +29,6 @@ namespace View
 
         // プログラム上、1番と2番のラインの長さは同じにしないといけない
         [SerializeField, Header("Bossを入れる")] private GameObject _boss;
-        [SerializeField, Header("BossDieDirectionを入れる")] private GameObject _bossDieDirection;
         [SerializeField, Header("WhiteFlashを入れる")] private GameObject _whiteFlash;
         [SerializeField, Header("KeepOutLine__Top1を入れる")] private GameObject _keepOutLine__Top1;
         [SerializeField, Header("KeepOutLine__Top2を入れる")] private GameObject _keepOutLine__Top2;
@@ -110,8 +109,6 @@ namespace View
                     case Model.StageStatusManager.stageStatus.BossDying:
                         _isBossDying = true;
                         Vector3 v = _boss.transform.position;
-                        v.z = _bossDieDirection.transform.position.z;
-                        _bossDieDirection.transform.position = v;
                         break;
 
                     case Model.StageStatusManager.stageStatus.BossDead:
@@ -302,7 +299,7 @@ namespace View
             if (!_isPlayerDying) return;
 
             // TODOプレイヤーの死亡モーション
-
+            SEPlayer.sePlayer.Stop();
             SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageFailedScene, true);
         }
 
@@ -327,6 +324,7 @@ namespace View
                 _bossDieExplotion.SetActive(true);
                 _bossDieExplotion.transform.position = _boss.transform.position;
                 _bossDieShower.transform.position = _boss.transform.position;
+                SEPlayer.sePlayer.Stop();
             }
 
             if (_bossDieTimer > BOSS_DIE_EXPLOTION_TIME && !_hasBossDied)

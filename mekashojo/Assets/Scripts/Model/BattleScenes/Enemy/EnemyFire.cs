@@ -4,11 +4,9 @@ namespace Model
 {
     public class EnemyFire : MovingObjectBase
     {
-        private const float STOP_CHASING_DISTANCE = 8;
         private const float START_CHASING_TIME = 0.5f;
         private const float STUN_DURATION = 2;
         private const float CHASING_RATE = 1;
-        private bool _hasApproached = false;
         private float _chasingTime = 0;
         private FireInfo _fireInfo;
         private PlayerStatusManager _playerStatusManager;
@@ -54,7 +52,8 @@ namespace Model
             if (_fireInfo.type == fireType.GuidedBullet)
                 ChasePlayer(position, playerPosition);
 
-            if (_fireInfo.type == fireType.Barrage)
+            if (_fireInfo.type == fireType.Barrage
+                || _fireInfo.type == fireType.GuidedBullet)
                 DisappearLater();
         }
 
@@ -100,16 +99,7 @@ namespace Model
 
             Vector3 direction = (adjustedPlayerPosition - position) / distance * CHASING_RATE + velocity;
 
-            if (!_hasApproached)
-            {
-                velocity = direction * _fireInfo.bulletSpeed / Vector3.Magnitude(direction);
-            }
-
-            // 一定距離まで近づいたら追跡をやめる
-            if (distance < STOP_CHASING_DISTANCE)
-            {
-                _hasApproached = true;
-            }
+            velocity = direction * _fireInfo.bulletSpeed / Vector3.Magnitude(direction);
         }
     }
 }

@@ -218,4 +218,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 2
-  _fireSound: {fileID: 8300000, guid: 80ce5b619de514c64ad4f651d93d9c4b, type: 3}
+  _fireSound: {fileID: 0}

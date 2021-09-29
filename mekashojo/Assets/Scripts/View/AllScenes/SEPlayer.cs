@@ -56,8 +56,21 @@ namespace View
         }
 
         // Playメソッドで鳴らしたSEを止める
-        public void Stop(int id)
+        public void Stop(int id = -1)
         {
+            // IDを指定しなかったら全てのSEを止める
+            if (id == -1)
+            {
+                for (int i = 0; i < _latestID; i++)
+                {
+                    if (_audioSources.ContainsKey(id))
+                        _audioSources.Remove(id);
+                }
+
+                return;
+            }
+
+            // idを指定して止める場合
             if (!_audioSources.ContainsKey(id)) return;
 
             AudioSource audioSource = _audioSources[id];

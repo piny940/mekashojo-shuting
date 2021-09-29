@@ -110,7 +110,7 @@ namespace Model
                     _debuffTimes[type][id] -= Time.deltaTime;
 
                     if (_debuffTimes[type][id] < 0)
-                        RemoveDebuff(debuffTypes.Stun, id);
+                        RemoveDebuff(type, id);
                 }
         }
 

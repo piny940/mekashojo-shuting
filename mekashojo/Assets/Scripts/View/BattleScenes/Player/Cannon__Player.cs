@@ -12,7 +12,7 @@ namespace View
 
             Controller.BattleScenesController.cannon__Player.OnFiringTargetChanged.AddListener(RotateFire);
 
-            Controller.BattleScenesController.cannon__Player.OnFireVisibilityChanged.AddListener((bool isFireVisible) =>
+            Controller.BattleScenesController.cannon__Player.OnIsUsingCannonChanged.AddListener((bool isFireVisible) =>
             {
                 fire__Player.SetActive(isFireVisible);
 

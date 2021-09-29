@@ -92,6 +92,7 @@ namespace View
             {
                 case Model.Enemy__Boss1.attackType.GuidedBullet:
                     fireInfo.type = Model.EnemyFire.fireType.GuidedBullet;
+                    fireInfo.disappearTime = Model.Enemy__Boss1.guidedBulletDisappearTime;
                     break;
 
                 case Model.Enemy__Boss1.attackType.Missile:

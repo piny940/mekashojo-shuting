@@ -93,6 +93,7 @@ namespace View
             {
                 case Model.Enemy__LastBoss.attackType.GuidedMissile:
                     fireInfo.type = Model.EnemyFire.fireType.GuidedBullet;
+                    fireInfo.disappearTime = Model.Enemy__LastBoss.guidedMissileDisappearTime;
                     break;
 
                 case Model.Enemy__LastBoss.attackType.SpreadStunBullet:

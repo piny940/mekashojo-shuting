@@ -12,20 +12,16 @@ namespace View
 
         private void Awake()
         {
-            _id = Controller.IDManager.GetMaterialID();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
+            _id = Controller.PlayerController.EmergeDropMaterial(_type, this.gameObject);
+
             Model.DropMaterialManager dropMaterialManager
-                = new Model.DropMaterialManager(
-                    _type,
-                    Controller.BattleScenesController.enemyManager,
-                    Controller.BattleScenesController.playerStatusManager,
-                    Controller.BattleScenesController.stageStatusManager
-                    );
+                = Controller.PlayerController.dropMaterialTable[_id].dropMaterialManager;
 
             dropMaterialManager.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
@@ -36,15 +32,6 @@ namespace View
             {
                 _isBeingDestroyed = isBeingDestroyed;
             });
-
-            Controller.DropMaterialElements dropMaterialElements
-                = new Controller.DropMaterialElements()
-                {
-                    dropMaterialManager = dropMaterialManager,
-                    materialObject = this.gameObject,
-                };
-
-            Controller.PlayerController.dropMaterialTable.Add(_id, dropMaterialElements);
 
             playOnEnter += (collision) =>
             {

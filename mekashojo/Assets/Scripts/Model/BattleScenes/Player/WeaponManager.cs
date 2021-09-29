@@ -122,10 +122,9 @@ namespace Model
         //攻撃関係の処理
         private void ProceedAttack()
         {
-            //ゲームが進行中ではない　または　スタン中の時　またはボス出現演出中は攻撃できない　
+            //ゲームが進行中ではない　または　スタン中の時　攻撃できない　
             if (!_stageStatusManager.isGameGoing
-                || _playerDebuffManager.isStunned
-                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                || _playerDebuffManager.isStunned)
                 return;
 
             if (isMainSelected)

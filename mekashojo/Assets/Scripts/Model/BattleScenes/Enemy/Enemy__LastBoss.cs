@@ -111,6 +111,7 @@ namespace Model
         protected override DamageFactorData.damageFactorType factorType { get; set; }
 
         public static readonly float maxHP = 15000;
+        public static readonly float guidedMissileDisappearTime = 2.5f;
         public static readonly float spreadBalkanDisappearTime = 0.9f;
         public static readonly float spreadBombDisappearTime = 1f;
         public static IReadOnlyDictionary<attackType, float> damageAmounts { get; private set; }

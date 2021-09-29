@@ -27,7 +27,6 @@ namespace Controller
 
         public static Dictionary<int, DropMaterialElements> dropMaterialTable;
 
-
         private void Awake()
         {
             playerBulletTable = new Dictionary<int, PlayerBulletElements>();
@@ -99,6 +98,30 @@ namespace Controller
             int id = IDManager.GetPlayerBulletID();
 
             playerBulletTable.Add(id, playerBulletElements);
+
+            return id;
+        }
+
+        public static int EmergeDropMaterial(Model.DropMaterialManager.materialType type, GameObject materialObject)
+        {
+            Model.DropMaterialManager dropMaterialManager
+                = new Model.DropMaterialManager(
+                    type,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager,
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.acquiredEnhancementMaterialData
+                    );
+
+            DropMaterialElements dropMaterialElements
+                = new DropMaterialElements()
+                {
+                    dropMaterialManager = dropMaterialManager,
+                    materialObject = materialObject,
+                };
+            int id = IDManager.GetMaterialID();
+
+            dropMaterialTable.Add(id, dropMaterialElements);
 
             return id;
         }

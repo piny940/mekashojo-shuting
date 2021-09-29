@@ -4,6 +4,7 @@ namespace View
 {
     public class NormalEnemyFire__Bullet : CollisionBase
     {
+        public const float GUIDED_BULLET_DISAPPEAR_TIME = 2.5f;
         [SerializeField, Header("NormalEnemyDataを入れる")] Controller.NormalEnemyData _normalEnemyData;
         [SerializeField, Header("発射された時に鳴らす音を入れる")] private AudioClip _fireSound;
         private int _id;
@@ -33,6 +34,7 @@ namespace View
 
                 case Controller.NormalEnemyData.normalEnemyType.GuidedBullet:
                     fireInfo.type = Model.EnemyFire.fireType.GuidedBullet;
+                    fireInfo.disappearTime = GUIDED_BULLET_DISAPPEAR_TIME;
                     break;
 
                 case Controller.NormalEnemyData.normalEnemyType.WideBeam:
