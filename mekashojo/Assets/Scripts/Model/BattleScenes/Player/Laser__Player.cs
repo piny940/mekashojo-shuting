@@ -78,7 +78,7 @@ namespace Model
                 [EquipmentData.equipmentData.selectedMainWeaponName]
                 [EquipmentData.equipmentData.equipmentLevel[EquipmentData.equipmentData.selectedMainWeaponName]]
                 [EquipmentData.equipmentParameter.Cost]
-                * Time.deltaTime;
+                    * Time.deltaTime;
         }
 
         /// <summary>

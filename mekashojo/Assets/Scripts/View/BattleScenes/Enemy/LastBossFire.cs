@@ -21,10 +21,15 @@ namespace View
                 || _type == Model.Enemy__LastBoss.attackType.SpreadBeam
                 || _type == Model.Enemy__LastBoss.attackType.SpreadLaserWithMissile
                 || _type == Model.Enemy__LastBoss.attackType.SpreadLaserWithStun)
+            {
                 // タイプがビーム系の場合
                 EmergeBeam(_type);
-            //タイプが弾丸系の場合
-            else EmergeBullet(_type);
+            }
+            else
+            {
+                //タイプが弾丸系の場合
+                EmergeBullet(_type);
+            }
 
             SEPlayer.sePlayer.PlayOneShot(_fireSound);
         }
@@ -34,7 +39,10 @@ namespace View
         // Updateで死ぬ処理を行う
         private void Update()
         {
-            if (_isBeingDestroyed) Die();
+            if (_isBeingDestroyed)
+            {
+                Die();
+            }
         }
 
         private void Die()

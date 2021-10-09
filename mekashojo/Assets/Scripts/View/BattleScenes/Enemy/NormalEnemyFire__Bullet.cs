@@ -98,7 +98,10 @@ namespace View
         // Updateで死ぬ処理を行う
         private void Update()
         {
-            if (_isBeingDestroyed) Die();
+            if (_isBeingDestroyed)
+            {
+                Die();
+            }
         }
 
         private void Die()

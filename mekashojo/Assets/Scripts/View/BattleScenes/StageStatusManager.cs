@@ -210,7 +210,7 @@ namespace View
                 // 右に向かって進んでいる場合は、右にライン２本分進んだら処理する
                 if ((_keepOutLines[type][frontLineIndex].transform.position.x
                         > _defaultPositions__x[type] + _lineLengths[type] * 2
-                    && isGoingRight)
+                        && isGoingRight)
                     || (_keepOutLines[type][frontLineIndex].transform.position.x
                         < _defaultPositions__x[type] - _lineLengths[type] * 2
                         && !isGoingRight))

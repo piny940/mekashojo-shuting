@@ -16,7 +16,10 @@ namespace View
             {
                 fire__Player.SetActive(isFireVisible);
 
-                if (isFireVisible) SEPlayer.sePlayer.PlayOneShot(_cannonSound);
+                if (isFireVisible)
+                {
+                    SEPlayer.sePlayer.PlayOneShot(_cannonSound);
+                }
             });
         }
     }
