@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -7,11 +8,25 @@ namespace Model
         private float _time = 0;
         private float _attackingTime = 0;
         private bool _isAttacking = false;
+        private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
         private Controller.NormalEnemyData _normalEnemyData;
         protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__WideBeam(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        public UnityEvent<beamFiringProcesses> OnBeamStatusChanged
+            = new UnityEvent<beamFiringProcesses>();
+
+        public beamFiringProcesses beamStatus
+        {
+            get { return _beamStatus; }
+            set
+            {
+                _beamStatus = value;
+                OnBeamStatusChanged?.Invoke(_beamStatus);
+            }
+        }
+
+        public Enemy__WideBeam(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
             _time = Random.value * _normalEnemyData.firingInterval;
@@ -20,15 +35,22 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position)
         {
-            AttackProcess();
-            DestroyIfOutside(position);
+            ProceedAttack();
+            DisappearIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
-        private void AttackProcess()
+        protected override void ChangeBeamStatus(beamFiringProcesses status)
         {
-            if (!pauseManager.isGameGoing) return;
+            beamStatus = status;
+        }
+
+        private void ProceedAttack()
+        {
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                return;
 
             _time += Time.deltaTime;
 
@@ -51,17 +73,6 @@ namespace Model
             {
                 _isAttacking = ProceedBeamFiring(_normalEnemyData.beamNotifyingTime, _normalEnemyData.beamTime);
                 _attackingTime += Time.deltaTime;
-            }
-
-            // ProceedBeamFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
-            // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
-            // 強制的に攻撃を終了するプログラムを書いておく
-            if (_attackingTime > _normalEnemyData.beamNotifyingTime
-                                            + _normalEnemyData.beamTime
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _isAttacking = false;
-                ResetAttacking();
             }
         }
     }

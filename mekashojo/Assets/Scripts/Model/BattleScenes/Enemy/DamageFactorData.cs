@@ -13,8 +13,9 @@ namespace Model
 
         public enum damageFactorType
         {
-            FiringNormalEnemy, //自爆型以外の雑魚敵
-            NormalEnemy__SelfDestruct, //自爆型の敵
+            FiringNormalEnemy, // 自爆型以外の雑魚敵
+            NormalEnemy__SelfDestruct, // 自爆型の敵
+            Boss, // ボス
         }
 
         private DamageFactorData()
@@ -23,6 +24,7 @@ namespace Model
             {
                 { damageFactorType.FiringNormalEnemy, 10 },
                 { damageFactorType.NormalEnemy__SelfDestruct, 80 },
+                { damageFactorType.Boss, 200 },
             };
 
             collisionDamage = new ReadOnlyDictionary<damageFactorType, float>(_collisionDamage);

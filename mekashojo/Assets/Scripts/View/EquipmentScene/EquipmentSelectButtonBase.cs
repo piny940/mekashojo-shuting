@@ -93,7 +93,7 @@ namespace View
             // 強化用ボタンの押下イベントに、この武器の強化ロジックを登録する。
             _enhancementButton.EnhanceAction = Enhance;
 
-            // プレイヤーのプレビュー表示画面と武器モーション表示画面は、今後実装する。
+            // TODOプレイヤーのプレビュー表示画面と武器モーション表示画面は、今後実装する。
             #region
             var _random = UnityEngine.Random.insideUnitSphere;
             _previewImage.color = new Color(_random.x, _random.y, _random.z);

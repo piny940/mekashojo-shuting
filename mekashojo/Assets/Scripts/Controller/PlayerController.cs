@@ -27,7 +27,6 @@ namespace Controller
 
         public static Dictionary<int, DropMaterialElements> dropMaterialTable;
 
-
         private void Awake()
         {
             playerBulletTable = new Dictionary<int, PlayerBulletElements>();
@@ -41,19 +40,26 @@ namespace Controller
             // 実行順序の関係でコンストラクタはStartに書かないといけない
             cannonFire
                 = new Model.PlayerFire(
+                    Vector3.zero,
+                    BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Cannon
                     );
 
             laserFire
                 = new Model.PlayerFire(
+                    Vector3.zero,
+                    BattleScenesController.playerDebuffManager,
                     BattleScenesController.enemyManager,
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     Model.EquipmentData.equipmentType.MainWeapon__Laser
                     );
 
-            bombFire__Player = new Model.BombFire__Player();
+            bombFire__Player
+                = new Model.BombFire__Player(
+                    BattleScenesController.playerDebuffManager
+                    );
         }
 
         // Update is called once per frame
@@ -70,6 +76,54 @@ namespace Controller
                 dropMaterialElements.dropMaterialManager.RunEveryFrame(
                     dropMaterialElements.materialObject.transform.position);
             }
+        }
+
+        public static int EmergePlayerBullet(Model.EquipmentData.equipmentType type, GameObject bulletObject, Vector3 initialVelocity)
+        {
+            Model.PlayerFire playerFire
+                = new Model.PlayerFire(
+                    initialVelocity,
+                    BattleScenesController.playerDebuffManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    type
+                    );
+
+            PlayerBulletElements playerBulletElements = new PlayerBulletElements()
+            {
+                playerFire = playerFire,
+                bulletObject = bulletObject,
+            };
+
+            int id = IDManager.GetPlayerBulletID();
+
+            playerBulletTable.Add(id, playerBulletElements);
+
+            return id;
+        }
+
+        public static int EmergeDropMaterial(Model.DropMaterialManager.materialType type, GameObject materialObject)
+        {
+            Model.DropMaterialManager dropMaterialManager
+                = new Model.DropMaterialManager(
+                    type,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager,
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.acquiredEnhancementMaterialData
+                    );
+
+            DropMaterialElements dropMaterialElements
+                = new DropMaterialElements()
+                {
+                    dropMaterialManager = dropMaterialManager,
+                    materialObject = materialObject,
+                };
+            int id = IDManager.GetMaterialID();
+
+            dropMaterialTable.Add(id, dropMaterialElements);
+
+            return id;
         }
     }
 }

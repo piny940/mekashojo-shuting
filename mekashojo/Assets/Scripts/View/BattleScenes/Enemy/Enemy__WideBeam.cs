@@ -56,10 +56,19 @@ namespace View
             };
 
             // ビームの状態変化の監視
-            enemy__WideBeam.OnBeamStatusChanged.AddListener(OnBeamStatusChanged);
+            enemy__WideBeam.OnBeamStatusChanged.AddListener(ChangeBeamStatus);
+
+            // ゲーム終了時
+            Controller.BattleScenesController.stageStatusManager.OnCurrentStageStatusChanged.AddListener(status =>
+            {
+                if (status == Model.StageStatusManager.stageStatus.BossDying)
+                {
+                    isBeingDestroyed = true;
+                }
+            });
         }
 
-        private void OnBeamStatusChanged(Model.DamageFactorManager.beamFiringProcesses beamStatus)
+        private void ChangeBeamStatus(Model.DamageFactorManager.beamFiringProcesses beamStatus)
         {
             if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring)
             {

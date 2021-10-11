@@ -12,6 +12,7 @@ namespace View
             if (CanPush())
             {
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
+                BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.MenuScene);
             }
         }
     }

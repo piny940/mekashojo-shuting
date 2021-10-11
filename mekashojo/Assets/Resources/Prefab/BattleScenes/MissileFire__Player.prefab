@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
+  _fireSound: {fileID: 8300000, guid: 89bbef4f7e07a4437bf74aead3ce2f19, type: 3}

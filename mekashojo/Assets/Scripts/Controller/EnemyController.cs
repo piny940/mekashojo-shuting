@@ -10,6 +10,11 @@ namespace Controller
         public Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet;
         public Model.Enemy__WideBeam enemy__WideBeam;
         public Model.Enemy__SelfDestruct enemy__SelfDestruct;
+        public Model.Enemy__Boss1 enemy__Boss1;
+        public Model.Enemy__Boss2 enemy__Boss2;
+        public Model.Enemy__Boss3 enemy__Boss3;
+        public Model.Enemy__Boss4 enemy__Boss4;
+        public Model.Enemy__LastBoss enemy__LastBoss;
 
         public GameObject enemyObject;
     }
@@ -25,6 +30,7 @@ namespace Controller
         public static Dictionary<int, Model.EnemyDamageManager> damageManagerTable;
         public static Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>> enemyTable;
         public static Dictionary<int, EnemyFireElements> fireTable__Bullet;
+        public static int bossID { get; private set; }
 
         private GameObject _player;
 
@@ -35,6 +41,11 @@ namespace Controller
             WideSpreadBullet,
             WideBeam,
             SelfDestruct,
+            Boss1,
+            Boss2,
+            Boss3,
+            Boss4,
+            LastBoss,
         }
 
         private void Awake()
@@ -42,6 +53,7 @@ namespace Controller
             _player = GameObject.FindGameObjectWithTag(View.TagManager.TagNames.BattleScenes__Player.ToString());
 
             damageManagerTable = new Dictionary<int, Model.EnemyDamageManager>();
+
             enemyTable = new Dictionary<enemyType__Rough, Dictionary<int, EnemyElements>>()
             {
                 { enemyType__Rough.SimpleBullet, new Dictionary<int, EnemyElements>() },
@@ -49,7 +61,13 @@ namespace Controller
                 { enemyType__Rough.WideSpreadBullet, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.WideBeam, new Dictionary<int, EnemyElements>() },
                 { enemyType__Rough.SelfDestruct, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss1, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss2, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss3, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.Boss4, new Dictionary<int, EnemyElements>() },
+                { enemyType__Rough.LastBoss, new Dictionary<int, EnemyElements>() },
             };
+
             fireTable__Bullet = new Dictionary<int, EnemyFireElements>();
         }
 
@@ -117,6 +135,50 @@ namespace Controller
                                 );
                         }
                         break;
+
+                    // Enemy__Boss1の処理
+                    case enemyType__Rough.Boss1:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss1.RunEveryFrame(
+                                enemyElements.enemyObject.transform.position,
+                                _player.transform.position
+                                );
+                        }
+                        break;
+
+                    // Enemy__Boss2の処理
+                    case enemyType__Rough.Boss2:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss2.RunEveryFrame();
+                        }
+                        break;
+
+                    // Enemy__Boss3の処理
+                    case enemyType__Rough.Boss3:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss3.RunEveryFrame();
+                        }
+                        break;
+
+
+                    // Enemy__Boss4の処理
+                    case enemyType__Rough.Boss4:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__Boss4.RunEveryFrame();
+                        }
+                        break;
+
+                    // Enemy__LastBossの処理
+                    case enemyType__Rough.LastBoss:
+                        foreach (EnemyElements enemyElements in pair.Value.Values)
+                        {
+                            enemyElements.enemy__LastBoss.RunEveryFrame();
+                        }
+                        break;
                 }
             }
 
@@ -139,11 +201,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SimpleBullet enemy__SimpleBullet
                 = new Model.Enemy__SimpleBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -172,11 +238,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SpreadBullet enemy__SpreadBullet
                 = new Model.Enemy__SpreadBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -205,11 +275,14 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp);
 
             Model.Enemy__WideSpreadBullet enemy__WideSpreadBullet
                 = new Model.Enemy__WideSpreadBullet(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -238,11 +311,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__WideBeam enemy__WideBeam
                 = new Model.Enemy__WideBeam(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -271,11 +348,15 @@ namespace Controller
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyDamageManager enemyDamageManager
-                = new Model.EnemyDamageManager(BattleScenesController.enemyManager, normalEnemyData);
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    normalEnemyData.hp
+                    );
 
             Model.Enemy__SelfDestruct enemy__SelfDestruct
                 = new Model.Enemy__SelfDestruct(
-                    BattleScenesController.pauseManager,
+                    BattleScenesController.stageStatusManager,
                     BattleScenesController.playerStatusManager,
                     BattleScenesController.enemyManager,
                     normalEnemyData
@@ -296,19 +377,193 @@ namespace Controller
         }
 
         /// <summary>
-        /// View.EnemyFireのStartメソッドで呼ぶ<br></br>
+        /// View.Enemy__Boss1のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss1(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss1 enemy__Boss1
+                = new Model.Enemy__Boss1(
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss1.maxHP,
+                    true
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss1 = enemy__Boss1,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss1].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// View.Enemy__Boss2のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss2(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss2 enemy__Boss2
+                = new Model.Enemy__Boss2(
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss2.maxHP,
+                    true
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss2 = enemy__Boss2,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss2].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// View.Enemy__Boss3のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss3(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__Boss3 enemy__Boss3
+                = new Model.Enemy__Boss3(
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss3.maxHP,
+                    true
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss3 = enemy__Boss3,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss3].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// View.Enemy__Boss4のStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__Boss4(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__Boss4.maxHP,
+                    true
+                    );
+
+            Model.Enemy__Boss4 enemy__Boss4
+                = new Model.Enemy__Boss4(
+                    enemyDamageManager,
+                    BattleScenesController.playerDebuffManager,
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__Boss4 = enemy__Boss4,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.Boss4].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// View.Enemy__LastBossのStartメソッドで呼ぶ<br></br>
+        /// モデルクラスのインスタンスを作成<br></br>
+        /// </summary>
+        public static void EmergeEnemy__LastBoss(GameObject enemyObject)
+        {
+            // Modelクラスのインスタンスを作成
+            Model.Enemy__LastBoss enemy__LastBoss
+                = new Model.Enemy__LastBoss(
+                    BattleScenesController.stageStatusManager,
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.playerStatusManager
+                    );
+
+            Model.EnemyDamageManager enemyDamageManager
+                = new Model.EnemyDamageManager(
+                    BattleScenesController.enemyManager,
+                    BattleScenesController.stageStatusManager,
+                    Model.Enemy__LastBoss.maxHP,
+                    true
+                    );
+
+            EnemyElements enemyElements = new EnemyElements()
+            {
+                enemy__LastBoss = enemy__LastBoss,
+                enemyObject = enemyObject,
+            };
+
+            bossID = IDManager.GetEnemyID();
+
+            enemyTable[enemyType__Rough.LastBoss].Add(bossID, enemyElements);
+            damageManagerTable.Add(bossID, enemyDamageManager);
+        }
+
+        /// <summary>
+        /// 敵の弾のビュークラスのStartメソッドで呼ぶ<br></br>
         /// モデルクラスのインスタンスを作成<br></br>
         /// IDを取得して返す
         /// </summary>
-        public static int EmergeEnemyFire(NormalEnemyData normalEnemyData, GameObject enemyFireObject)
+        public static int EmergeEnemyBullet(Model.EnemyFire.FireInfo fireInfo, Vector3 initialVelocity, GameObject enemyFireObject)
         {
             // Modelクラスのインスタンスを作成
             Model.EnemyFire enemyFire = new Model.EnemyFire(
-                normalEnemyData,
+                fireInfo,
+                initialVelocity,
                 BattleScenesController.enemyManager,
+                BattleScenesController.playerDebuffManager,
                 BattleScenesController.playerStatusManager,
-                BattleScenesController.playerPositionManager,
-                BattleScenesController.pauseManager
+                BattleScenesController.shield__Player,
+                BattleScenesController.stageStatusManager
                 );
 
             EnemyFireElements enemyFireElements

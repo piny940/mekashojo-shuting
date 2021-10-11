@@ -18,7 +18,6 @@ namespace View
             };
         }
 
-
         private void DealDamage(Collider2D collision)
         {
             EnemyIDContainer enemyIDContainer = collision.GetComponent<EnemyIDContainer>();

@@ -9,8 +9,8 @@ namespace Model
         private const float BOMB_EXPAND_SPEED = 3;
 
         private PlayerStatusManager _playerStatusManager;
-        private PlayerPositionManager _playerPositionManager;
-        private PauseManager _pauseManager;
+        private PlayerDebuffManager _playerDebuffManager;
+        private StageStatusManager _stageStatusManager;
         private bool _isUsingBomb = false;
         private float _bombSize = 0;
 
@@ -37,11 +37,11 @@ namespace Model
             }
         }
 
-        public Bomb__Player(PlayerStatusManager playerStatusManager, PlayerPositionManager playerPositionManager, PauseManager pauseManager)
+        public Bomb__Player(PlayerDebuffManager playerDebuffManager, PlayerStatusManager playerStatusManager, StageStatusManager stageStatusManager)
         {
+            _playerDebuffManager = playerDebuffManager;
             _playerStatusManager = playerStatusManager;
-            _playerPositionManager = playerPositionManager;
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
         }
 
         public void RunEveryFrame()
@@ -51,13 +51,13 @@ namespace Model
 
         private void ProceedBomb()
         {
-            if (!_pauseManager.isGameGoing) return;
+            if (!_stageStatusManager.isGameGoing) return;
 
             // ボムを発射するキーが押されていて、かつボムを所持していたら、「ボムを使用中」にする
             // スタンしているときはボムを使用できない
             if (InputManager.bombKey > 0
                 && _playerStatusManager.bombAmount != 0
-                && !_playerPositionManager.isStunning
+                && !_playerDebuffManager.isStunned
                 && !isUsingBomb)
             {
                 isUsingBomb = true;

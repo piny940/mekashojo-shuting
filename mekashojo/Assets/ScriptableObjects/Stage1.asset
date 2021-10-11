@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e0cd6190cad43b79878045e821d6d5, type: 3}
   m_Name: Stage1
   m_EditorClassIdentifier: 
+  bossPosition: {x: 10, y: 1.55, z: 10}
   firstEnemyAmount: 0
   maxEnemyAmount: 20
   enemyProduceProbabilityCurve:

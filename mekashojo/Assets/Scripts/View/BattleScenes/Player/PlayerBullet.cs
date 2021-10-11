@@ -6,24 +6,27 @@ namespace View
     public class PlayerBullet : CollisionBase
     {
         [SerializeField, Header("武器のタイプを選ぶ")] private Model.EquipmentData.equipmentType _type;
+        [SerializeField, Header("発射された時に鳴らす音を入れる")] private AudioClip _fireSound;
         private int _id;
         private bool _isBeingDestroyed;
         private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
-            _id = Controller.IDManager.GetPlayerBulletID();
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         void Start()
         {
-            Model.PlayerFire playerFire
-                = new Model.PlayerFire(
-                    Controller.BattleScenesController.enemyManager,
-                    Controller.BattleScenesController.pauseManager,
-                    _type
-                    );
+            SEPlayer.sePlayer.PlayOneShot(_fireSound);
+
+            _id = Controller.PlayerController.EmergePlayerBullet(
+                _type,
+                this.gameObject,
+                _rigidbody2D.velocity
+                );
+
+            Model.PlayerFire playerFire = Controller.PlayerController.playerBulletTable[_id].playerFire;
 
             playerFire.OnIsBeingDestroyedChanged.AddListener((bool isBeingDestroyed) =>
             {
@@ -33,15 +36,14 @@ namespace View
             playerFire.OnVelocityChanged.AddListener((Vector3 velocity) =>
             {
                 _rigidbody2D.velocity = velocity;
+
+                //弾の回転
+                if (velocity != Vector3.zero)
+                {
+                    float theta = Vector3.SignedAngle(new Vector3(1, 0, 0), new Vector3(velocity.x, velocity.y, 0), new Vector3(0, 0, 1));
+                    transform.localEulerAngles = new Vector3(0, 0, theta);
+                }
             });
-
-            Controller.PlayerBulletElements playerBulletElements = new Controller.PlayerBulletElements()
-            {
-                playerFire = playerFire,
-                bulletObject = this.gameObject,
-            };
-
-            Controller.PlayerController.playerBulletTable.Add(_id, playerBulletElements);
 
             playWhileIn += (collision) =>
             {
