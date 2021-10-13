@@ -25,14 +25,14 @@ namespace Model
             }
         }
 
-        private PauseManager _pauseManager;
-        private PlayerPositionManager _playerPositionManager;
+        private StageStatusManager _stageStatusManager;
+        private PlayerDebuffManager _playerDebuffManager;
         private Controller.WeaponInstances _weaponInstances;
 
-        public WeaponManager(PauseManager pauseManager, PlayerPositionManager playerPositionManager, Controller.WeaponInstances weaponInstances)
+        public WeaponManager(StageStatusManager stageStatusManager, PlayerDebuffManager playerDebuffManager, Controller.WeaponInstances weaponInstances)
         {
-            _pauseManager = pauseManager;
-            _playerPositionManager = playerPositionManager;
+            _stageStatusManager = stageStatusManager;
+            _playerDebuffManager = playerDebuffManager;
             _weaponInstances = weaponInstances;
 
             SetWeapons();
@@ -83,11 +83,11 @@ namespace Model
 
         private void SwitchWeapon()
         {
-            //ゲームが進行中ではない　または　スタン中の時は武器の切り替えはできない
-            if (!_pauseManager.isGameGoing || _playerPositionManager.isStunning)
-            {
+            //ゲームが進行中ではない　または　スタン中の時　またはボス出現演出中は武器の切り替えができない
+            if (!_stageStatusManager.isGameGoing
+                || _playerDebuffManager.isStunned
+                || _stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
                 return;
-            }
 
             //メイン・サブの切り替え
             if (InputManager.mouseWheel > 0 && !isMainSelected)
@@ -119,12 +119,13 @@ namespace Model
             }
         }
 
-
         //攻撃関係の処理
         private void ProceedAttack()
         {
-            //ゲームが進行中ではない　または　スタン中の時は攻撃できない
-            if (!_pauseManager.isGameGoing || _playerPositionManager.isStunning) return;
+            //ゲームが進行中ではない　または　スタン中の時　攻撃できない　
+            if (!_stageStatusManager.isGameGoing
+                || _playerDebuffManager.isStunned)
+                return;
 
             if (isMainSelected)
             {

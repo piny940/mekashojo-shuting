@@ -10,8 +10,8 @@ namespace View
         {
             if (CanPush())
             {
-                SEPlayer.sePlayer.audioSource.PlayOneShot(_pushSound);
-                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageSelectScene);
+                SEPlayer.sePlayer.PlayOneShot(_pushSound);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageSelectScene, true);
             }
         }
 

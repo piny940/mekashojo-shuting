@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 6311849605810541094}
   - component: {fileID: 2501246655516200005}
   m_Layer: 0
-  m_Name: WideBeam
+  m_Name: EnemyFire__WideBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

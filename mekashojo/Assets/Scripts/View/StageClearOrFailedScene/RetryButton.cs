@@ -6,7 +6,7 @@ namespace View
         {
             if (CanPush())
             {
-                SceneChangeManager.sceneChangeManager.ReturnScene();
+                SceneChangeManager.sceneChangeManager.ReturnScene(true);
             }
         }
 

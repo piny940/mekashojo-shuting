@@ -5,16 +5,18 @@ namespace Model
 {
     public class Enemy__WideSpreadBullet : DamageFactorManager
     {
-        private const int FIRE_AMOUNT_PER_ONCE = 8;
+        private const int FIRING_AMOUNT_PER_ONCE = 8;
         private readonly Controller.NormalEnemyData _normalEnemyData;
         private int _attackingFrameCount = 0;
         private float _time;
         private bool _isAttacking = false;
         private BulletProcessInfo _bulletProcessInfo;
-        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__WideSpreadBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
+        protected override void ChangeBeamStatus(beamFiringProcesses process) { }
+
+        public Enemy__WideSpreadBullet(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
 
@@ -27,13 +29,13 @@ namespace Model
             };
 
             //弾を発射する方向を計算
-            for (int i = 0; i < FIRE_AMOUNT_PER_ONCE; i++)
+            for (int i = 0; i < FIRING_AMOUNT_PER_ONCE; i++)
             {
                 _bulletProcessInfo.bulletVelocities.Add(
                     _normalEnemyData.bulletSpeed
                     * new Vector3(
-                        Mathf.Cos(2 * Mathf.PI * i / FIRE_AMOUNT_PER_ONCE),
-                        Mathf.Sin(2 * Mathf.PI * i / FIRE_AMOUNT_PER_ONCE),
+                        Mathf.Cos(2 * Mathf.PI * i / FIRING_AMOUNT_PER_ONCE),
+                        Mathf.Sin(2 * Mathf.PI * i / FIRING_AMOUNT_PER_ONCE),
                         0)
                     );
             }
@@ -44,16 +46,18 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position)
         {
-            AttackProcess();
-            DestroyIfOutside(position);
+            ProceedAttack();
+            DisappearIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
         //一定間隔で攻撃をする処理
-        private void AttackProcess()
+        private void ProceedAttack()
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                return;
 
             _time += Time.deltaTime;
 
@@ -76,17 +80,6 @@ namespace Model
             {
                 _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
                 _attackingFrameCount++;
-            }
-
-            // ProceedBulletFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
-            // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
-            // 強制的に攻撃を終了するプログラムを書いておく
-            if (_attackingFrameCount > _bulletProcessInfo.firingAmount
-                                            * _bulletProcessInfo.shortInterval_Frame
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _isAttacking = false;
-                ResetAttacking();
             }
         }
     }

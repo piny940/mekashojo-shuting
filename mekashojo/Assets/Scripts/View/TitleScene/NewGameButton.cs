@@ -16,11 +16,11 @@ namespace View
         {
             if (CanPush())
             {
-                SEPlayer.sePlayer.audioSource.PlayOneShot(_clickSound);
+                SEPlayer.sePlayer.PlayOneShot(_clickSound);
 
                 SaveDataManager.saveDataManager.Initialize();
 
-                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
+                SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene, true);
             }
         }
     }

@@ -16,8 +16,8 @@ namespace View
                 );
         }
 
-        // DropItemを生成する際に用いる
-        public static GameObject ProduceDropItem(Model.DropMaterialManager.materialType type, Vector3 position)
+        // DropMaterialを生成する際に用いる
+        public static GameObject ProduceDropMaterial(Model.DropMaterialManager.materialType type, Vector3 position)
         {
             return Instantiate((GameObject)Resources.Load(
                 $"Prefab/BattleScenes/DropMaterial/{type}"),

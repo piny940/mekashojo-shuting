@@ -11,13 +11,13 @@ namespace Model
         private readonly Controller.NormalEnemyData _normalEnemyData;
         private float _time;
         private bool _isAttacking = false;
-        private int _attackingFrameCount = 0;
-        private Vector3 _newPlayerPosition;
         private BulletProcessInfo _bulletProcessInfo;
-        protected override DamageFactorData.damageFactorType factorType { get; set; }
 
-        public Enemy__SimpleBullet(PauseManager pauseManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
-                : base(pauseManager, enemyManager, playerStatusManager)
+        protected override DamageFactorData.damageFactorType factorType { get; set; }
+        protected override void ChangeBeamStatus(beamFiringProcesses process) { }
+
+        public Enemy__SimpleBullet(StageStatusManager stageStatusManager, PlayerStatusManager playerStatusManager, EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+                : base(stageStatusManager, enemyManager, playerStatusManager)
         {
             _normalEnemyData = normalEnemyData;
 
@@ -38,35 +38,30 @@ namespace Model
 
         public void RunEveryFrame(Vector3 position, Vector3 playerPosition)
         {
-            AttackProcess(position, playerPosition);
-            DestroyIfOutside(position);
+            ProceedAttack(position, playerPosition);
+            DisappearIfOutside(position);
             StopOnPausing();
             SetConstantVelocity(_normalEnemyData.movingSpeed);
         }
 
         //一定間隔で攻撃をする処理
-        private void AttackProcess(Vector3 position, Vector3 playerPosition)
+        private void ProceedAttack(Vector3 position, Vector3 playerPosition)
         {
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing
+                || stageStatusManager.currentStageStatus == StageStatusManager.stageStatus.BossAppearing)
+                return;
 
             _time += Time.deltaTime;
-
-            // 攻撃をやめる処理
-            if (!_isAttacking && _attackingFrameCount > 0)
-            {
-                _attackingFrameCount = 0;
-                return;
-            }
 
             // 攻撃を始める処理
             if (_time > _normalEnemyData.firingInterval && !_isAttacking)
             {
                 _isAttacking = true;
-                _newPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
+                Vector3 newPlayerPosition = new Vector3(playerPosition.x, playerPosition.y, EnemyManager.enemyPosition__z);
 
                 _bulletProcessInfo.bulletVelocities
                     = new List<Vector3>()
-                    { (_newPlayerPosition - position) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(_newPlayerPosition - position) };
+                    { (newPlayerPosition - position) * _normalEnemyData.bulletSpeed / Vector3.Magnitude(newPlayerPosition - position) };
 
                 _time = 0;
             }
@@ -75,18 +70,6 @@ namespace Model
             if (_isAttacking)
             {
                 _isAttacking = ProceedBulletFiring(_bulletProcessInfo);
-                _attackingFrameCount++;
-            }
-
-            // ProceedBulletFiringは本来一定時間が経てば自動的にfalseを返すようになるのだが、
-            // 何らかの原因でfalseを返さなくなった場合を想定して、一定時間が経過したら
-            // 強制的に攻撃を終了するプログラムを書いておく
-            if (_attackingFrameCount > _bulletProcessInfo.firingAmount
-                                            * _bulletProcessInfo.shortInterval_Frame
-                                            + EXTRA_FRAME_AMOUNT)
-            {
-                _isAttacking = false;
-                ResetAttacking();
             }
         }
     }

@@ -36,7 +36,7 @@ namespace View
         {
             if (CanPush())
             {
-                SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName);
+                SceneChangeManager.sceneChangeManager.ChangeScene(selectingStageName, true);
             }
         }
 

@@ -22,7 +22,7 @@ namespace View
         {
             if (CanPush())
             {
-                SEPlayer.sePlayer.audioSource.PlayOneShot(_pushSound);
+                SEPlayer.sePlayer.PlayOneShot(_pushSound);
                 _stageDescriptions.text = Model.ProgressData.progressData.stageDescriptions[_stageName];
                 _startButton.selectingStageName = _stageSceneName;
             }

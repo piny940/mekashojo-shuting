@@ -41,26 +41,30 @@ namespace Model
         private int _frameCount = 0;
         private int _firingCount = 0;
         private float _firingTime = 0;
+        private float _producingEnemyTime = 0;
+        private float _producingEnemyCount = 0;
+        private beamFiringProcesses __beamStatus;
+        private beamFiringProcesses _beamStatus
+        {
+            get { return __beamStatus; }
+            set
+            {
+                __beamStatus = value;
+                ChangeBeamStatus(value);
+            }
+        }
 
-        private readonly PlayerStatusManager _playerStatusManager;
-        private beamFiringProcesses _beamStatus = beamFiringProcesses.HasStoppedBeam;
+        protected readonly PlayerStatusManager playerStatusManager;
         private ObservableCollection<object> _firingBulletInfo;
-        protected EnemyManager enemyManager;
         protected override movingObjectType objectType { get; set; }
         protected abstract DamageFactorData.damageFactorType factorType { get; set; }
 
-        public UnityEvent<beamFiringProcesses> OnBeamStatusChanged = new UnityEvent<beamFiringProcesses>();
-        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged = new UnityEvent<ObservableCollection<object>>();
+        // ステージボスでは広範囲ビームと拡散ビームの2通りがあって、その切り替え処理を行わないと
+        // いけないため、実装は子クラスで行う
+        protected abstract void ChangeBeamStatus(beamFiringProcesses process);
 
-        public beamFiringProcesses beamStatus
-        {
-            get { return _beamStatus; }
-            set
-            {
-                _beamStatus = value;
-                OnBeamStatusChanged?.Invoke(_beamStatus);
-            }
-        }
+        public UnityEvent<ObservableCollection<object>> OnFiringBulletInfoChanged
+            = new UnityEvent<ObservableCollection<object>>();
 
         public ObservableCollection<object> firingBulletInfo
         {
@@ -90,16 +94,16 @@ namespace Model
         // 弾を(しばしば複数)発射する処理をするときに必要な情報
         public struct BulletProcessInfo
         {
-            public float shortInterval_Frame;
+            public int shortInterval_Frame;
             public List<Vector3> bulletVelocities;
             public string firePath;
             public int firingAmount;
         }
 
-        protected DamageFactorManager(PauseManager pauseManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
-                : base(enemyManager, pauseManager)
+        protected DamageFactorManager(StageStatusManager stageStatusManager, EnemyManager enemyManager, PlayerStatusManager playerStatusManager)
+                : base(enemyManager, stageStatusManager)
         {
-            _playerStatusManager = playerStatusManager;
+            this.playerStatusManager = playerStatusManager;
             objectType = movingObjectType.Enemy;
         }
 
@@ -125,7 +129,10 @@ namespace Model
                 foreach (Vector3 bulletVelocity in bulletProcessInfo.bulletVelocities)
                 {
                     firingBulletInfo
-                        = FiringInfoConverter.MakeCollection(bulletVelocity, "Enemy/EnemyFire__" + bulletProcessInfo.firePath);
+                        = FiringInfoConverter.MakeCollection(
+                            bulletVelocity,
+                            "Enemy/EnemyFire__" + bulletProcessInfo.firePath
+                            );
                 }
 
                 _firingCount++;
@@ -136,29 +143,27 @@ namespace Model
 
         /// <summary>
         /// ビームを発射する敵はこのメソッドを呼ぶ
-        /// 攻撃中かどうかを戻り値で返すようにしたんやけど、
-        /// このメソッド、使い方が特殊すぎて属人性が高そう。改善案求む。
         /// </summary>
         protected bool ProceedBeamFiring(float beamNotifyingTime, float beamTime)
         {
             _firingTime += Time.deltaTime;
 
             //攻撃の予告
-            if (_firingTime <= beamNotifyingTime && beamStatus != beamFiringProcesses.IsNotifyingBeamFiring)
+            if (_firingTime <= beamNotifyingTime && _beamStatus != beamFiringProcesses.IsNotifyingBeamFiring)
             {
-                beamStatus = beamFiringProcesses.IsNotifyingBeamFiring;
+                _beamStatus = beamFiringProcesses.IsNotifyingBeamFiring;
             }
 
             //攻撃時
-            if (_firingTime > beamNotifyingTime && _firingTime <= beamNotifyingTime + beamTime && beamStatus != beamFiringProcesses.IsFiringBeam)
+            if (_firingTime > beamNotifyingTime && _firingTime <= beamNotifyingTime + beamTime && _beamStatus != beamFiringProcesses.IsFiringBeam)
             {
-                beamStatus = beamFiringProcesses.IsFiringBeam;
+                _beamStatus = beamFiringProcesses.IsFiringBeam;
             }
 
             //攻撃終了時
             if (_firingTime > beamNotifyingTime + beamTime)
             {
-                beamStatus = beamFiringProcesses.HasStoppedBeam;
+                _beamStatus = beamFiringProcesses.HasStoppedBeam;
 
                 _firingTime = 0;
 
@@ -168,19 +173,26 @@ namespace Model
             return true;
         }
 
-        /// <summary>
-        /// 弾の発射処理およびビームの発射処理に使っている情報を初期化する
-        /// 子クラスで攻撃処理を強制終了する時に呼ぶ
-        /// </summary>
-        protected void ResetAttacking()
+        // 敵を生成する間隔と敵の生成比の辞書を引数で与え、敵を生成する処理を行う
+        protected bool ProceedEnemyCreating(float shortInterval__Time, float amount, Dictionary<Controller.NormalEnemyData.normalEnemyType, float> probabilityRatios)
         {
-            // 弾の方の処理
-            _frameCount = 0;
-            _firingCount = 0;
+            // 攻撃終了時
+            if (_producingEnemyCount > amount)
+            {
+                _producingEnemyCount = 0;
+                return false;
+            }
 
-            // ビームの方の処理
-            _firingTime = 0;
-            beamStatus = beamFiringProcesses.HasStoppedBeam;
+            _producingEnemyTime += Time.deltaTime;
+
+            if (_producingEnemyTime > shortInterval__Time)
+            {
+                _producingEnemyTime = 0;
+                _producingEnemyCount++;
+                enemyManager.CreateNormalEnemy(RandomChoosing.ChooseRandomly(probabilityRatios));
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -189,7 +201,7 @@ namespace Model
         protected void SetConstantVelocity(float movingSpeed)
         {
             //まだ始まってなかったら抜ける
-            if (!pauseManager.isGameGoing) return;
+            if (!stageStatusManager.isGameGoing) return;
 
             if (!_hasVelocitySet)
             {
@@ -203,7 +215,7 @@ namespace Model
         /// </summary>
         public void DealCollisionDamage()
         {
-            _playerStatusManager.GetDamage(
+            playerStatusManager.GetDamage(
                 DamageFactorData.damageFactorData.collisionDamage[factorType]
                 );
 

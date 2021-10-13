@@ -24,16 +24,23 @@ namespace Model
             };
 
         private EnemyManager _enemyManager;
+        private StageStatusManager _stageStatusManager;
 
         private bool _isDying = false;
 
-        public float hp { get; private set; }
+        private bool _isBoss = false;
+
+        private float _hp;
+
         public readonly int noBombDamageFrames = 3;
 
         //BombFire__Playerで"frameCounterForPlayerBombがnoBombDamageFramesより小さかったらダメージを受けない
         public int frameCounterForPlayerBomb { get; private set; }
 
+        public float damageReductionRate { get; set; }
+
         public UnityEvent<bool> OnIsDyingChanged = new UnityEvent<bool>();
+        public UnityEvent<float> OnHPChanged = new UnityEvent<float>();
 
         public ObservableCollection<int> materialNumbers
             = new ObservableCollection<int>(new int[10]);
@@ -48,10 +55,22 @@ namespace Model
             }
         }
 
-        public EnemyDamageManager(EnemyManager enemyManager, Controller.NormalEnemyData normalEnemyData)
+        public float hp
+        {
+            get { return _hp; }
+            set
+            {
+                _hp = value;
+                OnHPChanged?.Invoke(value);
+            }
+        }
+
+        public EnemyDamageManager(EnemyManager enemyManager, StageStatusManager stageStatusManager, float hp, bool isBoss = false)
         {
             _enemyManager = enemyManager;
-            hp = normalEnemyData.hp;
+            _stageStatusManager = stageStatusManager;
+            this.hp = hp;
+            _isBoss = isBoss;
         }
 
         /// <summary>
@@ -60,7 +79,7 @@ namespace Model
         /// <param name="power"></param>
         public void GetDamage(float power)
         {
-            hp -= power;
+            hp -= power * (1 - damageReductionRate);
 
             if (hp <= 0 && !isDying)
             {
@@ -78,6 +97,12 @@ namespace Model
         /// </summary>
         private void Die()
         {
+            if (_isBoss)
+            {
+                _stageStatusManager.ChangeStatus(StageStatusManager.stageStatus.BossDying);
+                return;
+            }
+
             //ドロップアイテムを落とす
             if (Random.value < _droppingProbabilities.Values.Sum())
             {

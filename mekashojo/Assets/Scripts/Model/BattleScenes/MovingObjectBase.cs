@@ -10,10 +10,12 @@ namespace Model
         private Vector3 _velocity;
         private bool _isMoving = true;
         private bool _isBeingDestroyed = false;
-        private EnemyManager _enemyManager;
+        private float _time = 0;
+        protected EnemyManager enemyManager;
 
         protected abstract movingObjectType objectType { get; set; }
-        protected PauseManager pauseManager;
+        protected StageStatusManager stageStatusManager;
+        protected float disappearTime = 0;
 
         public UnityEvent<Vector3> OnVelocityChanged = new UnityEvent<Vector3>();
         public UnityEvent<bool> OnIsMovingChanged = new UnityEvent<bool>();
@@ -25,7 +27,7 @@ namespace Model
             PlayerFire,
             Enemy,
             EnemyFire,
-            DropItem,
+            DropMaterial,
         }
 
         public Vector3 velocity
@@ -55,7 +57,7 @@ namespace Model
             {
                 if (objectType == movingObjectType.Enemy)
                 {
-                    _enemyManager.totalEnemyAmount--;
+                    enemyManager.totalEnemyAmount--;
                 }
 
                 _isBeingDestroyed = value;
@@ -63,10 +65,10 @@ namespace Model
             }
         }
 
-        public MovingObjectBase(EnemyManager enemyManager, PauseManager pauseManager)
+        public MovingObjectBase(EnemyManager enemyManager, StageStatusManager stageStatusManager)
         {
-            _enemyManager = enemyManager;
-            this.pauseManager = pauseManager;
+            this.enemyManager = enemyManager;
+            this.stageStatusManager = stageStatusManager;
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace Model
         protected void StopOnPausing()
         {
             //ポーズし始めた時
-            if (!pauseManager.isGameGoing && isMoving)
+            if (!stageStatusManager.isGameGoing && isMoving)
             {
                 //速度の保存
                 _savedVelocity = velocity;
@@ -89,10 +91,9 @@ namespace Model
             }
 
             //ポーズし終わった時
-            if (pauseManager.isGameGoing && !isMoving)
+            if (stageStatusManager.isGameGoing && !isMoving)
             {
                 isMoving = true;
-
                 velocity = _savedVelocity;
             }
         }
@@ -100,7 +101,7 @@ namespace Model
         /// <summary>
         /// 画面の外に出たら消滅する
         /// </summary>
-        protected void DestroyIfOutside(Vector3 thisPosition)
+        protected void DisappearIfOutside(Vector3 thisPosition)
         {
             //画面左下と右上の座標の取得
             Vector3 cornerPosition__LeftBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -112,6 +113,25 @@ namespace Model
                 || thisPosition.x > cornerPosition__RightTop.x + SCREEN_FRAME
                 || thisPosition.y > cornerPosition__RightTop.y + SCREEN_FRAME
                 || thisPosition.y < cornerPosition__LeftBottom.y - SCREEN_FRAME)
+            {
+                isBeingDestroyed = true;
+            }
+        }
+
+        /// <summary>
+        /// 一定時間経過後消滅する
+        /// このメソッドを呼ぶ場合は、コンストラクタでdisappearTimeの値を設定する必要がある
+        /// </summary>
+        protected void DisappearLater()
+        {
+            // disappearTimeの設定がされていなければ、このメソッドでは何もしない
+            if (disappearTime == 0) return;
+
+            if (!stageStatusManager.isGameGoing) return;
+
+            _time += Time.deltaTime;
+
+            if (_time > disappearTime)
             {
                 isBeingDestroyed = true;
             }

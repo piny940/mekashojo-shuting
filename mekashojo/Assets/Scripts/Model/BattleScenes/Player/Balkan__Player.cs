@@ -6,9 +6,11 @@ namespace Model
     {
         private const int FIRE_PER_SECOND = 5;
         private int _balkanNumber = 0;
+        private bool _isUsingBalkan = false;
         private int _count = 0;
 
         public UnityEvent OnBalkanNumberChanged = new UnityEvent();
+        public UnityEvent<bool> OnIsUsingBalkanChanged = new UnityEvent<bool>();
 
         public int balkanNumber
         {
@@ -17,6 +19,16 @@ namespace Model
             {
                 _balkanNumber = value;
                 OnBalkanNumberChanged?.Invoke();
+            }
+        }
+
+        public bool isUsingBalkan
+        {
+            get { return _isUsingBalkan; }
+            set
+            {
+                _isUsingBalkan = value;
+                OnIsUsingBalkanChanged?.Invoke(value);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Model
 
         private bool _isUsingShield = false;
         private float _shieldSize = 1;
-        private PauseManager _pauseManager;
+        private StageStatusManager _stageStatusManager;
         private float _shrinkSpeed;
         private float _recoverSpeed;
 
@@ -39,9 +39,9 @@ namespace Model
             }
         }
 
-        public Shield__Player(PauseManager pauseManager)
+        public Shield__Player(StageStatusManager stageStatusManager)
         {
-            _pauseManager = pauseManager;
+            _stageStatusManager = stageStatusManager;
 
             if (EquipmentData.equipmentData.selectedShieldName == EquipmentData.equipmentType.Shield__Heavy)
             {
@@ -64,7 +64,7 @@ namespace Model
 
         private void ProceedShield()
         {
-            if (!_pauseManager.isGameGoing) return;
+            if (!_stageStatusManager.isGameGoing) return;
 
             // 使用を始める/やめる処理
             if (InputManager.isMouseRight && shieldSize > 0)
