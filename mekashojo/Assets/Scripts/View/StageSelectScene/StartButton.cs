@@ -27,9 +27,16 @@ namespace View
             set { GetComponent<Button>().interactable = value; }
         }
 
+        public bool IsVisible
+        {
+            get { return this.GetComponent<Image>().enabled; }
+            set { this.GetComponent<Image>().enabled = value; }
+        }
+
         private void Start()
         {
             this.isActive = false;
+            this.IsVisible = false;
         }
 
         public void OnPush()
