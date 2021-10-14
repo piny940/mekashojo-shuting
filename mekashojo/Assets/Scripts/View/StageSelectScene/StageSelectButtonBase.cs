@@ -35,7 +35,7 @@ namespace View
 
                 _overlay.IsVisible = true;
                 _startButton.IsVisible = true;
-                switch((int)_stageName)
+                switch ((int)_stageName)
                 {
                     case 1:
                         _selectingStageTitle_Stage1.IsVisible = true;
