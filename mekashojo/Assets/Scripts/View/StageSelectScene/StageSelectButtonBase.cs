@@ -23,7 +23,6 @@ namespace View
         protected void Initialize()
         {
             GetComponentInChildren<Text>().text = Model.ProgressData.progressData.stageDisplayName[_stageName];
-            Model.ProgressData.progressData.stageClearAchievement = Model.ProgressData.stageName.lastStage;
         }
 
         public void OnPush()
