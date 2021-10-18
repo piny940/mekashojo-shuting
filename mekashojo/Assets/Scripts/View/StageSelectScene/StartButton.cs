@@ -27,6 +27,11 @@ namespace View
             set { GetComponent<Button>().interactable = value; }
         }
 
+        public bool IsObjectActive
+        {
+            set { this.gameObject.SetActive(value); }
+        }
+
         public bool IsVisible
         {
             get { return this.GetComponent<Image>().enabled; }
@@ -35,8 +40,7 @@ namespace View
 
         private void Start()
         {
-            this.isActive = false;
-            this.IsVisible = false;
+            this.IsObjectActive = false;
         }
 
         public void OnPush()
