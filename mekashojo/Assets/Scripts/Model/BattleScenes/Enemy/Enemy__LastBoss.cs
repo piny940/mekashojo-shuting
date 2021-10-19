@@ -27,7 +27,10 @@ namespace Model
         private const int SPREAD_BOMB_FIRING_AMOUNT = 3;
         private const int SPREAD_BOMB_FIRING_AMOUNT_PER_ONCE = 15;
 
-        //TODO 斬撃用の定数
+        // 斬撃用の定数
+        private const int SLASH_SHORT_INTERVAL = 30;
+        private const int SLASH_FIRING_AMOUNT = 4;
+        private const int SLASH_FIRING_AMOUNT_PER_ONCE = 5;
 
         // 追尾ミサイル用の定数
         private const int GUIDED_MISSILE_SHORT_INTERVAL = 20;
@@ -44,8 +47,6 @@ namespace Model
         private const float CREATE_ENEMY_SHORT_INTERVAL = 0.5f;
         private const float CREATE_ENEMY_AMOUNT = 20;
 
-        // TODO ビームソード用の定数
-
         // スタン弾用の定数
         private const int SPREAD_STUN_BULLET_SHORT_INTERVAL = 40;
         private const int SPREAD_STUN_BULLET_FIRING_AMOUNT = 5;
@@ -59,12 +60,11 @@ namespace Model
         private readonly Dictionary<attackGroups, float> _attackProbabilityRatios
             = new Dictionary<attackGroups, float>()
             {
-                { attackGroups.ThickBeam, 1 },
-                { attackGroups.SpreadBombSet, 1 },
+                { attackGroups.ThickBeam, 0 },
+                { attackGroups.SpreadBombSet, 0 },
                 { attackGroups.Slash, 0 },
-                { attackGroups.GuidedMissileSet, 1 },
-                { attackGroups.CreateEnemy__SelfDestruct, 1 },
-                { attackGroups.BeamSword, 0 },
+                { attackGroups.GuidedMissileSet, 0 },
+                { attackGroups.CreateEnemy__SelfDestruct, 0 },
                 { attackGroups.SpreadStunBulletSet, 1 },
             };
 
@@ -85,7 +85,6 @@ namespace Model
                 { attackType.GuidedMissile, false },
                 { attackType.SpreadLaserWithMissile, false },
                 { attackType.CreateEnemy__SelfDestruct, false },
-                { attackType.BeamSword, false },
                 { attackType.SpreadStunBullet, false },
                 { attackType.SpreadLaserWithStun, false },
             };
@@ -101,6 +100,7 @@ namespace Model
         private BulletProcessInfo _spreadBombProcessInfo;
         private BulletProcessInfo _guidedMissileProcessInfo;
         private BulletProcessInfo _spreadStunBulletProcessInfo;
+        private BulletProcessInfo _slashProcessInfo;
 
         // 親クラスで定義したProceedEnemyCreatingメソッドの構造上、
         // 生成する敵の種類が自爆型だけだったとしても生成率の辞書を作成しないといけない
@@ -179,7 +179,6 @@ namespace Model
             SpreadStunBulletSet,
             Slash,
             CreateEnemy__SelfDestruct,
-            BeamSword,
         }
 
         // ラスボスがする攻撃の種類
@@ -193,7 +192,6 @@ namespace Model
             GuidedMissile,
             SpreadLaserWithMissile,
             CreateEnemy__SelfDestruct,
-            BeamSword,
             SpreadStunBullet,
             SpreadLaserWithStun,
         }
@@ -210,7 +208,6 @@ namespace Model
                 { attackType.Slash, 200 },
                 { attackType.GuidedMissile, 120 },
                 { attackType.SpreadLaserWithMissile, 100 },
-                { attackType.BeamSword, 300 },
                 { attackType.SpreadStunBullet, 20 },
                 { attackType.SpreadLaserWithStun, 80 },
             };
@@ -223,6 +220,7 @@ namespace Model
                 { attackType.SpreadBomb, 5 },
                 { attackType.GuidedMissile, 5 },
                 { attackType.SpreadStunBullet, 8 },
+                { attackType.Slash, 6 }
             };
 
             bulletSpeeds = new ReadOnlyDictionary<attackType, float>(_bulletSpeeds);
@@ -308,6 +306,27 @@ namespace Model
                         0)
                     );
             }
+
+            // 斬撃の設定
+            _slashProcessInfo = new BulletProcessInfo()
+            {
+                shortInterval_Frame = SLASH_SHORT_INTERVAL,
+                firePath = "LastBoss__" + attackType.Slash.ToString(),
+                firingAmount = SLASH_FIRING_AMOUNT,
+                bulletVelocities = new List<Vector3>(),
+            };
+
+            for (int i = 0; i < SLASH_FIRING_AMOUNT_PER_ONCE; i++)
+            {
+                //弾を発射する方向を計算
+                _slashProcessInfo.bulletVelocities.Add(
+                    bulletSpeeds[attackType.Slash]
+                    * new Vector3(
+                        Mathf.Cos(Mathf.PI / 2 + Mathf.PI * i / SLASH_FIRING_AMOUNT_PER_ONCE),
+                        Mathf.Sin(Mathf.PI / 2 + Mathf.PI * i / SLASH_FIRING_AMOUNT_PER_ONCE),
+                        0)
+                    );
+            }
         }
 
         public void RunEveryFrame()
@@ -373,6 +392,8 @@ namespace Model
             ProceedCreatingEnemy();
 
             ProceedSpreadStunBullet();
+
+            ProceedSlash();
         }
 
         // AttackGroupの抽選を行った後に呼ぶメソッド
@@ -401,10 +422,6 @@ namespace Model
 
                 case attackGroups.CreateEnemy__SelfDestruct:
                     _isAttackingTable[attackType.CreateEnemy__SelfDestruct] = true;
-                    break;
-
-                case attackGroups.BeamSword:
-                    _isAttackingTable[attackType.BeamSword] = true;
                     break;
 
                 case attackGroups.SpreadStunBulletSet:
@@ -453,7 +470,20 @@ namespace Model
                 _proceedingAttackGourpName = attackGroups._none;
         }
 
-        // TODO斬撃の処理
+        // 斬撃の処理
+        private void ProceedSlash()
+        {
+            if (_proceedingAttackGourpName != attackGroups.Slash) return;
+
+            // 攻撃本体
+            if (_isAttackingTable[attackType.Slash])
+                _isAttackingTable[attackType.Slash]
+                    = ProceedBulletFiring(_slashProcessInfo);
+
+            // 攻撃終了時の処理
+            if (!_isAttackingTable[attackType.Slash])
+                _proceedingAttackGourpName = attackGroups._none;
+        }
 
         // 追尾ミサイル、拡散レーザーの処理
         private void ProceedGuidedMissileSet()
@@ -490,8 +520,6 @@ namespace Model
             if (!_isAttackingTable[attackType.CreateEnemy__SelfDestruct])
                 _proceedingAttackGourpName = attackGroups._none;
         }
-
-        // TODOビームソードの処理
 
         // スタン弾・拡散レーザーの処理
         private void ProceedSpreadStunBullet()

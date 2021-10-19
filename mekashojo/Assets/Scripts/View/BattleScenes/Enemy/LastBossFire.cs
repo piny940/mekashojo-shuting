@@ -118,6 +118,10 @@ namespace View
                     fireInfo.disappearTime = Model.Enemy__LastBoss.spreadBalkanDisappearTime;
                     break;
 
+                case Model.Enemy__LastBoss.attackType.Slash:
+                    fireInfo.type = Model.EnemyFire.fireType.NormalBullet;
+                    break;
+
                 default:
                     throw new System.Exception();
             }
