@@ -61,10 +61,13 @@ namespace View
             // IDを指定しなかったら全てのSEを止める
             if (id == -1)
             {
-                for (int i = 0; i < _latestID; i++)
+                for (int i = 0; i <= _latestID; i++)
                 {
-                    if (_audioSources.ContainsKey(id))
-                        _audioSources.Remove(id);
+                    if (_audioSources.ContainsKey(i))
+                    {
+                        _audioSources[i].Stop();
+                        _audioSources.Remove(i);
+                    }
                 }
 
                 return;

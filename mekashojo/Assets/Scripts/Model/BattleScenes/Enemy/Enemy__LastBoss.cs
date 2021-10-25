@@ -60,11 +60,11 @@ namespace Model
         private readonly Dictionary<attackGroups, float> _attackProbabilityRatios
             = new Dictionary<attackGroups, float>()
             {
-                { attackGroups.ThickBeam, 0 },
-                { attackGroups.SpreadBombSet, 0 },
-                { attackGroups.Slash, 0 },
-                { attackGroups.GuidedMissileSet, 0 },
-                { attackGroups.CreateEnemy__SelfDestruct, 0 },
+                { attackGroups.ThickBeam, 1 },
+                { attackGroups.SpreadBombSet, 1 },
+                { attackGroups.Slash, 1 },
+                { attackGroups.GuidedMissileSet, 1 },
+                { attackGroups.CreateEnemy__SelfDestruct, 1 },
                 { attackGroups.SpreadStunBulletSet, 1 },
             };
 
