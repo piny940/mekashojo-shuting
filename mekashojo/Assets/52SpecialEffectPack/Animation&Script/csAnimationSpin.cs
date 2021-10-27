@@ -1,12 +1,14 @@
-﻿using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class csAnimationSpin : MonoBehaviour {
+public class csAnimationSpin : MonoBehaviour
+{
 
     Animation an;
 
-	void Update () {
+    void Update()
+    {
         an = gameObject.GetComponent<Animation>();
         an.Play();
-	}
+    }
 }

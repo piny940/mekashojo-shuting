@@ -1,3 +1,5 @@
+using UnityEngine.UI;
+
 namespace View
 {
     public class StageSelect__BossStage : StageSelectButtonBase
@@ -6,6 +8,8 @@ namespace View
         {
             _stageName = Model.ProgressData.stageName.lastStage;
             _stageSceneName = SceneChangeManager.SceneNames.LastStage;
+            // ステージ4がクリアされていれば有効化
+            GetComponent<Button>().interactable = (int)Model.ProgressData.progressData.stageClearAchievement >= 4;
             this.Initialize();
         }
     }

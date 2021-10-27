@@ -1,13 +1,14 @@
-﻿using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class csDestroyEffect : MonoBehaviour {
+public class csDestroyEffect : MonoBehaviour
+{
 
-	void Update ()
+    void Update()
     {
-	    if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
         {
             Destroy(gameObject);
         }
-	}
+    }
 }
