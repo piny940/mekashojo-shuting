@@ -65,8 +65,10 @@ namespace View
                 {
                     if (_audioSources.ContainsKey(i))
                     {
-                        _audioSources[i].Stop();
+                        AudioSource audio = _audioSources[i];
+                        audio.Stop();
                         _audioSources.Remove(i);
+                        Destroy(audio);
                     }
                 }
 

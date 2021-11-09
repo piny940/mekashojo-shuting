@@ -7,9 +7,17 @@ namespace View
     {
         [SerializeField, Header("Shieldを入れる")] private GameObject _shield;
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
+        [SerializeField, Header("Boss4Modelを入れる")] private Animator _boss4ModelAnim;
         private Rigidbody2D _rigidbody2D;
         private EnemyIDContainer _enemyIDContainer;
         private float _maxShieldScale;
+
+        private enum animationParameters
+        {
+            setShield,
+            createEnemy,
+            setReduction,
+        }
 
         private void Awake()
         {
@@ -52,8 +60,34 @@ namespace View
                 }
 
                 if (!_shield.activeSelf) _shield.SetActive(true);
+
+                // シールドのサイズを変更
                 float scale = restedTime * _maxShieldScale / enemy__Boss4.shieldLimitTime;
                 _shield.transform.localScale = new Vector3(scale, scale, 1);
+
+                // アニメーション
+                if (restedTime == enemy__Boss4.shieldLimitTime)
+                {
+                    _boss4ModelAnim.SetTrigger(animationParameters.setShield.ToString());
+                }
+            });
+
+            // シールド使用以外のアニメーション制御
+            enemy__Boss4.OnProceedingAttackTypeNameChanged.AddListener(attackType =>
+            {
+                switch (attackType)
+                {
+                    case Model.Enemy__Boss4.attackType.CreateEnemy:
+                        _boss4ModelAnim.SetTrigger(animationParameters.createEnemy.ToString());
+                        break;
+
+                    case Model.Enemy__Boss4.attackType.PowerReduction:
+                    case Model.Enemy__Boss4.attackType.SpeedReduction:
+                    case Model.Enemy__Boss4.attackType.ShieldReduction:
+                    case Model.Enemy__Boss4.attackType.Stun:
+                        _boss4ModelAnim.SetTrigger(animationParameters.setReduction.ToString());
+                        break;
+                }
             });
 
             // HPの監視
