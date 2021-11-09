@@ -44,10 +44,10 @@ namespace Model
             = new Dictionary<attackType, float>()
             {
                 { attackType.CreateEnemy, 0 },
-                { attackType.PowerReduction, 1 },
-                { attackType.SpeedReduction, 1 },
-                { attackType.ShieldReduction, 1 },
-                { attackType.Stun, 1 },
+                { attackType.PowerReduction, 0 },
+                { attackType.SpeedReduction, 0 },
+                { attackType.ShieldReduction, 0 },
+                { attackType.Stun, 0 },
                 { attackType.InvincibleShield, 1 },
             };
 

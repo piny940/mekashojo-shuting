@@ -20,12 +20,35 @@ namespace View
         [SerializeField, Header("LastBossFire__SpreadLaserWithStunを入れる")] private GameObject _lastBossFire__SpreadLaserWithStun;
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
 
+        [SerializeField, Header("LastBossModelを入れる")] private Animator _lastBossModelAnim;
+        [SerializeField, Header("ThickBeamを入れる")] private GameObject _thickBeam;
+        [SerializeField, Header("SpreadBalkanを入れる")] private GameObject _spreadBalkan;
+        [SerializeField, Header("Slashを入れる")] private GameObject _slash;
+        [SerializeField, Header("SpreadLaserWithGuidedMissileを入れる")] private GameObject _spreadLaserWithGuidedMissile;
+        [SerializeField, Header("SpreadLaserWithStunを入れる")] private GameObject _spreadLaserWithStun;
+
+        private Animator _thickBeamAnim;
+        private Animator _spreadBalkanAnim;
+        private Animator _slashAnim;
+        private Animator _spreadLaserWithGuidedMissileAnim;
+        private Animator _spreadLaserWithStunAnim;
+
         private Rigidbody2D _rigidbody2D;
         private EnemyIDContainer _enemyIDContainer;
         private BeamElements _thickBeamElements;
         private BeamElements _spreadBeamElements;
-        private BeamElements _spreadLaserWithMissile;
-        private BeamElements _spreadLaserWithStun;
+        private BeamElements _spreadLaserWithMissileElements;
+        private BeamElements _spreadLaserWithStunElements;
+
+        private enum animationParameters
+        {
+            waitThickBeam,
+            fireThickBeam,
+            fireSpreadBalkan,
+            fireSlash,
+            fireSpreadLaserWithGuidedMissile,
+            fireSpreadLaserWithStun,
+        }
 
         private void Awake()
         {
@@ -54,7 +77,7 @@ namespace View
             };
 
             // _spreadLaserWithMissileの初期化
-            _spreadLaserWithMissile = new BeamElements()
+            _spreadLaserWithMissileElements = new BeamElements()
             {
                 beamObject = _lastBossFire__SpreadLaserWithMissile,
                 polygonCollider2D = _lastBossFire__SpreadLaserWithMissile.GetComponent<PolygonCollider2D>(),
@@ -62,7 +85,7 @@ namespace View
             };
 
             // _spreadLaserWithStunの初期化
-            _spreadLaserWithStun = new BeamElements()
+            _spreadLaserWithStunElements = new BeamElements()
             {
                 beamObject = _lastBossFire__SpreadLaserWithStun,
                 polygonCollider2D = _lastBossFire__SpreadLaserWithStun.GetComponent<PolygonCollider2D>(),
@@ -115,13 +138,13 @@ namespace View
             // 追尾ミサイルと一緒に出てくる拡散レーザーの状態を監視
             enemy__LastBoss.OnSpreadLaserWithMissileStatusChanged.AddListener(status =>
             {
-                ChangeBeamStatus(_spreadLaserWithMissile, status);
+                ChangeBeamStatus(_spreadLaserWithMissileElements, status);
             });
 
             // スタン弾と一緒に出てくる拡散レーザーの状態を監視
             enemy__LastBoss.OnSpreadLaserWithStunStatusChanged.AddListener(status =>
             {
-                ChangeBeamStatus(_spreadLaserWithStun, status);
+                ChangeBeamStatus(_spreadLaserWithStunElements, status);
             });
 
             // HPの監視
@@ -138,6 +161,8 @@ namespace View
                     this.gameObject.SetActive(false);
                 }
             });
+
+            InitializeAnimations();
         }
 
         private void ChangeBeamStatus(BeamElements elements, Model.DamageFactorManager.beamFiringProcesses beamStatus)
@@ -169,6 +194,105 @@ namespace View
                     elements.beamObject.SetActive(false);
                     break;
             }
+        }
+
+        // アニメーション関連の設定を行う
+        private void InitializeAnimations()
+        {
+            _thickBeamAnim = _thickBeam.GetComponent<Animator>();
+            _spreadBalkanAnim = _spreadBalkan.GetComponent<Animator>();
+            _slashAnim = _slash.GetComponent<Animator>();
+            _spreadLaserWithGuidedMissileAnim = _spreadLaserWithGuidedMissile.GetComponent<Animator>();
+            _spreadLaserWithStunAnim = _spreadLaserWithStun.GetComponent<Animator>();
+
+            DeactivateAllWeapons();
+
+            // 初めはwaitThickBeamの動きをさせる
+            PlayAnimation(Model.Enemy__LastBoss.attackGroups.ThickBeam);
+
+            Model.Enemy__LastBoss enemy__LastBoss
+                = Controller.EnemyController.enemyTable
+                    [Controller.EnemyController.enemyType__Rough.LastBoss]
+                    [Controller.EnemyController.bossID].enemy__LastBoss;
+
+            enemy__LastBoss.OnProceedingAttackGroupNameChanged.AddListener(SwitchWeapon);
+
+            enemy__LastBoss.OnThickBeamStatusChanged.AddListener(status =>
+            {
+                if (status == Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam)
+                {
+                    _lastBossModelAnim.SetTrigger(animationParameters.fireThickBeam.ToString());
+                    _thickBeamAnim.SetTrigger(animationParameters.fireThickBeam.ToString());
+                }
+            });
+        }
+
+        // 全ての武器を非アクティブにする
+        private void DeactivateAllWeapons()
+        {
+            _thickBeam.SetActive(false);
+            _spreadBalkan.SetActive(false);
+            _slash.SetActive(false);
+            _spreadLaserWithGuidedMissile.SetActive(false);
+            _spreadLaserWithStun.SetActive(false);
+        }
+
+        // 引数で与えられたattackGroupに対応する武器をアクティブにし、アニメーションを動かす
+        private void PlayAnimation(Model.Enemy__LastBoss.attackGroups attackGroup)
+        {
+            switch (attackGroup)
+            {
+                case Model.Enemy__LastBoss.attackGroups.ThickBeam:
+                    _thickBeam.SetActive(true);
+                    _lastBossModelAnim.SetTrigger(animationParameters.waitThickBeam.ToString());
+                    _thickBeamAnim.SetTrigger(animationParameters.waitThickBeam.ToString());
+                    break;
+
+                case Model.Enemy__LastBoss.attackGroups.SpreadBalkanSet:
+                    _spreadBalkan.SetActive(true);
+                    _lastBossModelAnim.SetTrigger(animationParameters.fireSpreadBalkan.ToString());
+                    _spreadBalkanAnim.SetTrigger(animationParameters.fireSpreadBalkan.ToString());
+                    break;
+
+                case Model.Enemy__LastBoss.attackGroups.Slash:
+                    _slash.SetActive(true);
+                    _lastBossModelAnim.SetTrigger(animationParameters.fireSlash.ToString());
+                    _slashAnim.SetTrigger(animationParameters.fireSlash.ToString());
+                    break;
+
+                case Model.Enemy__LastBoss.attackGroups.GuidedMissileSet:
+                    _spreadLaserWithGuidedMissile.SetActive(true);
+                    _lastBossModelAnim.SetTrigger(animationParameters.fireSpreadLaserWithGuidedMissile.ToString());
+                    _spreadLaserWithGuidedMissileAnim.SetTrigger(animationParameters.fireSpreadLaserWithGuidedMissile.ToString());
+                    break;
+
+                case Model.Enemy__LastBoss.attackGroups.SpreadStunBulletSet:
+                    _spreadLaserWithStun.SetActive(true);
+                    _lastBossModelAnim.SetTrigger(animationParameters.fireSpreadLaserWithStun.ToString());
+                    _spreadLaserWithStunAnim.SetTrigger(animationParameters.fireSpreadLaserWithStun.ToString());
+                    break;
+
+                case Model.Enemy__LastBoss.attackGroups.CreateEnemy__SelfDestruct:
+                    // 自爆型の敵を生成する時は、武器のオブジェクトは全て非アクティブにして、
+                    // 本体はthickBeamの待機状態の動きをする
+                    _lastBossModelAnim.SetTrigger(animationParameters.waitThickBeam.ToString());
+                    break;
+            }
+        }
+
+        // 武器を切り替える
+        // 武器を切り替えた瞬間に攻撃が始まることを想定している
+        private void SwitchWeapon(Model.Enemy__LastBoss.attackGroups attackGroup)
+        {
+            if (attackGroup == Model.Enemy__LastBoss.attackGroups._none)
+            {
+                return;
+            }
+
+            // 一旦全て非アクティブにする
+            DeactivateAllWeapons();
+
+            PlayAnimation(attackGroup);
         }
     }
 }
