@@ -33,7 +33,8 @@ namespace Model
 
         public static readonly float maxHP = 10000;
 
-        private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
+        private attackType _proceedingAttackTypeName = attackType._none;
+
         private float _time = 0;
         private float _shieldRestedTime = 0;
         private EnemyDamageManager _enemyDamageManager;
@@ -43,7 +44,7 @@ namespace Model
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.CreateEnemy, 0 },
+                { attackType.CreateEnemy, 1 },
                 { attackType.PowerReduction, 1 },
                 { attackType.SpeedReduction, 1 },
                 { attackType.ShieldReduction, 1 },
@@ -73,6 +74,9 @@ namespace Model
 
         public UnityEvent<float> OnShieldRestedTimeChanged = new UnityEvent<float>();
 
+        public UnityEvent<attackType> OnProceedingAttackTypeNameChanged
+            = new UnityEvent<attackType>();
+
         public float shieldRestedTime // シールドをあと何秒使い続けることができるか
         {
             get { return _shieldRestedTime; }
@@ -80,6 +84,16 @@ namespace Model
             {
                 _shieldRestedTime = value;
                 OnShieldRestedTimeChanged?.Invoke(value);
+            }
+        }
+
+        public attackType proceedingAttackTypeName
+        {
+            get { return _proceedingAttackTypeName; }
+            set
+            {
+                _proceedingAttackTypeName = value;
+                OnProceedingAttackTypeNameChanged?.Invoke(value);
             }
         }
 
@@ -116,14 +130,14 @@ namespace Model
                 return;
 
             // 攻撃を始める処理
-            if (_time >= FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
+            if (_time >= FIRING_INTERVAL && proceedingAttackTypeName == attackType._none)
             {
                 _time = 0;
-                _proceedingAttackTypeName = RandomChoosing.ChooseRandomly(_attackProbabilityRatios);
+                proceedingAttackTypeName = RandomChoosing.ChooseRandomly(_attackProbabilityRatios);
             }
 
             // 攻撃中でない場合は時間をカウントする
-            if (_proceedingAttackTypeName == attackType._none)
+            if (proceedingAttackTypeName == attackType._none)
             {
                 _time += Time.deltaTime;
             }
@@ -145,20 +159,20 @@ namespace Model
         // 敵生成の処理
         private void ProceedCreatingEnemy()
         {
-            if (_proceedingAttackTypeName != attackType.CreateEnemy) return;
+            if (proceedingAttackTypeName != attackType.CreateEnemy) return;
 
             // 攻撃本体
             bool isAttacking
                 = ProceedEnemyCreating(CREATE_ENEMY_SHORT_INTERVAL, CREATE_ENEMY_AMOUNT, _produceProbabilityRatios);
 
             // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
+            if (!isAttacking) proceedingAttackTypeName = attackType._none;
         }
 
         // 攻撃力減少の処理
         private void ProceedPowerReduction()
         {
-            if (_proceedingAttackTypeName != attackType.PowerReduction) return;
+            if (proceedingAttackTypeName != attackType.PowerReduction) return;
 
             _playerDebuffManager.AddDebuff(
                     PlayerDebuffManager.debuffTypes.PowerReduction,
@@ -166,13 +180,13 @@ namespace Model
                     POWER_REDUCTION_RATE
                     );
 
-            _proceedingAttackTypeName = attackType._none;
+            proceedingAttackTypeName = attackType._none;
         }
 
         // 移動速度減少の処理
         private void ProceedSpeedReduction()
         {
-            if (_proceedingAttackTypeName != attackType.SpeedReduction) return;
+            if (proceedingAttackTypeName != attackType.SpeedReduction) return;
 
             _playerDebuffManager.AddDebuff(
                     PlayerDebuffManager.debuffTypes.SpeedReduction,
@@ -180,13 +194,13 @@ namespace Model
                     SPEED_REDUCTION_RATE
                     );
 
-            _proceedingAttackTypeName = attackType._none;
+            proceedingAttackTypeName = attackType._none;
         }
 
         // ダメージ軽減率減少の処理
         private void ProceedShieldReduction()
         {
-            if (_proceedingAttackTypeName != attackType.ShieldReduction) return;
+            if (proceedingAttackTypeName != attackType.ShieldReduction) return;
 
             _playerDebuffManager.AddDebuff(
                     PlayerDebuffManager.debuffTypes.ShieldReduction,
@@ -194,29 +208,29 @@ namespace Model
                     SHIELD_REDUCTION_RATE
                     );
 
-            _proceedingAttackTypeName = attackType._none;
+            proceedingAttackTypeName = attackType._none;
         }
 
         // スタンの処理
         private void ProceedStun()
         {
-            if (_proceedingAttackTypeName != attackType.Stun) return;
+            if (proceedingAttackTypeName != attackType.Stun) return;
 
             _playerDebuffManager.AddDebuff(
                     PlayerDebuffManager.debuffTypes.Stun,
                     STUN_DURATION
                     );
 
-            _proceedingAttackTypeName = attackType._none;
+            proceedingAttackTypeName = attackType._none;
         }
 
         // 無敵シールドの処理
         private void ProceedInvincibleShield()
         {
             // 抽選で無敵シールドの使用が選ばれたら、シールドを使い始める
-            if (_proceedingAttackTypeName == attackType.InvincibleShield)
+            if (proceedingAttackTypeName == attackType.InvincibleShield)
             {
-                _proceedingAttackTypeName = attackType._none;
+                proceedingAttackTypeName = attackType._none;
 
                 // シールド使用中に再度抽選で無敵シールドが選ばれた場合、即座に他の攻撃に移るようにしてある
                 // (_timeをFIRING_INTERVALにすれば次のフレームで再度抽選が行われる)

@@ -11,12 +11,12 @@ namespace Model
 
         // 拡散バルカン用の定数
         private const int SPREAD_BALKAN_SHORT_INTERVAL = 5;
-        private const int SPREAD_BALKAN_FIRING_AMOUNT = 80;
+        private const int SPREAD_BALKAN_FIRING_AMOUNT = 50;
         private const int SPREAD_BALKAN_FIRING_AMOUNT_PER_ONCE = 15;
 
         // 拡散ミサイル用の定数
         private const int SPREAD_MISSILE_SHORT_INTERVAL = 5;
-        private const int SPREAD_MISSILE_FIRING_AMOUNT = 60;
+        private const int SPREAD_MISSILE_FIRING_AMOUNT = 40;
         private const int SPREAD_MISSILE_FIRING_AMOUNT_PER_ONCE = 15;
 
         // 拡散レーザー用の定数
@@ -27,8 +27,8 @@ namespace Model
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.SpreadBalkan, 1 },
-                { attackType.SpreadMissile, 1 },
+                { attackType.SpreadBalkan, 0 },
+                { attackType.SpreadMissile, 0 },
                 { attackType.SpreadLaser, 1 },
             };
 

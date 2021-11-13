@@ -27,11 +27,9 @@ namespace Model
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.BeamSword, 0 },
-                { attackType.Slash, 1 },
-                { attackType.Kunai, 1 },
+                { attackType.Slash, 0 },
+                { attackType.Kunai, 0 },
                 { attackType.BeamDagger, 1 },
-                { attackType.GrabAndThrow, 0 },//TODO
             };
 
         private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
@@ -48,15 +46,13 @@ namespace Model
         public static IReadOnlyDictionary<attackType, float> damageAmounts { get; private set; }
         public static IReadOnlyDictionary<attackType, float> bulletSpeeds { get; private set; }
 
-        // ステージ2のボスがする攻撃の種類
+        // ステージ3のボスがする攻撃の種類
         public enum attackType
         {
             _none,
-            BeamSword,
             Slash,
             Kunai,
             BeamDagger,
-            GrabAndThrow,
         }
 
         protected override DamageFactorData.damageFactorType factorType { get; set; }
@@ -68,11 +64,9 @@ namespace Model
         {
             _damageAmounts = new Dictionary<attackType, float>()
             {
-                { attackType.BeamSword, 250 },
                 { attackType.Slash, 150 },
                 { attackType.Kunai, 50 },
                 { attackType.BeamDagger, 60 },
-                { attackType.GrabAndThrow, 150 },
             };
 
             damageAmounts = new ReadOnlyDictionary<attackType, float>(_damageAmounts);
@@ -196,9 +190,5 @@ namespace Model
             // 攻撃終了時の処理
             if (!isAttacking) _proceedingAttackTypeName = attackType._none;
         }
-
-        //TODOビームソードの処理
-
-        //TODOつかみ投げの処理
     }
 }

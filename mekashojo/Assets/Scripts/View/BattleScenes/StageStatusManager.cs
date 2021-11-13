@@ -27,6 +27,7 @@ namespace View
                 {keepOutLineType.Bottom, -5 },
             };
 
+        [SerializeField, Header("LastStageの場合はチェックを入れる")] private bool _isLastStage;
         // プログラム上、1番と2番のラインの長さは同じにしないといけない
         [SerializeField, Header("Bossを入れる")] private GameObject _boss;
         [SerializeField, Header("WhiteFlashを入れる")] private GameObject _whiteFlash;
@@ -135,8 +136,17 @@ namespace View
             if (!Controller.BattleScenesController.stageStatusManager.isGameGoing)
                 return;
 
+            // LastStageの場合はボスの出現演出を行わない
+            if (_isLastStage && !_hasBossAppeared)
+            {
+                Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossBattle);
+                _hasBossAppeared = true;
+                return;
+            }
+
             // ボスにある程度近づいたらボスの出現演出に移る
-            if (_boss.transform.position.x - _player.transform.position.x < BOSS_APPEAR_DISTANCE
+            if ((_boss.transform.position.x - _player.transform.position.x < BOSS_APPEAR_DISTANCE
+                    || _isLastStage)
                 && !_hasBossAppeared)
             {
                 Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossAppearing);
@@ -236,7 +246,16 @@ namespace View
                 }
 
                 _whiteFlash.SetActive(false);
-                BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossBattle);
+
+                // BGMを変える
+                if (_isLastStage)
+                {
+                    BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.LastStage);
+                }
+                else
+                {
+                    BGMPlayer.bgmPlayer.ChangeBGM(BGMPlayer.bgmNames.BossBattle);
+                }
             }
         }
 
