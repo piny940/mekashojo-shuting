@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Enemy__WideBeam
   m_EditorClassIdentifier: 
   type: 7
-  hp: 10
+  hp: 30
   movingSpeed: 1
   damageAmount: 10
   firintgAmount: 0
   firingInterval: 5
   shortFiringInterval_Frame: 0
   beamTime: 3
-  beamNotifyingTime: 1
+  beamNotifyingTime: 0
   bulletSpeed: 0

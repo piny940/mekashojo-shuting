@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Enemy__Missile
   m_EditorClassIdentifier: 
   type: 5
-  hp: 10
+  hp: 30
   movingSpeed: 1
   damageAmount: 5
   firintgAmount: 1
   firingInterval: 3
-  shortFiringIntervalFrameAmount: 0
+  shortFiringInterval_Frame: 0
   beamTime: 0
-  beamNoticingTime: 0
+  beamNotifyingTime: 0
   bulletSpeed: 8

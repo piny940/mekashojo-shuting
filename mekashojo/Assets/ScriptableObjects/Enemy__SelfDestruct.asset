@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Enemy__SelfDestruct
   m_EditorClassIdentifier: 
   type: 10
-  hp: 10
+  hp: 30
   movingSpeed: 1
   damageAmount: 80
   firintgAmount: 0
   firingInterval: 0
-  shortFiringIntervalFrameAmount: 0
+  shortFiringInterval_Frame: 0
   beamTime: 0
-  beamNoticingTime: 0
+  beamNotifyingTime: 0
   bulletSpeed: 0
