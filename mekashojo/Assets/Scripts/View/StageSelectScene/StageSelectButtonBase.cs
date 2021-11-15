@@ -5,7 +5,6 @@ namespace View
 {
     public abstract class StageSelectButtonBase : ButtonBase
     {
-        [SerializeField, Header("StageDescriptionsを入れる")] private StageDescriptions _stageDescriptions;
         [SerializeField, Header("StartButtonを入れる")] private StartButton _startButton;
         [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
         [SerializeField, Header("Overlayを入れる")] private StageSelect_Overlay _overlay;
@@ -30,8 +29,6 @@ namespace View
             if (CanPush())
             {
                 SEPlayer.sePlayer.PlayOneShot(_pushSound);
-                _stageDescriptions.IsObjectActive = true;
-                _stageDescriptions.text = Model.ProgressData.progressData.stageDescriptions[_stageName];
                 _startButton.IsObjectActive = true;
                 _startButton.selectingStageName = _stageSceneName;
 

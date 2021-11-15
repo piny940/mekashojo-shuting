@@ -27,8 +27,8 @@ namespace Model
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.Slash, 0 },
-                { attackType.Kunai, 0 },
+                { attackType.Slash, 1 },
+                { attackType.Kunai, 1 },
                 { attackType.BeamDagger, 1 },
             };
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LastStage
   m_EditorClassIdentifier: 
   firstEnemyAmount: 0
-  maxEnemyAmount: 0
+  maxEnemyAmount: 20
   enemyProduceProbabilityCurve:
     serializedVersion: 2
     m_Curve:
