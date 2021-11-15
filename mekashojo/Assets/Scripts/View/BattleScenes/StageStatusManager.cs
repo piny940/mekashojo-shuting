@@ -27,7 +27,7 @@ namespace View
                 {keepOutLineType.Bottom, -5 },
             };
 
-        [SerializeField, Header("LastStageの場合はチェックを入れる")] private bool _isLastStage;
+        [SerializeField, Header("ステージ名")] private Model.ProgressData.stageName _stageName;
         // プログラム上、1番と2番のラインの長さは同じにしないといけない
         [SerializeField, Header("Bossを入れる")] private GameObject _boss;
         [SerializeField, Header("WhiteFlashを入れる")] private GameObject _whiteFlash;
@@ -136,8 +136,10 @@ namespace View
             if (!Controller.BattleScenesController.stageStatusManager.isGameGoing)
                 return;
 
+            bool isLastStage = _stageName == Model.ProgressData.stageName.lastStage;
+
             // LastStageの場合はボスの出現演出を行わない
-            if (_isLastStage && !_hasBossAppeared)
+            if (isLastStage && !_hasBossAppeared)
             {
                 Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossBattle);
                 _hasBossAppeared = true;
@@ -146,7 +148,7 @@ namespace View
 
             // ボスにある程度近づいたらボスの出現演出に移る
             if ((_boss.transform.position.x - _player.transform.position.x < BOSS_APPEAR_DISTANCE
-                    || _isLastStage)
+                    || isLastStage)
                 && !_hasBossAppeared)
             {
                 Controller.BattleScenesController.stageStatusManager.ChangeStatus(Model.StageStatusManager.stageStatus.BossAppearing);
@@ -248,7 +250,7 @@ namespace View
                 _whiteFlash.SetActive(false);
 
                 // BGMを変える
-                if (_isLastStage)
+                if (_stageName == Model.ProgressData.stageName.lastStage)
                 {
                     BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.LastStage);
                 }
@@ -358,6 +360,10 @@ namespace View
             if (_bossDieTimer > BOSS_DIE_EXPLOTION_TIME + BOSS_DIE_EXPLOTION_FADE_TIME)
             {
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.StageClearScene, true);
+                if ((int)_stageName > (int)Model.ProgressData.progressData.stageClearAchievement)
+                {
+                    Model.ProgressData.progressData.stageClearAchievement = _stageName;
+                }
             }
         }
     }

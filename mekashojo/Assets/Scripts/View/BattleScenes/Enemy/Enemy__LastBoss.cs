@@ -8,11 +8,7 @@ namespace View
         private struct BeamElements
         {
             public GameObject beamObject;
-            public PolygonCollider2D polygonCollider2D;
-            public SpriteRenderer spriteRenderer;
         }
-
-        private const float NOTIFYING_FIRE_TRANSPARENCY = 0.1f;
 
         [SerializeField, Header("LastBossFire__ThickBeamを入れる")] private GameObject _lastBossFire__ThickBeam;
         [SerializeField, Header("LastBossFire__SpreadBeamを入れる")] private GameObject _lastBossFire__SpreadBeam;
@@ -64,33 +60,25 @@ namespace View
             _thickBeamElements = new BeamElements()
             {
                 beamObject = _lastBossFire__ThickBeam,
-                polygonCollider2D = _lastBossFire__ThickBeam.GetComponent<PolygonCollider2D>(),
-                spriteRenderer = _lastBossFire__ThickBeam.GetComponent<SpriteRenderer>(),
             };
 
             // _spreadBeamElementsの初期化
             _spreadBeamElements = new BeamElements()
             {
                 beamObject = _lastBossFire__SpreadBeam,
-                polygonCollider2D = _lastBossFire__SpreadBeam.GetComponent<PolygonCollider2D>(),
-                spriteRenderer = _lastBossFire__SpreadBeam.GetComponent<SpriteRenderer>(),
             };
 
             // _spreadLaserWithMissileの初期化
             _spreadLaserWithMissileElements = new BeamElements()
             {
                 beamObject = _lastBossFire__SpreadLaserWithMissile,
-                polygonCollider2D = _lastBossFire__SpreadLaserWithMissile.GetComponent<PolygonCollider2D>(),
-                spriteRenderer = _lastBossFire__SpreadLaserWithMissile.GetComponent<SpriteRenderer>(),
             };
 
             // _spreadLaserWithStunの初期化
             _spreadLaserWithStunElements = new BeamElements()
             {
                 beamObject = _lastBossFire__SpreadLaserWithStun,
-                polygonCollider2D = _lastBossFire__SpreadLaserWithStun.GetComponent<PolygonCollider2D>(),
-                spriteRenderer = _lastBossFire__SpreadLaserWithStun.GetComponent<SpriteRenderer>(),
-            };
+            }; 
         }
 
         // Start is called before the first frame update
@@ -169,25 +157,8 @@ namespace View
         {
             switch (beamStatus)
             {
-                case Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring:
-                    // 攻撃の予告をする
-
-                    elements.beamObject.SetActive(true);
-
-                    //当たり判定はなくしておく
-                    elements.polygonCollider2D.enabled = false;
-
-                    //薄く表示させる
-                    elements.spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
-                    break;
-
                 case Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam:
-                    //攻撃をする
-                    //当たり判定をOnにする
-                    elements.polygonCollider2D.enabled = true;
-
-                    //ちゃんと表示する
-                    elements.spriteRenderer.color = new Color(1, 1, 1, 1);
+                    elements.beamObject.SetActive(true);
                     break;
 
                 case Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam:
