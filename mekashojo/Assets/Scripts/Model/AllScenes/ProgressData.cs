@@ -8,7 +8,7 @@ namespace Model
         public static ProgressData progressData = new ProgressData();
 
         // 到達済みのステージ
-        public stageName stageClearAchievement { get; set; }
+        public stageName stageClearAchievement = stageName.stage1;
 
         // ステージの説明
         public IReadOnlyDictionary<stageName, string> stageDescriptions { get; private set; }
