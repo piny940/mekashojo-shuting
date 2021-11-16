@@ -19,8 +19,8 @@ namespace Model
                 { DropMaterialManager.materialType.BombEnhancementMaterial, 0.025f },
                 { DropMaterialManager.materialType.HeavyShieldEnhancementMaterial, 0.025f },
                 { DropMaterialManager.materialType.LightShieldEnhancementMaterial, 0.025f },
-                { DropMaterialManager.materialType.EnergyChargeMaterial, 0.15f },
-                { DropMaterialManager.materialType.BombChargeMaterial, 0.1f },
+                { DropMaterialManager.materialType.EnergyChargeMaterial, 0.05f },
+                { DropMaterialManager.materialType.BombChargeMaterial, 0.04f },
             };
 
         private EnemyManager _enemyManager;

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Model
 {
@@ -32,7 +33,8 @@ namespace Model
                 { attackType.BeamDagger, 1 },
             };
 
-        private attackType _proceedingAttackTypeName = attackType._none; // 今どの攻撃をしているか
+        private attackType _proceedingAttackTypeName = attackType._none;
+
         private Dictionary<attackType, float> _damageAmounts { get; set; }
         private Dictionary<attackType, float> _bulletSpeeds { get; set; }
         private float _time = 0;
@@ -42,6 +44,19 @@ namespace Model
         private BulletProcessInfo _beamDaggerProcessInfo;
 
         public static readonly float maxHP = 3500;
+
+        public UnityEvent<attackType> OnProceedingAttackTypeNameChanged
+            = new UnityEvent<attackType>();
+
+        public attackType proceedingAttackTypeName
+        {
+            get { return _proceedingAttackTypeName; }
+            set
+            {
+                _proceedingAttackTypeName = value;
+                OnProceedingAttackTypeNameChanged?.Invoke(value);
+            }
+        }
 
         public static IReadOnlyDictionary<attackType, float> damageAmounts { get; private set; }
         public static IReadOnlyDictionary<attackType, float> bulletSpeeds { get; private set; }
@@ -159,14 +174,14 @@ namespace Model
                 return;
 
             // 攻撃を始める処理
-            if (_time > FIRING_INTERVAL && _proceedingAttackTypeName == attackType._none)
+            if (_time > FIRING_INTERVAL && proceedingAttackTypeName == attackType._none)
             {
                 _time = 0;
-                _proceedingAttackTypeName = RandomChoosing.ChooseRandomly(_attackProbabilityRatios);
+                proceedingAttackTypeName = RandomChoosing.ChooseRandomly(_attackProbabilityRatios);
             }
 
             // 攻撃中でない場合は時間をカウントする
-            if (_proceedingAttackTypeName == attackType._none)
+            if (proceedingAttackTypeName == attackType._none)
             {
                 _time += Time.deltaTime;
             }
@@ -182,13 +197,13 @@ namespace Model
         // 弾丸系の攻撃の処理
         private void ProceedBulletAttack(attackType type, BulletProcessInfo info)
         {
-            if (_proceedingAttackTypeName != type) return;
+            if (proceedingAttackTypeName != type) return;
 
             // 攻撃本体
             bool isAttacking = ProceedBulletFiring(info);
 
             // 攻撃終了時の処理
-            if (!isAttacking) _proceedingAttackTypeName = attackType._none;
+            if (!isAttacking) proceedingAttackTypeName = attackType._none;
         }
     }
 }
