@@ -459,14 +459,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2117720346, guid: f5086c41423b848b783cd0b9015d5ce5, type: 3}
-      propertyPath: m_Name
-      value: Stage3Display
-      objectReference: {fileID: 0}
-    - target: {fileID: 2117720348, guid: f5086c41423b848b783cd0b9015d5ce5, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 10d8c854e4f2c4ed2a02396b5f158db5, type: 3}
     - target: {fileID: 4639669882621227192, guid: f5086c41423b848b783cd0b9015d5ce5, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -1109,7 +1101,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1838751471
+--- !u!21 &2110569520
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
