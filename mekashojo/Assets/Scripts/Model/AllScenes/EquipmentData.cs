@@ -466,23 +466,38 @@ namespace Model
             {
                 {
                     equipmentType.MainWeapon__Cannon,
-                    "キャノンの説明"
+                    $"キャノン\n" +
+                    $"攻撃力:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Power]}\n" +
+                    $"重量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Weight]}\n" +
+                    $"エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Cost]}"
                 },
                 {
                     equipmentType.MainWeapon__Laser,
-                    "レーザーの説明"
+                    $"レーザー\n" +
+                    $"攻撃力:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Power]}\n" +
+                    $"重量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Weight]}\n" +
+                    $"エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Cost]}"
                 },
                 {
                     equipmentType.MainWeapon__BeamMachineGun,
-                    "ビームマシンガンの説明"
+                    $"ビームマシンガン\n" +
+                    $"攻撃力:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Power]}\n" +
+                    $"重量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Weight]}\n" +
+                    $"エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Cost]}"
                 },
                 {
                     equipmentType.SubWeapon__Balkan,
-                    "バルカンの説明"
+                    $"バルカン\n" +
+                    $"攻撃力:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Power]}\n" +
+                    $"重量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Weight]}\n" +
+                    $"エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Cost]}"
                 },
                 {
                     equipmentType.SubWeapon__Missile,
-                    "ミサイルの説明"
+                    $"ミサイル\n" +
+                    $"攻撃力:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Power]}\n" +
+                    $"重量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Weight]}\n" +
+                    $"エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Cost]}"
                 },
                 {
                     equipmentType.Bomb,
@@ -490,11 +505,15 @@ namespace Model
                 },
                 {
                     equipmentType.Shield__Heavy,
-                    "重シールドの説明"
+                    $"重シールド\n" +
+                    $"重量:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
+                    $"ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}"
                 },
                 {
                     equipmentType.Shield__Light,
-                    "軽シールドの説明"
+                    $"軽シールド\n" +
+                    $"重量:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
+                    $"ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}"
                 },
             };
 

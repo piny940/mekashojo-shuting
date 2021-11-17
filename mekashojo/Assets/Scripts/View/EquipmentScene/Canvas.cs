@@ -7,7 +7,9 @@ namespace View
     public class Canvas : MonoBehaviour
     {
         [SerializeField, Header("PopupBackgroundImageを入れる")] private PopupBackgroundImage _popupBackgroundImage;
-        [SerializeField, Header("WeaponDescriptionを入れる")] private WeaponDescriptions _weaponDescriptions;
+        [SerializeField, Header("WeaponDescriptionsFrameを入れる")] private WeaponDescriptionsFrame _weaponDescriptionsFrame;
+        [SerializeField, Header("PreviewImageFrameを入れる")] private PreviewImageFrame _previewImageFrame;
+        [SerializeField, Header("PreviewImageModelを入れる")] private PreviewImageModel _previewImageModel;
         [SerializeField, Header("MotionPreviewを入れる")] private MotionPreview _motionPreview;
         [SerializeField, Header("Level__Titleを入れる")] private Level__Title _level__Title;
         [SerializeField, Header("Levelを入れる")] private Level _level;
@@ -42,7 +44,9 @@ namespace View
 
             // パーツ説明欄の全てのUI要素を非表示
             _popupBackgroundImage.isVisible = false;
-            _weaponDescriptions.isVisible = false;
+            _weaponDescriptionsFrame.isVisible = false;
+            _previewImageFrame.isVisible = false;
+            _previewImageModel.isVisible = false;
             _motionPreview.isVisible = false;
             _level__Title.isVisible = false;
             _level.isVisible = false;
@@ -70,7 +74,9 @@ namespace View
                         {
                             _isFirst = false;
                             _popupBackgroundImage.isVisible = true;
-                            _weaponDescriptions.isVisible = true;
+                            _weaponDescriptionsFrame.isVisible = true;
+                            _previewImageFrame.isVisible = true;
+                            _previewImageModel.isVisible = true;
                             _motionPreview.isVisible = true;
                             _level__Title.isVisible = true;
                             _level.isVisible = true;
