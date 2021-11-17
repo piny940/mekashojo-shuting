@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__SelfDestruct
   m_EditorClassIdentifier: 
   type: 10
-  hp: 35
+  hp: 30
   movingSpeed: 1
   damageAmount: 80
   firintgAmount: 0

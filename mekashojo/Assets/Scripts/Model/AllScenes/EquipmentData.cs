@@ -491,52 +491,60 @@ namespace Model
                         $"キャノン\n" +
                         $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Power]}\n" +
                         $" 重量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Weight]}\n" +
-                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Cost]}";
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Cost]}\n" +
+                        $" 使い方:左クリック長押し";
 
                 case equipmentType.MainWeapon__Laser:
                     return
                         $"レーザー\n" +
                         $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Power]}\n" +
                         $" 重量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Weight]}\n" +
-                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Cost]}";
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Cost]}\n" +
+                        $" 使い方:左クリック長押し";
 
                 case equipmentType.MainWeapon__BeamMachineGun:
                     return
                         $"ビームマシンガン\n" +
                         $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Power]}\n" +
                         $" 重量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Weight]}\n" +
-                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Cost]}";
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Cost]}\n" +
+                        $" 使い方:左クリック長押し";
 
                 case equipmentType.SubWeapon__Balkan:
                     return
                         $"バルカン\n" +
                         $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Power]}\n" +
                         $" 重量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Weight]}\n" +
-                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Cost]}";
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Cost]}\n" +
+                        $" 使い方:左クリック長押し";
 
                 case equipmentType.SubWeapon__Missile:
                     return
                         $"ミサイル\n" +
                         $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Power]}\n" +
                         $" 重量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Weight]}\n" +
-                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Cost]}";
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Cost]}\n" +
+                        $" 使い方:左クリック";
 
                 case equipmentType.Bomb:
                     return
                         $"ボム\n" +
-                        $" 攻撃力:{equipmentStatus[equipmentType.Bomb][equipmentLevel[equipmentType.Bomb]][equipmentParameter.Power]}\n";
+                        $" 攻撃力:{equipmentStatus[equipmentType.Bomb][equipmentLevel[equipmentType.Bomb]][equipmentParameter.Power]}\n" +
+                        $" 使い方:スペースキー";
 
                 case equipmentType.Shield__Heavy:
                     return
                         $" 重シールド\n" +
                         $" 重量:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
-                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}";
+                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}\n" +
+                        $" 使い方:右クリック長押し";
 
                 case equipmentType.Shield__Light:
                     return
                         $" 軽シールド\n" +
                         $" 重量:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Light]][equipmentParameter.Weight]}\n" +
-                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Light]][equipmentParameter.DamageReductionRate]}";
+                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Light]][equipmentParameter.DamageReductionRate]}\n" +
+                        $" 使い方:右クリック長押し";
 
                 default:
                     throw new System.Exception();
