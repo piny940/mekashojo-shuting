@@ -9,11 +9,6 @@ namespace View
         [SerializeField, Header("ボタンを押したときになる音")] AudioClip _pushSound;
         [SerializeField, Header("Overlayを入れる")] private StageSelect_Overlay _overlay;
         [SerializeField, Header("OverlayReturnを入れる")] private StageSelect_OverlayReturn _overlayReturn;
-        [SerializeField, Header("SelectingStageTitle_Stage1を入れる")] private SelectingStageTitle_Stage1 _selectingStageTitle_Stage1;
-        [SerializeField, Header("SelectingStageTitle_Stage2を入れる")] private SelectingStageTitle_Stage2 _selectingStageTitle_Stage2;
-        [SerializeField, Header("SelectingStageTitle_Stage3を入れる")] private SelectingStageTitle_Stage3 _selectingStageTitle_Stage3;
-        [SerializeField, Header("SelectingStageTitle_Stage4を入れる")] private SelectingStageTitle_Stage4 _selectingStageTitle_Stage4;
-        [SerializeField, Header("SelectingStageTitle_Stage5を入れる")] private SelectingStageTitle_Stage5 _selectingStageTitle_Stage5;
 
         protected Model.ProgressData.stageName _stageName;
         // ステージのシーン名
@@ -34,24 +29,6 @@ namespace View
 
                 _overlay.IsVisible = true;
                 _overlayReturn.IsObjectActive = true;
-                switch ((int)_stageName)
-                {
-                    case 1:
-                        _selectingStageTitle_Stage1.IsVisible = true;
-                        break;
-                    case 2:
-                        _selectingStageTitle_Stage2.IsVisible = true;
-                        break;
-                    case 3:
-                        _selectingStageTitle_Stage3.IsVisible = true;
-                        break;
-                    case 4:
-                        _selectingStageTitle_Stage4.IsVisible = true;
-                        break;
-                    case 5:
-                        _selectingStageTitle_Stage5.IsVisible = true;
-                        break;
-                }
             }
         }
 

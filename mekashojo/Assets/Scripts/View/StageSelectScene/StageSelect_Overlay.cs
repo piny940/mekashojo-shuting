@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageSelect_Overlay : MonoBehaviour
+namespace View
 {
-    public bool IsVisible
+    public class StageSelect_Overlay : MonoBehaviour
     {
-        get { return this.GetComponent<Image>().enabled; }
-        set { this.GetComponent<Image>().enabled = value; }
-    }
+        public bool IsVisible
+        {
+            get { return this.GetComponent<Image>().enabled; }
+            set { this.GetComponent<Image>().enabled = value; }
+        }
 
-    void Start()
-    {
-        this.IsVisible = false;
+        void Start()
+        {
+            this.IsVisible = false;
+        }
     }
 }
