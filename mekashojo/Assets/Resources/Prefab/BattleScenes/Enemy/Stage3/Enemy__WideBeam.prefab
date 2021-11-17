@@ -98,7 +98,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &245771336
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &440598054
@@ -300,7 +300,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &978018611
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &1152112193
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &1772990267
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &1945778356
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &3428844475538962038
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 100, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 0, g: 1, b: 1, a: 1}
+  m_lineColor: {r: 0, g: 0.02998209, b: 1, a: 1}
   m_lineWidth: 20
   m_lightSaberFactor: 0.8
 --- !u!1 &5417145416389010183
