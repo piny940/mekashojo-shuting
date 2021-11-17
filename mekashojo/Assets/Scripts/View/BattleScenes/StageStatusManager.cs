@@ -136,7 +136,7 @@ namespace View
             if (!Controller.BattleScenesController.stageStatusManager.isGameGoing)
                 return;
 
-            bool isLastStage = _stageName == Model.ProgressData.stageName.lastStage;
+            bool isLastStage = _stageName == Model.ProgressData.stageName.LastStage;
 
             // LastStageの場合はボスの出現演出を行わない
             if (isLastStage && !_hasBossAppeared)
@@ -250,7 +250,7 @@ namespace View
                 _whiteFlash.SetActive(false);
 
                 // BGMを変える
-                if (_stageName == Model.ProgressData.stageName.lastStage)
+                if (_stageName == Model.ProgressData.stageName.LastStage)
                 {
                     BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.LastStage);
                 }

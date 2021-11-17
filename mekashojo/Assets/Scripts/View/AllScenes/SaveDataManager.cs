@@ -182,7 +182,7 @@ namespace View
 
             // ステージの進捗の初期化
             // Stage1を仕様削除したため、初めからステージ1をクリアしている状態としてスタートする
-            Model.ProgressData.progressData.stageClearAchievement = Model.ProgressData.stageName.stage1;
+            Model.ProgressData.progressData.stageClearAchievement = Model.ProgressData.stageName.Stage1;
 
             //設定のデータの初期化
             Model.Setting.bgmVolume = _savedData.bgmVolume;
