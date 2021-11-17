@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Model
@@ -6,9 +7,11 @@ namespace Model
     {
         private const int FIRE_PER_SECOND = 5;
         private int _beamMachineGunNumber = 0;
+        private Vector3 _firingTarget;
         private int _count = 0;
 
         public UnityEvent OnBeamMachineGunNumberChanged = new UnityEvent();
+        public UnityEvent<Vector3> OnFiringTargetChanged = new UnityEvent<Vector3>();
 
         public int beamMachineGunNumber
         {
@@ -30,6 +33,16 @@ namespace Model
             }
         }
 
+        public Vector3 firingTarget
+        {
+            get { return _firingTarget; }
+            set
+            {
+                _firingTarget = value;
+                OnFiringTargetChanged?.Invoke(value);
+            }
+        }
+
         protected override void ProceedFirst() { }
         protected override void ProceedLast() { }
 
@@ -44,6 +57,7 @@ namespace Model
         protected override void Attack()
         {
             beamMachineGunNumber++;
+            firingTarget = InputManager.mousePosition;
 
             _count = 0;
 

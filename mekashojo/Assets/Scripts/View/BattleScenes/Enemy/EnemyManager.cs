@@ -9,6 +9,8 @@ namespace View
         private const float SCREEN_FRAME_WIDTH = 1.5f;
         private const float UI_WIDTH = 1.5f;
 
+        [SerializeField, Header("ステージ名を選ぶ")] private Model.ProgressData.stageName _stageName;
+
         private ObservableCollection<int> _lastEnemyNumbers;
 
         // Start is called before the first frame update
@@ -46,7 +48,7 @@ namespace View
                 Model.EnemyManager.enemyPosition__z);
 
             //指定された敵の生成
-            _ = PrefabManager.ProduceEnemy(type, producePosition);
+            _ = PrefabManager.ProduceEnemy(type, _stageName, producePosition);
         }
     }
 }

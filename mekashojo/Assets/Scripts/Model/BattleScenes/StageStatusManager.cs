@@ -20,7 +20,7 @@ namespace Model
             set
             {
                 _startTimeCounter = value;
-                OnStartTimeCounterChanged?.Invoke(_startTimeCounter);
+                OnStartTimeCounterChanged?.Invoke(value);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Model
                 && currentStageStatus != stageStatus.BossAppearing)
             {
                 isGameGoing = false;
-                currentStageStatus = stageStatus.IsPausing;
+                ChangeStatus(stageStatus.IsPausing);
             }
         }
 

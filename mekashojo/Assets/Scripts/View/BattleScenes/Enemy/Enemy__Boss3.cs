@@ -5,10 +5,16 @@ namespace View
 {
     public class Enemy__Boss3 : FiringBulletBase
     {
+        [SerializeField, Header("Boss3Modelを入れる")] private Animator _boss3Animator;
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
 
         private Rigidbody2D _rigidbody2D;
         private EnemyIDContainer _enemyIDContainer;
+
+        private enum animationParameters
+        {
+            action,
+        }
 
         private void Awake()
         {
@@ -59,6 +65,12 @@ namespace View
                 {
                     this.gameObject.SetActive(false);
                 }
+            });
+
+            // 攻撃を始めるときの処理
+            enemy__Boss3.OnProceedingAttackTypeNameChanged.AddListener(attackType =>
+            {
+                _boss3Animator.SetTrigger(animationParameters.action.ToString());
             });
         }
     }
