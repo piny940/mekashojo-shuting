@@ -10,10 +10,7 @@ namespace View
         {
             Controller.BattleScenesController.missile__Player.OnMissileNumberChanged.AddListener(() =>
             {
-                Vector3 bulletVelocity
-                    = (Model.InputManager.mousePosition - transform.position)
-                        * BULLET_SPEED
-                        / Vector3.Magnitude(Model.InputManager.mousePosition - transform.position);
+                Vector3 bulletVelocity = new Vector3(1, 0, 0) * BULLET_SPEED;
 
                 Fire(bulletVelocity, Model.EquipmentData.equipmentFireNames.MissileFire__Player.ToString());
             });

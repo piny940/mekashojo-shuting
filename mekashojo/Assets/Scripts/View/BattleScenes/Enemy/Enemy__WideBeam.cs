@@ -4,17 +4,11 @@ namespace View
 {
     public class Enemy__WideBeam : NormalEnemyBase
     {
-        private const float NOTIFYING_FIRE_TRANSPARENCY = 0.1f;
         private int _id;
-        private PolygonCollider2D _polygonCollier2D;
-        private SpriteRenderer _spriteRenderer;
         [SerializeField, Header("EnemyFire__WideBeamを入れる")] private GameObject _enemyFire__WideBeam;
 
         private void Awake()
         {
-            _polygonCollier2D = _enemyFire__WideBeam.GetComponent<PolygonCollider2D>();
-            _spriteRenderer = _enemyFire__WideBeam.GetComponent<SpriteRenderer>();
-
             //初期化
             _enemyFire__WideBeam.SetActive(false);
 
@@ -70,26 +64,10 @@ namespace View
 
         private void ChangeBeamStatus(Model.DamageFactorManager.beamFiringProcesses beamStatus)
         {
-            if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring)
-            {
-                // 攻撃の予告をする
-
-                _enemyFire__WideBeam.SetActive(true);
-
-                //当たり判定はなくしておく
-                _polygonCollier2D.enabled = false;
-
-                //薄く表示させる
-                _spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
-            }
-            else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam)
+            if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam)
             {
                 //攻撃をする
-                //当たり判定をOnにする
-                _polygonCollier2D.enabled = true;
-
-                //ちゃんと表示する
-                _spriteRenderer.color = new Color(1, 1, 1, 1);
+                _enemyFire__WideBeam.SetActive(true);
             }
             else if (beamStatus == Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam)
             {

@@ -7,10 +7,13 @@ namespace View
     public class PrefabManager : MonoBehaviour
     {
         // 敵を生成する際に用いる
-        public static GameObject ProduceEnemy(Controller.NormalEnemyData.normalEnemyType type, Vector3 position)
+        public static GameObject ProduceEnemy(
+            Controller.NormalEnemyData.normalEnemyType type,
+            Model.ProgressData.stageName stageName,
+            Vector3 position)
         {
             return Instantiate((GameObject)Resources.Load(
-                $"Prefab/BattleScenes/Enemy/Enemy__{type}"),
+                $"Prefab/BattleScenes/Enemy/{stageName}/Enemy__{type}"),
                 position,
                 Quaternion.identity
                 );

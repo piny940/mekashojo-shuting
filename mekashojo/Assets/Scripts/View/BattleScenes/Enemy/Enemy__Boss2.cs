@@ -5,15 +5,11 @@ namespace View
 {
     public class Enemy__Boss2 : FiringBulletBase
     {
-        private const float NOTIFYING_FIRE_TRANSPARENCY = 0.1f;
-
         [SerializeField, Header("Boss2Fire__SpreadLaserを入れる")] private GameObject _spreadLaser;
         [SerializeField, Header("BossHPBarContentを入れる")] private Image _bossHPBarContent;
 
         private Rigidbody2D _rigidbody2D;
         private EnemyIDContainer _enemyIDContainer;
-        private PolygonCollider2D _polygonCollider2D;
-        private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
@@ -21,8 +17,6 @@ namespace View
             _enemyIDContainer = GetComponent<EnemyIDContainer>();
 
             _spreadLaser.SetActive(false);
-            _polygonCollider2D = _spreadLaser.GetComponent<PolygonCollider2D>();
-            _spriteRenderer = _spreadLaser.GetComponent<SpriteRenderer>();
         }
 
         // Start is called before the first frame update
@@ -60,25 +54,8 @@ namespace View
             {
                 switch (status)
                 {
-                    case Model.DamageFactorManager.beamFiringProcesses.IsNotifyingBeamFiring:
-                        // 攻撃の予告をする
-
-                        _spreadLaser.SetActive(true);
-
-                        //当たり判定はなくしておく
-                        _polygonCollider2D.enabled = false;
-
-                        //薄く表示させる
-                        _spriteRenderer.color = new Color(1, 1, 1, NOTIFYING_FIRE_TRANSPARENCY);
-                        break;
-
                     case Model.DamageFactorManager.beamFiringProcesses.IsFiringBeam:
-                        //攻撃をする
-                        //当たり判定をOnにする
-                        _polygonCollider2D.enabled = true;
-
-                        //ちゃんと表示する
-                        _spriteRenderer.color = new Color(1, 1, 1, 1);
+                        _spreadLaser.SetActive(true);
                         break;
 
                     case Model.DamageFactorManager.beamFiringProcesses.HasStoppedBeam:

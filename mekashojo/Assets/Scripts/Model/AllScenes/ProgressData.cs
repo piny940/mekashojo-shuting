@@ -8,7 +8,7 @@ namespace Model
         public static ProgressData progressData = new ProgressData();
 
         // 到達済みのステージ
-        public stageName stageClearAchievement { get; set; }
+        public stageName stageClearAchievement = stageName.Stage1;
 
         // ステージの説明
         public IReadOnlyDictionary<stageName, string> stageDescriptions { get; private set; }
@@ -23,33 +23,33 @@ namespace Model
         public enum stageName
         {
             _none,
-            stage1,
-            stage2,
-            stage3,
-            stage4,
-            lastStage,
+            Stage1,
+            Stage2,
+            Stage3,
+            Stage4,
+            LastStage,
         }
 
         public ProgressData()
         {
             _stageDescriptions__Data = new Dictionary<stageName, string>()
             {
-                { stageName.stage1, "ステージ1の説明" },
-                { stageName.stage2, "ステージ2の説明" },
-                { stageName.stage3, "ステージ3の説明" },
-                { stageName.stage4, "ステージ4の説明" },
-                { stageName.lastStage, "ラストステージの説明" },
+                { stageName.Stage1, "ステージ1の説明" },
+                { stageName.Stage2, "ステージ2の説明" },
+                { stageName.Stage3, "ステージ3の説明" },
+                { stageName.Stage4, "ステージ4の説明" },
+                { stageName.LastStage, "ラストステージの説明" },
             };
 
             stageDescriptions = new ReadOnlyDictionary<stageName, string>(_stageDescriptions__Data);
 
             _stageDisplayName__Data = new Dictionary<stageName, string>()
             {
-                { stageName.stage1, "Stage1" },
-                { stageName.stage2, "Stage2" },
-                { stageName.stage3, "Stage3" },
-                { stageName.stage4, "Stage4" },
-                { stageName.lastStage, "Boss" },
+                { stageName.Stage1, "Stage1" },
+                { stageName.Stage2, "Stage2" },
+                { stageName.Stage3, "Stage3" },
+                { stageName.Stage4, "Stage4" },
+                { stageName.LastStage, "Boss" },
             };
 
             stageDisplayName = new ReadOnlyDictionary<stageName, string>(_stageDisplayName__Data);

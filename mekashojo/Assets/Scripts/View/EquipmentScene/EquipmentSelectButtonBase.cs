@@ -12,9 +12,8 @@ namespace View
     {
         [SerializeField, Header("SelectedWeaponManagerを入れる")] private SelectedWeaponManager _selectedWeaponManager;
         [SerializeField, Header("Canvasを入れる")] private Canvas _canvas;
-        [SerializeField, Header("PreviewImageを入れる")] private PreviewImage _previewImage;
-        [SerializeField, Header("WeaponDescriptionsを入れる")] private WeaponDescriptions _weaponDescriptions;
-        [SerializeField, Header("MotionPreviewを入れる")] private MotionPreview _motionPreview;
+        [SerializeField, Header("PreviewImageModelを入れる")] private PreviewImageModel _previewImageModel;
+        [SerializeField, Header("WeaponDescriptionsTextを入れる")] private WeaponDescriptionsText _weaponDescriptionsText;
         [SerializeField, Header("Levelを入れる")] private Level _level;
         [SerializeField, Header("EnhancementMaterialsCount_Titleを入れる")] private EnhancementMaterialsCount_Title _enhancementMaterialsCount_Title;
         [SerializeField, Header("EnhancementMaterialsCountを入れる")] private EnhancementMaterialsCount _enhancementMaterialsCount;
@@ -93,16 +92,11 @@ namespace View
             // 強化用ボタンの押下イベントに、この武器の強化ロジックを登録する。
             _enhancementButton.EnhanceAction = Enhance;
 
-            // TODOプレイヤーのプレビュー表示画面と武器モーション表示画面は、今後実装する。
-            #region
-            var _random = UnityEngine.Random.insideUnitSphere;
-            _previewImage.color = new Color(_random.x, _random.y, _random.z);
+            // プレイヤーのプレビュー表示画面の変更
+            _previewImageModel.modelType = type;
 
-            _random = UnityEngine.Random.insideUnitSphere;
-            _motionPreview.color = new Color(_random.x, _random.y, _random.z);
-            #endregion
-
-            _weaponDescriptions.text = Model.EquipmentData.equipmentData.equipmentDescriptions[type];
+            // 武器の説明の変更
+            _weaponDescriptionsText.text = Model.EquipmentData.equipmentData.GetEquipmentDescription(type);
 
             _level.text = Model.EquipmentData.equipmentData.levelDisplayName[Model.EquipmentData.equipmentData.equipmentLevel[type]];
 

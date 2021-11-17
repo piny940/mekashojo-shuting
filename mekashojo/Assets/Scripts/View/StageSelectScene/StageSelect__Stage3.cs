@@ -6,7 +6,7 @@ namespace View
     {
         private void Start()
         {
-            _stageName = Model.ProgressData.stageName.stage3;
+            _stageName = Model.ProgressData.stageName.Stage3;
             _stageSceneName = SceneChangeManager.SceneNames.Stage3;
             // ステージ2がクリアされていれば有効化
             GetComponent<Button>().interactable = (int)Model.ProgressData.progressData.stageClearAchievement >= 2;

@@ -20,15 +20,15 @@ namespace Model
         private const int SPREAD_MISSILE_FIRING_AMOUNT_PER_ONCE = 15;
 
         // 拡散レーザー用の定数
-        private const float SPREAD_LASER_NOTIFYING_TIME = 1;
+        private const float SPREAD_LASER_NOTIFYING_TIME = 0;
         private const float SPREAD_LASER_TIME = 5;
 
         // 各種類の攻撃をする可能性の比
         private readonly Dictionary<attackType, float> _attackProbabilityRatios
             = new Dictionary<attackType, float>()
             {
-                { attackType.SpreadBalkan, 0 },
-                { attackType.SpreadMissile, 0 },
+                { attackType.SpreadBalkan, 1 },
+                { attackType.SpreadMissile, 1 },
                 { attackType.SpreadLaser, 1 },
             };
 
