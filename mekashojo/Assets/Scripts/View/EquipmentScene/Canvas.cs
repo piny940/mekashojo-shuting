@@ -10,7 +10,6 @@ namespace View
         [SerializeField, Header("WeaponDescriptionsFrameを入れる")] private WeaponDescriptionsFrame _weaponDescriptionsFrame;
         [SerializeField, Header("PreviewImageFrameを入れる")] private PreviewImageFrame _previewImageFrame;
         [SerializeField, Header("PreviewImageModelを入れる")] private PreviewImageModel _previewImageModel;
-        [SerializeField, Header("MotionPreviewを入れる")] private MotionPreview _motionPreview;
         [SerializeField, Header("Level__Titleを入れる")] private Level__Title _level__Title;
         [SerializeField, Header("Levelを入れる")] private Level _level;
         [SerializeField, Header("EnhancementMaterialsCount_Titleを入れる")] private EnhancementMaterialsCount_Title _enhancementMaterialsCount_Title;
@@ -47,7 +46,6 @@ namespace View
             _weaponDescriptionsFrame.isVisible = false;
             _previewImageFrame.isVisible = false;
             _previewImageModel.isVisible = false;
-            _motionPreview.isVisible = false;
             _level__Title.isVisible = false;
             _level.isVisible = false;
             _enhancementMaterialsCount_Title.isVisible = false;
@@ -77,7 +75,6 @@ namespace View
                             _weaponDescriptionsFrame.isVisible = true;
                             _previewImageFrame.isVisible = true;
                             _previewImageModel.isVisible = true;
-                            _motionPreview.isVisible = true;
                             _level__Title.isVisible = true;
                             _level.isVisible = true;
                             _enhancementMaterialsCount_Title.isVisible = true;

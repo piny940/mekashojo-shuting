@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace View
 {
-    public class MotionPreview : MonoBehaviour
+    public class MotionPreviewFrame : MonoBehaviour
     {
         public Color color
         {
