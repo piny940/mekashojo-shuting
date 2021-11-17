@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__FastBullet
   m_EditorClassIdentifier: 
   type: 3
-  hp: 30
+  hp: 25
   movingSpeed: 1
   damageAmount: 10
   firintgAmount: 1

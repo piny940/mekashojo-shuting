@@ -22,7 +22,6 @@ namespace View
         {
             none,
             fire,
-            back,
             selectCannon,
             selectLaser,
             selectBeamMachineGun,
@@ -135,14 +134,6 @@ namespace View
         // サブ武器を発射する
         private void FireSubWeapon()
         {
-            // ミサイルの場合は、すでにアニメーションが始まっている場合を想定して、
-            // 一旦backトリガーをよぶ
-            if (Model.EquipmentData.equipmentData.selectedSubWeaponName
-                == Model.EquipmentData.equipmentType.SubWeapon__Missile)
-            {
-                _player.SetTrigger(animationParameters.back.ToString());
-                _subWeaponAnimator.SetTrigger(animationParameters.back.ToString());
-            }
             _player.SetTrigger(animationParameters.fire.ToString());
             _subWeaponAnimator.SetTrigger(animationParameters.fire.ToString());
         }
