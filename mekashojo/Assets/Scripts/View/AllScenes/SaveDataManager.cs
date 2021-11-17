@@ -179,8 +179,9 @@ namespace View
             Model.EquipmentData.equipmentData.enhancementMaterialsCount[Model.EquipmentData.equipmentType.Shield__Heavy] = 0;
             Model.EquipmentData.equipmentData.enhancementMaterialsCount[Model.EquipmentData.equipmentType.Shield__Light] = 0;
 
-            //ステージの進捗の初期化
-            Model.ProgressData.progressData.stageClearAchievement = Model.ProgressData.stageName._none;
+            // ステージの進捗の初期化
+            // Stage1を仕様削除したため、初めからステージ1をクリアしている状態としてスタートする
+            Model.ProgressData.progressData.stageClearAchievement = Model.ProgressData.stageName.stage1;
 
             //設定のデータの初期化
             Model.Setting.bgmVolume = _savedData.bgmVolume;
