@@ -92,6 +92,7 @@ namespace View
 
             _saveData__JsonString = JsonUtility.ToJson(_savedData);
             PlayerPrefs.SetString("SaveData", _saveData__JsonString);
+            PlayerPrefs.Save();
         }
 
         /// <summary>
