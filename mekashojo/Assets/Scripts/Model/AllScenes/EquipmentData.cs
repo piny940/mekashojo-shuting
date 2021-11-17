@@ -230,7 +230,7 @@ namespace Model
                             level.Level1,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 15 },
+                                { equipmentParameter.Power, 10 },
                                 { equipmentParameter.Weight, 30 },
                                 { equipmentParameter.Cost, 5 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
@@ -240,7 +240,7 @@ namespace Model
                             level.Level2,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 25 },
+                                { equipmentParameter.Power, 14 },
                                 { equipmentParameter.Weight, 28 },
                                 { equipmentParameter.Cost, 4 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 6 },
@@ -250,7 +250,7 @@ namespace Model
                             level.Level3,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 32 },
+                                { equipmentParameter.Power, 20 },
                                 { equipmentParameter.Weight, 26 },
                                 { equipmentParameter.Cost, 3 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 15 },
@@ -260,7 +260,7 @@ namespace Model
                             level.Level4,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 50 },
+                                { equipmentParameter.Power, 25 },
                                 { equipmentParameter.Weight, 23 },
                                 { equipmentParameter.Cost, 2 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 20 },
@@ -270,7 +270,7 @@ namespace Model
                             level.Level5,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 70 },
+                                { equipmentParameter.Power, 30 },
                                 { equipmentParameter.Weight, 20 },
                                 { equipmentParameter.Cost, 1 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, -1 },
@@ -286,7 +286,7 @@ namespace Model
                             level.Level1,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 8 },
+                                { equipmentParameter.Power, 13 },
                                 { equipmentParameter.Weight, 10 },
                                 { equipmentParameter.Cost, 5 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 2 },
@@ -296,7 +296,7 @@ namespace Model
                             level.Level2,
                             new Dictionary<equipmentParameter, int>()
                             {
-                                { equipmentParameter.Power, 14 },
+                                { equipmentParameter.Power, 20 },
                                 { equipmentParameter.Weight, 10 },
                                 { equipmentParameter.Cost, 5 },
                                 { equipmentParameter.RequiredEnhancementMaterialsCount, 13 },

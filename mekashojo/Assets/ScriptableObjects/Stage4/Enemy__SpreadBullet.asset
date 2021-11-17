@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__SpreadBullet
   m_EditorClassIdentifier: 
   type: 0
-  hp: 60
+  hp: 35
   movingSpeed: 1
   damageAmount: 10
   firintgAmount: 1
