@@ -45,7 +45,7 @@ namespace View
                 }
             });
 
-            playWhileIn += (collision) =>
+            playOnEnter += (collision) =>
             {
                 if (collision.tag == TagManager.TagNames.BattleScenes__Enemy.ToString())
                 {
