@@ -25,11 +25,6 @@ namespace Model
 
         private Dictionary<equipmentType, Dictionary<level, Dictionary<equipmentParameter, int>>> _equipmentStatus__Data { get; set; }
 
-        // 装備の説明
-        public IReadOnlyDictionary<equipmentType, string> equipmentDescriptions { get; private set; }
-
-        private Dictionary<equipmentType, string> _equipmentDescriptions__Data { get; set; }
-
         // 装備の表示名
         public IReadOnlyDictionary<equipmentType, string> equipmentDisplayName { get; private set; }
 
@@ -126,7 +121,7 @@ namespace Model
                                 { equipmentParameter.Power, 40 },
                                 { equipmentParameter.Weight, 60 },
                                 { equipmentParameter.Cost, 50 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
                             }
                         },
                         {
@@ -136,7 +131,7 @@ namespace Model
                                 { equipmentParameter.Power, 50 },
                                 { equipmentParameter.Weight, 58 },
                                 { equipmentParameter.Cost, 48 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 6 },
                             }
                         },
                         {
@@ -182,7 +177,7 @@ namespace Model
                                 { equipmentParameter.Power, 30 },
                                 { equipmentParameter.Weight, 40 },
                                 { equipmentParameter.Cost, 30 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
                             }
                         },
                         {
@@ -192,7 +187,7 @@ namespace Model
                                 { equipmentParameter.Power, 40 },
                                 { equipmentParameter.Weight, 38 },
                                 { equipmentParameter.Cost, 28 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 6 },
                             }
                         },
                         {
@@ -238,7 +233,7 @@ namespace Model
                                 { equipmentParameter.Power, 10 },
                                 { equipmentParameter.Weight, 30 },
                                 { equipmentParameter.Cost, 5 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
                             }
                         },
                         {
@@ -248,7 +243,7 @@ namespace Model
                                 { equipmentParameter.Power, 15 },
                                 { equipmentParameter.Weight, 28 },
                                 { equipmentParameter.Cost, 4 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 6 },
                             }
                         },
                         {
@@ -294,7 +289,7 @@ namespace Model
                                 { equipmentParameter.Power, 5 },
                                 { equipmentParameter.Weight, 10 },
                                 { equipmentParameter.Cost, 5 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 8 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 2 },
                             }
                         },
                         {
@@ -304,7 +299,7 @@ namespace Model
                                 { equipmentParameter.Power, 7 },
                                 { equipmentParameter.Weight, 10 },
                                 { equipmentParameter.Cost, 5 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 15 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 13 },
                             }
                         },
                         {
@@ -330,7 +325,7 @@ namespace Model
                                 { equipmentParameter.Power, 20 },
                                 { equipmentParameter.Weight, 20 },
                                 { equipmentParameter.Cost, 30 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 8 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 2 },
                             }
                         },
                         {
@@ -340,7 +335,7 @@ namespace Model
                                 { equipmentParameter.Power, 25 },
                                 { equipmentParameter.Weight, 18 },
                                 { equipmentParameter.Cost, 30 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 15 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 13 },
                             }
                         },
                         {
@@ -366,7 +361,7 @@ namespace Model
                                 { equipmentParameter.Power, 200 },
                                 { equipmentParameter.Weight, 0 },
                                 { equipmentParameter.Cost, 0 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 15 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 10 },
                             }
                         },
                         {
@@ -401,7 +396,7 @@ namespace Model
                             {
                                 { equipmentParameter.Weight, 35 },
                                 { equipmentParameter.DamageReductionRate, 80 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
                             }
                         },
                         {
@@ -434,7 +429,7 @@ namespace Model
                             {
                                 { equipmentParameter.Weight, 30 },
                                 { equipmentParameter.DamageReductionRate, 65 },
-                                { equipmentParameter.RequiredEnhancementMaterialsCount, 5 },
+                                { equipmentParameter.RequiredEnhancementMaterialsCount, 1 },
                             }
                         },
                         {
@@ -459,66 +454,7 @@ namespace Model
                 }
             };
 
-            equipmentStatus
-                = new ReadOnlyDictionary<equipmentType, Dictionary<level, Dictionary<equipmentParameter, int>>>(_equipmentStatus__Data);
-
-            _equipmentDescriptions__Data = new Dictionary<equipmentType, string>()
-            {
-                {
-                    equipmentType.MainWeapon__Cannon,
-                    $"キャノン\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Power]}\n" +
-                    $" 重量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Weight]}\n" +
-                    $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Cost]}"
-                },
-                {
-                    equipmentType.MainWeapon__Laser,
-                    $"レーザー\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Power]}\n" +
-                    $" 重量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Weight]}\n" +
-                    $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Cost]}"
-                },
-                {
-                    equipmentType.MainWeapon__BeamMachineGun,
-                    $"ビームマシンガン\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Power]}\n" +
-                    $" 重量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Weight]}\n" +
-                    $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Cost]}"
-                },
-                {
-                    equipmentType.SubWeapon__Balkan,
-                    $"バルカン\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Power]}\n" +
-                    $" 重量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Weight]}\n" +
-                    $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Cost]}"
-                },
-                {
-                    equipmentType.SubWeapon__Missile,
-                    $"ミサイル\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Power]}\n" +
-                    $" 重量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Weight]}\n" +
-                    $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Cost]}"
-                },
-                {
-                    equipmentType.Bomb,
-                    $"ボム\n" +
-                    $" 攻撃力:{equipmentStatus[equipmentType.Bomb][equipmentLevel[equipmentType.Bomb]][equipmentParameter.Power]}\n"
-                },
-                {
-                    equipmentType.Shield__Heavy,
-                    $" 重シールド\n" +
-                    $" 重量:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
-                    $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}"
-                },
-                {
-                    equipmentType.Shield__Light,
-                    $" 軽シールド\n" +
-                    $" 重量:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
-                    $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}"
-                },
-            };
-
-            equipmentDescriptions = new ReadOnlyDictionary<equipmentType, string>(_equipmentDescriptions__Data);
+            equipmentStatus = new ReadOnlyDictionary<equipmentType, Dictionary<level, Dictionary<equipmentParameter, int>>>(_equipmentStatus__Data);
 
             _equipmentDisplayName__Data = new Dictionary<equipmentType, string>()
             {
@@ -544,6 +480,67 @@ namespace Model
             };
 
             levelDisplayName = new ReadOnlyDictionary<level, string>(_levelDisplayName__Data);
+        }
+
+        public string GetEquipmentDescription(equipmentType type)
+        {
+            switch (type)
+            {
+                case equipmentType.MainWeapon__Cannon:
+                    return
+                        $"キャノン\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Power]}\n" +
+                        $" 重量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Weight]}\n" +
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Cannon][equipmentLevel[equipmentType.MainWeapon__Cannon]][equipmentParameter.Cost]}";
+
+                case equipmentType.MainWeapon__Laser:
+                    return
+                        $"レーザー\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Power]}\n" +
+                        $" 重量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Weight]}\n" +
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__Laser][equipmentLevel[equipmentType.MainWeapon__Laser]][equipmentParameter.Cost]}";
+
+                case equipmentType.MainWeapon__BeamMachineGun:
+                    return
+                        $"ビームマシンガン\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Power]}\n" +
+                        $" 重量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Weight]}\n" +
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.MainWeapon__BeamMachineGun][equipmentLevel[equipmentType.MainWeapon__BeamMachineGun]][equipmentParameter.Cost]}";
+
+                case equipmentType.SubWeapon__Balkan:
+                    return
+                        $"バルカン\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Power]}\n" +
+                        $" 重量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Weight]}\n" +
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Balkan][equipmentLevel[equipmentType.SubWeapon__Balkan]][equipmentParameter.Cost]}";
+
+                case equipmentType.SubWeapon__Missile:
+                    return
+                        $"ミサイル\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Power]}\n" +
+                        $" 重量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Weight]}\n" +
+                        $" エネルギー消費量:{equipmentStatus[equipmentType.SubWeapon__Missile][equipmentLevel[equipmentType.SubWeapon__Missile]][equipmentParameter.Cost]}";
+
+                case equipmentType.Bomb:
+                    return
+                        $"ボム\n" +
+                        $" 攻撃力:{equipmentStatus[equipmentType.Bomb][equipmentLevel[equipmentType.Bomb]][equipmentParameter.Power]}\n";
+
+                case equipmentType.Shield__Heavy:
+                    return
+                        $" 重シールド\n" +
+                        $" 重量:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.Weight]}\n" +
+                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Heavy][equipmentLevel[equipmentType.Shield__Heavy]][equipmentParameter.DamageReductionRate]}";
+
+                case equipmentType.Shield__Light:
+                    return
+                        $" 軽シールド\n" +
+                        $" 重量:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Light]][equipmentParameter.Weight]}\n" +
+                        $" ダメージ軽減率:{equipmentStatus[equipmentType.Shield__Light][equipmentLevel[equipmentType.Shield__Light]][equipmentParameter.DamageReductionRate]}";
+
+                default:
+                    throw new System.Exception();
+            }
         }
     }
 }

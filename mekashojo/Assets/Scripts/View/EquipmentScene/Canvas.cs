@@ -8,6 +8,7 @@ namespace View
     {
         [SerializeField, Header("PopupBackgroundImageを入れる")] private PopupBackgroundImage _popupBackgroundImage;
         [SerializeField, Header("WeaponDescriptionsFrameを入れる")] private WeaponDescriptionsFrame _weaponDescriptionsFrame;
+        [SerializeField, Header("WeaponDescriptionsTextを入れる")] private WeaponDescriptionsText _weaponDescriptionsText;
         [SerializeField, Header("PreviewImageFrameを入れる")] private PreviewImageFrame _previewImageFrame;
         [SerializeField, Header("PreviewImageModelを入れる")] private PreviewImageModel _previewImageModel;
         [SerializeField, Header("Level__Titleを入れる")] private Level__Title _level__Title;
@@ -44,6 +45,7 @@ namespace View
             // パーツ説明欄の全てのUI要素を非表示
             _popupBackgroundImage.isVisible = false;
             _weaponDescriptionsFrame.isVisible = false;
+            _weaponDescriptionsText.isVisible = false;
             _previewImageFrame.isVisible = false;
             _previewImageModel.isVisible = false;
             _level__Title.isVisible = false;
@@ -73,6 +75,7 @@ namespace View
                             _isFirst = false;
                             _popupBackgroundImage.isVisible = true;
                             _weaponDescriptionsFrame.isVisible = true;
+                            _weaponDescriptionsText.isVisible = true;
                             _previewImageFrame.isVisible = true;
                             _previewImageModel.isVisible = true;
                             _level__Title.isVisible = true;

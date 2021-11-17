@@ -96,7 +96,7 @@ namespace View
             _previewImageModel.modelType = type;
 
             // 武器の説明の変更
-            _weaponDescriptionsText.text = Model.EquipmentData.equipmentData.equipmentDescriptions[type];
+            _weaponDescriptionsText.text = Model.EquipmentData.equipmentData.GetEquipmentDescription(type);
 
             _level.text = Model.EquipmentData.equipmentData.levelDisplayName[Model.EquipmentData.equipmentData.equipmentLevel[type]];
 
