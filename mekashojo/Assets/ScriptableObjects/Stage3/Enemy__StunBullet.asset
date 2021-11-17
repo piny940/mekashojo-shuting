@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__StunBullet
   m_EditorClassIdentifier: 
   type: 2
-  hp: 25
+  hp: 35
   movingSpeed: 1
   damageAmount: 5
   firintgAmount: 1

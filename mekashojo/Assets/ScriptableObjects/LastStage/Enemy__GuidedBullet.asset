@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__GuidedBullet
   m_EditorClassIdentifier: 
   type: 8
-  hp: 45
+  hp: 60
   movingSpeed: 1
   damageAmount: 10
   firintgAmount: 1

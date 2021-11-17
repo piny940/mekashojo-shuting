@@ -4,7 +4,7 @@ namespace View
 {
     public class CannonAndLaser__PlayerBase : MonoBehaviour
     {
-        private const float MAX_ROTATE_ANGLE = 40f;
+        private const float MAX_ROTATE_ANGLE = 45f;
 
         [SerializeField, Header("Fire__Playerを入れる")] protected GameObject fire__Player;
 
