@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy__SlowBullet
   m_EditorClassIdentifier: 
   type: 4
-  hp: 42
+  hp: 50
   movingSpeed: 1
   damageAmount: 20
   firintgAmount: 1

@@ -1,10 +1,13 @@
 using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace View
 {
     public class EnhancementButton : ButtonBase
     {
+        [SerializeField, Header("押した時になる音を入れる")] private AudioClip _clickSound;
+
         /// <summary>
         /// ボタンが押下可能であるかどうかを示す
         /// </summary>
@@ -32,6 +35,7 @@ namespace View
         {
             if (CanPush())
             {
+                SEPlayer.sePlayer.PlayOneShot(_clickSound);
                 EnhanceAction();
             }
         }
