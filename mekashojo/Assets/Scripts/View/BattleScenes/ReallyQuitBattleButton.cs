@@ -11,6 +11,7 @@ namespace View
         {
             if (CanPush())
             {
+                SEPlayer.sePlayer.Stop();
                 SceneChangeManager.sceneChangeManager.ChangeScene(SceneChangeManager.SceneNames.MenuScene);
                 BGMPlayer.bgmPlayer.ChangeBGM(SceneChangeManager.SceneNames.MenuScene);
             }

@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 5
   hp: 35
   movingSpeed: 1
-  damageAmount: 5
+  damageAmount: 20
   firintgAmount: 1
   firingInterval: 3
   shortFiringInterval_Frame: 0

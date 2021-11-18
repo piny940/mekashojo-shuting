@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Enemy__WideSpreadBullet
   m_EditorClassIdentifier: 
   type: 9
-  hp: 42
+  hp: 50
   movingSpeed: 1
-  damageAmount: 10
+  damageAmount: 20
   firintgAmount: 1
   firingInterval: 3
   shortFiringInterval_Frame: 0
