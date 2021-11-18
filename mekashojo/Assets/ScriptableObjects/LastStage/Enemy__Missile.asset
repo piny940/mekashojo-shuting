@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Enemy__Missile
   m_EditorClassIdentifier: 
   type: 5
-  hp: 42
+  hp: 50
   movingSpeed: 1
-  damageAmount: 5
+  damageAmount: 30
   firintgAmount: 1
   firingInterval: 3
   shortFiringInterval_Frame: 0
