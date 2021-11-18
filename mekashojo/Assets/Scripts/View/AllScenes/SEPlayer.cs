@@ -14,6 +14,8 @@ namespace View
 
         private int _latestID = 0;
 
+        private float _volume;
+
         private void Awake()
         {
             if (sePlayer == null)
@@ -27,6 +29,11 @@ namespace View
             }
 
             audioSource = GetComponent<AudioSource>();
+        }
+
+        private void Start()
+        {
+            _volume = audioSource.volume;
         }
 
         // 一度だけ鳴らす
@@ -48,6 +55,7 @@ namespace View
             // 音源のコンポーネントを追加してそこからSEを鳴らす
             AudioSource audioSource = this.gameObject.AddComponent<AudioSource>();
             audioSource.clip = clip;
+            audioSource.volume = _volume;
             audioSource.loop = willLoop;
             audioSource.Play();
 
