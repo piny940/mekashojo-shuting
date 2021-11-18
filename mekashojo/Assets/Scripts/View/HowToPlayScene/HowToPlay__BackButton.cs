@@ -5,6 +5,7 @@ namespace View
 {
     public class HowToPlay__BackButton : ButtonBase
     {
+        [SerializeField, Header("押したときになる音")] AudioClip _clickSound;
         [SerializeField, Header("PageManagerを入れる")] private HowToPlay__PageManager _pageManager;
 
         public bool isActive
@@ -17,6 +18,8 @@ namespace View
         {
             if (CanPush())
             {
+                SEPlayer.sePlayer.PlayOneShot(_clickSound);
+
                 _pageManager.currentPage--;
             }
         }

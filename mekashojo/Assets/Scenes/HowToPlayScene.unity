@@ -1546,6 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26af3fea34a54ef58fc4b7bcf766c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: a7bf16f3524bc48c19c06f39ef14373f, type: 3}
   _pageManager: {fileID: 1817303482}
 --- !u!1 &1476317701
 GameObject:
@@ -1980,6 +1981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24cbb3b329d04ae4adda5dd663de451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: a7bf16f3524bc48c19c06f39ef14373f, type: 3}
   _pageManager: {fileID: 1817303482}
 --- !u!1001 &2058289967
 PrefabInstance:
